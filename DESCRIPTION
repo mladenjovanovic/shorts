@@ -1,0 +1,25 @@
+Package: shorts
+Type: Package
+Title: Short Sprints Profiler
+Authors@R: 
+    person(given = "Mladen",
+           family = "Jovanović",
+           role = c("aut", "cre"),
+           email = "coach.mladen.jovanovic@gmail.com")
+Version: 0.0.0.900
+Description: Shorts is R package that create profiles using the split times or the radar gun data
+    of the short sprints (<6sec)
+URL: https://github.com/mladenjovanovic/shorts
+BugReports: https://github.com/mladenjovanovic/shorts/issues
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.0.2
+Depends: R (>= 2.10)
+Suggests:
+    tidyverse,
+    ggplot2,
+    cowplot,
+    LambertW,
+    nlme
+  
