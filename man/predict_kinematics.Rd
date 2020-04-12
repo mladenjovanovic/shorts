@@ -9,7 +9,7 @@
 \alias{predict_velocity_at_distance}
 \alias{predict_acceleration_at_distance}
 \alias{predict_acceleration_at_velocity}
-\title{Kinematics prediction function}
+\title{Kinematics prediction functions}
 \usage{
 predict_velocity_at_time(time, MSS, TAU)
 
