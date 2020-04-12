@@ -1,4 +1,4 @@
-#' Kinematics prediction function
+#' Kinematics prediction functions
 #'
 #' Predicts kinematic from known \code{MSS} and \code{TAU} parameters
 #' @param time,distance,velocity Numeric vectors
