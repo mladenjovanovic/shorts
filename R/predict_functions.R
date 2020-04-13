@@ -4,21 +4,22 @@
 #' @param time,distance,velocity Numeric vectors
 #' @param MSS,TAU Numeric vectors. Model parameters
 #' @examples
-#' require(tidyverse)
-#'
 #' MSS <- 8
 #' TAU <- 0.7
 #'
-#' df <- tibble(
-#'   time = seq(0, 6, length.out = 10),
-#'   distance_at_time = predict_distance_at_time(time, MSS, TAU),
-#'   velocity_at_time = predict_velocity_at_time(time, MSS, TAU),
-#'   acceleration_at_time = predict_acceleration_at_time(time, MSS, TAU),
-#'   time_at_distance = predict_time_at_distance( distance_at_time, MSS, TAU),
-#'   velocity_at_distance = predict_velocity_at_distance(distance_at_time, MSS, TAU),
-#'   acceleration_at_distance = predict_acceleration_at_distance(distance_at_time, MSS, TAU),
-#'   acceleration_at_velocity = predict_acceleration_at_velocity(velocity_at_time, MSS, TAU)
+#' time_seq <- seq(0, 6, length.out = 10)
+#'
+#' df <- data.frame(
+#'   time = time_seq,
+#'   distance_at_time = predict_distance_at_time(time_seq, MSS, TAU),
+#'   velocity_at_time = predict_velocity_at_time(time_seq, MSS, TAU),
+#'   acceleration_at_time = predict_acceleration_at_time(time_seq, MSS, TAU)
 #' )
+#'
+#' df$time_at_distance <- predict_time_at_distance(df$distance_at_time, MSS, TAU)
+#' df$velocity_at_distance <- predict_velocity_at_distance(df$distance_at_time, MSS, TAU)
+#' df$acceleration_at_distance <- predict_acceleration_at_distance(df$distance_at_time, MSS, TAU)
+#' df$acceleration_at_velocity <- predict_acceleration_at_velocity(df$velocity_at_time, MSS, TAU)
 #'
 #' df
 #' @name predict_kinematics
