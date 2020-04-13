@@ -20,11 +20,7 @@ RoxygenNote: 7.0.2
 Depends: R (>= 2.10)
 Imports:
     stats,
-    tidyverse,
-    ggplot2,
-    cowplot,
     LambertW,
-    nlme,
-    magrittr,
-    dplyr
-  
+    nlme
+Suggests:
+
