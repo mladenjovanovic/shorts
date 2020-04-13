@@ -18,11 +18,13 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
 Depends: R (>= 2.10)
-Suggests:
+Imports:
     stats,
     tidyverse,
     ggplot2,
     cowplot,
     LambertW,
-    nlme
+    nlme,
+    magrittr,
+    dplyr
   
