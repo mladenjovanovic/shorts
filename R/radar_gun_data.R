@@ -1,0 +1,13 @@
+#' Radar Gun Data
+#'
+#' Data generated from known MSS and TAU and measurement error for 5 athletes using radar gun
+#'     with sampling frequency of 100Hz over 6 seconds.
+#'
+#' \describe{
+#'    \item{athlete}{Character string}
+#'    \item{bodyweight}{Bodyweight in kilograms}
+#'    \item{time}{Time reported by the radar gun in seconds}
+#'    \item{velocity}{Velocity reported by the radar gun in m/s}
+#' }
+#' @usage data(radar_gun_data)
+"radar_gun_data"
