@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![DOI](https://zenodo.org/badge/254907272.svg)](https://zenodo.org/badge/latestdoi/254907272)
 <!-- badges: end -->
 
 `shorts` is R package that creates profiles using the split times or the

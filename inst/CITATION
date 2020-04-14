@@ -6,12 +6,12 @@ citEntry(entry = "Manual",
   note         = "R package version 0.0.1",
   year         = "2020",
   url          = "https://mladenjovanovic.github.io/shorts/",
-  doi          = "",
+  doi          = "10.5281/zenodo.3751836",
 
   textVersion  =
   paste("Mladen Jovanović (2020).",
         "shorts: Short Sprints Profiler.",
         "R package version 0.0.1.",
         "url: https://mladenjovanovic.github.io/shorts/",
-        "doi: ")
+        "doi: 10.5281/zenodo.3751836")
 )
