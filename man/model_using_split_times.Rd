@@ -4,19 +4,16 @@
 \alias{model_using_split_times}
 \title{Model Using Split Times}
 \usage{
-model_using_split_times(
-  distance,
-  time,
-  weights = rep(1, length(distance)),
-  na.rm = FALSE
-)
+model_using_split_times(distance, time, weights = 1, na.rm = FALSE)
 }
 \arguments{
 \item{distance}{Numeric vector}
 
 \item{time}{Numeric vector}
 
-\item{weights}{Numeric vector. Default is vector of 1s in lengths of \code{distance} parameter}
+\item{weights}{Numeric vector. Default is vector of 1
+This is used to give more weight to particular observations. For example, use \code{1\\distance} to give
+more weight to observations from shorter distances.}
 
 \item{na.rm}{Logical. Default is FALSE}
 }
@@ -29,13 +26,14 @@ List object with the following elements:
             \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr},
             \code{maxAbsErr}, and \code{RMSE}}
         \item{model}{Model returned by the \code{\link[stats]{nls}} function}
-        \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{distance}
-            and \code{time} columns}
+        \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{distance},
+            \code{time}, \code{weights} and \code{pred_time} columns}
         }
 }
 \description{
 This function models the sprint split times using mono-exponential equation that estimates
-    maximum sprinting speed (\code{MSS}) and relative acceleration (\code{TAU})
+    maximum sprinting speed (\code{MSS}) and relative acceleration (\code{TAU}). \code{time} is used as target or outcome
+    variable, and \code{distance} as predictor.
 }
 \examples{
 split_times <- data.frame(

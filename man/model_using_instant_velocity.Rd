@@ -8,7 +8,7 @@ model_using_instant_velocity(
   time,
   velocity,
   time_delay = 0,
-  weights = rep(1, length(time)),
+  weights = 1,
   na.rm = FALSE
 )
 }
@@ -20,7 +20,7 @@ model_using_instant_velocity(
 \item{time_delay}{Numeric vector. Used to filter out noisy data from the radar gun. Default is 0. See more
 in Samozino (2018)}
 
-\item{weights}{Numeric vector. Default is vector of 1s in lengths of \code{time} parameter}
+\item{weights}{Numeric vector. Default is 1}
 
 \item{na.rm}{Logical. Default is FALSE}
 }
@@ -33,13 +33,14 @@ List object with the following elements:
             \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr},
             \code{maxAbsErr}, and \code{RMSE}}
         \item{model}{Model returned by the \code{\link[stats]{nls}} function}
-        \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{distance}
-            and \code{time} columns}
+        \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{time},
+            \code{velocity}, \code{time_delay}, \code{weights}, and \code{pred_velocity} columns}
         }
 }
 \description{
 This function models the sprint instantaneous velocity using mono-exponential equation that estimates
-    maximum sprinting speed (\code{MSS}) and relative acceleration (\code{TAU})
+    maximum sprinting speed (\code{MSS}) and relative acceleration (\code{TAU}). \code{velocity} is used as target or outcome
+    variable, and \code{time} as predictor.
 }
 \examples{
 instant_velocity <- data.frame(
