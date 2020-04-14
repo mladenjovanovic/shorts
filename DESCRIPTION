@@ -13,7 +13,7 @@ Description: This package creates profiles using the split times or the radar gu
     parameters can be used to predict kinematic and kinetics variables and to compare individuals.
 URL: https://github.com/mladenjovanovic/shorts
 BugReports: https://github.com/mladenjovanovic/shorts/issues
-License: MIT
+License: MIT + fle LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.0.2
