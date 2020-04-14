@@ -12,7 +12,7 @@
 radar gun data of the short sprints (\<6sec). Mono-exponential equation
 is used to model sprint data and to estimate maximal sprinting speed
 (MSS), relative acceleration (MSS), and other parameters. These
-parameters can be used to predict kinematic and kinetic variable and to
+parameters can be used to predict kinematic and kinetic variables and to
 compare individuals.
 
 ## Installation

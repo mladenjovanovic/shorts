@@ -10,7 +10,7 @@ Version: 0.0.1
 Description: Shorts is R package that creates profiles using the split times or the radar gun data
     of the short sprints (<6sec). Mono-exponential equation is used to model sprint data and to 
     estimate maximal sprinting speed (MSS), relative acceleration (MSS), and other parameters. These
-    parameters can be used to predict kinematic and kinetics variable and to compare individuals.
+    parameters can be used to predict kinematic and kinetics variables and to compare individuals.
 URL: https://github.com/mladenjovanovic/shorts
 BugReports: https://github.com/mladenjovanovic/shorts/issues
 License: MIT + file LICENSE

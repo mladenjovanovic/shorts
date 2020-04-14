@@ -24,7 +24,7 @@ knitr::opts_chunk$set(
 [![DOI](https://zenodo.org/badge/254907272.svg)](https://zenodo.org/badge/latestdoi/254907272)
 <!-- badges: end -->
 
-`shorts` is R package that creates profiles using the split times or the radar gun data of the short sprints (<6sec). Mono-exponential equation is used to model sprint data and to estimate maximal sprinting speed (MSS), relative acceleration (MSS), and other parameters. These parameters can be used to predict kinematic and kinetic variable and to compare individuals.
+`shorts` is R package that creates profiles using the split times or the radar gun data of the short sprints (<6sec). Mono-exponential equation is used to model sprint data and to estimate maximal sprinting speed (MSS), relative acceleration (MSS), and other parameters. These parameters can be used to predict kinematic and kinetic variables and to compare individuals.
 
 ## Installation
 
