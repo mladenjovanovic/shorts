@@ -6,7 +6,7 @@ set.seed(1667)
 # Sampling rate 100Hz
 time <- seq(0, 6, length.out = 6 * 100)
 
-radar_gun_error <- 0.01
+radar_gun_error <- 0.005
 
 john_data <- tibble(
   bodyweight = 75,

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Model Using Instantaneous Velocity — model_using_instant_velocity • shorts</title>
+<title>Mixed Model Using Split Times — mixed_model_using_split_times • shorts</title>
 
 
 <!-- jquery -->
@@ -35,10 +35,12 @@
 
 
 
-<meta property="og:title" content="Model Using Instantaneous Velocity — model_using_instant_velocity" />
-<meta property="og:description" content="This function models the sprint instantaneous velocity using mono-exponential equation that estimates
-    maximum sprinting speed (MSS) and relative acceleration (TAU). velocity is used as target or outcome
-    variable, and time as predictor." />
+<meta property="og:title" content="Mixed Model Using Split Times — mixed_model_using_split_times" />
+<meta property="og:description" content="This function models the sprint split times using mono-exponential equation and non-linear
+    mixed model using nlme to estimate fixed and random maximum sprinting speed (MSS)
+    and relative acceleration (TAU) parameters. In mixed model, fixed and random effects are estimated for
+    MSS and TAU parameters using athlete as levels. time is used as target or outcome
+    variable, and distance as predictor." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -107,44 +109,39 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Model Using Instantaneous Velocity</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/R/model_using_instant_velocity.R'><code>R/model_using_instant_velocity.R</code></a></small>
-    <div class="hidden name"><code>model_using_instant_velocity.Rd</code></div>
+    <h1>Mixed Model Using Split Times</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/R/model_using_split_times.R'><code>R/model_using_split_times.R</code></a></small>
+    <div class="hidden name"><code>mixed_model_using_split_times.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function models the sprint instantaneous velocity using mono-exponential equation that estimates
-    maximum sprinting speed (<code>MSS</code>) and relative acceleration (<code>TAU</code>). <code>velocity</code> is used as target or outcome
-    variable, and <code>time</code> as predictor.</p>
+    <p>This function models the sprint split times using mono-exponential equation and non-linear
+    mixed model using <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> to estimate fixed and random maximum sprinting speed (<code>MSS</code>)
+    and relative acceleration (<code>TAU</code>) parameters. In mixed model, fixed and random effects are estimated for
+    <code>MSS</code> and <code>TAU</code> parameters using <code>athlete</code> as levels. <code>time</code> is used as target or outcome
+    variable, and <code>distance</code> as predictor.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model_using_instant_velocity</span>(
-  <span class='no'>time</span>,
-  <span class='no'>velocity</span>,
-  <span class='kw'>time_delay</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>mixed_model_using_split_times</span>(<span class='no'>data</span>, <span class='no'>distance</span>, <span class='no'>time</span>, <span class='no'>athlete</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>data</th>
+      <td><p>Data frame</p></td>
+    </tr>
+    <tr>
+      <th>distance</th>
+      <td><p>Character string. Name of the column in <code>data</code></p></td>
+    </tr>
+    <tr>
       <th>time</th>
-      <td><p>Numeric vector</p></td>
+      <td><p>Character string. Name of the column in <code>data</code></p></td>
     </tr>
     <tr>
-      <th>velocity</th>
-      <td><p>Numeric vector</p></td>
-    </tr>
-    <tr>
-      <th>time_delay</th>
-      <td><p>Numeric vector. Used to filter out noisy data from the radar gun. Default is 0. See more
-in Samozino (2018)</p></td>
-    </tr>
-    <tr>
-      <th>weights</th>
-      <td><p>Numeric vector. Default is 1</p></td>
+      <th>athlete</th>
+      <td><p>Character string. Name of the column in <code>data</code>. Used as levels in the <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code></p></td>
     </tr>
     <tr>
       <th>na.rm</th>
@@ -155,45 +152,33 @@ in Samozino (2018)</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>List object with the following elements:</p><dl class='dl-horizontal'>
-        <dt>parameters</dt><dd><p>List with the following estimated parameters:
-            <code>MSS</code>, <code>TAU</code>, <code>MAC</code>, and <code>PMAX</code></p></dd>
+        <dt>parameters</dt><dd><p>List with two data frames: <code>fixed</code> and <code>random</code> containing the following
+            estimated parameters: <code>MSS</code>, <code>TAU</code>, <code>MAC</code>, and <code>PMAX</code></p></dd>
         <dt>model_fit</dt><dd><p>List with the following components:
             <code>RSE</code>, <code>R_squared</code>, <code>minErr</code>, <code>maxErr</code>,
             <code>maxAbsErr</code>, and <code>RMSE</code></p></dd>
-        <dt>model</dt><dd><p>Model returned by the <code><a href='https://rdrr.io/r/stats/nls.html'>nls</a></code> function</p></dd>
-        <dt>data</dt><dd><p>Data frame used to estimate the sprint parameters, consisting of <code>time</code>,
-            <code>velocity</code>, <code>time_delay</code>, <code>weights</code>, and <code>pred_velocity</code> columns</p></dd>
+        <dt>model</dt><dd><p>Model returned by the <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> function</p></dd>
+        <dt>data</dt><dd><p>Data frame used to estimate the sprint parameters, consisting of <code>athlete</code>, <code>distance</code>,
+            <code>time</code>, and  <code>pred_time</code> columns</p></dd>
         
 </dl>
 
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
-        Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
-       Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>instant_velocity</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-<span class='kw'>time</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>),
-<span class='kw'>velocity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.00</span>, <span class='fl'>4.99</span>, <span class='fl'>6.43</span>, <span class='fl'>6.84</span>, <span class='fl'>6.95</span>, <span class='fl'>6.99</span>, <span class='fl'>7.00</span>)
-)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"split_times"</span>)
 
-<span class='no'>sprint_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(
-  <span class='no'>instant_velocity</span>,
-  <span class='fu'>model_using_instant_velocity</span>(<span class='no'>time</span>, <span class='no'>velocity</span>)
-)
-
-<span class='no'>sprint_model</span>$<span class='no'>parameters</span></div><div class='output co'>#&gt; $MSS
-#&gt; [1] 7.00323
+<span class='no'>mixed_model</span> <span class='kw'>&lt;-</span> <span class='fu'>mixed_model_using_split_times</span>(<span class='no'>split_times</span>, <span class='st'>"distance"</span>, <span class='st'>"time"</span>, <span class='st'>"athlete"</span>)
+<span class='no'>mixed_model</span>$<span class='no'>parameters</span></div><div class='output co'>#&gt; $fixed
+#&gt;        MSS       TAU      MAC     PMAX
+#&gt; 1 8.350701 0.5092097 16.39934 1.063064
 #&gt; 
-#&gt; $TAU
-#&gt; [1] 0.8013733
-#&gt; 
-#&gt; $MAC
-#&gt; [1] 8.739036
-#&gt; 
-#&gt; $PMAX
-#&gt; [1] 15.30037
+#&gt; $random
+#&gt;     athlete       MSS       TAU       MAC      PMAX
+#&gt; 1      John  8.112372 0.6308761 12.858900 1.2794754
+#&gt; 2 Kimberley  7.229267 0.2924022 24.723707 0.5284635
+#&gt; 3       Jim  9.222750 1.1688497  7.890449 2.6950022
+#&gt; 4     James 10.052620 0.2089077 48.119903 0.5250176
+#&gt; 5  Samantha  7.136494 0.2450125 29.127060 0.4371326
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -201,7 +186,6 @@ in Samozino (2018)</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#references">References</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

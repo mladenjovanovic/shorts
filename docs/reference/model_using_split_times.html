@@ -37,7 +37,8 @@
 
 <meta property="og:title" content="Model Using Split Times — model_using_split_times" />
 <meta property="og:description" content="This function models the sprint split times using mono-exponential equation that estimates
-    maximum sprinting speed (MSS) and relative acceleration (TAU)" />
+    maximum sprinting speed (MSS) and relative acceleration (TAU). time is used as target or outcome
+    variable, and distance as predictor." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -70,7 +71,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.900</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1</span>
       </span>
     </div>
 
@@ -113,15 +114,11 @@
 
     <div class="ref-description">
     <p>This function models the sprint split times using mono-exponential equation that estimates
-    maximum sprinting speed (<code>MSS</code>) and relative acceleration (<code>TAU</code>)</p>
+    maximum sprinting speed (<code>MSS</code>) and relative acceleration (<code>TAU</code>). <code>time</code> is used as target or outcome
+    variable, and <code>distance</code> as predictor.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model_using_split_times</span>(
-  <span class='no'>distance</span>,
-  <span class='no'>time</span>,
-  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span>(<span class='no'>distance</span>)),
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>model_using_split_times</span>(<span class='no'>distance</span>, <span class='no'>time</span>, <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -136,7 +133,9 @@
     </tr>
     <tr>
       <th>weights</th>
-      <td><p>Numeric vector. Default is vector of 1s in lengths of <code>distance</code> parameter</p></td>
+      <td><p>Numeric vector. Default is vector of 1
+This is used to give more weight to particular observations. For example, use <code>1\distance</code> to give
+more weight to observations from shorter distances.</p></td>
     </tr>
     <tr>
       <th>na.rm</th>
@@ -153,8 +152,8 @@
             <code>RSE</code>, <code>R_squared</code>, <code>minErr</code>, <code>maxErr</code>,
             <code>maxAbsErr</code>, and <code>RMSE</code></p></dd>
         <dt>model</dt><dd><p>Model returned by the <code><a href='https://rdrr.io/r/stats/nls.html'>nls</a></code> function</p></dd>
-        <dt>data</dt><dd><p>Data frame used to estimate the sprint parameters, consisting of <code>distance</code>
-            and <code>time</code> columns</p></dd>
+        <dt>data</dt><dd><p>Data frame used to estimate the sprint parameters, consisting of <code>distance</code>,
+            <code>time</code>, <code>weights</code> and <code>pred_time</code> columns</p></dd>
         
 </dl>
 
