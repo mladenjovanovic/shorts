@@ -1,19 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# shorts
+# shorts <img src="man/figures/shorts-logo.png" align="right" width="200" />
 
 <!-- badges: start -->
 
 [![DOI](https://zenodo.org/badge/254907272.svg)](https://zenodo.org/badge/latestdoi/254907272)
 <!-- badges: end -->
 
-`shorts` is R package that creates profiles using the split times or the
-radar gun data of the short sprints (\<6sec). Mono-exponential equation
-is used to model sprint data and to estimate maximal sprinting speed
-(MSS), relative acceleration (MSS), and other parameters. These
-parameters can be used to predict kinematic and kinetic variables and to
-compare individuals.
+This package creates short sprint (\<6sec) profiles using the split
+times or the radar gun data. Mono-exponential equation is used to
+estimate maximal sprinting speed (MSS), relative acceleration (TAU), and
+other parameters. These parameters can be used to predict kinematic and
+kinetics variables and to compare individuals.
 
 ## Installation
 
@@ -289,11 +288,24 @@ varaible, which is sometimes used with radar gun data (see Samozino,
 ## References
 
 Please refer to these publications for more information on short sprints
-modeling using mono-exponential equation:
+modeling using mono-exponential equation, as well as on performing mixed
+non-linear models with `nlme` package:
+
+Chelly SM, Denis C. 2001. Leg power and hopping stiffness: relationship
+with sprint running performance: Medicine and Science in Sports and
+Exercise:326–333. DOI: 10.1097/00005768-200102000-00024.
 
 Clark KP, Rieger RH, Bruno RF, Stearne DJ. 2017. The NFL Combine 40-Yard
 Dash: How Important is Maximum Velocity? Journal of Strength and
 Conditioning Research:1. DOI: 10.1519/JSC.0000000000002081.
+
+Furusawa K, Hill AV, and Parkinson JL. The dynamics of" sprint" running.
+Proceedings of the Royal Society of London. Series B, Containing Papers
+of a Biological Character 102 (713): 29-42, 1927
+
+Greene PR. 1986. Predicting sprint dynamics from maximum-velocity
+measurements. Mathematical Biosciences 80:1–18. DOI:
+10.1016/0025-5564(86)90063-5.
 
 Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team. 2019. nlme: Linear
 and nonlinear mixed effects models.

@@ -5,16 +5,28 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Short Sprints Profiler • shorts</title>
+<title>Short Sprints • shorts</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Short Sprints Profiler">
-<meta property="og:description" content="Shorts is R package that creates profiles using the split times or the radar gun data
-    of the short sprints (&lt;6sec). Mono-exponential equation is used to model sprint data and to 
-    estimate maximal sprinting speed (MSS), relative acceleration (MSS), and other parameters. These
-    parameters can be used to predict kinematic and kinetics variable and to compare individuals.">
+<script src="pkgdown.js"></script><meta property="og:title" content="Short Sprints">
+<meta property="og:description" content='This package creates short sprint (&lt;6sec) profiles using the split times or the radar gun data.
+    Mono-exponential equation is used to estimate maximal sprinting speed (MSS), relative acceleration (TAU),
+    and other parameters. These parameters can be used to predict kinematic and kinetics variables and to 
+    compare individuals. The modeling method utilized in this package is further explained in the following 
+    references: 
+    1. Chelly SM, Denis C. 2001. Leg power and hopping stiffness: relationship with sprint running performance:
+    Medicine and Science in Sports and Exercise:326–333. DOI: 10.1097/00005768-200102000-00024.
+    2. Clark KP, Rieger RH, Bruno RF, Stearne DJ. 2017. The NFL Combine 40-Yard Dash: How Important is Maximum Velocity?
+    Journal of Strength and Conditioning Research:1. DOI: 10.1519/JSC.0000000000002081.
+    3. Furusawa K, Hill AV, and Parkinson JL. The dynamics of" sprint" running. Proceedings of the Royal Society of London.
+    Series B, Containing Papers of a Biological Character 102 (713): 29-42, 1927
+    4. Greene PR. 1986. Predicting sprint dynamics from maximum-velocity measurements. Mathematical Biosciences
+    80:1–18. DOI: 10.1016/0025-5564(86)90063-5.
+    5. Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical Effectiveness 
+    During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing. Cham: Springer
+    International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.'>
 <meta name="twitter:card" content="summary">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -72,12 +84,13 @@
 
       </header><div class="row">
   <div class="contents col-md-9">
-<div id="shorts" class="section level1">
+<div id="shorts-" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
-<a href="#shorts" class="anchor"></a>shorts</h1></div>
+<a href="#shorts-" class="anchor"></a>shorts <img src="reference/figures/shorts-logo.png" align="right" width="200">
+</h1></div>
 <!-- badges: start -->
 
-<p><code>shorts</code> is R package that creates profiles using the split times or the radar gun data of the short sprints (&lt;6sec). Mono-exponential equation is used to model sprint data and to estimate maximal sprinting speed (MSS), relative acceleration (MSS), and other parameters. These parameters can be used to predict kinematic and kinetic variable and to compare individuals.</p>
+<p>This package creates short sprint (&lt;6sec) profiles using the split times or the radar gun data. Mono-exponential equation is used to estimate maximal sprinting speed (MSS), relative acceleration (TAU), and other parameters. These parameters can be used to predict kinematic and kinetics variables and to compare individuals.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -276,8 +289,11 @@
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h2>
-<p>Please refer to these publications for more information on short sprints modeling using mono-exponential equation:</p>
+<p>Please refer to these publications for more information on short sprints modeling using mono-exponential equation, as well as on performing mixed non-linear models with <code>nlme</code> package:</p>
+<p>Chelly SM, Denis C. 2001. Leg power and hopping stiffness: relationship with sprint running performance: Medicine and Science in Sports and Exercise:326–333. DOI: 10.1097/00005768-200102000-00024.</p>
 <p>Clark KP, Rieger RH, Bruno RF, Stearne DJ. 2017. The NFL Combine 40-Yard Dash: How Important is Maximum Velocity? Journal of Strength and Conditioning Research:1. DOI: 10.1519/JSC.0000000000002081.</p>
+<p>Furusawa K, Hill AV, and Parkinson JL. The dynamics of" sprint" running. Proceedings of the Royal Society of London. Series B, Containing Papers of a Biological Character 102 (713): 29-42, 1927</p>
+<p>Greene PR. 1986. Predicting sprint dynamics from maximum-velocity measurements. Mathematical Biosciences 80:1–18. DOI: 10.1016/0025-5564(86)90063-5.</p>
 <p>Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team. 2019. nlme: Linear and nonlinear mixed effects models.</p>
 <p>Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing. Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.</p>
 </div>
@@ -311,7 +327,7 @@
 <div class="developers">
 <h2>Developers</h2>
 <ul class="list-unstyled">
-<li>Mladen Jovanović <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Mladen Jovanovic <br><small class="roles"> Author, maintainer </small>  </li>
 </ul>
 </div>
 
@@ -326,7 +342,7 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Mladen Jovanović.</p>
+  <p>Developed by Mladen Jovanovic.</p>
 </div>
 
 <div class="pkgdown">

@@ -2,14 +2,14 @@ citHeader("To cite 'shorts' in publications use:")
 
 citEntry(entry = "Manual",
   title        = "{shorts}: Short Sprints Profiler",
-  author       = personList(as.person("Mladen Jovanović")),
+  author       = personList(as.person("Mladen Jovanovic")),
   note         = "R package version 0.0.1",
   year         = "2020",
   url          = "https://mladenjovanovic.github.io/shorts/",
   doi          = "10.5281/zenodo.3751836",
 
   textVersion  =
-  paste("Mladen Jovanović (2020).",
+  paste("Mladen Jovanovic (2020).",
         "shorts: Short Sprints Profiler.",
         "R package version 0.0.1.",
         "url: https://mladenjovanovic.github.io/shorts/",
