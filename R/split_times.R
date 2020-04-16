@@ -1,8 +1,8 @@
 #' Split Testing Data
 #'
-#' Data generated from known MSS and TAU and measurement error for 5 athletes using 6 timing gates:
+#' Data generated from known MSS and TAU and measurement error for N=5 athletes using 6 timing gates:
 #'     5m, 10m, 15m, 20m, 30m, 40m
-#'
+#' @format Data frame with 4 variables and 30 observations:
 #' \describe{
 #'    \item{athlete}{Character string}
 #'    \item{bodyweight}{Bodyweight in kilograms}

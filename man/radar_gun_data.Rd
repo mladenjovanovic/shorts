@@ -4,20 +4,18 @@
 \name{radar_gun_data}
 \alias{radar_gun_data}
 \title{Radar Gun Data}
-\format{An object of class \code{data.frame} with 3000 rows and 4 columns.}
-\usage{
-data(radar_gun_data)
-}
-\description{
-Data generated from known MSS and TAU and measurement error for 5 athletes using radar gun
-    with sampling frequency of 100Hz over 6 seconds.
-}
-\details{
+\format{Data frame with 4 variables and 3000 observations:
 \describe{
    \item{athlete}{Character string}
    \item{bodyweight}{Bodyweight in kilograms}
    \item{time}{Time reported by the radar gun in seconds}
    \item{velocity}{Velocity reported by the radar gun in m/s}
+}}
+\usage{
+data(radar_gun_data)
 }
+\description{
+Data generated from known MSS and TAU and measurement error for N=5 athletes using radar gun
+    with sampling frequency of 100Hz over 6 seconds.
 }
 \keyword{datasets}

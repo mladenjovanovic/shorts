@@ -1,8 +1,8 @@
 #' Radar Gun Data
 #'
-#' Data generated from known MSS and TAU and measurement error for 5 athletes using radar gun
+#' Data generated from known MSS and TAU and measurement error for N=5 athletes using radar gun
 #'     with sampling frequency of 100Hz over 6 seconds.
-#'
+#' @format Data frame with 4 variables and 3000 observations:
 #' \describe{
 #'    \item{athlete}{Character string}
 #'    \item{bodyweight}{Bodyweight in kilograms}
