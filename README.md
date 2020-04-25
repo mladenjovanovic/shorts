@@ -5,6 +5,8 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/shorts)](https://cran.r-project.org/package=shorts)
 [![DOI](https://zenodo.org/badge/254907272.svg)](https://zenodo.org/badge/latestdoi/254907272)
 <!-- badges: end -->
 
@@ -16,14 +18,13 @@ kinetics variables and to compare individuals.
 
 ## Installation
 
-You can install the development version from
-[GitHub](https://github.com/mladenjovanovic/shorts) with:
-
 ``` r
+# Install from CRAN
+install.packages("shorts")
+
+# Or the development version from GitHub
 # install.packages("devtools")
 devtools::install_github("mladenjovanovic/shorts")
-
-require(shorts)
 ```
 
 ## Examples
@@ -110,7 +111,7 @@ ggplot(kimberley_profile$data, aes(x = distance)) +
   ylab("Time (s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="90%" style="display: block; margin: auto;" />
 
 To plot predicted velocity over distance, use `shorts:predict_`
 
@@ -130,7 +131,7 @@ ggplot(velocity_over_distance, aes(x = distance, y = pred_velocity)) +
   ylab("Predicted velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" />
 
 Each individual can be modeled separately, or we can perform *non-linear
 mixed model* using `nlme` function from *nlme* package (Pinheiro *et
@@ -184,7 +185,7 @@ ggplot(velocity_over_distance, aes(x = distance, y = pred_velocity, color = athl
   ylab("Predicted velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Profiling using radar gun data
 
@@ -228,7 +229,7 @@ ggplot(jim_profile$data, aes(x = time)) +
   ylab("Velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-9-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
 
 Radar gun data can be modeled individually or using *non-linear mixed
 model* implemented in `shorts::mixed_model_using_instant_velocity`:
@@ -278,12 +279,21 @@ ggplot(acceleration_over_time, aes(x = time, y = pred_acceleration, color = athl
   ylab("Predicted acceleration (m/s^2)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
 
 Both `shorts::model_using_instant_velocity` and
 `shorts::mixed_model_using_instant_velocity`allow for using `time_delay`
 varaible, which is sometimes used with radar gun data (see Samozino,
 2018 for more information).
+
+## Citation
+
+To cite `shorts`, please use the following command to get the BibTex
+entry:
+
+``` r
+citation("shorts")
+```
 
 ## References
 

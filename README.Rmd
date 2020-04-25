@@ -11,7 +11,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%",
+  fig.align = "center",
+  out.width = "90%",
   warning = FALSE,
   message = FALSE,
   dpi = 300
@@ -21,6 +22,7 @@ knitr::opts_chunk$set(
 # shorts <img src="man/figures/shorts-logo.png" align="right" width="200" />
 
 <!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/shorts)](https://cran.r-project.org/package=shorts)
 [![DOI](https://zenodo.org/badge/254907272.svg)](https://zenodo.org/badge/latestdoi/254907272)
 <!-- badges: end -->
 
@@ -28,13 +30,13 @@ This package creates short sprint (<6sec) profiles using the split times or the 
 
 ## Installation
 
-You can install the development version from [GitHub](https://github.com/mladenjovanovic/shorts) with:
-
 ``` r
+# Install from CRAN
+install.packages("shorts")
+
+# Or the development version from GitHub
 # install.packages("devtools")
 devtools::install_github("mladenjovanovic/shorts")
-
-require(shorts)
 ```
 
 ## Examples
@@ -201,6 +203,14 @@ ggplot(acceleration_over_time, aes(x = time, y = pred_acceleration, color = athl
 ```
 
 Both `shorts::model_using_instant_velocity` and `shorts::mixed_model_using_instant_velocity`allow for using `time_delay` varaible, which is sometimes used with radar gun data (see Samozino, 2018 for more information). 
+
+## Citation
+
+To cite `shorts`, please use the following command to get the BibTex entry:
+
+```{r eval=FALSE}
+citation("shorts")
+```
 
 ## References
 
