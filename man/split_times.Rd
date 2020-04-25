@@ -4,13 +4,15 @@
 \name{split_times}
 \alias{split_times}
 \title{Split Testing Data}
-\format{Data frame with 4 variables and 30 observations:
+\format{
+Data frame with 4 variables and 30 observations:
 \describe{
    \item{athlete}{Character string}
    \item{bodyweight}{Bodyweight in kilograms}
    \item{distance}{Distance of the timing gates from the sprint start in meters}
    \item{time}{Time reported by the timing gate}
-}}
+}
+}
 \usage{
 data(split_times)
 }
