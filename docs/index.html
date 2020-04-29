@@ -54,6 +54,18 @@
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="articles/sprint-corrections.html">Correction factors in `shorts` for estimation using split times</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="news/index.html">Changelog</a>
 </li>
@@ -123,7 +135,23 @@
 <span class="co">#&gt; [1] 24.82356</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $PMAX</span>
-<span class="co">#&gt; [1] 44.84568</span></pre></div>
+<span class="co">#&gt; [1] 44.84568</span>
+
+<span class="no">kimberley_profile</span>$<span class="no">model_fit</span>
+<span class="co">#&gt; $RSE</span>
+<span class="co">#&gt; [1] 0.04430977</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $R_squared</span>
+<span class="co">#&gt; [1] 0.999519</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $minErr</span>
+<span class="co">#&gt; [1] -0.03423639</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $maxErr</span>
+<span class="co">#&gt; [1] 0.05760385</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $RMSE</span>
+<span class="co">#&gt; [1] 0.03617878</span></pre></div>
 <p><code><a href="reference/model_using_split_times.html">shorts::model_using_split_times</a></code> returns an object with <code>parameters</code>, <code>model_fit</code>, <code>model</code> returned from <code><a href="https://rdrr.io/r/stats/nls.html">stats::nls</a></code> function and <code>data</code> used to estimate parameters. Parameters estimated using mono-exponential equation are <em>maximal sprinting speed</em> (MSS), and <em>relative acceleration</em> (TAU). Additional parameters computed from MSS and TAU are <em>maximal acceleration</em> (MAC) and <em>maximal relative power</em> (PMAX).</p>
 <p>If you are interested in calculating average split velocity, use <code><a href="reference/format_splits.html">shorts::format_splits</a></code></p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="reference/format_splits.html">format_splits</a></span>(
@@ -177,15 +205,31 @@
 <span class="no">mixed_model</span>$<span class="no">parameters</span>
 <span class="co">#&gt; $fixed</span>
 <span class="co">#&gt;        MSS       TAU      MAC     PMAX</span>
-<span class="co">#&gt; 1 8.350701 0.5092097 16.39934 1.063064</span>
+<span class="co">#&gt; 1 8.350701 0.5092097 16.39934 34.23649</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $random</span>
 <span class="co">#&gt;     athlete       MSS       TAU       MAC      PMAX</span>
-<span class="co">#&gt; 1      John  8.112372 0.6308761 12.858900 1.2794754</span>
-<span class="co">#&gt; 2 Kimberley  7.229267 0.2924022 24.723707 0.5284635</span>
-<span class="co">#&gt; 3       Jim  9.222750 1.1688497  7.890449 2.6950022</span>
-<span class="co">#&gt; 4     James 10.052620 0.2089077 48.119903 0.5250176</span>
-<span class="co">#&gt; 5  Samantha  7.136494 0.2450125 29.127060 0.4371326</span></pre></div>
+<span class="co">#&gt; 1      John  8.112372 0.6308761 12.858900  26.07905</span>
+<span class="co">#&gt; 2 Kimberley  7.229267 0.2924022 24.723707  44.68357</span>
+<span class="co">#&gt; 3       Jim  9.222750 1.1688497  7.890449  18.19291</span>
+<span class="co">#&gt; 4     James 10.052620 0.2089077 48.119903 120.93278</span>
+<span class="co">#&gt; 5  Samantha  7.136494 0.2450125 29.127060  51.96627</span>
+
+<span class="no">mixed_model</span>$<span class="no">model_fit</span>
+<span class="co">#&gt; $RSE</span>
+<span class="co">#&gt; [1] 0.02697771</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $R_squared</span>
+<span class="co">#&gt; [1] 0.9997933</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $minErr</span>
+<span class="co">#&gt; [1] -0.0380968</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $maxErr</span>
+<span class="co">#&gt; [1] 0.05720046</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $RMSE</span>
+<span class="co">#&gt; [1] 0.02205714</span></pre></div>
 <p><code><a href="reference/mixed_model_using_split_times.html">shorts::mixed_model_using_split_times</a></code> return the similar object, but <code>parameters</code> contain two elements: <code>fixed</code> and <code>random</code>.</p>
 <p>Let’s plot predicted velocity over distance for athletes in the <code>split_times</code> data set:</p>
 <div class="sourceCode" id="cb8"><pre class="r"><span class="no">velocity_over_distance</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span>(
@@ -206,6 +250,7 @@
   <span class="fu">xlab</span>(<span class="st">"Distance (m)"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Predicted velocity (m/s)"</span>)</pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p>Both <code><a href="reference/model_using_split_times.html">shorts::model_using_split_times</a></code> and <code><a href="reference/model_using_split_times.html">shorts::model_using_split_times</a></code>allow for using <code>time_correction</code> variable, which is used to adjust for different starting positions (for details see Haugen <em>et al.</em>, 2012). This is implemented in all <code>shorts:predict_</code> functions as well.</p>
 </div>
 <div id="profiling-using-radar-gun-data" class="section level3">
 <h3 class="hasAnchor">
@@ -229,7 +274,23 @@
 <span class="co">#&gt; [1] 8.182834</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $PMAX</span>
-<span class="co">#&gt; [1] 18.40576</span></pre></div>
+<span class="co">#&gt; [1] 18.40576</span>
+
+<span class="no">jim_profile</span>$<span class="no">model_fit</span>
+<span class="co">#&gt; $RSE</span>
+<span class="co">#&gt; [1] 0.054813</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $R_squared</span>
+<span class="co">#&gt; [1] 0.9993716</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $minErr</span>
+<span class="co">#&gt; [1] -0.1535915</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $maxErr</span>
+<span class="co">#&gt; [1] 0.1731016</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $RMSE</span>
+<span class="co">#&gt; [1] 0.05472157</span></pre></div>
 <p>The object returned from <code><a href="reference/model_using_instant_velocity.html">shorts::model_using_instant_velocity</a></code> is same as object returned from <code><a href="reference/model_using_split_times.html">shorts::model_using_split_times</a></code>. Let’s plot Jim’s measured velocity and predicted velocity:</p>
 <div class="sourceCode" id="cb10"><pre class="r"><span class="fu">ggplot</span>(<span class="no">jim_profile</span>$<span class="no">data</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">time</span>)) +
   <span class="fu">theme_bw</span>() +
@@ -248,16 +309,32 @@
 
 <span class="no">mixed_model</span>$<span class="no">parameters</span>
 <span class="co">#&gt; $fixed</span>
-<span class="co">#&gt;        MSS       TAU      MAC      PMAX</span>
-<span class="co">#&gt; 1 8.240711 0.4805574 17.14824 0.9900337</span>
+<span class="co">#&gt;        MSS       TAU      MAC     PMAX</span>
+<span class="co">#&gt; 1 8.240711 0.4805574 17.14824 35.32842</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $random</span>
 <span class="co">#&gt;     athlete      MSS       TAU       MAC      PMAX</span>
-<span class="co">#&gt; 1      John 7.998751 0.6021399 13.283876 1.2040918</span>
-<span class="co">#&gt; 2 Kimberley 7.205054 0.3003699 23.987266 0.5410454</span>
-<span class="co">#&gt; 3       Jim 8.997225 1.0995085  8.182951 2.4731312</span>
-<span class="co">#&gt; 4     James 9.999072 0.2003679 49.903555 0.5008733</span>
-<span class="co">#&gt; 5  Samantha 7.003456 0.2004006 34.947270 0.3508743</span></pre></div>
+<span class="co">#&gt; 1      John 7.998751 0.6021399 13.283876  26.56361</span>
+<span class="co">#&gt; 2 Kimberley 7.205054 0.3003699 23.987266  43.20738</span>
+<span class="co">#&gt; 3       Jim 8.997225 1.0995085  8.182951  18.40596</span>
+<span class="co">#&gt; 4     James 9.999072 0.2003679 49.903555 124.74731</span>
+<span class="co">#&gt; 5  Samantha 7.003456 0.2004006 34.947270  61.18791</span>
+
+<span class="no">mixed_model</span>$<span class="no">model_fit</span>
+<span class="co">#&gt; $RSE</span>
+<span class="co">#&gt; [1] 0.05572074</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $R_squared</span>
+<span class="co">#&gt; [1] 0.9990767</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $minErr</span>
+<span class="co">#&gt; [1] -0.2634572</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $maxErr</span>
+<span class="co">#&gt; [1] 0.2030719</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $RMSE</span>
+<span class="co">#&gt; [1] 0.0556278</span></pre></div>
 <p>Let’s plot predicted acceleration over time (0-6sec) for athletes in the <code>radar_gun_data</code> data set:</p>
 <div class="sourceCode" id="cb12"><pre class="r"><span class="no">acceleration_over_time</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span>(
     <span class="no">mixed_model</span>$<span class="no">parameters</span>$<span class="no">random</span>,
@@ -277,7 +354,7 @@
   <span class="fu">xlab</span>(<span class="st">"Time (s)"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Predicted acceleration (m/s^2)"</span>)</pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>Both <code><a href="reference/model_using_instant_velocity.html">shorts::model_using_instant_velocity</a></code> and <code><a href="reference/mixed_model_using_instant_velocity.html">shorts::mixed_model_using_instant_velocity</a></code>allow for using <code>time_delay</code> varaible, which is sometimes used with radar gun data (see Samozino, 2018 for more information).</p>
+<p>Both <code><a href="reference/model_using_instant_velocity.html">shorts::model_using_instant_velocity</a></code> and <code><a href="reference/mixed_model_using_instant_velocity.html">shorts::mixed_model_using_instant_velocity</a></code>allow for using <code>time_correction</code> variable, which is sometimes used with radar gun data (see Samozino, 2018 for more information).</p>
 </div>
 </div>
 <div id="citation" class="section level2">
@@ -294,6 +371,7 @@
 <p>Clark KP, Rieger RH, Bruno RF, Stearne DJ. 2017. The NFL Combine 40-Yard Dash: How Important is Maximum Velocity? Journal of Strength and Conditioning Research:1. DOI: 10.1519/JSC.0000000000002081.</p>
 <p>Furusawa K, Hill AV, and Parkinson JL. The dynamics of" sprint" running. Proceedings of the Royal Society of London. Series B, Containing Papers of a Biological Character 102 (713): 29-42, 1927</p>
 <p>Greene PR. 1986. Predicting sprint dynamics from maximum-velocity measurements. Mathematical Biosciences 80:1–18. DOI: 10.1016/0025-5564(86)90063-5.</p>
+<p>Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479. DOI: 10.1519/JSC.0b013e318226030b.</p>
 <p>Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team. 2019. nlme: Linear and nonlinear mixed effects models.</p>
 <p>Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing. Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.</p>
 </div>
@@ -348,7 +426,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>

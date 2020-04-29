@@ -91,6 +91,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/sprint-corrections.html">Correction factors in `shorts` for estimation using split times</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -128,7 +140,15 @@
     variable, and <code>distance</code> as predictor.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mixed_model_using_split_times</span>(<span class='no'>data</span>, <span class='no'>distance</span>, <span class='no'>time</span>, <span class='no'>athlete</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>mixed_model_using_split_times</span>(
+  <span class='no'>data</span>,
+  <span class='no'>distance</span>,
+  <span class='no'>time</span>,
+  <span class='no'>athlete</span>,
+  <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,25 +170,38 @@
       <td><p>Character string. Name of the column in <code>data</code>. Used as levels in the <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code></p></td>
     </tr>
     <tr>
+      <th>time_correction</th>
+      <td><p>Numeric vector. Used to correct for different starting techniques.  This correction is
+done by adding <code>time_correction</code> to <code>time</code>. Default is 0. See more in Haugen et al. (2018)</p></td>
+    </tr>
+    <tr>
       <th>na.rm</th>
       <td><p>Logical. Default is FALSE</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Forwarded to <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> function</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List object with the following elements:</p><dl'>
+    <p>List object with the following elements:</p><dl>
         <dt>parameters</dt><dd><p>List with two data frames: <code>fixed</code> and <code>random</code> containing the following
             estimated parameters: <code>MSS</code>, <code>TAU</code>, <code>MAC</code>, and <code>PMAX</code></p></dd>
         <dt>model_fit</dt><dd><p>List with the following components:
-            <code>RSE</code>, <code>R_squared</code>, <code>minErr</code>, <code>maxErr</code>,
-            <code>maxAbsErr</code>, and <code>RMSE</code></p></dd>
+            <code>RSE</code>, <code>R_squared</code>, <code>minErr</code>, <code>maxErr</code>, and <code>RMSE</code></p></dd>
         <dt>model</dt><dd><p>Model returned by the <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> function</p></dd>
         <dt>data</dt><dd><p>Data frame used to estimate the sprint parameters, consisting of <code>athlete</code>, <code>distance</code>,
-            <code>time</code>, and  <code>pred_time</code> columns</p></dd>
+            <code>time</code>, and <code>time_correction</code>, <code>corrected_time</code>, and <code>pred_time</code> columns</p></dd>
         
 </dl>
 
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
+        Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
+        DOI: 10.1519/JSC.0b013e318226030b.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"split_times"</span>)
@@ -176,15 +209,15 @@
 <span class='no'>mixed_model</span> <span class='kw'>&lt;-</span> <span class='fu'>mixed_model_using_split_times</span>(<span class='no'>split_times</span>, <span class='st'>"distance"</span>, <span class='st'>"time"</span>, <span class='st'>"athlete"</span>)
 <span class='no'>mixed_model</span>$<span class='no'>parameters</span></div><div class='output co'>#&gt; $fixed
 #&gt;        MSS       TAU      MAC     PMAX
-#&gt; 1 8.350701 0.5092097 16.39934 1.063064
+#&gt; 1 8.350701 0.5092097 16.39934 34.23649
 #&gt; 
 #&gt; $random
 #&gt;     athlete       MSS       TAU       MAC      PMAX
-#&gt; 1      John  8.112372 0.6308761 12.858900 1.2794754
-#&gt; 2 Kimberley  7.229267 0.2924022 24.723707 0.5284635
-#&gt; 3       Jim  9.222750 1.1688497  7.890449 2.6950022
-#&gt; 4     James 10.052620 0.2089077 48.119903 0.5250176
-#&gt; 5  Samantha  7.136494 0.2450125 29.127060 0.4371326
+#&gt; 1      John  8.112372 0.6308761 12.858900  26.07905
+#&gt; 2 Kimberley  7.229267 0.2924022 24.723707  44.68357
+#&gt; 3       Jim  9.222750 1.1688497  7.890449  18.19291
+#&gt; 4     James 10.052620 0.2089077 48.119903 120.93278
+#&gt; 5  Samantha  7.136494 0.2450125 29.127060  51.96627
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -201,7 +234,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
 </div>
 
       </footer>
