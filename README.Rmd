@@ -62,6 +62,8 @@ kimberley_profile <- shorts::model_using_split_times(
   time = kimberley_data$time)  
 
 kimberley_profile$parameters
+
+kimberley_profile$model_fit
 ```
 
 `shorts::model_using_split_times` returns an object with `parameters`, `model_fit`, `model` returned from `stats::nls` function and `data` used to estimate parameters. Parameters estimated using mono-exponential equation are *maximal sprinting speed* (MSS), and *relative acceleration* (TAU). Additional parameters computed from MSS and TAU are *maximal acceleration* (MAC) and *maximal relative power* (PMAX). 
@@ -115,6 +117,8 @@ mixed_model <- shorts::mixed_model_using_split_times(
 )
 
 mixed_model$parameters
+
+mixed_model$model_fit
 ```
 
 `shorts::mixed_model_using_split_times` return the similar object, but `parameters` contain two elements: `fixed` and `random`. 
@@ -141,6 +145,8 @@ ggplot(velocity_over_distance, aes(x = distance, y = pred_velocity, color = athl
   ylab("Predicted velocity (m/s)")
 ```
 
+Both `shorts::model_using_split_times` and `shorts::model_using_split_times`allow for using `time_correction` variable, which is used to adjust for different starting positions (for details see Haugen *et al.*, 2012). This is implemented in all `shorts:predict_` functions as well. 
+
 ### Profiling using radar gun data
 
 The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using `shorts::model_using_instant_velocity` function. Let's do analysis for Jim:
@@ -154,6 +160,8 @@ jim_profile <- shorts::model_using_instant_velocity(
 )
 
 jim_profile$parameters
+
+jim_profile$model_fit
 ```
 
 The object returned from `shorts::model_using_instant_velocity` is same as object returned from `shorts::model_using_split_times`. Let's plot Jim's measured velocity and predicted velocity: 
@@ -178,6 +186,8 @@ mixed_model <- shorts::mixed_model_using_instant_velocity(
 )
 
 mixed_model$parameters
+
+mixed_model$model_fit
 ```
 
 Let's plot predicted acceleration over time (0-6sec) for athletes in the `radar_gun_data` data set:
@@ -202,7 +212,7 @@ ggplot(acceleration_over_time, aes(x = time, y = pred_acceleration, color = athl
   ylab("Predicted acceleration (m/s^2)")
 ```
 
-Both `shorts::model_using_instant_velocity` and `shorts::mixed_model_using_instant_velocity`allow for using `time_delay` varaible, which is sometimes used with radar gun data (see Samozino, 2018 for more information). 
+Both `shorts::model_using_instant_velocity` and `shorts::mixed_model_using_instant_velocity`allow for using `time_correction` variable, which is sometimes used with radar gun data (see Samozino, 2018 for more information). 
 
 ## Citation
 
@@ -223,6 +233,8 @@ Clark KP, Rieger RH, Bruno RF, Stearne DJ. 2017. The NFL Combine 40-Yard Dash: H
 Furusawa K, Hill AV, and Parkinson JL. The dynamics of" sprint" running. Proceedings of the Royal Society of London. Series B, Containing Papers of a Biological Character 102 (713): 29-42, 1927
 
 Greene PR. 1986. Predicting sprint dynamics from maximum-velocity measurements. Mathematical Biosciences 80:1–18. DOI: 10.1016/0025-5564(86)90063-5.
+
+Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479. DOI: 10.1519/JSC.0b013e318226030b.
 
 Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team. 2019. nlme: Linear and nonlinear mixed effects models.
 

@@ -2,7 +2,17 @@
 #'
 #' Predicts kinematic from known \code{MSS} and \code{TAU} parameters
 #' @param time,distance,velocity Numeric vectors
+#' @param time_correction Numeric vector. Used for correction. Default is 0. See references for more info
+#' @param distance_correction Numeric vector. Used for correction. Default is 0. See vignettes for more info
 #' @param MSS,TAU Numeric vectors. Model parameters
+#' @references
+#' Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
+#'         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
+#'         DOI: 10.1519/JSC.0b013e318226030b.
+#'
+#'     Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
+#'         Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
+#'        Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.
 #' @examples
 #' MSS <- 8
 #' TAU <- 0.7
@@ -27,42 +37,45 @@ NULL
 
 #' @rdname predict_kinematics
 #' @export
-predict_velocity_at_time <- function(time, MSS, TAU) {
-  MSS * (1 - exp(1)^(-(time/TAU)))
+predict_velocity_at_time <- function(time, MSS, TAU, time_correction = 0) {
+  time_corrected <- time + time_correction
+  MSS * (1 - exp(1)^(-(time_corrected/TAU)))
 }
 
 #' @rdname predict_kinematics
 #' @export
-predict_distance_at_time <- function(time, MSS, TAU) {
-  MSS * (time + TAU * exp(1)^(-time/TAU)) - MSS * TAU
+predict_distance_at_time <- function(time, MSS, TAU, time_correction = 0, distance_correction = 0) {
+  time_corrected <- time + time_correction
+  (MSS * (time_corrected + TAU * exp(1)^(-time_corrected/TAU)) - MSS * TAU) - distance_correction
 }
 
 #' @rdname predict_kinematics
 #' @export
-predict_acceleration_at_time <- function(time, MSS, TAU) {
-  MSS / TAU * exp(1)^(-time/TAU)
+predict_acceleration_at_time <- function(time, MSS, TAU, time_correction = 0) {
+  time_corrected <- time + time_correction
+  MSS / TAU * exp(1)^(-time_corrected/TAU)
 }
 
 #' @rdname predict_kinematics
 #' @export
-predict_time_at_distance <- function(distance, MSS, TAU) {
-  TAU*I(LambertW::W(-exp(1)^(-distance/(MSS*TAU)-1))) + distance / MSS + TAU
+predict_time_at_distance <- function(distance, MSS, TAU, time_correction = 0, distance_correction = 0) {
+  TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) + (distance + distance_correction) / MSS + TAU  - time_correction
 }
 
 #' @rdname predict_kinematics
 #' @export
-predict_velocity_at_distance <- function(distance, MSS, TAU) {
-  time_at_distance <- predict_time_at_distance(distance, MSS, TAU)
+predict_velocity_at_distance <- function(distance, MSS, TAU, time_correction = 0, distance_correction = 0) {
+  time_at_distance <- predict_time_at_distance(distance, MSS, TAU, time_correction, distance_correction)
 
-  predict_velocity_at_time(time_at_distance, MSS, TAU)
+  predict_velocity_at_time(time_at_distance, MSS, TAU, time_correction)
 }
 
 #' @rdname predict_kinematics
 #' @export
-predict_acceleration_at_distance <- function(distance, MSS, TAU) {
-  time_at_distance <- predict_time_at_distance(distance, MSS, TAU)
+predict_acceleration_at_distance <- function(distance, MSS, TAU, time_correction = 0, distance_correction = 0) {
+  time_at_distance <- predict_time_at_distance(distance, MSS, TAU, time_correction, distance_correction)
 
-  predict_acceleration_at_time(time_at_distance, MSS, TAU)
+  predict_acceleration_at_time(time_at_distance, MSS, TAU, time_correction)
 }
 
 #' @rdname predict_kinematics

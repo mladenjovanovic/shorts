@@ -4,7 +4,15 @@
 \alias{mixed_model_using_split_times}
 \title{Mixed Model Using Split Times}
 \usage{
-mixed_model_using_split_times(data, distance, time, athlete, na.rm = FALSE)
+mixed_model_using_split_times(
+  data,
+  distance,
+  time,
+  athlete,
+  time_correction = 0,
+  na.rm = FALSE,
+  ...
+)
 }
 \arguments{
 \item{data}{Data frame}
@@ -15,7 +23,12 @@ mixed_model_using_split_times(data, distance, time, athlete, na.rm = FALSE)
 
 \item{athlete}{Character string. Name of the column in \code{data}. Used as levels in the \code{\link[nlme]{nlme}}}
 
+\item{time_correction}{Numeric vector. Used to correct for different starting techniques.  This correction is
+done by adding \code{time_correction} to \code{time}. Default is 0. See more in Haugen et al. (2018)}
+
 \item{na.rm}{Logical. Default is FALSE}
+
+\item{...}{Forwarded to \code{\link[nlme]{nlme}} function}
 }
 \value{
 List object with the following elements:
@@ -23,11 +36,10 @@ List object with the following elements:
         \item{parameters}{List with two data frames: \code{fixed} and \code{random} containing the following
             estimated parameters: \code{MSS}, \code{TAU}, \code{MAC}, and \code{PMAX}}
         \item{model_fit}{List with the following components:
-            \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr},
-            \code{maxAbsErr}, and \code{RMSE}}
+            \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr}, and \code{RMSE}}
         \item{model}{Model returned by the \code{\link[nlme]{nlme}} function}
         \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{athlete}, \code{distance},
-            \code{time}, and  \code{pred_time} columns}
+            \code{time}, and \code{time_correction}, \code{corrected_time}, and \code{pred_time} columns}
         }
 }
 \description{
@@ -42,4 +54,9 @@ data("split_times")
 
 mixed_model <- mixed_model_using_split_times(split_times, "distance", "time", "athlete")
 mixed_model$parameters
+}
+\references{
+Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
+        Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
+        DOI: 10.1519/JSC.0b013e318226030b.
 }

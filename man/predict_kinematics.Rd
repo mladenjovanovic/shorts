@@ -11,17 +11,41 @@
 \alias{predict_acceleration_at_velocity}
 \title{Kinematics prediction functions}
 \usage{
-predict_velocity_at_time(time, MSS, TAU)
+predict_velocity_at_time(time, MSS, TAU, time_correction = 0)
 
-predict_distance_at_time(time, MSS, TAU)
+predict_distance_at_time(
+  time,
+  MSS,
+  TAU,
+  time_correction = 0,
+  distance_correction = 0
+)
 
-predict_acceleration_at_time(time, MSS, TAU)
+predict_acceleration_at_time(time, MSS, TAU, time_correction = 0)
 
-predict_time_at_distance(distance, MSS, TAU)
+predict_time_at_distance(
+  distance,
+  MSS,
+  TAU,
+  time_correction = 0,
+  distance_correction = 0
+)
 
-predict_velocity_at_distance(distance, MSS, TAU)
+predict_velocity_at_distance(
+  distance,
+  MSS,
+  TAU,
+  time_correction = 0,
+  distance_correction = 0
+)
 
-predict_acceleration_at_distance(distance, MSS, TAU)
+predict_acceleration_at_distance(
+  distance,
+  MSS,
+  TAU,
+  time_correction = 0,
+  distance_correction = 0
+)
 
 predict_acceleration_at_velocity(velocity, MSS, TAU)
 }
@@ -29,6 +53,10 @@ predict_acceleration_at_velocity(velocity, MSS, TAU)
 \item{time, distance, velocity}{Numeric vectors}
 
 \item{MSS, TAU}{Numeric vectors. Model parameters}
+
+\item{time_correction}{Numeric vector. Used for correction. Default is 0. See references for more info}
+
+\item{distance_correction}{Numeric vector. Used for correction. Default is 0. See vignettes for more info}
 }
 \description{
 Predicts kinematic from known \code{MSS} and \code{TAU} parameters
@@ -52,4 +80,13 @@ df$acceleration_at_distance <- predict_acceleration_at_distance(df$distance_at_t
 df$acceleration_at_velocity <- predict_acceleration_at_velocity(df$velocity_at_time, MSS, TAU)
 
 df
+}
+\references{
+Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
+        Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
+        DOI: 10.1519/JSC.0b013e318226030b.
+
+    Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
+        Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
+       Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.
 }

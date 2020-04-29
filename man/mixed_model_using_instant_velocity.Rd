@@ -9,7 +9,7 @@ mixed_model_using_instant_velocity(
   time,
   velocity,
   athlete,
-  time_delay,
+  time_correction = 0,
   na.rm = FALSE
 )
 }
@@ -22,8 +22,8 @@ mixed_model_using_instant_velocity(
 
 \item{athlete}{Character string. Name of the column in \code{data}. Used as levels in the \code{\link[nlme]{nlme}}}
 
-\item{time_delay}{Character string. Name of the column in \code{data}. Used to filter out noisy data from the
-radar gun. Default is 0. See more in Samozino (2018)}
+\item{time_correction}{Numeric vector. Used to filter out noisy data from the radar gun.
+This correction is done by adding \code{time_correction} to \code{time}. Default is 0. See more in Samozino (2018)}
 
 \item{na.rm}{Logical. Default is FALSE}
 }
@@ -33,11 +33,10 @@ List object with the following elements:
         \item{parameters}{List with two data frames: \code{fixed} and \code{random} containing the following
             estimated parameters: \code{MSS}, \code{TAU}, \code{MAC}, and \code{PMAX}}
         \item{model_fit}{List with the following components:
-            \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr},
-            \code{maxAbsErr}, and \code{RMSE}}
+            \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr}, and \code{RMSE}}
         \item{model}{Model returned by the \code{\link[nlme]{nlme}} function}
         \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{athlete}, \code{time},
-          \code{velocity}, \code{time_delay}, and \code{pred_velocity} columns}
+          \code{time_correction},  \code{corrected_time}, \code{velocity}, and \code{pred_velocity} columns}
         }
 }
 \description{

@@ -27,3 +27,8 @@ Imports:
     stats,
     LambertW,
     nlme
+Suggests: 
+    knitr,
+    rmarkdown,
+    tidyverse
+VignetteBuilder: knitr
