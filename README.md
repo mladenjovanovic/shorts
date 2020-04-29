@@ -65,6 +65,22 @@ kimberley_profile$parameters
 #> 
 #> $PMAX
 #> [1] 44.84568
+
+kimberley_profile$model_fit
+#> $RSE
+#> [1] 0.04430977
+#> 
+#> $R_squared
+#> [1] 0.999519
+#> 
+#> $minErr
+#> [1] -0.03423639
+#> 
+#> $maxErr
+#> [1] 0.05760385
+#> 
+#> $RMSE
+#> [1] 0.03617878
 ```
 
 `shorts::model_using_split_times` returns an object with `parameters`,
@@ -148,15 +164,31 @@ mixed_model <- shorts::mixed_model_using_split_times(
 mixed_model$parameters
 #> $fixed
 #>        MSS       TAU      MAC     PMAX
-#> 1 8.350701 0.5092097 16.39934 1.063064
+#> 1 8.350701 0.5092097 16.39934 34.23649
 #> 
 #> $random
 #>     athlete       MSS       TAU       MAC      PMAX
-#> 1      John  8.112372 0.6308761 12.858900 1.2794754
-#> 2 Kimberley  7.229267 0.2924022 24.723707 0.5284635
-#> 3       Jim  9.222750 1.1688497  7.890449 2.6950022
-#> 4     James 10.052620 0.2089077 48.119903 0.5250176
-#> 5  Samantha  7.136494 0.2450125 29.127060 0.4371326
+#> 1      John  8.112372 0.6308761 12.858900  26.07905
+#> 2 Kimberley  7.229267 0.2924022 24.723707  44.68357
+#> 3       Jim  9.222750 1.1688497  7.890449  18.19291
+#> 4     James 10.052620 0.2089077 48.119903 120.93278
+#> 5  Samantha  7.136494 0.2450125 29.127060  51.96627
+
+mixed_model$model_fit
+#> $RSE
+#> [1] 0.02697771
+#> 
+#> $R_squared
+#> [1] 0.9997933
+#> 
+#> $minErr
+#> [1] -0.0380968
+#> 
+#> $maxErr
+#> [1] 0.05720046
+#> 
+#> $RMSE
+#> [1] 0.02205714
 ```
 
 `shorts::mixed_model_using_split_times` return the similar object, but
@@ -187,6 +219,12 @@ ggplot(velocity_over_distance, aes(x = distance, y = pred_velocity, color = athl
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
+Both `shorts::model_using_split_times` and
+`shorts::model_using_split_times`allow for using `time_correction`
+variable, which is used to adjust for different starting positions (for
+details see Haugen *et al.*, 2012). This is implemented in all
+`shorts:predict_` functions as well.
+
 ### Profiling using radar gun data
 
 The radar gun data is modeled using measured velocity as target variable
@@ -214,6 +252,22 @@ jim_profile$parameters
 #> 
 #> $PMAX
 #> [1] 18.40576
+
+jim_profile$model_fit
+#> $RSE
+#> [1] 0.054813
+#> 
+#> $R_squared
+#> [1] 0.9993716
+#> 
+#> $minErr
+#> [1] -0.1535915
+#> 
+#> $maxErr
+#> [1] 0.1731016
+#> 
+#> $RMSE
+#> [1] 0.05472157
 ```
 
 The object returned from `shorts::model_using_instant_velocity` is same
@@ -244,16 +298,32 @@ mixed_model <- shorts::mixed_model_using_instant_velocity(
 
 mixed_model$parameters
 #> $fixed
-#>        MSS       TAU      MAC      PMAX
-#> 1 8.240711 0.4805574 17.14824 0.9900337
+#>        MSS       TAU      MAC     PMAX
+#> 1 8.240711 0.4805574 17.14824 35.32842
 #> 
 #> $random
 #>     athlete      MSS       TAU       MAC      PMAX
-#> 1      John 7.998751 0.6021399 13.283876 1.2040918
-#> 2 Kimberley 7.205054 0.3003699 23.987266 0.5410454
-#> 3       Jim 8.997225 1.0995085  8.182951 2.4731312
-#> 4     James 9.999072 0.2003679 49.903555 0.5008733
-#> 5  Samantha 7.003456 0.2004006 34.947270 0.3508743
+#> 1      John 7.998751 0.6021399 13.283876  26.56361
+#> 2 Kimberley 7.205054 0.3003699 23.987266  43.20738
+#> 3       Jim 8.997225 1.0995085  8.182951  18.40596
+#> 4     James 9.999072 0.2003679 49.903555 124.74731
+#> 5  Samantha 7.003456 0.2004006 34.947270  61.18791
+
+mixed_model$model_fit
+#> $RSE
+#> [1] 0.05572074
+#> 
+#> $R_squared
+#> [1] 0.9990767
+#> 
+#> $minErr
+#> [1] -0.2634572
+#> 
+#> $maxErr
+#> [1] 0.2030719
+#> 
+#> $RMSE
+#> [1] 0.0556278
 ```
 
 Let’s plot predicted acceleration over time (0-6sec) for athletes in the
@@ -282,9 +352,9 @@ ggplot(acceleration_over_time, aes(x = time, y = pred_acceleration, color = athl
 <img src="man/figures/README-unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
 
 Both `shorts::model_using_instant_velocity` and
-`shorts::mixed_model_using_instant_velocity`allow for using `time_delay`
-varaible, which is sometimes used with radar gun data (see Samozino,
-2018 for more information).
+`shorts::mixed_model_using_instant_velocity`allow for using
+`time_correction` variable, which is sometimes used with radar gun data
+(see Samozino, 2018 for more information).
 
 ## Citation
 
@@ -316,6 +386,11 @@ of a Biological Character 102 (713): 29-42, 1927
 Greene PR. 1986. Predicting sprint dynamics from maximum-velocity
 measurements. Mathematical Biosciences 80:1–18. DOI:
 10.1016/0025-5564(86)90063-5.
+
+Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start:
+Impact of Timing and Start Procedure on Sprint Running Performance:
+Journal of Strength and Conditioning Research 26:473–479. DOI:
+10.1519/JSC.0b013e318226030b.
 
 Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team. 2019. nlme: Linear
 and nonlinear mixed effects models.
