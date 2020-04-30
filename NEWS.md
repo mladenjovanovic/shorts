@@ -10,6 +10,7 @@
 * Fixed error in calculating PMAX in `shorts::mixed_model_` functions
 * Removed `maxAbsErr` from model_fit elemet 
 * Wrote "sprint-corrections" vignette explaining the idea behind sprint time and distance corrections
+* Implemented `...` to all modeling functions so that extra parameters can be forwarded to the optimization engine
 
 # shorts 0.0.1
 
