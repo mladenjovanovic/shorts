@@ -296,7 +296,7 @@ ggplot(split_kinematics, aes(x = distance, y = difference, color = name)) +
 
 Not only the estimated parameters (i.e., TAU and MSS) are much closer to true parameters, the model predictions are much better as indicated with the above graph. 
 
-Additionally, we can actually *estimate* `time_correction` form the observed split times, together with estimating MSS and TAU parameters (as we have done so far). The engine underneath the `shorts` package is `nls` function, that perform non-linear least squares regression. Rather than using `shorts::model_using_split_times` function (which estimates two parameters: MSS and TAU), we can use `shorts::model_using_split_times_with_correction` (which estimates three parameters: MSS, TAU, an time_correction):
+Additionally, we can actually *estimate* `time_correction` form the observed split times, together with estimating MSS and TAU parameters (as we have done so far). The engine underneath the `shorts` package is `nls` function, that perform non-linear least squares regression. Rather than using `shorts::model_using_split_times` function (which estimates two parameters: MSS and TAU), we can use `shorts::model_using_split_times_with_time_correction` (which estimates three parameters: MSS, TAU, an time_correction):
 
 ```{r}
 jack_param_with_estimated_time_correction <- with(
@@ -344,7 +344,7 @@ ggplot(split_kinematics, aes(x = distance, y = difference, color = name)) +
   ylab("Predicted - observed")
 ```
 
-The model prediction is now *almost* perfect. To make this model *perfect*, we would need to estimate `distance_correction` as well (the one we have used to generate Jack's data in the first place).
+The model prediction is now *almost* perfect. To make this model *perfect*, we would need to estimate `distance_correction` as well (the one we have used to generate Jack's data in the first place). This is done with `shorts::model_using_split_times_with_corrections` which estimated 4 parameters: MSS, TAU, time_correction and distance_correction: 
 
 ```{r}
 jack_param_with_estimated_distance_correction <- with(
