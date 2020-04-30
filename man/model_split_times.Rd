@@ -75,39 +75,35 @@ These functions model the sprint split times using mono-exponential equation, wh
 split_times <- data.frame(
   distance = c(5, 10, 20, 30, 35),
   time = c(1.20, 1.96, 3.36, 4.71, 5.35)
-  )
+)
 
 # Simple model
 simple_model <- with(
-   split_times,
-   model_using_split_times(distance, time)
- )
+  split_times,
+  model_using_split_times(distance, time)
+)
+unlist(simple_model$parameters)
 
 # Model with correction of 0.3s
 model_with_correction <- with(
   split_times,
   model_using_split_times(distance, time, time_correction = 0.3)
 )
+unlist(model_with_correction$parameters)
 
 # Model with time_correction estimation
 model_with_time_correction_estimation <- with(
   split_times,
   model_using_split_times_with_time_correction(distance, time)
 )
+unlist(model_with_time_correction_estimation$parameters)
 
 # Model with time and distance correction estimation
 model_with_time_distance_correction_estimation <- with(
   split_times,
   model_using_split_times_with_corrections(distance, time)
 )
-
-# Compare all model estimates
-rbind(
-  unlist(simple_model$parameters),
-  unlist(model_with_correction$parameters),
-  unlist(model_with_time_correction_estimation$parameters),
-  unlist(model_with_time_distance_correction_estimation$parameters)
-)
+unlist(model_with_time_distance_correction_estimation$parameters)
 }
 \references{
 Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start

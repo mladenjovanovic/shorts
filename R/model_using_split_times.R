@@ -38,39 +38,36 @@
 #' split_times <- data.frame(
 #'   distance = c(5, 10, 20, 30, 35),
 #'   time = c(1.20, 1.96, 3.36, 4.71, 5.35)
-#'   )
+#' )
 #'
 #' # Simple model
 #' simple_model <- with(
-#'    split_times,
-#'    model_using_split_times(distance, time)
-#'  )
+#'   split_times,
+#'   model_using_split_times(distance, time)
+#' )
+#' unlist(simple_model$parameters)
 #'
 #' # Model with correction of 0.3s
 #' model_with_correction <- with(
 #'   split_times,
 #'   model_using_split_times(distance, time, time_correction = 0.3)
 #' )
+#' unlist(model_with_correction$parameters)
 #'
 #' # Model with time_correction estimation
 #' model_with_time_correction_estimation <- with(
 #'   split_times,
 #'   model_using_split_times_with_time_correction(distance, time)
 #' )
+#' unlist(model_with_time_correction_estimation$parameters)
 #'
 #' # Model with time and distance correction estimation
 #' model_with_time_distance_correction_estimation <- with(
 #'   split_times,
 #'   model_using_split_times_with_corrections(distance, time)
 #' )
-#'
-#' # Compare all model estimates
-#' rbind(
-#'   unlist(simple_model$parameters),
-#'   unlist(model_with_correction$parameters),
-#'   unlist(model_with_time_correction_estimation$parameters),
-#'   unlist(model_with_time_distance_correction_estimation$parameters)
-#' )
+#' unlist(model_with_time_distance_correction_estimation$parameters)
+
 #' @name model_split_times
 NULL
 
@@ -138,9 +135,7 @@ model_using_split_times <- function(distance,
       MSS = MSS,
       TAU = TAU,
       MAC = MAC,
-      PMAX = PMAX,
-      time_correction = NA,
-      distance_correction = NA),
+      PMAX = PMAX),
     model_fit = list(
       RSE = RSE,
       R_squared = R_squared,
@@ -212,8 +207,7 @@ model_using_split_times_with_time_correction <- function(distance,
       TAU = TAU,
       MAC = MAC,
       PMAX = PMAX,
-      time_correction = time_correction,
-      distance_correction = NA),
+      time_correction = time_correction),
     model_fit = list(
       RSE = RSE,
       R_squared = R_squared,
