@@ -5,7 +5,7 @@ set.seed(1667)
 
 distance <- c(5, 10, 15, 20, 30, 40)
 
-timing_device_error <- 0.01
+timing_device_error <- 0.00
 
 split_times <- tribble(
   ~athlete, ~bodyweight, ~distance_shift, ~MSS, ~MAC,
@@ -34,7 +34,7 @@ split_times <- split_times %>%
   select(athlete, bodyweight, distance, time) %>%
   # Add error
   mutate(
-    time = time * rnorm(n(), 1, timing_device_error),
+    time = time + rnorm(n(), 0, timing_device_error),
     time = round(time, 3)
   )
 

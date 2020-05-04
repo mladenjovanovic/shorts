@@ -18,8 +18,7 @@
 #'             \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr}, and \code{RMSE}}
 #'         \item{model}{Model returned by the \code{\link[stats]{nls}} function}
 #'         \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{time},
-#'             \code{time_correction},  \code{corrected_time}, \code{velocity}, \code{weights},
-#'              and \code{pred_velocity} columns}
+#'            \code{velocity}, \code{weights}, and \code{pred_velocity} columns}
 #'         }
 #' @export
 #' @references
@@ -87,7 +86,12 @@ model_using_instant_velocity <- function(time,
   RMSE <- sqrt(mean((pred_velocity - df$velocity)^2))
 
   # Add predicted velocity to df
-  df$pred_velocity <- pred_velocity
+  df <- data.frame(
+    time = time,
+    velocity = velocity,
+    weights = weights,
+    pred_velocity = pred_velocity
+  )
 
   # Return object
   return(list(
@@ -131,7 +135,7 @@ model_using_instant_velocity <- function(time,
 #'             \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr}, and \code{RMSE}}
 #'         \item{model}{Model returned by the \code{\link[nlme]{nlme}} function}
 #'         \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{athlete}, \code{time},
-#'           \code{time_correction},  \code{corrected_time}, \code{velocity}, and \code{pred_velocity} columns}
+#'           \code{velocity}, and \code{pred_velocity} columns}
 #'         }
 #' @export
 #' @references
@@ -206,7 +210,13 @@ mixed_model_using_instant_velocity <- function(data,
   RMSE <- sqrt(mean((pred_velocity - df$velocity)^2))
 
   # Add predicted velocity to df
-  df$pred_velocity <- pred_velocity
+  df <- data.frame(
+    athlete = data[[athlete]],
+    time = data[[time]],
+    velocity = data[[velocity]],
+    pred_velocity = pred_velocity #,
+    #weights = weights
+  )
 
   return(list(
     parameters = list(

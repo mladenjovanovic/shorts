@@ -33,8 +33,7 @@ List object with the following elements:
             \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr}, and \code{RMSE}}
         \item{model}{Model returned by the \code{\link[stats]{nls}} function}
         \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{time},
-            \code{time_correction},  \code{corrected_time}, \code{velocity}, \code{weights},
-             and \code{pred_velocity} columns}
+           \code{velocity}, \code{weights}, and \code{pred_velocity} columns}
         }
 }
 \description{

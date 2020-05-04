@@ -50,7 +50,7 @@ require(tidyverse)
 data("split_times", "radar_gun_data")
 ```
 
-### Profiling using split times
+### Profiling using split times 
 
 To model sprint performance using split times, distance will be used as predictor and time as target. Since `split_times` contains data for multiple athletes, let's extract only one athlete and model it using `shorts::model_using_split_times` function:
 

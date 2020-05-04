@@ -28,7 +28,7 @@
 #'             \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr}, and \code{RMSE}}
 #'         \item{model}{Model returned by the \code{\link[stats]{nls}} function}
 #'         \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{distance},
-#'             \code{time}, \code{time_correction}, \code{corrected_time}, \code{weights},and \code{pred_time} columns}
+#'             \code{time}, \code{weights}, and \code{pred_time} columns}
 #'         }
 #' @references
 #'     Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
@@ -127,7 +127,13 @@ model_using_split_times <- function(distance,
   RMSE <- sqrt(mean((pred_time - df$time)^2))
 
   # Add predicted time to df
-  df$pred_time <- pred_time
+  # Add predicted time to df
+  df <- data.frame(
+    distance = distance,
+    time = time,
+    weights = weights,
+    pred_time = pred_time
+  )
 
   # Return object
   return(list(
@@ -198,7 +204,12 @@ model_using_split_times_with_time_correction <- function(distance,
   RMSE <- sqrt(mean((pred_time - df$time)^2))
 
   # Add predicted time to df
-  df$pred_time <- pred_time
+  df <- data.frame(
+    distance = distance,
+    time = time,
+    weights = weights,
+    pred_time = pred_time
+  )
 
   # Return object
   return(list(
@@ -271,7 +282,13 @@ model_using_split_times_with_corrections <- function(distance,
   RMSE <- sqrt(mean((pred_time - df$time)^2))
 
   # Add predicted time to df
-  df$pred_time <- pred_time
+  # Add predicted time to df
+  df <- data.frame(
+    distance = distance,
+    time = time,
+    weights = weights,
+    pred_time = pred_time
+  )
 
   # Return object
   return(list(

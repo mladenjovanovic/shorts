@@ -3,6 +3,8 @@
 export(format_splits)
 export(mixed_model_using_instant_velocity)
 export(mixed_model_using_split_times)
+export(mixed_model_using_split_times_with_corrections)
+export(mixed_model_using_split_times_with_time_correction)
 export(model_using_instant_velocity)
 export(model_using_split_times)
 export(model_using_split_times_with_corrections)
