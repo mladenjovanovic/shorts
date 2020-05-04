@@ -2,11 +2,11 @@
 #'
 #' These functions model the sprint split times using mono-exponential equation, where \code{time}
 #'  is used as target or outcome variable, and \code{distance} as predictor. Function
-#'  \code{\link{model_using_split_times}} provides the simplest model with estimated \code{MSS} and \code{TAU}
+#'  \code{\link{model_using_splits}} provides the simplest model with estimated \code{MSS} and \code{TAU}
 #'  parameters. Time correction using heuristic rule of thumbs (e.g., adding 0.3s to split times) can be
 #'  implemented using \code{time_correction} function parameter. Function
-#'  \code{\link{model_using_split_times_with_time_correction}}, besides estimating \code{MSS} and \code{TAU},
-#'  estimates additional parameter \code{time_correction}.  Function \code{\link{model_using_split_times_with_corrections}},
+#'  \code{\link{model_using_splits_with_time_correction}}, besides estimating \code{MSS} and \code{TAU},
+#'  estimates additional parameter \code{time_correction}.  Function \code{\link{model_using_splits_with_corrections}},
 #'  besides estimating \code{MSS}, \code{TAU} and \code{time_correction}, estimates additional parameter
 #'  \code{distance_correction}. For more information about these function please refer to accompanying vignettes in
 #'  this package.
@@ -43,43 +43,42 @@
 #' # Simple model
 #' simple_model <- with(
 #'   split_times,
-#'   model_using_split_times(distance, time)
+#'   model_using_splits(distance, time)
 #' )
 #' unlist(simple_model$parameters)
 #'
 #' # Model with correction of 0.3s
 #' model_with_correction <- with(
 #'   split_times,
-#'   model_using_split_times(distance, time, time_correction = 0.3)
+#'   model_using_splits(distance, time, time_correction = 0.3)
 #' )
 #' unlist(model_with_correction$parameters)
 #'
 #' # Model with time_correction estimation
 #' model_with_time_correction_estimation <- with(
 #'   split_times,
-#'   model_using_split_times_with_time_correction(distance, time)
+#'   model_using_splits_with_time_correction(distance, time)
 #' )
 #' unlist(model_with_time_correction_estimation$parameters)
 #'
 #' # Model with time and distance correction estimation
 #' model_with_time_distance_correction_estimation <- with(
 #'   split_times,
-#'   model_using_split_times_with_corrections(distance, time)
+#'   model_using_splits_with_corrections(distance, time)
 #' )
 #' unlist(model_with_time_distance_correction_estimation$parameters)
-
 #' @name model_split_times
 NULL
 
 # =====================================================================================================================================
 #' @rdname model_split_times
 #' @export
-model_using_split_times <- function(distance,
-                                    time,
-                                    time_correction = 0,
-                                    weights = 1,
-                                    na.rm = FALSE,
-                                    ...) {
+model_using_splits <- function(distance,
+                               time,
+                               time_correction = 0,
+                               weights = 1,
+                               na.rm = FALSE,
+                               ...) {
   # Put data into data frame
   df <- data.frame(
     distance = distance,
@@ -141,7 +140,8 @@ model_using_split_times <- function(distance,
       MSS = MSS,
       TAU = TAU,
       MAC = MAC,
-      PMAX = PMAX),
+      PMAX = PMAX
+    ),
     model_fit = list(
       RSE = RSE,
       R_squared = R_squared,
@@ -157,11 +157,11 @@ model_using_split_times <- function(distance,
 # =====================================================================================================================================
 #' @rdname model_split_times
 #' @export
-model_using_split_times_with_time_correction <- function(distance,
-                                                         time,
-                                                         weights = 1,
-                                                         na.rm = FALSE,
-                                                         ...) {
+model_using_splits_with_time_correction <- function(distance,
+                                                    time,
+                                                    weights = 1,
+                                                    na.rm = FALSE,
+                                                    ...) {
   # Put data into data frame
   df <- data.frame(
     distance = distance,
@@ -176,7 +176,7 @@ model_using_split_times_with_time_correction <- function(distance,
 
   # Non-linear model
   speed_mod <- stats::nls(
-    time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU  - time_correction,
+    time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU - time_correction,
     data = df,
     start = list(MSS = 7, TAU = 0.8, time_correction = 0),
     weights = df$weights,
@@ -186,7 +186,7 @@ model_using_split_times_with_time_correction <- function(distance,
   # Maximal Sprinting Speed
   MSS <- stats::coef(speed_mod)[[1]]
   TAU <- stats::coef(speed_mod)[[2]]
-  time_correction <-  stats::coef(speed_mod)[[3]]
+  time_correction <- stats::coef(speed_mod)[[3]]
 
   # Maximal acceleration
   MAC <- MSS / TAU
@@ -218,7 +218,8 @@ model_using_split_times_with_time_correction <- function(distance,
       TAU = TAU,
       MAC = MAC,
       PMAX = PMAX,
-      time_correction = time_correction),
+      time_correction = time_correction
+    ),
     model_fit = list(
       RSE = RSE,
       R_squared = R_squared,
@@ -234,11 +235,11 @@ model_using_split_times_with_time_correction <- function(distance,
 # =====================================================================================================================================
 #' @rdname model_split_times
 #' @export
-model_using_split_times_with_corrections <- function(distance,
-                                                     time,
-                                                     weights = 1,
-                                                     na.rm = FALSE,
-                                                     ...) {
+model_using_splits_with_corrections <- function(distance,
+                                                time,
+                                                weights = 1,
+                                                na.rm = FALSE,
+                                                ...) {
 
   # Put data into data frame
   df <- data.frame(
@@ -253,7 +254,7 @@ model_using_split_times_with_corrections <- function(distance,
   }
   # Non-linear model
   speed_mod <- stats::nls(
-    time ~ TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) + (distance + distance_correction) / MSS + TAU  - time_correction,
+    time ~ TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) + (distance + distance_correction) / MSS + TAU - time_correction,
     data = df,
     start = list(MSS = 7, TAU = 0.8, time_correction = 0, distance_correction = 0),
     weights = df$weights,
@@ -263,7 +264,7 @@ model_using_split_times_with_corrections <- function(distance,
   # Maximal Sprinting Speed
   MSS <- stats::coef(speed_mod)[[1]]
   TAU <- stats::coef(speed_mod)[[2]]
-  time_correction <-  stats::coef(speed_mod)[[3]]
+  time_correction <- stats::coef(speed_mod)[[3]]
   distance_correction <- stats::coef(speed_mod)[[4]]
 
   # Maximal acceleration
@@ -273,7 +274,7 @@ model_using_split_times_with_corrections <- function(distance,
   PMAX <- (MSS * MAC) / 4
 
   # Model fit
-  pred_time <- TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) + (distance + distance_correction) / MSS + TAU  - time_correction
+  pred_time <- TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) + (distance + distance_correction) / MSS + TAU - time_correction
 
   RSE <- summary(speed_mod)$sigma
   R_squared <- stats::cor(df$time, pred_time)^2
@@ -298,7 +299,8 @@ model_using_split_times_with_corrections <- function(distance,
       MAC = MAC,
       PMAX = PMAX,
       time_correction = time_correction,
-      distance_correction = distance_correction),
+      distance_correction = distance_correction
+    ),
     model_fit = list(
       RSE = RSE,
       R_squared = R_squared,

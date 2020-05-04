@@ -13,6 +13,8 @@
 * Implemented `find_` family of functions for finding max power and critical distance when velocity or acceleration reaches certain threshold
 * Implemented `...` to all modeling functions so that extra parameters can be forwarded to the optimization engine
 * Data `split_times` recreated using distance shift behind the first timing gate. Needed to demo mixed models with corrections
+* Renamed `_model_using_instant_velocity` to `_model_using_radar`
+* Renamed `_model_using_split_times_` to `_model_using_splits_`
 
 
 # shorts 0.0.1

@@ -1,4 +1,4 @@
-#' Model Using Instantaneous Velocity
+#' Model Using Instantaneous Velocity or Radar Gun
 #'
 #' This function models the sprint instantaneous velocity using mono-exponential equation that estimates
 #'     maximum sprinting speed (\code{MSS}) and relative acceleration (\code{TAU}). \code{velocity} is used as target or outcome
@@ -28,21 +28,21 @@
 #'
 #' @examples
 #' instant_velocity <- data.frame(
-#' time = c(0, 1, 2, 3, 4, 5, 6),
-#' velocity = c(0.00, 4.99, 6.43, 6.84, 6.95, 6.99, 7.00)
+#'   time = c(0, 1, 2, 3, 4, 5, 6),
+#'   velocity = c(0.00, 4.99, 6.43, 6.84, 6.95, 6.99, 7.00)
 #' )
 #'
 #' sprint_model <- with(
 #'   instant_velocity,
-#'   model_using_instant_velocity(time, velocity)
+#'   model_using_radar(time, velocity)
 #' )
 #'
 #' sprint_model$parameters
-model_using_instant_velocity <- function(time,
-                                    velocity,
-                                    time_correction = 0,
-                                    weights = 1,
-                                    na.rm = FALSE) {
+model_using_radar <- function(time,
+                              velocity,
+                              time_correction = 0,
+                              weights = 1,
+                              na.rm = FALSE) {
 
   # Put data into data frame
   df <- data.frame(
@@ -51,7 +51,7 @@ model_using_instant_velocity <- function(time,
     corrected_time = time + time_correction,
     velocity = velocity,
     weights = weights
-    )
+  )
 
   # Remove NAs
   if (na.rm) {
@@ -60,7 +60,7 @@ model_using_instant_velocity <- function(time,
 
   # Non-linear model
   speed_mod <- stats::nls(
-    velocity ~ MSS * (1 - exp(1)^(-(corrected_time)/TAU)),
+    velocity ~ MSS * (1 - exp(1)^(-(corrected_time) / TAU)),
     data = df,
     start = list(MSS = 7, TAU = 0.8),
     weights = df$weights
@@ -77,7 +77,7 @@ model_using_instant_velocity <- function(time,
   PMAX <- (MSS * MAC) / 4
 
   # Model fit
-  pred_velocity <- MSS * (1 - exp(1)^(-(df$corrected_time)/TAU))
+  pred_velocity <- MSS * (1 - exp(1)^(-(df$corrected_time) / TAU))
 
   RSE <- summary(speed_mod)$sigma
   R_squared <- stats::cor(df$velocity, pred_velocity)^2
@@ -99,7 +99,8 @@ model_using_instant_velocity <- function(time,
       MSS = MSS,
       TAU = TAU,
       MAC = MAC,
-      PMAX = PMAX),
+      PMAX = PMAX
+    ),
     model_fit = list(
       RSE = RSE,
       R_squared = R_squared,
@@ -145,25 +146,25 @@ model_using_instant_velocity <- function(time,
 #'
 #' @examples
 #' data("radar_gun_data")
-#' mixed_model <- mixed_model_using_instant_velocity(radar_gun_data, "time", "velocity", "athlete")
+#' mixed_model <- mixed_model_using_radar(radar_gun_data, "time", "velocity", "athlete")
 #' mixed_model$parameters
-mixed_model_using_instant_velocity <- function(data,
-                                          time,
-                                          velocity,
-                                          athlete,
-                                          time_correction = 0,
-                                          # weights = rep(1, nrow(data)),
-                                          na.rm = FALSE) {
+mixed_model_using_radar <- function(data,
+                                    time,
+                                    velocity,
+                                    athlete,
+                                    time_correction = 0,
+                                    # weights = rep(1, nrow(data)),
+                                    na.rm = FALSE) {
 
 
-   # Combine to DF
+  # Combine to DF
   df <- data.frame(
     athlete = data[[athlete]],
     time = data[[time]],
     time_correction = time_correction,
     corrected_time = data[[time]] + time_correction,
-    velocity = data[[velocity]] #,
-    #weights = weights
+    velocity = data[[velocity]] # ,
+    # weights = weights
   )
 
   # Remove NAs
@@ -173,13 +174,13 @@ mixed_model_using_instant_velocity <- function(data,
 
   # Create mixed model
   mixed_model <- nlme::nlme(
-    velocity ~ MSS * (1 - exp(1)^(-(corrected_time)/TAU)),
+    velocity ~ MSS * (1 - exp(1)^(-(corrected_time) / TAU)),
     data = df,
-    fixed = MSS + TAU~1,
-    random = MSS + TAU~1,
+    fixed = MSS + TAU ~ 1,
+    random = MSS + TAU ~ 1,
     groups = ~athlete,
     # weights = ~weights,
-    start = c(MSS=7,TAU=0.8)
+    start = c(MSS = 7, TAU = 0.8)
   )
 
   # Pull estimates
@@ -214,14 +215,15 @@ mixed_model_using_instant_velocity <- function(data,
     athlete = data[[athlete]],
     time = data[[time]],
     velocity = data[[velocity]],
-    pred_velocity = pred_velocity #,
-    #weights = weights
+    pred_velocity = pred_velocity # ,
+    # weights = weights
   )
 
   return(list(
     parameters = list(
       fixed = fixed_effects,
-      random = random_effects),
+      random = random_effects
+    ),
     model_fit = list(
       RSE = RSE,
       R_squared = R_squared,

@@ -83,7 +83,7 @@ abline(v = find_velocity_critical_distance(MSS = 10, TAU = 0.9), col = "red")
 
 # Find critical distance when 20\% of MAC is reached
 plot(x = dist, y = acceleration, type = "l")
-abline(h = (10/0.9) * 0.2, col = "gray")
+abline(h = (10 / 0.9) * 0.2, col = "gray")
 abline(v = find_acceleration_critical_distance(MSS = 10, TAU = 0.9, percent = 0.2), col = "red")
 
 # Find max power and location of max power
@@ -99,7 +99,6 @@ abline(h = max_pwr$max_power * 0.75, col = "gray")
 pwr_zone <- find_power_critical_distance(MSS = 10, TAU = 0.9, percent = 0.75)
 abline(v = pwr_zone$lower, col = "blue")
 abline(v = pwr_zone$upper, col = "blue")
-
 }
 \references{
 Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start

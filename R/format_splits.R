@@ -17,21 +17,19 @@
 #'     }
 #' @export
 #' @examples
-#' data('split_times')
+#' data("split_times")
 #'
 #' john_data <- split_times[split_times$athlete == "John", ]
 #'
 #' format_splits(john_data$distance, john_data$time)
-#'
 format_splits <- function(distance, time) {
-
   df <- data.frame(distance = distance, time = time)
 
   # Function for creating laf
   create_lag <- function(x) {
     x_lag <- x
-    for( i in seq(1, length(x) - 1)){
-      x_lag[i+1] <- x[i]
+    for (i in seq(1, length(x) - 1)) {
+      x_lag[i + 1] <- x[i]
     }
 
     x_lag[1] <- 0
@@ -40,18 +38,18 @@ format_splits <- function(distance, time) {
 
   # =============================================================================
   # Order df based on distance
-  df <- df[order(df$distance),]
+  df <- df[order(df$distance), ]
 
   # --------------------
   # Create lag variables
 
   # Distance
   df$split_distance_start <- create_lag(df$distance)
-  df$split_distance_stop <-df$distance
+  df$split_distance_stop <- df$distance
   df$split_distance <- df$split_distance_stop - df$split_distance_start
   # Time
   df$split_time_start <- create_lag(df$time)
-  df$split_time_stop <-df$time
+  df$split_time_stop <- df$time
   df$split_time <- df$split_time_stop - df$split_time_start
   # mean velocity
   df$split_mean_velocity <- df$split_distance / df$split_time
@@ -71,6 +69,5 @@ format_splits <- function(distance, time) {
     "split_mean_velocity"
   )]
 
-return(df)
+  return(df)
 }
-

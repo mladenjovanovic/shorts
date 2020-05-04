@@ -32,10 +32,12 @@ radar_gun_data <- radar_gun_data %>%
   # Select columns
   select(athlete, bodyweight, time, velocity) %>%
   # Add error
-  mutate(velocity = velocity * rnorm(n(), 1, radar_gun_error) + velocity * rnorm(n(), 0, radar_gun_error),
-         velocity = round(velocity, 3),
-         velocity = ifelse(velocity < 0, 0, velocity),
-         time = round(time, 3))
+  mutate(
+    velocity = velocity * rnorm(n(), 1, radar_gun_error) + velocity * rnorm(n(), 0, radar_gun_error),
+    velocity = round(velocity, 3),
+    velocity = ifelse(velocity < 0, 0, velocity),
+    time = round(time, 3)
+  )
 
 
 usethis::use_data(radar_gun_data, overwrite = TRUE)

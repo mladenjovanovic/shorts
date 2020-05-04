@@ -181,14 +181,14 @@ This correction is done by adding <code>time_correction</code> to <code>time</co
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List object with the following elements:</p><dl>
+    <p>List object with the following elements:</p><dl'>
         <dt>parameters</dt><dd><p>List with two data frames: <code>fixed</code> and <code>random</code> containing the following
             estimated parameters: <code>MSS</code>, <code>TAU</code>, <code>MAC</code>, and <code>PMAX</code></p></dd>
         <dt>model_fit</dt><dd><p>List with the following components:
             <code>RSE</code>, <code>R_squared</code>, <code>minErr</code>, <code>maxErr</code>, and <code>RMSE</code></p></dd>
         <dt>model</dt><dd><p>Model returned by the <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> function</p></dd>
         <dt>data</dt><dd><p>Data frame used to estimate the sprint parameters, consisting of <code>athlete</code>, <code>time</code>,
-          <code>time_correction</code>,  <code>corrected_time</code>, <code>velocity</code>, and <code>pred_velocity</code> columns</p></dd>
+          <code>velocity</code>, and <code>pred_velocity</code> columns</p></dd>
         
 </dl>
 
@@ -202,16 +202,16 @@ This correction is done by adding <code>time_correction</code> to <code>time</co
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"radar_gun_data"</span>)
 <span class='no'>mixed_model</span> <span class='kw'>&lt;-</span> <span class='fu'>mixed_model_using_instant_velocity</span>(<span class='no'>radar_gun_data</span>, <span class='st'>"time"</span>, <span class='st'>"velocity"</span>, <span class='st'>"athlete"</span>)
 <span class='no'>mixed_model</span>$<span class='no'>parameters</span></div><div class='output co'>#&gt; $fixed
-#&gt;        MSS       TAU      MAC     PMAX
-#&gt; 1 8.240711 0.4805574 17.14824 35.32842
+#&gt;        MSS      TAU     MAC     PMAX
+#&gt; 1 8.301178 1.007782 8.23708 17.09437
 #&gt; 
 #&gt; $random
-#&gt;     athlete      MSS       TAU       MAC      PMAX
-#&gt; 1      John 7.998751 0.6021399 13.283876  26.56361
-#&gt; 2 Kimberley 7.205054 0.3003699 23.987266  43.20738
-#&gt; 3       Jim 8.997225 1.0995085  8.182951  18.40596
-#&gt; 4     James 9.999072 0.2003679 49.903555 124.74731
-#&gt; 5  Samantha 7.003456 0.2004006 34.947270  61.18791
+#&gt;     athlete      MSS       TAU      MAC     PMAX
+#&gt; 1     James 9.998556 1.1108457 9.000851 22.49888
+#&gt; 2       Jim 7.997945 0.8886712 8.999892 17.99516
+#&gt; 3      John 8.000051 1.0690357 7.483427 14.96695
+#&gt; 4 Kimberley 9.005500 1.2855706 7.005061 15.77102
+#&gt; 5  Samantha 6.503839 0.6847851 9.497635 15.44277
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -228,7 +228,7 @@ This correction is done by adding <code>time_correction</code> to <code>time</co
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

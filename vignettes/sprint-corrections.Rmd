@@ -89,14 +89,14 @@ jack_kinematics <- john_kinematics
 jack_kinematics <- jack_kinematics %>%
   # Remove those first 0.5m
   filter(distance >= 0.5) %>%
-  
+
   # Now deduct time and distance
   mutate(
     distance = distance - min(distance),
     time = time - min(time),
-    
-  # And rename the athlete
-  name = "Jack"
+
+    # And rename the athlete
+    name = "Jack"
   )
 ```
 
@@ -158,7 +158,7 @@ jack_split_kinematics <- tibble(
   true_time = shorts::predict_time_at_distance(true_distance, john_MSS, john_TAU),
   `time_05m` = shorts::predict_time_at_distance(0.5, john_MSS, john_TAU),
   time = true_time - `time_05m`
-  )
+)
 
 jack_split_kinematics
 ```
@@ -173,16 +173,16 @@ jack_split_kinematics$time <- jack_split_kinematics$time + rnorm(length(sprint_d
 
 john_split_params <- with(
   john_split_kinematics,
-  shorts::model_using_split_times(distance, time)
+  shorts::model_using_splits(distance, time)
 )
 
 jack_split_params <- with(
   jack_split_kinematics,
-  shorts::model_using_split_times(distance, time)
+  shorts::model_using_splits(distance, time)
 )
 
 split_parameters <- rbind(
-  unlist(john_split_params$parameters), 
+  unlist(john_split_params$parameters),
   unlist(jack_split_params$parameters)
 )
 
@@ -195,7 +195,7 @@ As can be seen from the output above, estimated sprint parameters are different.
 
 ```{r}
 split_model_fit <- rbind(
-  unlist(john_split_params$model_fit), 
+  unlist(john_split_params$model_fit),
   unlist(jack_split_params$model_fit)
 )
 
@@ -235,7 +235,7 @@ split_kinematics$difference <- with(
 )
 
 ggplot(split_kinematics, aes(x = distance, y = difference, color = name)) +
-  theme_minimal() + 
+  theme_minimal() +
   geom_point(alpha = 0.8) +
   geom_line(alpha = 0.8) +
   ylab("Predicted - observed")
@@ -245,12 +245,12 @@ As can be seen from the figure above, at particular distance the *residuals* (th
 
 But how do we fix this? There are few options. In ideal scenario, we should know the distance shift (i.e., 0.5m in our case) and time it takes to cover it. This of course depends on the true parameters (given the model) and it is something we cannot know in real life. Other option is to use correction factor, in a simple form of `time_correction` which we simply add to split times [@haugenDifferenceStartImpact2012; @haugenSprintMechanicalVariables2019]. `time_correction` is usually around 0.15 - 0.3seconds, but this depends on the type of the start, acceleration abilities of the athletes and so forth. It does represent a good and useful *rule of a thumb*. 
 
-If you look at Jack split kinematics table, you can notice the time it takes to cover that 0.5m (`time_05m` in the table). This is similar to `time_correction`, but it is not the same, since we have deducted known distance of 0.5 as well. Let's use simple heuristic, of 0.3seconds that needs to be added to out split times. Function `shorts::model_using_split_times` allows for using such a correction factor:
+If you look at Jack split kinematics table, you can notice the time it takes to cover that 0.5m (`time_05m` in the table). This is similar to `time_correction`, but it is not the same, since we have deducted known distance of 0.5 as well. Let's use simple heuristic, of 0.3seconds that needs to be added to out split times. Function `shorts::model_using_splits` allows for using such a correction factor:
 
 ```{r}
 jack_params_with_correction <- with(
   jack_split_kinematics,
-  shorts::model_using_split_times(distance, time, time_correction = 0.3)
+  shorts::model_using_splits(distance, time, time_correction = 0.3)
 )
 
 unlist(jack_params_with_correction$parameters)
@@ -288,7 +288,7 @@ split_kinematics <- rbind(
 )
 
 ggplot(split_kinematics, aes(x = distance, y = difference, color = name)) +
-  theme_minimal() + 
+  theme_minimal() +
   geom_point(alpha = 0.8) +
   geom_line(alpha = 0.8) +
   ylab("Predicted - observed")
@@ -296,12 +296,12 @@ ggplot(split_kinematics, aes(x = distance, y = difference, color = name)) +
 
 Not only the estimated parameters (i.e., TAU and MSS) are much closer to true parameters, the model predictions are much better as indicated with the above graph. 
 
-Additionally, we can actually *estimate* `time_correction` form the observed split times, together with estimating MSS and TAU parameters (as we have done so far). The engine underneath the `shorts` package is `nls` function, that perform non-linear least squares regression. Rather than using `shorts::model_using_split_times` function (which estimates two parameters: MSS and TAU), we can use `shorts::model_using_split_times_with_time_correction` (which estimates three parameters: MSS, TAU, an time_correction):
+Additionally, we can actually *estimate* `time_correction` form the observed split times, together with estimating MSS and TAU parameters (as we have done so far). The engine underneath the `shorts` package is `nls` function, that perform non-linear least squares regression. Rather than using `shorts::model_using_splits` function (which estimates two parameters: MSS and TAU), we can use `shorts::model_using_splits_with_time_correction` (which estimates three parameters: MSS, TAU, an time_correction):
 
 ```{r}
 jack_param_with_estimated_time_correction <- with(
   jack_split_kinematics,
-  shorts::model_using_split_times_with_time_correction(distance, time)
+  shorts::model_using_splits_with_time_correction(distance, time)
 )
 
 unlist(jack_param_with_estimated_time_correction$parameters)
@@ -338,18 +338,18 @@ split_kinematics <- rbind(
 )
 
 ggplot(split_kinematics, aes(x = distance, y = difference, color = name)) +
-  theme_minimal() + 
+  theme_minimal() +
   geom_point(alpha = 0.8) +
   geom_line(alpha = 0.8) +
   ylab("Predicted - observed")
 ```
 
-The model prediction is now *almost* perfect. To make this model *perfect*, we would need to estimate `distance_correction` as well (the one we have used to generate Jack's data in the first place). This is done with `shorts::model_using_split_times_with_corrections` which estimated 4 parameters: MSS, TAU, time_correction and distance_correction: 
+The model prediction is now *almost* perfect. To make this model *perfect*, we would need to estimate `distance_correction` as well (the one we have used to generate Jack's data in the first place). This is done with `shorts::model_using_splits_with_corrections` which estimated 4 parameters: MSS, TAU, time_correction and distance_correction: 
 
 ```{r}
 jack_param_with_estimated_distance_correction <- with(
   jack_split_kinematics,
-  shorts::model_using_split_times_with_corrections(distance, time)
+  shorts::model_using_splits_with_corrections(distance, time)
 )
 
 unlist(jack_param_with_estimated_distance_correction$parameters)
@@ -371,7 +371,8 @@ jack_split_kinematics_corrected_est_dist$predicted_time <- shorts::predict_time_
   jack_param_with_estimated_distance_correction$parameters$MSS,
   jack_param_with_estimated_distance_correction$parameters$TAU,
   jack_param_with_estimated_distance_correction$parameters$time_correction,
-  jack_param_with_estimated_distance_correction$parameters$distance_correction)
+  jack_param_with_estimated_distance_correction$parameters$distance_correction
+)
 
 jack_split_kinematics_corrected_est_dist$difference <- with(
   jack_split_kinematics_corrected_est_dist,
@@ -386,7 +387,7 @@ split_kinematics <- rbind(
 )
 
 ggplot(split_kinematics, aes(x = distance, y = difference, color = name)) +
-  theme_minimal() + 
+  theme_minimal() +
   geom_point(alpha = 0.8) +
   geom_line(alpha = 0.8) +
   ylab("Predicted - observed")
@@ -400,82 +401,88 @@ jack_kinematics$time <- jack_kinematics$time + rnorm(nrow(jack_kinematics), 0, 1
 
 simple_model <- with(
   jack_kinematics,
-  shorts::model_using_split_times(distance, time)
+  shorts::model_using_splits(distance, time)
 )
 
 simple_model_kinematics <- jack_kinematics %>%
   mutate(
-  name = "simple model",
-  time = shorts::predict_time_at_distance(
-    distance,
-    simple_model$parameters$MSS,
-    simple_model$parameters$TAU),
-  velocity = shorts::predict_velocity_at_distance(
-    distance,
-    simple_model$parameters$MSS,
-    simple_model$parameters$TAU),
-  acceleration = shorts::predict_acceleration_at_distance(
-    distance,
-    simple_model$parameters$MSS,
-    simple_model$parameters$TAU
-  ),
-  power = velocity * acceleration
+    name = "simple model",
+    time = shorts::predict_time_at_distance(
+      distance,
+      simple_model$parameters$MSS,
+      simple_model$parameters$TAU
+    ),
+    velocity = shorts::predict_velocity_at_distance(
+      distance,
+      simple_model$parameters$MSS,
+      simple_model$parameters$TAU
+    ),
+    acceleration = shorts::predict_acceleration_at_distance(
+      distance,
+      simple_model$parameters$MSS,
+      simple_model$parameters$TAU
+    ),
+    power = velocity * acceleration
   )
 
 # -----------------------------------
 simple_model_corrected <- with(
   jack_kinematics,
-  shorts::model_using_split_times(distance, time, time_correction = 0.3)
+  shorts::model_using_splits(distance, time, time_correction = 0.3)
 )
 
 simple_model_corrected_kinematics <- jack_kinematics %>%
   mutate(
-  name = "simple model w/0.3s correction",
-  time = shorts::predict_time_at_distance(
-    distance,
-    simple_model_corrected$parameters$MSS,
-    simple_model_corrected$parameters$TAU,
-    time_correction = 0.3),
-  velocity = shorts::predict_velocity_at_distance(
-    distance,
-    simple_model_corrected$parameters$MSS,
-    simple_model_corrected$parameters$TAU,
-    time_correction = 0.3),
-  acceleration = shorts::predict_acceleration_at_distance(
-    distance,
-    simple_model_corrected$parameters$MSS,
-    simple_model_corrected$parameters$TAU,
-    time_correction = 0.3
-  ),
-  power = velocity * acceleration
+    name = "simple model w/0.3s correction",
+    time = shorts::predict_time_at_distance(
+      distance,
+      simple_model_corrected$parameters$MSS,
+      simple_model_corrected$parameters$TAU,
+      time_correction = 0.3
+    ),
+    velocity = shorts::predict_velocity_at_distance(
+      distance,
+      simple_model_corrected$parameters$MSS,
+      simple_model_corrected$parameters$TAU,
+      time_correction = 0.3
+    ),
+    acceleration = shorts::predict_acceleration_at_distance(
+      distance,
+      simple_model_corrected$parameters$MSS,
+      simple_model_corrected$parameters$TAU,
+      time_correction = 0.3
+    ),
+    power = velocity * acceleration
   )
 
 # -----------------------------------
 estimate_time_correction <- with(
   jack_kinematics,
-  shorts::model_using_split_times_with_time_correction(distance, time)
+  shorts::model_using_splits_with_time_correction(distance, time)
 )
 
 estimate_time_correction_kinematics <- jack_kinematics %>%
   mutate(
-  name = "Model w/time correction",
-  time = shorts::predict_time_at_distance(
-    distance,
-    estimate_time_correction$parameters$MSS,
-    estimate_time_correction$parameters$TAU,
-    estimate_time_correction$parameters$time_correction),
-  velocity = shorts::predict_velocity_at_distance(
-    distance,
-    estimate_time_correction$parameters$MSS,
-    estimate_time_correction$parameters$TAU,
-    estimate_time_correction$parameters$time_correction),
-  acceleration = shorts::predict_acceleration_at_distance(
-    distance,
-    estimate_time_correction$parameters$MSS,
-    estimate_time_correction$parameters$TAU,
-    estimate_time_correction$parameters$time_correction
-  ),
-  power = velocity * acceleration
+    name = "Model w/time correction",
+    time = shorts::predict_time_at_distance(
+      distance,
+      estimate_time_correction$parameters$MSS,
+      estimate_time_correction$parameters$TAU,
+      estimate_time_correction$parameters$time_correction
+    ),
+    velocity = shorts::predict_velocity_at_distance(
+      distance,
+      estimate_time_correction$parameters$MSS,
+      estimate_time_correction$parameters$TAU,
+      estimate_time_correction$parameters$time_correction
+    ),
+    acceleration = shorts::predict_acceleration_at_distance(
+      distance,
+      estimate_time_correction$parameters$MSS,
+      estimate_time_correction$parameters$TAU,
+      estimate_time_correction$parameters$time_correction
+    ),
+    power = velocity * acceleration
   )
 
 # -----------------------------------
@@ -485,32 +492,34 @@ jack_kinematics_filtered <- jack_kinematics %>%
 
 estimate_corrections <- with(
   jack_kinematics_filtered,
-  shorts::model_using_split_times_with_corrections(distance, time)
+  shorts::model_using_splits_with_corrections(distance, time)
 )
 
 estimate_corrections_kinematics <- jack_kinematics_filtered %>%
   mutate(
-  name = "Model w/time & distance correction",
-  time = shorts::predict_time_at_distance(
-    distance,
-    estimate_corrections$parameters$MSS,
-    estimate_corrections$parameters$TAU,
-    estimate_corrections$parameters$time_correction,
-    estimate_corrections$parameters$distance_correction),
-  velocity = shorts::predict_velocity_at_distance(
-    distance,
-    estimate_corrections$parameters$MSS,
-    estimate_corrections$parameters$TAU,
-    estimate_corrections$parameters$time_correction,
-    estimate_corrections$parameters$distance_correction),
-  acceleration = shorts::predict_acceleration_at_distance(
-    distance,
-    estimate_corrections$parameters$MSS,
-    estimate_corrections$parameters$TAU,
-    estimate_corrections$parameters$time_correction,
-    estimate_corrections$parameters$distance_correction
-  ),
-  power = velocity * acceleration
+    name = "Model w/time & distance correction",
+    time = shorts::predict_time_at_distance(
+      distance,
+      estimate_corrections$parameters$MSS,
+      estimate_corrections$parameters$TAU,
+      estimate_corrections$parameters$time_correction,
+      estimate_corrections$parameters$distance_correction
+    ),
+    velocity = shorts::predict_velocity_at_distance(
+      distance,
+      estimate_corrections$parameters$MSS,
+      estimate_corrections$parameters$TAU,
+      estimate_corrections$parameters$time_correction,
+      estimate_corrections$parameters$distance_correction
+    ),
+    acceleration = shorts::predict_acceleration_at_distance(
+      distance,
+      estimate_corrections$parameters$MSS,
+      estimate_corrections$parameters$TAU,
+      estimate_corrections$parameters$time_correction,
+      estimate_corrections$parameters$distance_correction
+    ),
+    power = velocity * acceleration
   )
 
 # -----------------------------------------------------
@@ -531,7 +540,7 @@ ggplot(kinematics_per_distance, aes(x = distance, y = value, color = name)) +
   geom_line(alpha = 0.8) +
   facet_wrap(~metric, scales = "free_y") +
   ylab(NULL) +
-  theme(legend.text=element_text(size=6))
+  theme(legend.text = element_text(size = 6))
 
 kinematics_per_time <- sprint_kinematics %>%
   gather("metric", "value", -name, -time)
@@ -541,7 +550,7 @@ ggplot(kinematics_per_time, aes(x = time, y = value, color = name)) +
   geom_line(alpha = 0.8) +
   facet_wrap(~metric, scales = "free_y") +
   ylab(NULL) +
-  theme(legend.text=element_text(size=6))
+  theme(legend.text = element_text(size = 6))
 ```
 
 Although it cannot be seen from these images, model with time and distance correction is completely over the *true* model. 

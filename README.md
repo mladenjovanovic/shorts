@@ -44,12 +44,12 @@ data("split_times", "radar_gun_data")
 To model sprint performance using split times, distance will be used as
 predictor and time as target. Since `split_times` contains data for
 multiple athletes, let’s extract only one athlete and model it using
-`shorts::model_using_split_times` function:
+`shorts::model_using_splits` function:
 
 ``` r
 kimberley_data <- filter(split_times, athlete == "Kimberley")
 
-kimberley_profile <- shorts::model_using_split_times(
+kimberley_profile <- shorts::model_using_splits(
   distance = kimberley_data$distance,
   time = kimberley_data$time)  
 
@@ -83,7 +83,7 @@ kimberley_profile$model_fit
 #> [1] 0.02778875
 ```
 
-`shorts::model_using_split_times` returns an object with `parameters`,
+`shorts::model_using_splits` returns an object with `parameters`,
 `model_fit`, `model` returned from `stats::nls` function and `data` used
 to estimate parameters. Parameters estimated using mono-exponential
 equation are *maximal sprinting speed* (MSS), and *relative
@@ -114,9 +114,8 @@ shorts::format_splits(
 ```
 
 Let’s plot observed vs fitted split times. For this we can use `data`
-returned from `shorts::model_using_split_times` since it contains
-`pred_time` column, but we can also use `shorts:predict_` family of
-functions.
+returned from `shorts::model_using_splits` since it contains `pred_time`
+column, but we can also use `shorts:predict_` family of functions.
 
 ``` r
 ggplot(kimberley_profile$data, aes(x = distance)) +
@@ -151,10 +150,10 @@ ggplot(velocity_over_distance, aes(x = distance, y = pred_velocity)) +
 
 Each individual can be modeled separately, or we can perform *non-linear
 mixed model* using `nlme` function from *nlme* package (Pinheiro *et
-al.*, 2019). This is done using `shorts::mixed_model_using_split_times`:
+al.*, 2019). This is done using `shorts::mixed_model_using_splits`:
 
 ``` r
-mixed_model <- shorts::mixed_model_using_split_times(
+mixed_model <- shorts::mixed_model_using_splits(
   data = split_times,
   distance = "distance",
   time = "time",
@@ -191,7 +190,7 @@ mixed_model$model_fit
 #> [1] 0.02139178
 ```
 
-`shorts::mixed_model_using_split_times` return the similar object, but
+`shorts::mixed_model_using_splits` return the similar object, but
 `parameters` contain two elements: `fixed` and `random`.
 
 Let’s plot predicted velocity over distance for athletes in the
@@ -219,23 +218,21 @@ ggplot(velocity_over_distance, aes(x = distance, y = pred_velocity, color = athl
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
-Both `shorts::model_using_split_times` and
-`shorts::model_using_split_times`allow for using `time_correction`
-variable, which is used to adjust for different starting positions (for
-details see Haugen *et al.*, 2012). This is implemented in all
-`shorts:predict_` functions as well.
+Both `shorts::model_using_splits` and `shorts::model_using_splits`allow
+for using `time_correction` variable, which is used to adjust for
+different starting positions (for details see Haugen *et al.*, 2012).
+This is implemented in all `shorts:predict_` functions as well.
 
 ### Profiling using radar gun data
 
 The radar gun data is modeled using measured velocity as target variable
 and time as predictor. Individual analysis is performed using
-`shorts::model_using_instant_velocity` function. Let’s do analysis for
-Jim:
+`shorts::model_using_radar` function. Let’s do analysis for Jim:
 
 ``` r
 jim_data <- filter(radar_gun_data, athlete == "Jim")
 
-jim_profile <- shorts::model_using_instant_velocity(
+jim_profile <- shorts::model_using_radar(
   time = jim_data$time,
   velocity = jim_data$velocity
 )
@@ -270,9 +267,9 @@ jim_profile$model_fit
 #> [1] 0.05050288
 ```
 
-The object returned from `shorts::model_using_instant_velocity` is same
-as object returned from `shorts::model_using_split_times`. Let’s plot
-Jim’s measured velocity and predicted velocity:
+The object returned from `shorts::model_using_radar` is same as object
+returned from `shorts::model_using_splits`. Let’s plot Jim’s measured
+velocity and predicted velocity:
 
 ``` r
 ggplot(jim_profile$data, aes(x = time)) +
@@ -286,10 +283,10 @@ ggplot(jim_profile$data, aes(x = time)) +
 <img src="man/figures/README-unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;" />
 
 Radar gun data can be modeled individually or using *non-linear mixed
-model* implemented in `shorts::mixed_model_using_instant_velocity`:
+model* implemented in `shorts::mixed_model_using_radar`:
 
 ``` r
-mixed_model <- shorts::mixed_model_using_instant_velocity(
+mixed_model <- shorts::mixed_model_using_radar(
   data = radar_gun_data,
   time = "time",
   velocity = "velocity",
@@ -351,10 +348,10 @@ ggplot(acceleration_over_time, aes(x = time, y = pred_acceleration, color = athl
 
 <img src="man/figures/README-unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
 
-Both `shorts::model_using_instant_velocity` and
-`shorts::mixed_model_using_instant_velocity`allow for using
-`time_correction` variable, which is sometimes used with radar gun data
-(see Samozino, 2018 for more information).
+Both `shorts::model_using_radar` and
+`shorts::mixed_model_using_radar`allow for using `time_correction`
+variable, which is sometimes used with radar gun data (see Samozino,
+2018 for more information).
 
 ## Citation
 

@@ -2,11 +2,11 @@
 #'
 #' These functions model the sprint split times using mono-exponential equation, where \code{time}
 #'  is used as target or outcome variable, and \code{distance} as predictor. Function
-#'  \code{\link{mixed_model_using_split_times}} provides the simplest model with estimated \code{MSS} and \code{TAU}
+#'  \code{\link{mixed_model_using_splits}} provides the simplest model with estimated \code{MSS} and \code{TAU}
 #'  parameters. Time correction using heuristic rule of thumbs (e.g., adding 0.3s to split times) can be
 #'  implemented using \code{time_correction} function parameter. Function
-#'  \code{\link{mixed_model_using_split_times_with_time_correction}}, besides estimating \code{MSS} and \code{TAU},
-#'  estimates additional parameter \code{time_correction}.  Function \code{\link{mixed_model_using_split_times_with_corrections}},
+#'  \code{\link{mixed_model_using_splits_with_time_correction}}, besides estimating \code{MSS} and \code{TAU},
+#'  estimates additional parameter \code{time_correction}.  Function \code{\link{mixed_model_using_splits_with_corrections}},
 #'  besides estimating \code{MSS}, \code{TAU} and \code{time_correction}, estimates additional parameter
 #'  \code{distance_correction}. For more information about these function please refer to accompanying vignettes in
 #'  this package.
@@ -39,14 +39,7 @@
 #' @examples
 #' data("split_times")
 #'
-#' mixed_model <- mixed_model_using_split_times(
-#'   data = split_times,
-#'   distance = "distance",
-#'   time = "time",
-#'   athlete = "athlete")
-#' mixed_model$parameters
-#'
-#' mixed_model <- mixed_model_using_split_times_with_time_correction(
+#' mixed_model <- mixed_model_using_splits(
 #'   data = split_times,
 #'   distance = "distance",
 #'   time = "time",
@@ -54,7 +47,15 @@
 #' )
 #' mixed_model$parameters
 #'
-#' mixed_model <- mixed_model_using_split_times_with_corrections(
+#' mixed_model <- mixed_model_using_splits_with_time_correction(
+#'   data = split_times,
+#'   distance = "distance",
+#'   time = "time",
+#'   athlete = "athlete"
+#' )
+#' mixed_model$parameters
+#'
+#' mixed_model <- mixed_model_using_splits_with_corrections(
 #'   data = split_times,
 #'   distance = "distance",
 #'   time = "time",
@@ -67,14 +68,14 @@ NULL
 # =====================================================================================================================================
 #' @rdname mixed_model_split_times
 #' @export
-mixed_model_using_split_times <- function(data,
-                                          distance,
-                                          time,
-                                          athlete,
-                                          time_correction = 0,
-                                          # weights = rep(1, nrow(data)),
-                                          na.rm = FALSE,
-                                          ...) {
+mixed_model_using_splits <- function(data,
+                                     distance,
+                                     time,
+                                     athlete,
+                                     time_correction = 0,
+                                     # weights = rep(1, nrow(data)),
+                                     na.rm = FALSE,
+                                     ...) {
 
   # Combine to DF
   df <- data.frame(
@@ -82,8 +83,8 @@ mixed_model_using_split_times <- function(data,
     distance = data[[distance]],
     time = data[[time]],
     time_correction = time_correction,
-    corrected_time = data[[time]] + time_correction#,
-    #weights = weights
+    corrected_time = data[[time]] + time_correction # ,
+    # weights = weights
   )
 
   # Remove NAs
@@ -93,13 +94,13 @@ mixed_model_using_split_times <- function(data,
 
   # Create mixed model
   mixed_model <- nlme::nlme(
-    corrected_time~TAU*I(LambertW::W(-exp(1)^(-distance/(MSS*TAU)-1))) + distance / MSS + TAU,
+    corrected_time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU,
     data = df,
-    fixed = MSS + TAU~1,
-    random = MSS + TAU~1,
+    fixed = MSS + TAU ~ 1,
+    random = MSS + TAU ~ 1,
     groups = ~athlete,
     # weights = ~weights,
-    start = c(MSS=7,TAU=0.8),
+    start = c(MSS = 7, TAU = 0.8),
     ...
   )
 
@@ -130,7 +131,7 @@ mixed_model_using_split_times <- function(data,
   R_squared <- stats::cor(df$time, pred_time)^2
   minErr <- min(pred_time - df$time)
   maxErr <- max(pred_time - df$time)
-  RMSE <- sqrt(mean((pred_time -df$time)^2))
+  RMSE <- sqrt(mean((pred_time - df$time)^2))
 
   # Add predicted time to df
   # Combine to DF
@@ -138,15 +139,16 @@ mixed_model_using_split_times <- function(data,
     athlete = data[[athlete]],
     distance = data[[distance]],
     time = data[[time]],
-    pred_time = pred_time #,
-    #weights = weights
+    pred_time = pred_time # ,
+    # weights = weights
   )
 
 
   return(list(
     parameters = list(
       fixed = fixed_effects,
-      random = random_effects),
+      random = random_effects
+    ),
     model_fit = list(
       RSE = RSE,
       R_squared = R_squared,
@@ -157,28 +159,27 @@ mixed_model_using_split_times <- function(data,
     model = mixed_model,
     data = df
   ))
-
 }
 
 
 # =====================================================================================================================================
 #' @rdname mixed_model_split_times
 #' @export
-mixed_model_using_split_times_with_time_correction <- function(data,
-                                          distance,
-                                          time,
-                                          athlete,
-                                          # weights = rep(1, nrow(data)),
-                                          corrections_as_random_effects = FALSE,
-                                          na.rm = FALSE,
-                                          ...) {
+mixed_model_using_splits_with_time_correction <- function(data,
+                                                          distance,
+                                                          time,
+                                                          athlete,
+                                                          # weights = rep(1, nrow(data)),
+                                                          corrections_as_random_effects = FALSE,
+                                                          na.rm = FALSE,
+                                                          ...) {
 
   # Combine to DF
   df <- data.frame(
     athlete = data[[athlete]],
     distance = data[[distance]],
     time = data[[time]]
-    #weights = weights
+    # weights = weights
   )
 
   # Remove NAs
@@ -187,19 +188,19 @@ mixed_model_using_split_times_with_time_correction <- function(data,
   }
 
   random_effects <- stats::as.formula("MSS + TAU~1")
-  if(corrections_as_random_effects) {
+  if (corrections_as_random_effects) {
     random_effects <- stats::as.formula("MSS + TAU + time_correction~1")
   }
 
   # Create mixed model
   mixed_model <- nlme::nlme(
-    time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU  - time_correction,
+    time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU - time_correction,
     data = df,
-    fixed = MSS + TAU + time_correction~1,
+    fixed = MSS + TAU + time_correction ~ 1,
     random = random_effects,
     groups = ~athlete,
     # weights = ~weights,
-    start = c(MSS=7,TAU=0.8, time_correction=0),
+    start = c(MSS = 7, TAU = 0.8, time_correction = 0),
     ...
   )
 
@@ -218,7 +219,7 @@ mixed_model_using_split_times_with_time_correction <- function(data,
   random_effects$TAU <- random_effects$TAU + fixed_effects$TAU
   rownames(random_effects) <- NULL
 
-  if(corrections_as_random_effects) {
+  if (corrections_as_random_effects) {
     random_effects$time_correction <- random_effects$time_correction + fixed_effects$time_correction
   } else {
     random_effects$time_correction <- fixed_effects$time_correction
@@ -236,7 +237,7 @@ mixed_model_using_split_times_with_time_correction <- function(data,
   R_squared <- stats::cor(df$time, pred_time)^2
   minErr <- min(pred_time - df$time)
   maxErr <- max(pred_time - df$time)
-  RMSE <- sqrt(mean((pred_time -df$time)^2))
+  RMSE <- sqrt(mean((pred_time - df$time)^2))
 
   # Add predicted time to df
   # Combine to DF
@@ -244,14 +245,15 @@ mixed_model_using_split_times_with_time_correction <- function(data,
     athlete = data[[athlete]],
     distance = data[[distance]],
     time = data[[time]],
-    pred_time = pred_time #,
-    #weights = weights
+    pred_time = pred_time # ,
+    # weights = weights
   )
 
   return(list(
     parameters = list(
       fixed = fixed_effects,
-      random = random_effects),
+      random = random_effects
+    ),
     model_fit = list(
       RSE = RSE,
       R_squared = R_squared,
@@ -262,28 +264,27 @@ mixed_model_using_split_times_with_time_correction <- function(data,
     model = mixed_model,
     data = df
   ))
-
 }
 
 
 # =====================================================================================================================================
 #' @rdname mixed_model_split_times
 #' @export
-mixed_model_using_split_times_with_corrections <- function(data,
-                                                               distance,
-                                                               time,
-                                                               athlete,
-                                                               # weights = rep(1, nrow(data)),
-                                                               corrections_as_random_effects = FALSE,
-                                                               na.rm = FALSE,
-                                                               ...) {
+mixed_model_using_splits_with_corrections <- function(data,
+                                                      distance,
+                                                      time,
+                                                      athlete,
+                                                      # weights = rep(1, nrow(data)),
+                                                      corrections_as_random_effects = FALSE,
+                                                      na.rm = FALSE,
+                                                      ...) {
 
   # Combine to DF
   df <- data.frame(
     athlete = data[[athlete]],
     distance = data[[distance]],
     time = data[[time]]
-    #weights = weights
+    # weights = weights
   )
 
   # Remove NAs
@@ -292,19 +293,19 @@ mixed_model_using_split_times_with_corrections <- function(data,
   }
 
   random_effects <- stats::as.formula("MSS + TAU~1")
-  if(corrections_as_random_effects) {
+  if (corrections_as_random_effects) {
     random_effects <- stats::as.formula("MSS + TAU + time_correction + distance_correction~1")
   }
 
   # Create mixed model
   mixed_model <- nlme::nlme(
-    time ~ TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) + (distance + distance_correction) / MSS + TAU  - time_correction,
+    time ~ TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) + (distance + distance_correction) / MSS + TAU - time_correction,
     data = df,
-    fixed = MSS + TAU + time_correction + distance_correction~1,
+    fixed = MSS + TAU + time_correction + distance_correction ~ 1,
     random = random_effects,
     groups = ~athlete,
     # weights = ~weights,
-    start = c(MSS=7,TAU=0.8, time_correction=0, distance_correction=0),
+    start = c(MSS = 7, TAU = 0.8, time_correction = 0, distance_correction = 0),
     ...
   )
 
@@ -323,7 +324,7 @@ mixed_model_using_split_times_with_corrections <- function(data,
   random_effects$TAU <- random_effects$TAU + fixed_effects$TAU
   rownames(random_effects) <- NULL
 
-  if(corrections_as_random_effects) {
+  if (corrections_as_random_effects) {
     random_effects$time_correction <- random_effects$time_correction + fixed_effects$time_correction
     random_effects$distance_correction <- random_effects$distance_correction + fixed_effects$distance_correction
   } else {
@@ -343,7 +344,7 @@ mixed_model_using_split_times_with_corrections <- function(data,
   R_squared <- stats::cor(df$time, pred_time)^2
   minErr <- min(pred_time - df$time)
   maxErr <- max(pred_time - df$time)
-  RMSE <- sqrt(mean((pred_time -df$time)^2))
+  RMSE <- sqrt(mean((pred_time - df$time)^2))
 
   # Add predicted time to df
   # Combine to DF
@@ -351,14 +352,15 @@ mixed_model_using_split_times_with_corrections <- function(data,
     athlete = data[[athlete]],
     distance = data[[distance]],
     time = data[[time]],
-    pred_time = pred_time #,
-    #weights = weights
+    pred_time = pred_time # ,
+    # weights = weights
   )
 
   return(list(
     parameters = list(
       fixed = fixed_effects,
-      random = random_effects),
+      random = random_effects
+    ),
     model_fit = list(
       RSE = RSE,
       R_squared = R_squared,
@@ -369,5 +371,4 @@ mixed_model_using_split_times_with_corrections <- function(data,
     model = mixed_model,
     data = df
   ))
-
 }

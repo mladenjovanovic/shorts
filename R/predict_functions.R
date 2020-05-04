@@ -40,27 +40,27 @@ NULL
 #' @export
 predict_velocity_at_time <- function(time, MSS, TAU, time_correction = 0) {
   time_corrected <- time + time_correction
-  MSS * (1 - exp(1)^(-(time_corrected/TAU)))
+  MSS * (1 - exp(1)^(-(time_corrected / TAU)))
 }
 
 #' @rdname predict_kinematics
 #' @export
 predict_distance_at_time <- function(time, MSS, TAU, time_correction = 0, distance_correction = 0) {
   time_corrected <- time + time_correction
-  (MSS * (time_corrected + TAU * exp(1)^(-time_corrected/TAU)) - MSS * TAU) - distance_correction
+  (MSS * (time_corrected + TAU * exp(1)^(-time_corrected / TAU)) - MSS * TAU) - distance_correction
 }
 
 #' @rdname predict_kinematics
 #' @export
 predict_acceleration_at_time <- function(time, MSS, TAU, time_correction = 0) {
   time_corrected <- time + time_correction
-  MSS / TAU * exp(1)^(-time_corrected/TAU)
+  MSS / TAU * exp(1)^(-time_corrected / TAU)
 }
 
 #' @rdname predict_kinematics
 #' @export
 predict_time_at_distance <- function(distance, MSS, TAU, time_correction = 0, distance_correction = 0) {
-  TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) + (distance + distance_correction) / MSS + TAU  - time_correction
+  TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) + (distance + distance_correction) / MSS + TAU - time_correction
 }
 
 #' @rdname predict_kinematics
@@ -82,19 +82,19 @@ predict_acceleration_at_distance <- function(distance, MSS, TAU, time_correction
 #' @rdname predict_kinematics
 #' @export
 predict_acceleration_at_velocity <- function(velocity, MSS, TAU) {
-    MAC <- MSS / TAU
+  MAC <- MSS / TAU
 
-    slope <- MAC / MSS
+  slope <- MAC / MSS
 
+  ifelse(
+    velocity < 0,
+    MAC,
     ifelse(
-      velocity < 0,
-      MAC,
-      ifelse(
-        velocity > MSS,
-        0,
-        MAC - velocity * slope
-      )
+      velocity > MSS,
+      0,
+      MAC - velocity * slope
     )
+  )
 }
 
 #' @rdname predict_kinematics

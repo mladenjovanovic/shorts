@@ -117,42 +117,42 @@
 <div id="profiling-using-split-times" class="section level3">
 <h3 class="hasAnchor">
 <a href="#profiling-using-split-times" class="anchor"></a>Profiling using split times</h3>
-<p>To model sprint performance using split times, distance will be used as predictor and time as target. Since <code>split_times</code> contains data for multiple athletes, let’s extract only one athlete and model it using <code><a href="reference/model_using_split_times.html">shorts::model_using_split_times</a></code> function:</p>
+<p>To model sprint performance using split times, distance will be used as predictor and time as target. Since <code>split_times</code> contains data for multiple athletes, let’s extract only one athlete and model it using <code><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">shorts::model_using_splits</a></code> function:</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="no">kimberley_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="no">split_times</span>, <span class="no">athlete</span> <span class="kw">==</span> <span class="st">"Kimberley"</span>)
 
-<span class="no">kimberley_profile</span> <span class="kw">&lt;-</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="reference/model_using_split_times.html">model_using_split_times</a></span>(
+<span class="no">kimberley_profile</span> <span class="kw">&lt;-</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">model_using_splits</a></span>(
   <span class="kw">distance</span> <span class="kw">=</span> <span class="no">kimberley_data</span>$<span class="no">distance</span>,
   <span class="kw">time</span> <span class="kw">=</span> <span class="no">kimberley_data</span>$<span class="no">time</span>)
 
 <span class="no">kimberley_profile</span>$<span class="no">parameters</span>
 <span class="co">#&gt; $MSS</span>
-<span class="co">#&gt; [1] 7.226309</span>
+<span class="co">#&gt; [1] 8.591142</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $TAU</span>
-<span class="co">#&gt; [1] 0.2911069</span>
+<span class="co">#&gt; [1] 0.8113282</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $MAC</span>
-<span class="co">#&gt; [1] 24.82356</span>
+<span class="co">#&gt; [1] 10.58899</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $PMAX</span>
-<span class="co">#&gt; [1] 44.84568</span>
+<span class="co">#&gt; [1] 22.74287</span>
 
 <span class="no">kimberley_profile</span>$<span class="no">model_fit</span>
 <span class="co">#&gt; $RSE</span>
-<span class="co">#&gt; [1] 0.04430977</span>
+<span class="co">#&gt; [1] 0.03403413</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $R_squared</span>
-<span class="co">#&gt; [1] 0.999519</span>
+<span class="co">#&gt; [1] 0.9996553</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $minErr</span>
-<span class="co">#&gt; [1] -0.03423639</span>
+<span class="co">#&gt; [1] -0.02699169</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $maxErr</span>
-<span class="co">#&gt; [1] 0.05760385</span>
+<span class="co">#&gt; [1] 0.05293444</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $RMSE</span>
-<span class="co">#&gt; [1] 0.03617878</span></pre></div>
-<p><code><a href="reference/model_using_split_times.html">shorts::model_using_split_times</a></code> returns an object with <code>parameters</code>, <code>model_fit</code>, <code>model</code> returned from <code><a href="https://rdrr.io/r/stats/nls.html">stats::nls</a></code> function and <code>data</code> used to estimate parameters. Parameters estimated using mono-exponential equation are <em>maximal sprinting speed</em> (MSS), and <em>relative acceleration</em> (TAU). Additional parameters computed from MSS and TAU are <em>maximal acceleration</em> (MAC) and <em>maximal relative power</em> (PMAX).</p>
+<span class="co">#&gt; [1] 0.02778875</span></pre></div>
+<p><code><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">shorts::model_using_splits</a></code> returns an object with <code>parameters</code>, <code>model_fit</code>, <code>model</code> returned from <code><a href="https://rdrr.io/r/stats/nls.html">stats::nls</a></code> function and <code>data</code> used to estimate parameters. Parameters estimated using mono-exponential equation are <em>maximal sprinting speed</em> (MSS), and <em>relative acceleration</em> (TAU). Additional parameters computed from MSS and TAU are <em>maximal acceleration</em> (MAC) and <em>maximal relative power</em> (PMAX).</p>
 <p>If you are interested in calculating average split velocity, use <code><a href="reference/format_splits.html">shorts::format_splits</a></code></p>
 <div class="sourceCode" id="cb4"><pre class="r"><span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="reference/format_splits.html">format_splits</a></span>(
   <span class="kw">distance</span> <span class="kw">=</span> <span class="no">kimberley_data</span>$<span class="no">distance</span>,
@@ -165,13 +165,13 @@
 <span class="co">#&gt; 5     5                   20                  30             10</span>
 <span class="co">#&gt; 6     6                   30                  40             10</span>
 <span class="co">#&gt;   split_time_start split_time_stop split_time split_mean_velocity</span>
-<span class="co">#&gt; 1                0           0.975      0.975        5.128205....</span>
-<span class="co">#&gt; 2            0.975           1.701      0.726        6.887052....</span>
-<span class="co">#&gt; 3            1.701           2.328      0.627        7.974481....</span>
-<span class="co">#&gt; 4            2.328           3.093      0.765        6.535947....</span>
-<span class="co">#&gt; 5            3.093           4.385      1.292        7.739938....</span>
-<span class="co">#&gt; 6            4.385            5.86      1.475        6.779661....</span></pre></div>
-<p>Let’s plot observed vs fitted split times. For this we can use <code>data</code> returned from <code><a href="reference/model_using_split_times.html">shorts::model_using_split_times</a></code> since it contains <code>pred_time</code> column, but we can also use <code>shorts:predict_</code> family of functions.</p>
+<span class="co">#&gt; 1                0           1.158      1.158        4.317789....</span>
+<span class="co">#&gt; 2            1.158           1.893      0.735        6.802721....</span>
+<span class="co">#&gt; 3            1.893           2.541      0.648        7.716049....</span>
+<span class="co">#&gt; 4            2.541           3.149      0.608        8.223684....</span>
+<span class="co">#&gt; 5            3.149           4.313      1.164        8.591065....</span>
+<span class="co">#&gt; 6            4.313           5.444      1.131        8.841732....</span></pre></div>
+<p>Let’s plot observed vs fitted split times. For this we can use <code>data</code> returned from <code><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">shorts::model_using_splits</a></code> since it contains <code>pred_time</code> column, but we can also use <code>shorts:predict_</code> family of functions.</p>
 <div class="sourceCode" id="cb5"><pre class="r"><span class="fu">ggplot</span>(<span class="no">kimberley_profile</span>$<span class="no">data</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">distance</span>)) +
   <span class="fu">theme_bw</span>() +
   <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">time</span>)) +
@@ -194,8 +194,8 @@
   <span class="fu">xlab</span>(<span class="st">"Distance (m)"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Predicted velocity (m/s)"</span>)</pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>Each individual can be modeled separately, or we can perform <em>non-linear mixed model</em> using <code>nlme</code> function from <em>nlme</em> package (Pinheiro <em>et al.</em>, 2019). This is done using <code><a href="reference/mixed_model_using_split_times.html">shorts::mixed_model_using_split_times</a></code>:</p>
-<div class="sourceCode" id="cb7"><pre class="r"><span class="no">mixed_model</span> <span class="kw">&lt;-</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="reference/mixed_model_using_split_times.html">mixed_model_using_split_times</a></span>(
+<p>Each individual can be modeled separately, or we can perform <em>non-linear mixed model</em> using <code>nlme</code> function from <em>nlme</em> package (Pinheiro <em>et al.</em>, 2019). This is done using <code><a href="https://rdrr.io/pkg/shorts/man/mixed_model_split_times.html">shorts::mixed_model_using_splits</a></code>:</p>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="no">mixed_model</span> <span class="kw">&lt;-</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/mixed_model_split_times.html">mixed_model_using_splits</a></span>(
   <span class="kw">data</span> <span class="kw">=</span> <span class="no">split_times</span>,
   <span class="kw">distance</span> <span class="kw">=</span> <span class="st">"distance"</span>,
   <span class="kw">time</span> <span class="kw">=</span> <span class="st">"time"</span>,
@@ -205,32 +205,32 @@
 <span class="no">mixed_model</span>$<span class="no">parameters</span>
 <span class="co">#&gt; $fixed</span>
 <span class="co">#&gt;        MSS       TAU      MAC     PMAX</span>
-<span class="co">#&gt; 1 8.350701 0.5092097 16.39934 34.23649</span>
+<span class="co">#&gt; 1 8.064911 0.6551988 12.30911 24.81796</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $random</span>
-<span class="co">#&gt;     athlete       MSS       TAU       MAC      PMAX</span>
-<span class="co">#&gt; 1      John  8.112372 0.6308761 12.858900  26.07905</span>
-<span class="co">#&gt; 2 Kimberley  7.229267 0.2924022 24.723707  44.68357</span>
-<span class="co">#&gt; 3       Jim  9.222750 1.1688497  7.890449  18.19291</span>
-<span class="co">#&gt; 4     James 10.052620 0.2089077 48.119903 120.93278</span>
-<span class="co">#&gt; 5  Samantha  7.136494 0.2450125 29.127060  51.96627</span>
+<span class="co">#&gt;     athlete      MSS       TAU      MAC     PMAX</span>
+<span class="co">#&gt; 1     James 9.691736 0.8469741 11.44278 27.72510</span>
+<span class="co">#&gt; 2       Jim 7.833622 0.5048535 15.51663 30.38785</span>
+<span class="co">#&gt; 3      John 7.780395 0.7274302 10.69573 20.80424</span>
+<span class="co">#&gt; 4 Kimberley 8.569518 0.8022235 10.68221 22.88535</span>
+<span class="co">#&gt; 5  Samantha 6.449284 0.3945129 16.34746 26.35735</span>
 
 <span class="no">mixed_model</span>$<span class="no">model_fit</span>
 <span class="co">#&gt; $RSE</span>
-<span class="co">#&gt; [1] 0.02697771</span>
+<span class="co">#&gt; [1] 0.02600213</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $R_squared</span>
-<span class="co">#&gt; [1] 0.9997933</span>
+<span class="co">#&gt; [1] 0.9998204</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $minErr</span>
-<span class="co">#&gt; [1] -0.0380968</span>
+<span class="co">#&gt; [1] -0.02934519</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $maxErr</span>
-<span class="co">#&gt; [1] 0.05720046</span>
+<span class="co">#&gt; [1] 0.04964582</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $RMSE</span>
-<span class="co">#&gt; [1] 0.02205714</span></pre></div>
-<p><code><a href="reference/mixed_model_using_split_times.html">shorts::mixed_model_using_split_times</a></code> return the similar object, but <code>parameters</code> contain two elements: <code>fixed</code> and <code>random</code>.</p>
+<span class="co">#&gt; [1] 0.02139178</span></pre></div>
+<p><code><a href="https://rdrr.io/pkg/shorts/man/mixed_model_split_times.html">shorts::mixed_model_using_splits</a></code> return the similar object, but <code>parameters</code> contain two elements: <code>fixed</code> and <code>random</code>.</p>
 <p>Let’s plot predicted velocity over distance for athletes in the <code>split_times</code> data set:</p>
 <div class="sourceCode" id="cb8"><pre class="r"><span class="no">velocity_over_distance</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span>(
     <span class="no">mixed_model</span>$<span class="no">parameters</span>$<span class="no">random</span>,
@@ -250,48 +250,48 @@
   <span class="fu">xlab</span>(<span class="st">"Distance (m)"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Predicted velocity (m/s)"</span>)</pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>Both <code><a href="reference/model_using_split_times.html">shorts::model_using_split_times</a></code> and <code><a href="reference/model_using_split_times.html">shorts::model_using_split_times</a></code>allow for using <code>time_correction</code> variable, which is used to adjust for different starting positions (for details see Haugen <em>et al.</em>, 2012). This is implemented in all <code>shorts:predict_</code> functions as well.</p>
+<p>Both <code><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">shorts::model_using_splits</a></code> and <code><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">shorts::model_using_splits</a></code>allow for using <code>time_correction</code> variable, which is used to adjust for different starting positions (for details see Haugen <em>et al.</em>, 2012). This is implemented in all <code>shorts:predict_</code> functions as well.</p>
 </div>
 <div id="profiling-using-radar-gun-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#profiling-using-radar-gun-data" class="anchor"></a>Profiling using radar gun data</h3>
-<p>The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using <code><a href="reference/model_using_instant_velocity.html">shorts::model_using_instant_velocity</a></code> function. Let’s do analysis for Jim:</p>
+<p>The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using <code><a href="https://rdrr.io/pkg/shorts/man/model_using_radar.html">shorts::model_using_radar</a></code> function. Let’s do analysis for Jim:</p>
 <div class="sourceCode" id="cb9"><pre class="r"><span class="no">jim_data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span>(<span class="no">radar_gun_data</span>, <span class="no">athlete</span> <span class="kw">==</span> <span class="st">"Jim"</span>)
 
-<span class="no">jim_profile</span> <span class="kw">&lt;-</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="reference/model_using_instant_velocity.html">model_using_instant_velocity</a></span>(
+<span class="no">jim_profile</span> <span class="kw">&lt;-</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/model_using_radar.html">model_using_radar</a></span>(
   <span class="kw">time</span> <span class="kw">=</span> <span class="no">jim_data</span>$<span class="no">time</span>,
   <span class="kw">velocity</span> <span class="kw">=</span> <span class="no">jim_data</span>$<span class="no">velocity</span>
 )
 
 <span class="no">jim_profile</span>$<span class="no">parameters</span>
 <span class="co">#&gt; $MSS</span>
-<span class="co">#&gt; [1] 8.997255</span>
+<span class="co">#&gt; [1] 7.997933</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $TAU</span>
-<span class="co">#&gt; [1] 1.099528</span>
+<span class="co">#&gt; [1] 0.8886595</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $MAC</span>
-<span class="co">#&gt; [1] 8.182834</span>
+<span class="co">#&gt; [1] 8.999998</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $PMAX</span>
-<span class="co">#&gt; [1] 18.40576</span>
+<span class="co">#&gt; [1] 17.99534</span>
 
 <span class="no">jim_profile</span>$<span class="no">model_fit</span>
 <span class="co">#&gt; $RSE</span>
-<span class="co">#&gt; [1] 0.054813</span>
+<span class="co">#&gt; [1] 0.05058726</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $R_squared</span>
-<span class="co">#&gt; [1] 0.9993716</span>
+<span class="co">#&gt; [1] 0.9992441</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $minErr</span>
-<span class="co">#&gt; [1] -0.1535915</span>
+<span class="co">#&gt; [1] -0.1509921</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $maxErr</span>
-<span class="co">#&gt; [1] 0.1731016</span>
+<span class="co">#&gt; [1] 0.1641583</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $RMSE</span>
-<span class="co">#&gt; [1] 0.05472157</span></pre></div>
-<p>The object returned from <code><a href="reference/model_using_instant_velocity.html">shorts::model_using_instant_velocity</a></code> is same as object returned from <code><a href="reference/model_using_split_times.html">shorts::model_using_split_times</a></code>. Let’s plot Jim’s measured velocity and predicted velocity:</p>
+<span class="co">#&gt; [1] 0.05050288</span></pre></div>
+<p>The object returned from <code><a href="https://rdrr.io/pkg/shorts/man/model_using_radar.html">shorts::model_using_radar</a></code> is same as object returned from <code><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">shorts::model_using_splits</a></code>. Let’s plot Jim’s measured velocity and predicted velocity:</p>
 <div class="sourceCode" id="cb10"><pre class="r"><span class="fu">ggplot</span>(<span class="no">jim_profile</span>$<span class="no">data</span>, <span class="fu">aes</span>(<span class="kw">x</span> <span class="kw">=</span> <span class="no">time</span>)) +
   <span class="fu">theme_bw</span>() +
   <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="kw">y</span> <span class="kw">=</span> <span class="no">velocity</span>), <span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.5</span>) +
@@ -299,8 +299,8 @@
   <span class="fu">xlab</span>(<span class="st">"Time (s)"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Velocity (m/s)"</span>)</pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-9-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>Radar gun data can be modeled individually or using <em>non-linear mixed model</em> implemented in <code><a href="reference/mixed_model_using_instant_velocity.html">shorts::mixed_model_using_instant_velocity</a></code>:</p>
-<div class="sourceCode" id="cb11"><pre class="r"><span class="no">mixed_model</span> <span class="kw">&lt;-</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="reference/mixed_model_using_instant_velocity.html">mixed_model_using_instant_velocity</a></span>(
+<p>Radar gun data can be modeled individually or using <em>non-linear mixed model</em> implemented in <code><a href="https://rdrr.io/pkg/shorts/man/mixed_model_using_radar.html">shorts::mixed_model_using_radar</a></code>:</p>
+<div class="sourceCode" id="cb11"><pre class="r"><span class="no">mixed_model</span> <span class="kw">&lt;-</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/mixed_model_using_radar.html">mixed_model_using_radar</a></span>(
   <span class="kw">data</span> <span class="kw">=</span> <span class="no">radar_gun_data</span>,
   <span class="kw">time</span> <span class="kw">=</span> <span class="st">"time"</span>,
   <span class="kw">velocity</span> <span class="kw">=</span> <span class="st">"velocity"</span>,
@@ -309,32 +309,32 @@
 
 <span class="no">mixed_model</span>$<span class="no">parameters</span>
 <span class="co">#&gt; $fixed</span>
-<span class="co">#&gt;        MSS       TAU      MAC     PMAX</span>
-<span class="co">#&gt; 1 8.240711 0.4805574 17.14824 35.32842</span>
+<span class="co">#&gt;        MSS      TAU     MAC     PMAX</span>
+<span class="co">#&gt; 1 8.301178 1.007782 8.23708 17.09437</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $random</span>
-<span class="co">#&gt;     athlete      MSS       TAU       MAC      PMAX</span>
-<span class="co">#&gt; 1      John 7.998751 0.6021399 13.283876  26.56361</span>
-<span class="co">#&gt; 2 Kimberley 7.205054 0.3003699 23.987266  43.20738</span>
-<span class="co">#&gt; 3       Jim 8.997225 1.0995085  8.182951  18.40596</span>
-<span class="co">#&gt; 4     James 9.999072 0.2003679 49.903555 124.74731</span>
-<span class="co">#&gt; 5  Samantha 7.003456 0.2004006 34.947270  61.18791</span>
+<span class="co">#&gt;     athlete      MSS       TAU      MAC     PMAX</span>
+<span class="co">#&gt; 1     James 9.998556 1.1108457 9.000851 22.49888</span>
+<span class="co">#&gt; 2       Jim 7.997945 0.8886712 8.999892 17.99516</span>
+<span class="co">#&gt; 3      John 8.000051 1.0690357 7.483427 14.96695</span>
+<span class="co">#&gt; 4 Kimberley 9.005500 1.2855706 7.005061 15.77102</span>
+<span class="co">#&gt; 5  Samantha 6.503839 0.6847851 9.497635 15.44277</span>
 
 <span class="no">mixed_model</span>$<span class="no">model_fit</span>
 <span class="co">#&gt; $RSE</span>
-<span class="co">#&gt; [1] 0.05572074</span>
+<span class="co">#&gt; [1] 0.05164818</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $R_squared</span>
-<span class="co">#&gt; [1] 0.9990767</span>
+<span class="co">#&gt; [1] 0.9994217</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $minErr</span>
-<span class="co">#&gt; [1] -0.2634572</span>
+<span class="co">#&gt; [1] -0.2191295</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $maxErr</span>
-<span class="co">#&gt; [1] 0.2030719</span>
+<span class="co">#&gt; [1] 0.198329</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $RMSE</span>
-<span class="co">#&gt; [1] 0.0556278</span></pre></div>
+<span class="co">#&gt; [1] 0.05156203</span></pre></div>
 <p>Let’s plot predicted acceleration over time (0-6sec) for athletes in the <code>radar_gun_data</code> data set:</p>
 <div class="sourceCode" id="cb12"><pre class="r"><span class="no">acceleration_over_time</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span>(
     <span class="no">mixed_model</span>$<span class="no">parameters</span>$<span class="no">random</span>,
@@ -354,7 +354,7 @@
   <span class="fu">xlab</span>(<span class="st">"Time (s)"</span>) +
   <span class="fu">ylab</span>(<span class="st">"Predicted acceleration (m/s^2)"</span>)</pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>Both <code><a href="reference/model_using_instant_velocity.html">shorts::model_using_instant_velocity</a></code> and <code><a href="reference/mixed_model_using_instant_velocity.html">shorts::mixed_model_using_instant_velocity</a></code>allow for using <code>time_correction</code> variable, which is sometimes used with radar gun data (see Samozino, 2018 for more information).</p>
+<p>Both <code><a href="https://rdrr.io/pkg/shorts/man/model_using_radar.html">shorts::model_using_radar</a></code> and <code><a href="https://rdrr.io/pkg/shorts/man/mixed_model_using_radar.html">shorts::mixed_model_using_radar</a></code>allow for using <code>time_correction</code> variable, which is sometimes used with radar gun data (see Samozino, 2018 for more information).</p>
 </div>
 </div>
 <div id="citation" class="section level2">
@@ -426,7 +426,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>

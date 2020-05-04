@@ -39,7 +39,7 @@
 #'
 #' # Find critical distance when 20% of MAC is reached
 #' plot(x = dist, y = acceleration, type = "l")
-#' abline(h = (10/0.9) * 0.2, col = "gray")
+#' abline(h = (10 / 0.9) * 0.2, col = "gray")
 #' abline(v = find_acceleration_critical_distance(MSS = 10, TAU = 0.9, percent = 0.2), col = "red")
 #'
 #' # Find max power and location of max power
@@ -55,7 +55,6 @@
 #' pwr_zone <- find_power_critical_distance(MSS = 10, TAU = 0.9, percent = 0.75)
 #' abline(v = pwr_zone$lower, col = "blue")
 #' abline(v = pwr_zone$upper, col = "blue")
-#'
 #' @name find_functions
 NULL
 
@@ -71,7 +70,8 @@ find_max_power_distance <- function(MSS, TAU, time_correction = 0, distance_corr
         MSS = MSS,
         TAU = TAU,
         time_correction = time_correction,
-        distance_correction = distance_correction)
+        distance_correction = distance_correction
+      )
     },
     interval = c(0, 1000),
     maximum = TRUE
@@ -79,9 +79,8 @@ find_max_power_distance <- function(MSS, TAU, time_correction = 0, distance_corr
 
   return(list(
     max_power = max_power$objective,
-    distance =max_power$maximum
+    distance = max_power$maximum
   ))
-
 }
 
 #' @rdname find_functions
@@ -95,10 +94,10 @@ find_velocity_critical_distance <- function(MSS, TAU, time_correction = 0, dista
         MSS = MSS,
         TAU = TAU,
         time_correction = time_correction,
-        distance_correction = distance_correction)
+        distance_correction = distance_correction
+      )
 
-      abs((velocity/MSS) - percent) * x
-
+      abs((velocity / MSS) - percent) * x
     },
     interval = c(0, 100)
   )
@@ -118,10 +117,10 @@ find_acceleration_critical_distance <- function(MSS, TAU, time_correction = 0, d
         MSS = MSS,
         TAU = TAU,
         time_correction = time_correction,
-        distance_correction = distance_correction)
+        distance_correction = distance_correction
+      )
 
-      abs((acceleration/(MSS/TAU)) - percent) * x
-
+      abs((acceleration / (MSS / TAU)) - percent) * x
     },
     interval = c(0, 100)
   )
@@ -142,9 +141,10 @@ find_power_critical_distance <- function(MSS, TAU, time_correction = 0, distance
         MSS = MSS,
         TAU = TAU,
         time_correction = time_correction,
-        distance_correction = distance_correction)
+        distance_correction = distance_correction
+      )
 
-      abs((pwr/max_power$max_power) - percent)
+      abs((pwr / max_power$max_power) - percent)
     },
     interval = c(0, max_power$distance)
   )
@@ -156,15 +156,16 @@ find_power_critical_distance <- function(MSS, TAU, time_correction = 0, distance
         MSS = MSS,
         TAU = TAU,
         time_correction = time_correction,
-        distance_correction = distance_correction)
+        distance_correction = distance_correction
+      )
 
-      abs((pwr/max_power$max_power) - percent)
+      abs((pwr / max_power$max_power) - percent)
     },
     interval = c(max_power$distance, 100)
   )
 
   return(list(
     lower = critical_distance_lower$minimum,
-    upper = critical_distance_upper$minimum)
-  )
+    upper = critical_distance_upper$minimum
+  ))
 }

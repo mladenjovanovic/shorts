@@ -28,10 +28,9 @@ Data frame with the following columns:
 Function formats split data and calculates split distances, split times and average split velocity
 }
 \examples{
-data('split_times')
+data("split_times")
 
 john_data <- split_times[split_times$athlete == "John", ]
 
 format_splits(john_data$distance, john_data$time)
-
 }

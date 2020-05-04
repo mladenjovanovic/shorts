@@ -144,8 +144,8 @@
     <span class="kw">distance</span> <span class="kw">=</span> <span class="no">distance</span> - <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="no">distance</span>),
     <span class="kw">time</span> <span class="kw">=</span> <span class="no">time</span> - <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span>(<span class="no">time</span>),
 
-  <span class="co"># And rename the athlete</span>
-  <span class="kw">name</span> <span class="kw">=</span> <span class="st">"Jack"</span>
+    <span class="co"># And rename the athlete</span>
+    <span class="kw">name</span> <span class="kw">=</span> <span class="st">"Jack"</span>
   )</pre></body></html></div>
 <p>Now we can compare them by merging the two data frames and plot kinematics per distance and per time:</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">sprint_kinematics</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(
@@ -202,7 +202,7 @@
   <span class="kw">true_time</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_time_at_distance</a></span>(<span class="no">true_distance</span>, <span class="no">john_MSS</span>, <span class="no">john_TAU</span>),
   <span class="kw">`time_05m`</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_time_at_distance</a></span>(<span class="fl">0.5</span>, <span class="no">john_MSS</span>, <span class="no">john_TAU</span>),
   <span class="kw">time</span> <span class="kw">=</span> <span class="no">true_time</span> - <span class="no">`time_05m`</span>
-  )
+)
 
 <span class="no">jack_split_kinematics</span>
 <span class="co">#&gt; # A tibble: 5 x 6</span>
@@ -221,12 +221,12 @@
 
 <span class="no">john_split_params</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">john_split_kinematics</span>,
-  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/model_using_split_times.html">model_using_split_times</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
+  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">model_using_splits</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
 )
 
 <span class="no">jack_split_params</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">jack_split_kinematics</span>,
-  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/model_using_split_times.html">model_using_split_times</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
+  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">model_using_splits</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
 )
 
 <span class="no">split_parameters</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(
@@ -288,10 +288,10 @@
 <p><img src="sprint-corrections_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>As can be seen from the figure above, at particular distance the <em>residuals</em> (the difference between model prediction and observation) are different. This is because the model is <em>ill defined</em> assuming no <em>cheating</em> for Jack.</p>
 <p>But how do we fix this? There are few options. In ideal scenario, we should know the distance shift (i.e., 0.5m in our case) and time it takes to cover it. This of course depends on the true parameters (given the model) and it is something we cannot know in real life. Other option is to use correction factor, in a simple form of <code>time_correction</code> which we simply add to split times <span class="citation">(Haugen, Tønnessen, and Seiler <a href="#ref-haugenDifferenceStartImpact2012" role="doc-biblioref">2012</a>; Haugen, Breitschädel, and Seiler <a href="#ref-haugenSprintMechanicalVariables2019" role="doc-biblioref">2019</a>)</span>. <code>time_correction</code> is usually around 0.15 - 0.3seconds, but this depends on the type of the start, acceleration abilities of the athletes and so forth. It does represent a good and useful <em>rule of a thumb</em>.</p>
-<p>If you look at Jack split kinematics table, you can notice the time it takes to cover that 0.5m (<code>time_05m</code> in the table). This is similar to <code>time_correction</code>, but it is not the same, since we have deducted known distance of 0.5 as well. Let’s use simple heuristic, of 0.3seconds that needs to be added to out split times. Function <code><a href="../reference/model_using_split_times.html">shorts::model_using_split_times</a></code> allows for using such a correction factor:</p>
+<p>If you look at Jack split kinematics table, you can notice the time it takes to cover that 0.5m (<code>time_05m</code> in the table). This is similar to <code>time_correction</code>, but it is not the same, since we have deducted known distance of 0.5 as well. Let’s use simple heuristic, of 0.3seconds that needs to be added to out split times. Function <code><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">shorts::model_using_splits</a></code> allows for using such a correction factor:</p>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">jack_params_with_correction</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">jack_split_kinematics</span>,
-  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/model_using_split_times.html">model_using_split_times</a></span>(<span class="no">distance</span>, <span class="no">time</span>, <span class="kw">time_correction</span> <span class="kw">=</span> <span class="fl">0.3</span>)
+  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">model_using_splits</a></span>(<span class="no">distance</span>, <span class="no">time</span>, <span class="kw">time_correction</span> <span class="kw">=</span> <span class="fl">0.3</span>)
 )
 
 <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_params_with_correction</span>$<span class="no">parameters</span>)
@@ -330,10 +330,10 @@
   <span class="fu">ylab</span>(<span class="st">"Predicted - observed"</span>)</pre></body></html></div>
 <p><img src="sprint-corrections_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>Not only the estimated parameters (i.e., TAU and MSS) are much closer to true parameters, the model predictions are much better as indicated with the above graph.</p>
-<p>Additionally, we can actually <em>estimate</em> <code>time_correction</code> form the observed split times, together with estimating MSS and TAU parameters (as we have done so far). The engine underneath the <code>shorts</code> package is <code>nls</code> function, that perform non-linear least squares regression. Rather than using <code><a href="../reference/model_using_split_times.html">shorts::model_using_split_times</a></code> function (which estimates two parameters: MSS and TAU), we can use <code>shorts::model_using_split_times_with_correction</code> (which estimates three parameters: MSS, TAU, an time_correction):</p>
+<p>Additionally, we can actually <em>estimate</em> <code>time_correction</code> form the observed split times, together with estimating MSS and TAU parameters (as we have done so far). The engine underneath the <code>shorts</code> package is <code>nls</code> function, that perform non-linear least squares regression. Rather than using <code><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">shorts::model_using_splits</a></code> function (which estimates two parameters: MSS and TAU), we can use <code><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">shorts::model_using_splits_with_time_correction</a></code> (which estimates three parameters: MSS, TAU, an time_correction):</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">jack_param_with_estimated_time_correction</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">jack_split_kinematics</span>,
-  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/model_using_split_times_with_time_correction.html">model_using_split_times_with_time_correction</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
+  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">model_using_splits_with_time_correction</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
 )
 
 <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_param_with_estimated_time_correction</span>$<span class="no">parameters</span>)
@@ -371,10 +371,10 @@
   <span class="fu">geom_line</span>(<span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.8</span>) +
   <span class="fu">ylab</span>(<span class="st">"Predicted - observed"</span>)</pre></body></html></div>
 <p><img src="sprint-corrections_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>The model prediction is now <em>almost</em> perfect. To make this model <em>perfect</em>, we would need to estimate <code>distance_correction</code> as well (the one we have used to generate Jack’s data in the first place).</p>
+<p>The model prediction is now <em>almost</em> perfect. To make this model <em>perfect</em>, we would need to estimate <code>distance_correction</code> as well (the one we have used to generate Jack’s data in the first place). This is done with <code><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">shorts::model_using_splits_with_corrections</a></code> which estimated 4 parameters: MSS, TAU, time_correction and distance_correction:</p>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">jack_param_with_estimated_distance_correction</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">jack_split_kinematics</span>,
-  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/model_using_split_times_with_corrections.html">model_using_split_times_with_corrections</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
+  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">model_using_splits_with_corrections</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
 )
 
 <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_param_with_estimated_distance_correction</span>$<span class="no">parameters</span>)
@@ -394,7 +394,8 @@
   <span class="no">jack_param_with_estimated_distance_correction</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
   <span class="no">jack_param_with_estimated_distance_correction</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
   <span class="no">jack_param_with_estimated_distance_correction</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>,
-  <span class="no">jack_param_with_estimated_distance_correction</span>$<span class="no">parameters</span>$<span class="no">distance_correction</span>)
+  <span class="no">jack_param_with_estimated_distance_correction</span>$<span class="no">parameters</span>$<span class="no">distance_correction</span>
+)
 
 <span class="no">jack_split_kinematics_corrected_est_dist</span>$<span class="no">difference</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">jack_split_kinematics_corrected_est_dist</span>,
@@ -420,82 +421,88 @@
 
 <span class="no">simple_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">jack_kinematics</span>,
-  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/model_using_split_times.html">model_using_split_times</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
+  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">model_using_splits</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
 )
 
 <span class="no">simple_model_kinematics</span> <span class="kw">&lt;-</span> <span class="no">jack_kinematics</span> <span class="kw">%&gt;%</span>
   <span class="fu">mutate</span>(
-  <span class="kw">name</span> <span class="kw">=</span> <span class="st">"simple model"</span>,
-  <span class="kw">time</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_time_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">TAU</span>),
-  <span class="kw">velocity</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_velocity_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">TAU</span>),
-  <span class="kw">acceleration</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_acceleration_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">TAU</span>
-  ),
-  <span class="kw">power</span> <span class="kw">=</span> <span class="no">velocity</span> * <span class="no">acceleration</span>
+    <span class="kw">name</span> <span class="kw">=</span> <span class="st">"simple model"</span>,
+    <span class="kw">time</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_time_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">TAU</span>
+    ),
+    <span class="kw">velocity</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_velocity_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">TAU</span>
+    ),
+    <span class="kw">acceleration</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_acceleration_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">simple_model</span>$<span class="no">parameters</span>$<span class="no">TAU</span>
+    ),
+    <span class="kw">power</span> <span class="kw">=</span> <span class="no">velocity</span> * <span class="no">acceleration</span>
   )
 
 <span class="co"># -----------------------------------</span>
 <span class="no">simple_model_corrected</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">jack_kinematics</span>,
-  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/model_using_split_times.html">model_using_split_times</a></span>(<span class="no">distance</span>, <span class="no">time</span>, <span class="kw">time_correction</span> <span class="kw">=</span> <span class="fl">0.3</span>)
+  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">model_using_splits</a></span>(<span class="no">distance</span>, <span class="no">time</span>, <span class="kw">time_correction</span> <span class="kw">=</span> <span class="fl">0.3</span>)
 )
 
 <span class="no">simple_model_corrected_kinematics</span> <span class="kw">&lt;-</span> <span class="no">jack_kinematics</span> <span class="kw">%&gt;%</span>
   <span class="fu">mutate</span>(
-  <span class="kw">name</span> <span class="kw">=</span> <span class="st">"simple model w/0.3s correction"</span>,
-  <span class="kw">time</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_time_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
-    <span class="kw">time_correction</span> <span class="kw">=</span> <span class="fl">0.3</span>),
-  <span class="kw">velocity</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_velocity_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
-    <span class="kw">time_correction</span> <span class="kw">=</span> <span class="fl">0.3</span>),
-  <span class="kw">acceleration</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_acceleration_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
-    <span class="kw">time_correction</span> <span class="kw">=</span> <span class="fl">0.3</span>
-  ),
-  <span class="kw">power</span> <span class="kw">=</span> <span class="no">velocity</span> * <span class="no">acceleration</span>
+    <span class="kw">name</span> <span class="kw">=</span> <span class="st">"simple model w/0.3s correction"</span>,
+    <span class="kw">time</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_time_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
+      <span class="kw">time_correction</span> <span class="kw">=</span> <span class="fl">0.3</span>
+    ),
+    <span class="kw">velocity</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_velocity_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
+      <span class="kw">time_correction</span> <span class="kw">=</span> <span class="fl">0.3</span>
+    ),
+    <span class="kw">acceleration</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_acceleration_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">simple_model_corrected</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
+      <span class="kw">time_correction</span> <span class="kw">=</span> <span class="fl">0.3</span>
+    ),
+    <span class="kw">power</span> <span class="kw">=</span> <span class="no">velocity</span> * <span class="no">acceleration</span>
   )
 
 <span class="co"># -----------------------------------</span>
 <span class="no">estimate_time_correction</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">jack_kinematics</span>,
-  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/model_using_split_times_with_time_correction.html">model_using_split_times_with_time_correction</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
+  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">model_using_splits_with_time_correction</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
 )
 
 <span class="no">estimate_time_correction_kinematics</span> <span class="kw">&lt;-</span> <span class="no">jack_kinematics</span> <span class="kw">%&gt;%</span>
   <span class="fu">mutate</span>(
-  <span class="kw">name</span> <span class="kw">=</span> <span class="st">"Model w/time correction"</span>,
-  <span class="kw">time</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_time_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
-    <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>),
-  <span class="kw">velocity</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_velocity_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
-    <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>),
-  <span class="kw">acceleration</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_acceleration_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
-    <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>
-  ),
-  <span class="kw">power</span> <span class="kw">=</span> <span class="no">velocity</span> * <span class="no">acceleration</span>
+    <span class="kw">name</span> <span class="kw">=</span> <span class="st">"Model w/time correction"</span>,
+    <span class="kw">time</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_time_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
+      <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>
+    ),
+    <span class="kw">velocity</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_velocity_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
+      <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>
+    ),
+    <span class="kw">acceleration</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_acceleration_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
+      <span class="no">estimate_time_correction</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>
+    ),
+    <span class="kw">power</span> <span class="kw">=</span> <span class="no">velocity</span> * <span class="no">acceleration</span>
   )
 
 <span class="co"># -----------------------------------</span>
@@ -505,32 +512,34 @@
 
 <span class="no">estimate_corrections</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">jack_kinematics_filtered</span>,
-  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/model_using_split_times_with_corrections.html">model_using_split_times_with_corrections</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
+  <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/shorts/man/model_split_times.html">model_using_splits_with_corrections</a></span>(<span class="no">distance</span>, <span class="no">time</span>)
 )
 
 <span class="no">estimate_corrections_kinematics</span> <span class="kw">&lt;-</span> <span class="no">jack_kinematics_filtered</span> <span class="kw">%&gt;%</span>
   <span class="fu">mutate</span>(
-  <span class="kw">name</span> <span class="kw">=</span> <span class="st">"Model w/time &amp; distance correction"</span>,
-  <span class="kw">time</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_time_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">distance_correction</span>),
-  <span class="kw">velocity</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_velocity_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">distance_correction</span>),
-  <span class="kw">acceleration</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_acceleration_at_distance</a></span>(
-    <span class="no">distance</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>,
-    <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">distance_correction</span>
-  ),
-  <span class="kw">power</span> <span class="kw">=</span> <span class="no">velocity</span> * <span class="no">acceleration</span>
+    <span class="kw">name</span> <span class="kw">=</span> <span class="st">"Model w/time &amp; distance correction"</span>,
+    <span class="kw">time</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_time_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">distance_correction</span>
+    ),
+    <span class="kw">velocity</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_velocity_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">distance_correction</span>
+    ),
+    <span class="kw">acceleration</span> <span class="kw">=</span> <span class="kw pkg">shorts</span><span class="kw ns">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_acceleration_at_distance</a></span>(
+      <span class="no">distance</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">MSS</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">TAU</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">time_correction</span>,
+      <span class="no">estimate_corrections</span>$<span class="no">parameters</span>$<span class="no">distance_correction</span>
+    ),
+    <span class="kw">power</span> <span class="kw">=</span> <span class="no">velocity</span> * <span class="no">acceleration</span>
   )
 
 <span class="co"># -----------------------------------------------------</span>
@@ -551,7 +560,7 @@
   <span class="fu">geom_line</span>(<span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.8</span>) +
   <span class="fu">facet_wrap</span>(~<span class="no">metric</span>, <span class="kw">scales</span> <span class="kw">=</span> <span class="st">"free_y"</span>) +
   <span class="fu">ylab</span>(<span class="kw">NULL</span>) +
-  <span class="fu">theme</span>(<span class="kw">legend.text</span><span class="kw">=</span><span class="fu">element_text</span>(<span class="kw">size</span><span class="kw">=</span><span class="fl">6</span>))</pre></body></html></div>
+  <span class="fu">theme</span>(<span class="kw">legend.text</span> <span class="kw">=</span> <span class="fu">element_text</span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">6</span>))</pre></body></html></div>
 <p><img src="sprint-corrections_files/figure-html/unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb22"><html><body><pre class="r">
 <span class="no">kinematics_per_time</span> <span class="kw">&lt;-</span> <span class="no">sprint_kinematics</span> <span class="kw">%&gt;%</span>
@@ -562,7 +571,7 @@
   <span class="fu">geom_line</span>(<span class="kw">alpha</span> <span class="kw">=</span> <span class="fl">0.8</span>) +
   <span class="fu">facet_wrap</span>(~<span class="no">metric</span>, <span class="kw">scales</span> <span class="kw">=</span> <span class="st">"free_y"</span>) +
   <span class="fu">ylab</span>(<span class="kw">NULL</span>) +
-  <span class="fu">theme</span>(<span class="kw">legend.text</span><span class="kw">=</span><span class="fu">element_text</span>(<span class="kw">size</span><span class="kw">=</span><span class="fl">6</span>))</pre></body></html></div>
+  <span class="fu">theme</span>(<span class="kw">legend.text</span> <span class="kw">=</span> <span class="fu">element_text</span>(<span class="kw">size</span> <span class="kw">=</span> <span class="fl">6</span>))</pre></body></html></div>
 <p><img src="sprint-corrections_files/figure-html/unnamed-chunk-23-2.png" width="90%" style="display: block; margin: auto;"></p>
 <p>Although it cannot be seen from these images, model with time and distance correction is completely over the <em>true</em> model.</p>
 <div id="word-of-caution" class="section level1">
@@ -599,7 +608,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
 </div>
 
       </footer>
