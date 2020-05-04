@@ -5,6 +5,7 @@
 #' @param time_correction Numeric vector. Used for correction. Default is 0. See references for more info
 #' @param distance_correction Numeric vector. Used for correction. Default is 0. See vignettes for more info
 #' @param MSS,TAU Numeric vectors. Model parameters
+#' @return Numeric vector
 #' @references
 #' Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
 #'         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
@@ -94,4 +95,22 @@ predict_acceleration_at_velocity <- function(velocity, MSS, TAU) {
         MAC - velocity * slope
       )
     )
+}
+
+#' @rdname predict_kinematics
+#' @export
+predict_relative_power_at_distance <- function(distance, MSS, TAU, time_correction = 0, distance_correction = 0) {
+  acc <- predict_acceleration_at_distance(distance, MSS, TAU, time_correction, distance_correction)
+  vel <- predict_velocity_at_distance(distance, MSS, TAU, time_correction, distance_correction)
+
+  acc * vel
+}
+
+#' @rdname predict_kinematics
+#' @export
+predict_relative_power_at_time <- function(time, MSS, TAU, time_correction = 0) {
+  acc <- predict_acceleration_at_time(time, MSS, TAU, time_correction)
+  vel <- predict_velocity_at_time(time, MSS, TAU, time_correction)
+
+  acc * vel
 }

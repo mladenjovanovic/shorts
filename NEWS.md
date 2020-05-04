@@ -10,6 +10,7 @@
 * Fixed error in calculating PMAX in `shorts::mixed_model_` functions
 * Removed `maxAbsErr` from model_fit elemet 
 * Wrote "sprint-corrections" vignette explaining the idea behind sprint time and distance corrections
+* Implemented `find_` family of functions for finding max power and critical distance when velocity or acceleration reaches certain threshold
 * Implemented `...` to all modeling functions so that extra parameters can be forwarded to the optimization engine
 * Data `split_times` recreated using distance shift behind the first timing gate. Needed to demo mixed models with corrections
 

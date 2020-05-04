@@ -9,6 +9,8 @@
 \alias{predict_velocity_at_distance}
 \alias{predict_acceleration_at_distance}
 \alias{predict_acceleration_at_velocity}
+\alias{predict_relative_power_at_distance}
+\alias{predict_relative_power_at_time}
 \title{Kinematics prediction functions}
 \usage{
 predict_velocity_at_time(time, MSS, TAU, time_correction = 0)
@@ -48,6 +50,16 @@ predict_acceleration_at_distance(
 )
 
 predict_acceleration_at_velocity(velocity, MSS, TAU)
+
+predict_relative_power_at_distance(
+  distance,
+  MSS,
+  TAU,
+  time_correction = 0,
+  distance_correction = 0
+)
+
+predict_relative_power_at_time(time, MSS, TAU, time_correction = 0)
 }
 \arguments{
 \item{time, distance, velocity}{Numeric vectors}
@@ -57,6 +69,9 @@ predict_acceleration_at_velocity(velocity, MSS, TAU)
 \item{time_correction}{Numeric vector. Used for correction. Default is 0. See references for more info}
 
 \item{distance_correction}{Numeric vector. Used for correction. Default is 0. See vignettes for more info}
+}
+\value{
+Numeric vector
 }
 \description{
 Predicts kinematic from known \code{MSS} and \code{TAU} parameters
