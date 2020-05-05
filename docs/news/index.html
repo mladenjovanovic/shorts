@@ -139,7 +139,7 @@
 <a href="#shorts-100" class="anchor"></a>shorts 1.0.0<small> Unreleased </small>
 </h1>
 <ul>
-<li>Renamed <code>time_delay</code> to <code>time_correction</code> in <code>shorts::model_using_instant_velocity</code> and <code>shorts::mixed_model_using_instant_velocity</code> functions to be more consistend across functions. Also, this correction is <strong>added</strong> to time, so use negative numbers instead</li>
+<li>Renamed <code>time_delay</code> to <code>time_correction</code> in <code>shorts::model_using_instant_velocity</code> and <code>shorts::mixed_model_using_instant_velocity</code> functions to be more consistent across functions. Also, this correction is <strong>added</strong> to time, so use negative numbers instead</li>
 <li>
 <code>time_correction</code> in <code>shorts::mixed_model_using_instant_velocity</code> and <code>shorts::mixed_model_using_split_times</code> is now numeric vector, not column name</li>
 <li>Implemented <code>time_correction</code> in <code>shorts::model_using_split_times</code> and <code>shorts::mixed_model_using_split_times</code>
@@ -151,7 +151,7 @@
 <li>Implemented estimation of <code>distance_correction</code> in <code>shorts::model_using_split_times_with_corrections</code> and <code>shorts::mixed_model_using_split_times_with_corrections</code>
 </li>
 <li>Fixed error in calculating PMAX in <code>shorts::mixed_model_</code> functions</li>
-<li>Removed <code>maxAbsErr</code> from model_fit elemet</li>
+<li>Removed <code>maxAbsErr</code> from model_fit element</li>
 <li>Wrote “sprint-corrections” vignette explaining the idea behind sprint time and distance corrections</li>
 <li>Implemented <code>find_</code> family of functions for finding max power and critical distance when velocity or acceleration reaches certain threshold</li>
 <li>Implemented <code>...</code> to all modeling functions so that extra parameters can be forwarded to the optimization engine</li>
