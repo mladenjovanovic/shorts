@@ -7,7 +7,5 @@
 
 0 errors | 0 warnings | 0 note
 
-* This is a new release.
-* Re-submitting after adding CRAN version of the MIT LICENSE file and adding method references in the Description field
-* Re-submitted after fixing MIT LICENSE file and reference material doi's in the description fields 
+* This is new version of the package. Please see NEWS.md for changes
 
