@@ -1,4 +1,4 @@
-# shorts 0.0.1.9000
+# shorts 1.0.0
 
 * Renamed `time_delay` to `time_correction` in `shorts::model_using_instant_velocity` and `shorts::mixed_model_using_instant_velocity` functions to be more consistend across functions. Also, this correction is **added** to time, so use negative numbers instead
 * `time_correction` in `shorts::mixed_model_using_instant_velocity` and `shorts::mixed_model_using_split_times` is now numeric vector, not column name

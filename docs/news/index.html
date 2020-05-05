@@ -8,6 +8,13 @@
 
 <title>Changelog • shorts</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
@@ -40,6 +47,7 @@
 
 
 <meta property="og:title" content="Changelog" />
+<meta property="og:image" content="/logo.png" />
 
 
 
@@ -71,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.1.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
 
@@ -126,21 +134,21 @@
       <small>Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="shorts-0019000" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.1.9000">
-<a href="#shorts-0019000" class="anchor"></a>shorts 0.0.1.9000<small> Unreleased </small>
+    <div id="shorts-100" class="section level1">
+<h1 class="page-header" data-toc-text="1.0.0">
+<a href="#shorts-100" class="anchor"></a>shorts 1.0.0<small> Unreleased </small>
 </h1>
 <ul>
-<li>Renamed <code>time_delay</code> to <code>time_correction</code> in <code><a href="../reference/model_using_instant_velocity.html">shorts::model_using_instant_velocity</a></code> and <code><a href="../reference/mixed_model_using_instant_velocity.html">shorts::mixed_model_using_instant_velocity</a></code> functions to be more consistend across functions. Also, this correction is <strong>added</strong> to time, so use negative numbers instead</li>
+<li>Renamed <code>time_delay</code> to <code>time_correction</code> in <code>shorts::model_using_instant_velocity</code> and <code>shorts::mixed_model_using_instant_velocity</code> functions to be more consistend across functions. Also, this correction is <strong>added</strong> to time, so use negative numbers instead</li>
 <li>
-<code>time_correction</code> in <code><a href="../reference/mixed_model_using_instant_velocity.html">shorts::mixed_model_using_instant_velocity</a></code> and <code><a href="../reference/mixed_model_split_times.html">shorts::mixed_model_using_split_times</a></code> is now numeric vector, not column name</li>
-<li>Implemented <code>time_correction</code> in <code><a href="../reference/model_split_times.html">shorts::model_using_split_times</a></code> and <code><a href="../reference/mixed_model_split_times.html">shorts::mixed_model_using_split_times</a></code>
+<code>time_correction</code> in <code>shorts::mixed_model_using_instant_velocity</code> and <code>shorts::mixed_model_using_split_times</code> is now numeric vector, not column name</li>
+<li>Implemented <code>time_correction</code> in <code>shorts::model_using_split_times</code> and <code>shorts::mixed_model_using_split_times</code>
 </li>
 <li>Implemented <code>time_correction</code> in <code>shorts:predict_</code> family of functions</li>
 <li>Implemented <code>distance_correction</code> in <code>shorts:predict_</code> family of functions</li>
-<li>Implemented estimation of <code>time_correction</code> in <code><a href="../reference/model_split_times.html">shorts::model_using_split_times_with_time_correction</a></code> and <code><a href="../reference/mixed_model_split_times.html">shorts::mixed_model_using_split_times_with_time_correction</a></code>
+<li>Implemented estimation of <code>time_correction</code> in <code>shorts::model_using_split_times_with_time_correction</code> and <code>shorts::mixed_model_using_split_times_with_time_correction</code>
 </li>
-<li>Implemented estimation of <code>distance_correction</code> in <code><a href="../reference/model_split_times.html">shorts::model_using_split_times_with_corrections</a></code> and <code><a href="../reference/mixed_model_split_times.html">shorts::mixed_model_using_split_times_with_corrections</a></code>
+<li>Implemented estimation of <code>distance_correction</code> in <code>shorts::model_using_split_times_with_corrections</code> and <code>shorts::mixed_model_using_split_times_with_corrections</code>
 </li>
 <li>Fixed error in calculating PMAX in <code>shorts::mixed_model_</code> functions</li>
 <li>Removed <code>maxAbsErr</code> from model_fit elemet</li>
