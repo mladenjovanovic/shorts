@@ -223,8 +223,8 @@
 <p>Let’s see how this cheating affects <em>estimated</em> sprint parameters. This is very useful exercises since we know the <em>true</em> parameters, and now we can see how they differ:</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="co"># Since this is a perfect simulation and stats::nls will complain</span>
 <span class="co"># we need to add very small noise, or measurement error</span>
-<span class="no">john_split_kinematics</span>$<span class="no">time</span> <span class="kw">&lt;-</span> <span class="no">john_split_kinematics</span>$<span class="no">time</span> + <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">sprint_distance</span>), <span class="fl">0</span>, <span class="fl">10</span>^-<span class="fl">6</span>)
-<span class="no">jack_split_kinematics</span>$<span class="no">time</span> <span class="kw">&lt;-</span> <span class="no">jack_split_kinematics</span>$<span class="no">time</span> + <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">sprint_distance</span>), <span class="fl">0</span>, <span class="fl">10</span>^-<span class="fl">6</span>)
+<span class="no">john_split_kinematics</span>$<span class="no">time</span> <span class="kw">&lt;-</span> <span class="no">john_split_kinematics</span>$<span class="no">time</span> + <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">sprint_distance</span>), <span class="fl">0</span>, <span class="fl">10</span>^-<span class="fl">5</span>)
+<span class="no">jack_split_kinematics</span>$<span class="no">time</span> <span class="kw">&lt;-</span> <span class="no">jack_split_kinematics</span>$<span class="no">time</span> + <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">sprint_distance</span>), <span class="fl">0</span>, <span class="fl">10</span>^-<span class="fl">5</span>)
 
 <span class="no">john_split_params</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">john_split_kinematics</span>,
@@ -303,11 +303,11 @@
 
 <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_params_with_correction</span>$<span class="no">parameters</span>)
 <span class="co">#&gt;       MSS       TAU       MAC      PMAX </span>
-<span class="co">#&gt;  8.522154  1.116461  7.633183 16.262791</span></pre></body></html></div>
+<span class="co">#&gt;  8.522139  1.116450  7.633248 16.262899</span></pre></body></html></div>
 <p>As can be seen, this is much better (very close to John’s profile). Here are the model fit metrics:</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_params_with_correction</span>$<span class="no">model_fit</span>)
 <span class="co">#&gt;          RSE    R_squared       minErr       maxErr         RMSE </span>
-<span class="co">#&gt;  0.004669689  0.999995355 -0.006677120  0.003400169  0.003617126</span></pre></body></html></div>
+<span class="co">#&gt;  0.004669167  0.999995356 -0.006676947  0.003387867  0.003616722</span></pre></body></html></div>
 <p>Let’s check the prediction residuals now:</p>
 <div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">jack_split_kinematics_corrected</span> <span class="kw">&lt;-</span> <span class="fu">select</span>(<span class="no">jack_split_kinematics</span>, <span class="no">name</span>, <span class="no">distance</span>, <span class="no">time</span>)
 
@@ -345,11 +345,11 @@
 
 <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_param_with_estimated_time_correction</span>$<span class="no">parameters</span>)
 <span class="co">#&gt;             MSS             TAU             MAC            PMAX time_correction </span>
-<span class="co">#&gt;       8.4736573       1.0627255       7.9735145      16.8912074       0.2720366</span></pre></body></html></div>
+<span class="co">#&gt;       8.4736411       1.0627127       7.9735952      16.8913459       0.2720356</span></pre></body></html></div>
 <p>Here are the model fit metrics:</p>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_param_with_estimated_time_correction</span>$<span class="no">model_fit</span>)
 <span class="co">#&gt;           RSE     R_squared        minErr        maxErr          RMSE </span>
-<span class="co">#&gt;  0.0016161266  0.9999995965 -0.0009389396  0.0016946237  0.0010221282</span></pre></body></html></div>
+<span class="co">#&gt;  0.0016131780  0.9999995979 -0.0009223064  0.0016968979  0.0010202634</span></pre></body></html></div>
 <p>Let’s check the prediction residuals now:</p>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">jack_split_kinematics_corrected_est</span> <span class="kw">&lt;-</span> <span class="fu">select</span>(<span class="no">jack_split_kinematics</span>, <span class="no">name</span>, <span class="no">distance</span>, <span class="no">time</span>)
 
@@ -386,13 +386,13 @@
 
 <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_param_with_estimated_distance_correction</span>$<span class="no">parameters</span>)
 <span class="co">#&gt;                 MSS                 TAU                 MAC                PMAX </span>
-<span class="co">#&gt;           8.4999919           1.1333155           7.5001112          15.9377211 </span>
+<span class="co">#&gt;           8.4999193           1.1331547           7.5011114          15.9397104 </span>
 <span class="co">#&gt;     time_correction distance_correction </span>
-<span class="co">#&gt;           0.3858289           0.4998853</span></pre></body></html></div>
+<span class="co">#&gt;           0.3855927           0.4988533</span></pre></body></html></div>
 <p>And model fit metrics:</p>
 <div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_param_with_estimated_distance_correction</span>$<span class="no">model_fit</span>)
 <span class="co">#&gt;           RSE     R_squared        minErr        maxErr          RMSE </span>
-<span class="co">#&gt;  2.389458e-06  1.000000e+00 -1.499947e-06  1.635683e-06  1.068598e-06</span></pre></body></html></div>
+<span class="co">#&gt;  2.389470e-05  1.000000e+00 -1.499921e-05  1.635740e-05  1.068603e-05</span></pre></body></html></div>
 <p>This 4-parameters model was able to fully recovery Jack’s characteristics and predict his split times. Let’s check the residuals:</p>
 <div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">jack_split_kinematics_corrected_est_dist</span> <span class="kw">&lt;-</span> <span class="fu">select</span>(<span class="no">jack_split_kinematics</span>, <span class="no">name</span>, <span class="no">distance</span>, <span class="no">time</span>)
 
@@ -424,7 +424,7 @@
 <p><img src="sprint-corrections_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>To provide additional example, let’s use the simulated 40m kinematic data from the beginning of this vignette and see how the kinematics differ between the models:</p>
 <div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="co"># Add small noise to the data so the model with distance and time corrected can be fitted</span>
-<span class="no">jack_kinematics</span>$<span class="no">time</span> <span class="kw">&lt;-</span> <span class="no">jack_kinematics</span>$<span class="no">time</span> + <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">jack_kinematics</span>), <span class="fl">0</span>, <span class="fl">10</span>^-<span class="fl">6</span>)
+<span class="no">jack_kinematics</span>$<span class="no">time</span> <span class="kw">&lt;-</span> <span class="no">jack_kinematics</span>$<span class="no">time</span> + <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(<span class="no">jack_kinematics</span>), <span class="fl">0</span>, <span class="fl">10</span>^-<span class="fl">5</span>)
 
 <span class="no">simple_model</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span>(
   <span class="no">jack_kinematics</span>,
