@@ -7,6 +7,6 @@
 
 0 errors | 0 warnings | 0 note
 
-* This is re-submission due to CRAN Package Check Error for Solaris during the vignette build up. Vignette is rechecked and larger error is added to the data so that stats::nls can converge without error
+* This is re-submission (updated version) due to CRAN Package Check Error for Solaris during the vignette build up. Vignette is rechecked and larger error is added to the data so that stats::nls can converge without error
 
 
