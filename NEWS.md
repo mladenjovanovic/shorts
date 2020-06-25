@@ -1,3 +1,5 @@
+# shorts (development version)
+
 # shorts 1.0.1
 
 * Corrected the error in vignette that showed on Solaris system. Increased the random noise to allow nls to fit
