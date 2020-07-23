@@ -1,6 +1,8 @@
 # shorts (development version)
 
 * Used constructor functions for all modeling functions
+* Added modular short_model_fit function with three extra estimators: MAE, MAPE, and MaxAbsErr. This function is hidden from the user, but allows easier extension and modularity as well avoidance of code repetition
+
 
 # shorts 1.0.1
 

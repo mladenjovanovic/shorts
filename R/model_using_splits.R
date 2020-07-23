@@ -119,13 +119,13 @@ model_using_splits <- function(distance,
   # Adjust predicted time to be comparable to original time
   pred_time <- pred_time - time_correction
 
-  RSE <- summary(speed_mod)$sigma
-  R_squared <- stats::cor(df$time, pred_time)^2
-  minErr <- min(pred_time - df$time)
-  maxErr <- max(pred_time - df$time)
-  RMSE <- sqrt(mean((pred_time - df$time)^2))
+  model_fit <- shorts_model_fit(
+    model = speed_mod,
+    observed = df$time,
+    predicted = pred_time,
+    na.rm = na.rm
+  )
 
-  # Add predicted time to df
   # Add predicted time to df
   df <- data.frame(
     distance = distance,
@@ -142,13 +142,7 @@ model_using_splits <- function(distance,
       MAC = MAC,
       PMAX = PMAX
     ),
-    model_fit = list(
-      RSE = RSE,
-      R_squared = R_squared,
-      minErr = minErr,
-      maxErr = maxErr,
-      RMSE = RMSE
-    ),
+    model_fit = model_fit,
     model = speed_mod,
     data = df
   ))
@@ -197,11 +191,12 @@ model_using_splits_with_time_correction <- function(distance,
   # Model fit
   pred_time <- TAU * I(LambertW::W(-exp(1)^(-df$distance / (MSS * TAU) - 1))) + df$distance / MSS + TAU - time_correction
 
-  RSE <- summary(speed_mod)$sigma
-  R_squared <- stats::cor(df$time, pred_time)^2
-  minErr <- min(pred_time - df$time)
-  maxErr <- max(pred_time - df$time)
-  RMSE <- sqrt(mean((pred_time - df$time)^2))
+  model_fit <- shorts_model_fit(
+    model = speed_mod,
+    observed = df$time,
+    predicted = pred_time,
+    na.rm = na.rm
+  )
 
   # Add predicted time to df
   df <- data.frame(
@@ -220,13 +215,7 @@ model_using_splits_with_time_correction <- function(distance,
       PMAX = PMAX,
       time_correction = time_correction
     ),
-    model_fit = list(
-      RSE = RSE,
-      R_squared = R_squared,
-      minErr = minErr,
-      maxErr = maxErr,
-      RMSE = RMSE
-    ),
+    model_fit = model_fit,
     model = speed_mod,
     data = df
   ))
@@ -276,13 +265,13 @@ model_using_splits_with_corrections <- function(distance,
   # Model fit
   pred_time <- TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) + (distance + distance_correction) / MSS + TAU - time_correction
 
-  RSE <- summary(speed_mod)$sigma
-  R_squared <- stats::cor(df$time, pred_time)^2
-  minErr <- min(pred_time - df$time)
-  maxErr <- max(pred_time - df$time)
-  RMSE <- sqrt(mean((pred_time - df$time)^2))
+  model_fit <- shorts_model_fit(
+    model = speed_mod,
+    observed = df$time,
+    predicted = pred_time,
+    na.rm = na.rm
+  )
 
-  # Add predicted time to df
   # Add predicted time to df
   df <- data.frame(
     distance = distance,
@@ -301,13 +290,7 @@ model_using_splits_with_corrections <- function(distance,
       time_correction = time_correction,
       distance_correction = distance_correction
     ),
-    model_fit = list(
-      RSE = RSE,
-      R_squared = R_squared,
-      minErr = minErr,
-      maxErr = maxErr,
-      RMSE = RMSE
-    ),
+    model_fit = model_fit,
     model = speed_mod,
     data = df
   ))

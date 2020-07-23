@@ -79,11 +79,12 @@ model_using_radar <- function(time,
   # Model fit
   pred_velocity <- MSS * (1 - exp(1)^(-(df$corrected_time) / TAU))
 
-  RSE <- summary(speed_mod)$sigma
-  R_squared <- stats::cor(df$velocity, pred_velocity)^2
-  minErr <- min(pred_velocity - df$velocity)
-  maxErr <- max(pred_velocity - df$velocity)
-  RMSE <- sqrt(mean((pred_velocity - df$velocity)^2))
+  model_fit <- shorts_model_fit(
+    model = speed_mod,
+    observed = df$velocity,
+    predicted = pred_velocity,
+    na.rm = na.rm
+  )
 
   # Add predicted velocity to df
   df <- data.frame(
@@ -94,20 +95,14 @@ model_using_radar <- function(time,
   )
 
   # Return object
-  return(list(
+  return(new_shorts_model(
     parameters = list(
       MSS = MSS,
       TAU = TAU,
       MAC = MAC,
       PMAX = PMAX
     ),
-    model_fit = list(
-      RSE = RSE,
-      R_squared = R_squared,
-      minErr = minErr,
-      maxErr = maxErr,
-      RMSE = RMSE
-    ),
+    model_fit = model_fit,
     model = speed_mod,
     data = df
   ))
@@ -204,11 +199,12 @@ mixed_model_using_radar <- function(data,
   # Model fit
   pred_velocity <- stats::predict(mixed_model, newdata = df)
 
-  RSE <- summary(mixed_model)$sigma
-  R_squared <- stats::cor(df$velocity, pred_velocity)^2
-  minErr <- min(pred_velocity - df$velocity)
-  maxErr <- max(pred_velocity - df$velocity)
-  RMSE <- sqrt(mean((pred_velocity - df$velocity)^2))
+  model_fit <- shorts_model_fit(
+    model = mixed_model,
+    observed = df$velocity,
+    predicted = pred_velocity,
+    na.rm = na.rm
+  )
 
   # Add predicted velocity to df
   df <- data.frame(
@@ -219,18 +215,12 @@ mixed_model_using_radar <- function(data,
     # weights = weights
   )
 
-  return(list(
+  return(new_shorts_mixed_model(
     parameters = list(
       fixed = fixed_effects,
       random = random_effects
     ),
-    model_fit = list(
-      RSE = RSE,
-      R_squared = R_squared,
-      minErr = minErr,
-      maxErr = maxErr,
-      RMSE = RMSE
-    ),
+    model_fit = model_fit,
     model = mixed_model,
     data = df
   ))

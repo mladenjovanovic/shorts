@@ -127,11 +127,12 @@ mixed_model_using_splits <- function(data,
   pred_time <- stats::predict(mixed_model, newdata = df)
   pred_time <- pred_time - time_correction
 
-  RSE <- summary(mixed_model)$sigma
-  R_squared <- stats::cor(df$time, pred_time)^2
-  minErr <- min(pred_time - df$time)
-  maxErr <- max(pred_time - df$time)
-  RMSE <- sqrt(mean((pred_time - df$time)^2))
+  model_fit <- shorts_model_fit(
+    model = mixed_model,
+    observed = df$time,
+    predicted = pred_time,
+    na.rm = na.rm
+  )
 
   # Add predicted time to df
   # Combine to DF
@@ -149,13 +150,7 @@ mixed_model_using_splits <- function(data,
       fixed = fixed_effects,
       random = random_effects
     ),
-    model_fit = list(
-      RSE = RSE,
-      R_squared = R_squared,
-      minErr = minErr,
-      maxErr = maxErr,
-      RMSE = RMSE
-    ),
+    model_fit = model_fit,
     model = mixed_model,
     data = df
   ))
@@ -233,11 +228,12 @@ mixed_model_using_splits_with_time_correction <- function(data,
 
   pred_time <- stats::predict(mixed_model, newdata = df)
 
-  RSE <- summary(mixed_model)$sigma
-  R_squared <- stats::cor(df$time, pred_time)^2
-  minErr <- min(pred_time - df$time)
-  maxErr <- max(pred_time - df$time)
-  RMSE <- sqrt(mean((pred_time - df$time)^2))
+  model_fit <- shorts_model_fit(
+    model = mixed_model,
+    observed = df$time,
+    predicted = pred_time,
+    na.rm = na.rm
+  )
 
   # Add predicted time to df
   # Combine to DF
@@ -254,13 +250,7 @@ mixed_model_using_splits_with_time_correction <- function(data,
       fixed = fixed_effects,
       random = random_effects
     ),
-    model_fit = list(
-      RSE = RSE,
-      R_squared = R_squared,
-      minErr = minErr,
-      maxErr = maxErr,
-      RMSE = RMSE
-    ),
+    model_fit = model_fit,
     model = mixed_model,
     data = df
   ))
@@ -340,11 +330,12 @@ mixed_model_using_splits_with_corrections <- function(data,
 
   pred_time <- stats::predict(mixed_model, newdata = df)
 
-  RSE <- summary(mixed_model)$sigma
-  R_squared <- stats::cor(df$time, pred_time)^2
-  minErr <- min(pred_time - df$time)
-  maxErr <- max(pred_time - df$time)
-  RMSE <- sqrt(mean((pred_time - df$time)^2))
+  model_fit <- shorts_model_fit(
+    model = mixed_model,
+    observed = df$time,
+    predicted = pred_time,
+    na.rm = na.rm
+  )
 
   # Add predicted time to df
   # Combine to DF
@@ -361,13 +352,7 @@ mixed_model_using_splits_with_corrections <- function(data,
       fixed = fixed_effects,
       random = random_effects
     ),
-    model_fit = list(
-      RSE = RSE,
-      R_squared = R_squared,
-      minErr = minErr,
-      maxErr = maxErr,
-      RMSE = RMSE
-    ),
+    model_fit = model_fit,
     model = mixed_model,
     data = df
   ))
