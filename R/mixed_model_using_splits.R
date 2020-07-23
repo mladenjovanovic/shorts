@@ -144,7 +144,7 @@ mixed_model_using_splits <- function(data,
   )
 
 
-  return(list(
+  return(new_shorts_mixed_model(
     parameters = list(
       fixed = fixed_effects,
       random = random_effects
@@ -249,7 +249,7 @@ mixed_model_using_splits_with_time_correction <- function(data,
     # weights = weights
   )
 
-  return(list(
+  return(new_shorts_mixed_model(
     parameters = list(
       fixed = fixed_effects,
       random = random_effects
@@ -356,7 +356,7 @@ mixed_model_using_splits_with_corrections <- function(data,
     # weights = weights
   )
 
-  return(list(
+  return(new_shorts_mixed_model(
     parameters = list(
       fixed = fixed_effects,
       random = random_effects

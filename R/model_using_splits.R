@@ -135,7 +135,7 @@ model_using_splits <- function(distance,
   )
 
   # Return object
-  return(list(
+  return(new_shorts_model(
     parameters = list(
       MSS = MSS,
       TAU = TAU,
@@ -212,7 +212,7 @@ model_using_splits_with_time_correction <- function(distance,
   )
 
   # Return object
-  return(list(
+  return(new_shorts_model(
     parameters = list(
       MSS = MSS,
       TAU = TAU,
@@ -292,7 +292,7 @@ model_using_splits_with_corrections <- function(distance,
   )
 
   # Return object
-  return(list(
+  return(new_shorts_model(
     parameters = list(
       MSS = MSS,
       TAU = TAU,

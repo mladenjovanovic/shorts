@@ -1,5 +1,7 @@
 # shorts (development version)
 
+* Used constructor functions for all modeling functions
+
 # shorts 1.0.1
 
 * Corrected the error in vignette that showed on Solaris system. Increased the random noise to allow nls to fit
