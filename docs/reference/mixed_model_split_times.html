@@ -287,24 +287,18 @@ be modeled as random effects? Default is FALSE</p></td>
 
 <span class='co'># mixed_model$parameters</span>
 <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>mixed_model</span>)</div><div class='output co'>#&gt; $fixed
-#&gt;                 MSS                 TAU     time_correction                 MAC 
-#&gt;           8.3040140           0.9687348           0.1989677           8.5720197 
-#&gt;                PMAX distance_correction 
-#&gt;          17.7955429           0.0000000 
+#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;           8.3040140           0.9687348           8.5720197          17.7955429 
+#&gt;     time_correction distance_correction 
+#&gt;           0.1989677           0.0000000 
 #&gt; 
 #&gt; $random
-#&gt;     athlete       MSS       TAU time_correction       MAC     PMAX
-#&gt; 1     James 10.186327 1.2429367       0.1989677  8.195370 20.87018
-#&gt; 2       Jim  7.946099 0.7643674       0.1989677 10.395655 20.65123
-#&gt; 3      John  7.996262 1.0488272       0.1989677  7.624003 15.24088
-#&gt; 4 Kimberley  8.899472 1.1615147       0.1989677  7.661953 17.04683
-#&gt; 5  Samantha  6.491911 0.6260282       0.1989677 10.369998 16.83028
-#&gt;   distance_correction
-#&gt; 1                   0
-#&gt; 2                   0
-#&gt; 3                   0
-#&gt; 4                   0
-#&gt; 5                   0
+#&gt;         MSS       TAU       MAC     PMAX time_correction distance_correction
+#&gt; 1 10.186327 1.2429367  8.195370 20.87018       0.1989677                   0
+#&gt; 2  7.946099 0.7643674 10.395655 20.65123       0.1989677                   0
+#&gt; 3  7.996262 1.0488272  7.624003 15.24088       0.1989677                   0
+#&gt; 4  8.899472 1.1615147  7.661953 17.04683       0.1989677                   0
+#&gt; 5  6.491911 0.6260282 10.369998 16.83028       0.1989677                   0
 #&gt; </div><div class='input'>
 <span class='no'>mixed_model</span> <span class='kw'>&lt;-</span> <span class='fu'>mixed_model_using_splits_with_corrections</span>(
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>split_times</span>,
@@ -315,24 +309,18 @@ be modeled as random effects? Default is FALSE</p></td>
 
 <span class='co'># mixed_model$parameters</span>
 <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>mixed_model</span>)</div><div class='output co'>#&gt; $fixed
-#&gt;                 MSS                 TAU     time_correction distance_correction 
-#&gt;          8.30214146          0.96451514          0.19182206         -0.03160813 
-#&gt;                 MAC                PMAX 
-#&gt;          8.60758021         17.86533713 
+#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;          8.30214146          0.96451514          8.60758021         17.86533713 
+#&gt;     time_correction distance_correction 
+#&gt;          0.19182206         -0.03160813 
 #&gt; 
 #&gt; $random
-#&gt;     athlete       MSS       TAU time_correction distance_correction       MAC
-#&gt; 1     James 10.181185 1.2365903       0.1918221         -0.03160813  8.233273
-#&gt; 2       Jim  7.945162 0.7606548       0.1918221         -0.03160813 10.445161
-#&gt; 3      John  7.995271 1.0449746       0.1918221         -0.03160813  7.651163
-#&gt; 4 Kimberley  8.897262 1.1566801       0.1918221         -0.03160813  7.692068
-#&gt; 5  Samantha  6.491827 0.6236760       0.1918221         -0.03160813 10.408973
-#&gt;       PMAX
-#&gt; 1 20.95612
-#&gt; 2 20.74713
-#&gt; 3 15.29328
-#&gt; 4 17.10959
-#&gt; 5 16.89331
+#&gt;         MSS       TAU       MAC     PMAX time_correction distance_correction
+#&gt; 1 10.181185 1.2365903  8.233273 20.95612       0.1918221         -0.03160813
+#&gt; 2  7.945162 0.7606548 10.445161 20.74713       0.1918221         -0.03160813
+#&gt; 3  7.995271 1.0449746  7.651163 15.29328       0.1918221         -0.03160813
+#&gt; 4  8.897262 1.1566801  7.692068 17.10959       0.1918221         -0.03160813
+#&gt; 5  6.491827 0.6236760 10.408973 16.89331       0.1918221         -0.03160813
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

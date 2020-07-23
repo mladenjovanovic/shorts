@@ -212,16 +212,24 @@ This correction is done by adding <code>time_correction</code> to <code>time</co
 
 <span class='co'>#mixed_model$parameters</span>
 <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>mixed_model</span>)</div><div class='output co'>#&gt; $fixed
-#&gt;       MSS       TAU       MAC      PMAX 
-#&gt;  8.301178  1.007782  8.237080 17.094367 
+#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;            8.301178            1.007782            8.237080           17.094367 
+#&gt;     time_correction distance_correction 
+#&gt;            0.000000            0.000000 
 #&gt; 
 #&gt; $random
-#&gt;     athlete      MSS       TAU      MAC     PMAX
-#&gt; 1     James 9.998556 1.1108457 9.000851 22.49888
-#&gt; 2       Jim 7.997945 0.8886712 8.999892 17.99516
-#&gt; 3      John 8.000051 1.0690357 7.483427 14.96695
-#&gt; 4 Kimberley 9.005500 1.2855706 7.005061 15.77102
-#&gt; 5  Samantha 6.503839 0.6847851 9.497635 15.44277
+#&gt;     athlete      MSS       TAU      MAC     PMAX time_correction
+#&gt; 1     James 9.998556 1.1108457 9.000851 22.49888               0
+#&gt; 2       Jim 7.997945 0.8886712 8.999892 17.99516               0
+#&gt; 3      John 8.000051 1.0690357 7.483427 14.96695               0
+#&gt; 4 Kimberley 9.005500 1.2855706 7.005061 15.77102               0
+#&gt; 5  Samantha 6.503839 0.6847851 9.497635 15.44277               0
+#&gt;   distance_correction
+#&gt; 1                   0
+#&gt; 2                   0
+#&gt; 3                   0
+#&gt; 4                   0
+#&gt; 5                   0
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

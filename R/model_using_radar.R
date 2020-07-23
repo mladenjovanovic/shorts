@@ -191,7 +191,8 @@ mixed_model_using_radar <- function(data,
   fixed_effects <- data.frame(t(fixed_effects))
   fixed_effects$MAC <- fixed_effects$MSS / fixed_effects$TAU
   fixed_effects$PMAX <- (fixed_effects$MSS * fixed_effects$MAC) / 4
-
+  fixed_effects$time_correction <- time_correction
+  fixed_effects$distance_correction <- 0
 
   random_effects$athlete <- rownames(random_effects)
   random_effects$MSS <- random_effects$MSS + fixed_effects$MSS
@@ -200,6 +201,8 @@ mixed_model_using_radar <- function(data,
   random_effects <- random_effects[c("athlete", "MSS", "TAU")]
   random_effects$MAC <- random_effects$MSS / random_effects$TAU
   random_effects$PMAX <- (random_effects$MSS * random_effects$MAC) / 4
+  random_effects$time_correction <- time_correction
+  random_effects$distance_correction <- 0
 
   # Model fit
   pred_velocity <- stats::predict(mixed_model, newdata = df)

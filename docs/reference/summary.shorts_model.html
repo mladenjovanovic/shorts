@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • shorts</title>
+<title>S3 method for providing summary for the <code>shorts_model</code> object — summary.shorts_model • shorts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="S3 method for providing summary for the <code>shorts_model</code> object — summary.shorts_model" />
+<meta property="og:description" content="S3 method for providing summary for the shorts_model object" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -66,7 +67,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -130,75 +131,66 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
+    <h1>S3 method for providing summary for the <code>shorts_model</code> object</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/R/shorts_S3.R'><code>R/shorts_S3.R</code></a></small>
+    <div class="hidden name"><code>summary.shorts_model.Rd</code></div>
     </div>
 
-    <div id="shorts-development-version" class="section level1">
-<h1 class="page-header" data-toc-text="development version">
-<a href="#shorts-development-version" class="anchor"></a>shorts (development version)<small> Unreleased </small>
-</h1>
-<ul>
-<li>Used constructor functions for all modeling functions</li>
-<li>Added modular short_model_fit function with three extra estimators: MAE, MAPE, and MaxAbsErr. This function is hidden from the user, but allows easier extension and modularity as well avoidance of code repetition</li>
-<li>Added <code>time_correction</code> and <code>distance_correction</code> to all model parameters output to align them</li>
-<li>Added S3 <code>predict</code> function that predicts 0-6s distance (100Hz), velocity, acceleration, and relative power</li>
-<li>Added S3 <code>print</code>, <code>coef</code>, <code>summary</code>, and <code>residuals</code> methods</li>
-</ul>
-</div>
-    <div id="shorts-101" class="section level1">
-<h1 class="page-header" data-toc-text="1.0.1">
-<a href="#shorts-101" class="anchor"></a>shorts 1.0.1<small> 2020-05-08 </small>
-</h1>
-<ul>
-<li>Corrected the error in vignette that showed on Solaris system. Increased the random noise to allow nls to fit</li>
-</ul>
-</div>
-    <div id="shorts-100" class="section level1">
-<h1 class="page-header" data-toc-text="1.0.0">
-<a href="#shorts-100" class="anchor"></a>shorts 1.0.0<small> 2020-05-05 </small>
-</h1>
-<ul>
-<li>Renamed <code>time_delay</code> to <code>time_correction</code> in <code>shorts::model_using_instant_velocity</code> and <code>shorts::mixed_model_using_instant_velocity</code> functions to be more consistent across functions. Also, this correction is <strong>added</strong> to time, so use negative numbers instead</li>
-<li>
-<code>time_correction</code> in <code>shorts::mixed_model_using_instant_velocity</code> and <code>shorts::mixed_model_using_split_times</code> is now numeric vector, not column name</li>
-<li>Implemented <code>time_correction</code> in <code>shorts::model_using_split_times</code> and <code>shorts::mixed_model_using_split_times</code>
-</li>
-<li>Implemented <code>time_correction</code> in <code>shorts:predict_</code> family of functions</li>
-<li>Implemented <code>distance_correction</code> in <code>shorts:predict_</code> family of functions</li>
-<li>Implemented estimation of <code>time_correction</code> in <code>shorts::model_using_split_times_with_time_correction</code> and <code>shorts::mixed_model_using_split_times_with_time_correction</code>
-</li>
-<li>Implemented estimation of <code>distance_correction</code> in <code>shorts::model_using_split_times_with_corrections</code> and <code>shorts::mixed_model_using_split_times_with_corrections</code>
-</li>
-<li>Fixed error in calculating PMAX in <code>shorts::mixed_model_</code> functions</li>
-<li>Removed <code>maxAbsErr</code> from model_fit element</li>
-<li>Wrote “sprint-corrections” vignette explaining the idea behind sprint time and distance corrections</li>
-<li>Implemented <code>find_</code> family of functions for finding max power and critical distance when velocity or acceleration reaches certain threshold</li>
-<li>Implemented <code>...</code> to all modeling functions so that extra parameters can be forwarded to the optimization engine</li>
-<li>Data <code>split_times</code> recreated using distance shift behind the first timing gate. Needed to demo mixed models with corrections</li>
-<li>Renamed <code>_model_using_instant_velocity</code> to <code>_model_using_radar</code>
-</li>
-<li>Renamed <code>_model_using_split_times_</code> to <code>_model_using_splits_</code>
-</li>
-</ul>
-</div>
-    <div id="shorts-001" class="section level1">
-<h1 class="page-header" data-toc-text="0.0.1">
-<a href="#shorts-001" class="anchor"></a>shorts 0.0.1<small> 2020-04-23 </small>
-</h1>
-<ul>
-<li>Initial version with all core functionalities</li>
-<li>This package was submitted to CRAN on 2020-04-17. (commit b59402c9c5)</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>S3 method for providing summary for the <code>shorts_model</code> object</p>
+    </div>
 
+    <pre class="usage"><span class='co'># S3 method for shorts_model</span>
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p><code>shorts_model</code> object</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Not used</p></td>
+    </tr>
+    </table>
+
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>split_times</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+  <span class='kw'>distance</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>30</span>, <span class='fl'>35</span>),
+  <span class='kw'>time</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1.20</span>, <span class='fl'>1.96</span>, <span class='fl'>3.36</span>, <span class='fl'>4.71</span>, <span class='fl'>5.35</span>)
+)
+
+<span class='co'># Simple model</span>
+<span class='no'>simple_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(
+  <span class='no'>split_times</span>,
+  <span class='fu'><a href='model_split_times.html'>model_using_splits</a></span>(<span class='no'>distance</span>, <span class='no'>time</span>)
+)
+
+<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>simple_model</span>)</div><div class='output co'>#&gt; 
+#&gt; Formula: corrected_time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS * 
+#&gt;     TAU) - 1))) + distance/MSS + TAU
+#&gt; 
+#&gt; Parameters:
+#&gt;     Estimate Std. Error t value Pr(&gt;|t|)    
+#&gt; MSS  7.39375    0.06348  116.48  1.4e-06 ***
+#&gt; TAU  0.63774    0.02965   21.51  0.00022 ***
+#&gt; ---
+#&gt; Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#&gt; 
+#&gt; Residual standard error: 0.0224 on 3 degrees of freedom
+#&gt; 
+#&gt; Number of iterations to convergence: 4 
+#&gt; Achieved convergence tolerance: 3.406e-07
+#&gt; </div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
-
 </div>
 
 

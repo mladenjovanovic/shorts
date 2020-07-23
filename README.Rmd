@@ -61,11 +61,17 @@ kimberley_profile <- shorts::model_using_splits(
   distance = kimberley_data$distance,
   time = kimberley_data$time)  
 
-# Parameters
-unlist(kimberley_profile$parameters)
+kimberley_profile
 
-# Model performance/fit
-unlist(kimberley_profile$model_fit)
+summary(kimberley_profile)
+
+coef(kimberley_profile)
+```
+
+To show used data and predicted outcome (in this case time variable), explore the returned object:
+
+```{r}
+kimberley_profile$data
 ```
 
 `shorts::model_using_splits` returns an object with `parameters`, `model_fit`, `model` returned from `stats::nls` function and `data` used to estimate parameters. Parameters estimated using mono-exponential equation are *maximal sprinting speed* (MSS), and *relative acceleration* (TAU). Additional parameters computed from MSS and TAU are *maximal acceleration* (MAC) and *maximal relative power* (PMAX). 
@@ -125,6 +131,19 @@ ggplot(kimberley_pred, aes(x = distance, y = value)) +
   ylab(NULL)
 ```
 
+To do prediction simpler, use `predict` function. This will provide kinematics for 0-6s sprint using 100Hz. 
+
+```{r}
+predicted_kinematics <- predict(kimberley_profile)
+head(predicted_kinematics)
+```
+
+To get model residuals, use `residuals` function:
+
+```{r}
+residuals(kimberley_profile)
+```
+
 Package `shorts` comes with `find_` family of functions that allow finding peak power and it's location, as well as *critical distance* over which velocity, acceleration, or power drops below certain threshold:
 
 ```{r}
@@ -168,11 +187,9 @@ mixed_model <- shorts::mixed_model_using_splits(
   athlete = "athlete"
 )
 
-# Parameters
-mixed_model$parameters
+mixed_model
 
-# Model performance/fit
-unlist(mixed_model$model_fit)
+summary(mixed_model)
 ```
 
 `shorts::mixed_model_using_splits` return the similar object, but `parameters` contain two elements: `fixed` and `random`. 
@@ -211,11 +228,9 @@ jim_profile <- shorts::model_using_radar(
   velocity = jim_data$velocity
 )
 
-# Parameters
-unlist(jim_profile$parameters)
+jim_profile
 
-# Model performance/fit
-unlist(jim_profile$model_fit)
+summary(jim_profile)
 ```
 
 The object returned from `shorts::model_using_radar` is same as object returned from `shorts::model_using_splits`. Let's plot Jim's measured velocity and predicted velocity: 
@@ -239,27 +254,17 @@ mixed_model <- shorts::mixed_model_using_radar(
   athlete = "athlete"
 )
 
-mixed_model$parameters
+mixed_model
 
-mixed_model$model_fit
+summary(mixed_model)
 ```
 
 Let's plot predicted acceleration over time (0-6sec) for athletes in the `radar_gun_data` data set:
 
 ```{r}
-acceleration_over_time <- merge(
-    mixed_model$parameters$random,
-    data.frame(time = seq(0, 6, length.out = 100))
-)
+model_predictions <- predict(mixed_model)
 
-acceleration_over_time$pred_acceleration <- with(acceleration_over_time,
-  shorts::predict_acceleration_at_time(
-    time = time,
-    MSS = MSS,
-    TAU = TAU)
-)
-
-ggplot(acceleration_over_time, aes(x = time, y = pred_acceleration, color = athlete)) +
+ggplot(model_predictions, aes(x = time, y = acceleration, color = athlete)) +
   theme_bw() +
   geom_line() +
   xlab("Time (s)") +
@@ -285,11 +290,9 @@ mixed_model_corrected <- shorts::mixed_model_using_splits(
   time_correction = 0.3
 )
 
-# Parameters
-mixed_model$parameters
+mixed_model_corrected
 
-# Model performance/fit
-unlist(mixed_model$model_fit)
+summary(mixed_model_corrected)
 ```
 
 And `time_correction` can also be used in `predict_` and `find_` family of functions:
@@ -322,12 +325,7 @@ kimberley_profile_with_time_correction <- shorts::model_using_splits_with_time_c
   distance = kimberley_data$distance,
   time = kimberley_data$time)  
 
-# Parameters
-unlist(kimberley_profile_with_time_correction$parameters)
-
-# Model performance/fit
-unlist(kimberley_profile_with_time_correction$model_fit)
-
+kimberley_profile_with_time_correction
 
 # Mixed-effect model using `time_correction` as fixed effect only
 # To use `time_correction` as random effects, use corrections_as_random_effects = TRUE
@@ -340,10 +338,7 @@ mixed_model_with_time_correction <- shorts::mixed_model_using_splits_with_time_c
 )
 
 # Parameters
-mixed_model_with_time_correction$parameters
-
-# Model performance/fit
-unlist(mixed_model_with_time_correction$model_fit)
+mixed_model_with_time_correction
 ```
 
 For more details, please refer to `sprint-corrections` [vignette](https://mladenjovanovic.github.io/shorts/articles/sprint-corrections.html).

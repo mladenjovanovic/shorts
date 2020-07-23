@@ -236,6 +236,10 @@ mixed_model_using_splits_with_time_correction <- function(data,
   random_effects$PMAX <- (random_effects$MSS * random_effects$MAC) / 4
   random_effects$distance_correction <- 0
 
+  # Sort
+  fixed_effects <- fixed_effects[c("MSS", "TAU", "MAC", "PMAX", "time_correction", "distance_correction")]
+  random_effects <- random_effects[c("MSS", "TAU", "MAC", "PMAX", "time_correction", "distance_correction")]
+
   # Model fit
   pred_time <- stats::predict(mixed_model, newdata = df)
 
@@ -336,6 +340,11 @@ mixed_model_using_splits_with_corrections <- function(data,
   random_effects <- random_effects[c("athlete", "MSS", "TAU", "time_correction", "distance_correction")]
   random_effects$MAC <- random_effects$MSS / random_effects$TAU
   random_effects$PMAX <- (random_effects$MSS * random_effects$MAC) / 4
+
+  # Sort
+  fixed_effects <- fixed_effects[c("MSS", "TAU", "MAC", "PMAX", "time_correction", "distance_correction")]
+  random_effects <- random_effects[c("MSS", "TAU", "MAC", "PMAX", "time_correction", "distance_correction")]
+
 
   # Model fit
 
