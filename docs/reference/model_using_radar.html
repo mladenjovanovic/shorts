@@ -208,18 +208,11 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
   <span class='fu'>model_using_radar</span>(<span class='no'>time</span>, <span class='no'>velocity</span>)
 )
 
-<span class='no'>sprint_model</span>$<span class='no'>parameters</span></div><div class='output co'>#&gt; $MSS
-#&gt; [1] 7.00323
-#&gt; 
-#&gt; $TAU
-#&gt; [1] 0.8013733
-#&gt; 
-#&gt; $MAC
-#&gt; [1] 8.739036
-#&gt; 
-#&gt; $PMAX
-#&gt; [1] 15.30037
-#&gt; </div></pre>
+<span class='co'># sprint_model$parameters</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>sprint_model</span>)</div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;           7.0032304           0.8013733           8.7390359          15.3003704 
+#&gt;     time_correction distance_correction 
+#&gt;           0.0000000           0.0000000 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

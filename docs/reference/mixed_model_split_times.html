@@ -256,17 +256,27 @@ be modeled as random effects? Default is FALSE</p></td>
   <span class='kw'>time</span> <span class='kw'>=</span> <span class='st'>"time"</span>,
   <span class='kw'>athlete</span> <span class='kw'>=</span> <span class='st'>"athlete"</span>
 )
-<span class='no'>mixed_model</span>$<span class='no'>parameters</span></div><div class='output co'>#&gt; $fixed
-#&gt;        MSS       TAU      MAC     PMAX
-#&gt; 1 8.064911 0.6551988 12.30911 24.81796
+
+<span class='co'># mixed_model$parameters</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>mixed_model</span>)</div><div class='output co'>#&gt; $fixed
+#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;           8.0649112           0.6551988          12.3091052          24.8179600 
+#&gt;     time_correction distance_correction 
+#&gt;           0.0000000           0.0000000 
 #&gt; 
 #&gt; $random
-#&gt;     athlete      MSS       TAU      MAC     PMAX
-#&gt; 1     James 9.691736 0.8469741 11.44278 27.72510
-#&gt; 2       Jim 7.833622 0.5048535 15.51663 30.38785
-#&gt; 3      John 7.780395 0.7274302 10.69573 20.80424
-#&gt; 4 Kimberley 8.569518 0.8022235 10.68221 22.88535
-#&gt; 5  Samantha 6.449284 0.3945129 16.34746 26.35735
+#&gt;     athlete      MSS       TAU      MAC     PMAX time_correction
+#&gt; 1     James 9.691736 0.8469741 11.44278 27.72510               0
+#&gt; 2       Jim 7.833622 0.5048535 15.51663 30.38785               0
+#&gt; 3      John 7.780395 0.7274302 10.69573 20.80424               0
+#&gt; 4 Kimberley 8.569518 0.8022235 10.68221 22.88535               0
+#&gt; 5  Samantha 6.449284 0.3945129 16.34746 26.35735               0
+#&gt;   distance_correction
+#&gt; 1                   0
+#&gt; 2                   0
+#&gt; 3                   0
+#&gt; 4                   0
+#&gt; 5                   0
 #&gt; </div><div class='input'>
 <span class='no'>mixed_model</span> <span class='kw'>&lt;-</span> <span class='fu'>mixed_model_using_splits_with_time_correction</span>(
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>split_times</span>,
@@ -274,9 +284,13 @@ be modeled as random effects? Default is FALSE</p></td>
   <span class='kw'>time</span> <span class='kw'>=</span> <span class='st'>"time"</span>,
   <span class='kw'>athlete</span> <span class='kw'>=</span> <span class='st'>"athlete"</span>
 )
-<span class='no'>mixed_model</span>$<span class='no'>parameters</span></div><div class='output co'>#&gt; $fixed
-#&gt;        MSS       TAU time_correction     MAC     PMAX
-#&gt; 1 8.304014 0.9687348       0.1989677 8.57202 17.79554
+
+<span class='co'># mixed_model$parameters</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>mixed_model</span>)</div><div class='output co'>#&gt; $fixed
+#&gt;                 MSS                 TAU     time_correction                 MAC 
+#&gt;           8.3040140           0.9687348           0.1989677           8.5720197 
+#&gt;                PMAX distance_correction 
+#&gt;          17.7955429           0.0000000 
 #&gt; 
 #&gt; $random
 #&gt;     athlete       MSS       TAU time_correction       MAC     PMAX
@@ -285,6 +299,12 @@ be modeled as random effects? Default is FALSE</p></td>
 #&gt; 3      John  7.996262 1.0488272       0.1989677  7.624003 15.24088
 #&gt; 4 Kimberley  8.899472 1.1615147       0.1989677  7.661953 17.04683
 #&gt; 5  Samantha  6.491911 0.6260282       0.1989677 10.369998 16.83028
+#&gt;   distance_correction
+#&gt; 1                   0
+#&gt; 2                   0
+#&gt; 3                   0
+#&gt; 4                   0
+#&gt; 5                   0
 #&gt; </div><div class='input'>
 <span class='no'>mixed_model</span> <span class='kw'>&lt;-</span> <span class='fu'>mixed_model_using_splits_with_corrections</span>(
   <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>split_times</span>,
@@ -292,9 +312,13 @@ be modeled as random effects? Default is FALSE</p></td>
   <span class='kw'>time</span> <span class='kw'>=</span> <span class='st'>"time"</span>,
   <span class='kw'>athlete</span> <span class='kw'>=</span> <span class='st'>"athlete"</span>
 )
-<span class='no'>mixed_model</span>$<span class='no'>parameters</span></div><div class='output co'>#&gt; $fixed
-#&gt;        MSS       TAU time_correction distance_correction     MAC     PMAX
-#&gt; 1 8.302141 0.9645151       0.1918221         -0.03160813 8.60758 17.86534
+
+<span class='co'># mixed_model$parameters</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>mixed_model</span>)</div><div class='output co'>#&gt; $fixed
+#&gt;                 MSS                 TAU     time_correction distance_correction 
+#&gt;          8.30214146          0.96451514          0.19182206         -0.03160813 
+#&gt;                 MAC                PMAX 
+#&gt;          8.60758021         17.86533713 
 #&gt; 
 #&gt; $random
 #&gt;     athlete       MSS       TAU time_correction distance_correction       MAC

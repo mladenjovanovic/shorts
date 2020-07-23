@@ -49,7 +49,9 @@ This function models the sprint instantaneous velocity using mono-exponential eq
 \examples{
 data("radar_gun_data")
 mixed_model <- mixed_model_using_radar(radar_gun_data, "time", "velocity", "athlete")
-mixed_model$parameters
+
+#mixed_model$parameters
+coef(mixed_model)
 }
 \references{
 Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical

@@ -45,7 +45,9 @@
 #'   time = "time",
 #'   athlete = "athlete"
 #' )
-#' mixed_model$parameters
+#'
+#' # mixed_model$parameters
+#' coef(mixed_model)
 #'
 #' mixed_model <- mixed_model_using_splits_with_time_correction(
 #'   data = split_times,
@@ -53,7 +55,9 @@
 #'   time = "time",
 #'   athlete = "athlete"
 #' )
-#' mixed_model$parameters
+#'
+#' # mixed_model$parameters
+#' coef(mixed_model)
 #'
 #' mixed_model <- mixed_model_using_splits_with_corrections(
 #'   data = split_times,
@@ -61,7 +65,9 @@
 #'   time = "time",
 #'   athlete = "athlete"
 #' )
-#' mixed_model$parameters
+#'
+#' # mixed_model$parameters
+#' coef(mixed_model)
 #' @name mixed_model_split_times
 NULL
 
@@ -112,15 +118,19 @@ mixed_model_using_splits <- function(data,
   fixed_effects <- data.frame(t(fixed_effects))
   fixed_effects$MAC <- fixed_effects$MSS / fixed_effects$TAU
   fixed_effects$PMAX <- (fixed_effects$MSS * fixed_effects$MAC) / 4
-
+  fixed_effects$time_correction <- time_correction
+  fixed_effects$distance_correction <- 0
 
   random_effects$athlete <- rownames(random_effects)
   random_effects$MSS <- random_effects$MSS + fixed_effects$MSS
   random_effects$TAU <- random_effects$TAU + fixed_effects$TAU
   rownames(random_effects) <- NULL
+
   random_effects <- random_effects[c("athlete", "MSS", "TAU")]
   random_effects$MAC <- random_effects$MSS / random_effects$TAU
   random_effects$PMAX <- (random_effects$MSS * random_effects$MAC) / 4
+  random_effects$time_correction <- time_correction
+  random_effects$distance_correction <- 0
 
   # Model fit
 
@@ -208,7 +218,6 @@ mixed_model_using_splits_with_time_correction <- function(data,
   fixed_effects$MAC <- fixed_effects$MSS / fixed_effects$TAU
   fixed_effects$PMAX <- (fixed_effects$MSS * fixed_effects$MAC) / 4
 
-
   random_effects$athlete <- rownames(random_effects)
   random_effects$MSS <- random_effects$MSS + fixed_effects$MSS
   random_effects$TAU <- random_effects$TAU + fixed_effects$TAU
@@ -220,12 +229,14 @@ mixed_model_using_splits_with_time_correction <- function(data,
     random_effects$time_correction <- fixed_effects$time_correction
   }
 
+  fixed_effects$distance_correction <- 0
+
   random_effects <- random_effects[c("athlete", "MSS", "TAU", "time_correction")]
   random_effects$MAC <- random_effects$MSS / random_effects$TAU
   random_effects$PMAX <- (random_effects$MSS * random_effects$MAC) / 4
+  random_effects$distance_correction <- 0
 
   # Model fit
-
   pred_time <- stats::predict(mixed_model, newdata = df)
 
   model_fit <- shorts_model_fit(

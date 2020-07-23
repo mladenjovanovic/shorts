@@ -52,7 +52,8 @@ sprint_model <- with(
   model_using_radar(time, velocity)
 )
 
-sprint_model$parameters
+# sprint_model$parameters
+coef(sprint_model)
 }
 \references{
 Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical

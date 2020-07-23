@@ -149,7 +149,8 @@ model_using_splits <- function(distance,
       TAU = TAU,
       MAC = MAC,
       PMAX = PMAX,
-      time_correction = 0
+      time_correction = time_correction,
+      distance_correction = 0
     ),
     model_fit = model_fit,
     model = speed_mod,
@@ -222,7 +223,8 @@ model_using_splits_with_time_correction <- function(distance,
       TAU = TAU,
       MAC = MAC,
       PMAX = PMAX,
-      time_correction = time_correction
+      time_correction = time_correction,
+      distance_correction = 0
     ),
     model_fit = model_fit,
     model = speed_mod,

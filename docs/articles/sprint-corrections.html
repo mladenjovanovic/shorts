@@ -244,9 +244,9 @@
 <span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span>(<span class="no">split_parameters</span>) <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"John"</span>, <span class="st">"Jack"</span>)
 
 <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span>(<span class="no">split_parameters</span>, <span class="fl">2</span>)
-<span class="co">#&gt;       MSS  TAU   MAC  PMAX</span>
-<span class="co">#&gt; John 8.50 1.13  7.50 15.94</span>
-<span class="co">#&gt; Jack 8.14 0.62 13.15 26.77</span></pre></body></html></div>
+<span class="co">#&gt;       MSS  TAU   MAC  PMAX time_correction distance_correction</span>
+<span class="co">#&gt; John 8.50 1.13  7.50 15.94               0                   0</span>
+<span class="co">#&gt; Jack 8.14 0.62 13.15 26.77               0                   0</span></pre></body></html></div>
 <p>As can be seen from the output above, estimated sprint parameters are different. Particularly large difference can be seen for TAU, MAC, and PMAX. Let’s see the difference in model fit (please note that we have added very small noise to the data to allow for the model to be fitted):</p>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">split_model_fit</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span>(
   <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">john_split_params</span>$<span class="no">model_fit</span>),
@@ -302,8 +302,10 @@
 )
 
 <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_params_with_correction</span>$<span class="no">parameters</span>)
-<span class="co">#&gt;       MSS       TAU       MAC      PMAX </span>
-<span class="co">#&gt;  8.522139  1.116450  7.633248 16.262899</span></pre></body></html></div>
+<span class="co">#&gt;                 MSS                 TAU                 MAC                PMAX </span>
+<span class="co">#&gt;            8.522139            1.116450            7.633248           16.262899 </span>
+<span class="co">#&gt;     time_correction distance_correction </span>
+<span class="co">#&gt;            0.300000            0.000000</span></pre></body></html></div>
 <p>As can be seen, this is much better (very close to John’s profile). Here are the model fit metrics:</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_params_with_correction</span>$<span class="no">model_fit</span>)
 <span class="co">#&gt;          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE </span>
@@ -346,8 +348,10 @@
 )
 
 <span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_param_with_estimated_time_correction</span>$<span class="no">parameters</span>)
-<span class="co">#&gt;             MSS             TAU             MAC            PMAX time_correction </span>
-<span class="co">#&gt;       8.4736411       1.0627127       7.9735952      16.8913459       0.2720356</span></pre></body></html></div>
+<span class="co">#&gt;                 MSS                 TAU                 MAC                PMAX </span>
+<span class="co">#&gt;           8.4736411           1.0627127           7.9735952          16.8913459 </span>
+<span class="co">#&gt;     time_correction distance_correction </span>
+<span class="co">#&gt;           0.2720356           0.0000000</span></pre></body></html></div>
 <p>Here are the model fit metrics:</p>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">jack_param_with_estimated_time_correction</span>$<span class="no">model_fit</span>)
 <span class="co">#&gt;           RSE     R_squared        minErr        maxErr     maxAbsErr </span>

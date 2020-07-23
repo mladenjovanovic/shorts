@@ -2,7 +2,8 @@
 
 * Used constructor functions for all modeling functions
 * Added modular short_model_fit function with three extra estimators: MAE, MAPE, and MaxAbsErr. This function is hidden from the user, but allows easier extension and modularity as well avoidance of code repetition
-
+* Added `time_correction` and `distance_correction` to all model parameters output to align them
+* Added S3 `predict` function that predicts 0-6s distance (100Hz), velocity, acceleration, and relative power
 
 # shorts 1.0.1
 

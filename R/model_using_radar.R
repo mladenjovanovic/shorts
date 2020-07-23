@@ -37,7 +37,8 @@
 #'   model_using_radar(time, velocity)
 #' )
 #'
-#' sprint_model$parameters
+#' # sprint_model$parameters
+#' coef(sprint_model)
 model_using_radar <- function(time,
                               velocity,
                               time_correction = 0,
@@ -100,7 +101,9 @@ model_using_radar <- function(time,
       MSS = MSS,
       TAU = TAU,
       MAC = MAC,
-      PMAX = PMAX
+      PMAX = PMAX,
+      time_correction = time_correction,
+      distance_correction = 0
     ),
     model_fit = model_fit,
     model = speed_mod,
@@ -142,7 +145,9 @@ model_using_radar <- function(time,
 #' @examples
 #' data("radar_gun_data")
 #' mixed_model <- mixed_model_using_radar(radar_gun_data, "time", "velocity", "athlete")
-#' mixed_model$parameters
+#'
+#' #mixed_model$parameters
+#' coef(mixed_model)
 mixed_model_using_radar <- function(data,
                                     time,
                                     velocity,

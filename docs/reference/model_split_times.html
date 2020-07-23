@@ -242,28 +242,42 @@ more weight to observations from shorter distances.</p></td>
   <span class='no'>split_times</span>,
   <span class='fu'>model_using_splits</span>(<span class='no'>distance</span>, <span class='no'>time</span>)
 )
-<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>simple_model</span>$<span class='no'>parameters</span>)</div><div class='output co'>#&gt;        MSS        TAU        MAC       PMAX 
-#&gt;  7.3937467  0.6377437 11.5936019 21.4300389 </div><div class='input'>
+
+<span class='co'># unlist(simple_model$parameters)</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>simple_model</span>)</div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;           7.3937467           0.6377437          11.5936019          21.4300389 
+#&gt;     time_correction distance_correction 
+#&gt;           0.0000000           0.0000000 </div><div class='input'>
 <span class='co'># Model with correction of 0.3s</span>
 <span class='no'>model_with_correction</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(
   <span class='no'>split_times</span>,
   <span class='fu'>model_using_splits</span>(<span class='no'>distance</span>, <span class='no'>time</span>, <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0.3</span>)
 )
-<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>model_with_correction</span>$<span class='no'>parameters</span>)</div><div class='output co'>#&gt;       MSS       TAU       MAC      PMAX 
-#&gt;  7.741672  1.137652  6.804956 13.170434 </div><div class='input'>
+
+<span class='co'># unlist(model_with_correction$parameters)</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>model_with_correction</span>)</div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;            7.741672            1.137652            6.804956           13.170434 
+#&gt;     time_correction distance_correction 
+#&gt;            0.300000            0.000000 </div><div class='input'>
 <span class='co'># Model with time_correction estimation</span>
 <span class='no'>model_with_time_correction_estimation</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(
   <span class='no'>split_times</span>,
   <span class='fu'>model_using_splits_with_time_correction</span>(<span class='no'>distance</span>, <span class='no'>time</span>)
 )
-<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>model_with_time_correction_estimation</span>$<span class='no'>parameters</span>)</div><div class='output co'>#&gt;             MSS             TAU             MAC            PMAX time_correction 
-#&gt;       7.5452583       0.8851386       8.5243805      16.0796632       0.1612379 </div><div class='input'>
+
+<span class='co'>#unlist(model_with_time_correction_estimation$parameters)</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>model_with_time_correction_estimation</span>)</div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;           7.5452583           0.8851386           8.5243805          16.0796632 
+#&gt;     time_correction distance_correction 
+#&gt;           0.1612379           0.0000000 </div><div class='input'>
 <span class='co'># Model with time and distance correction estimation</span>
 <span class='no'>model_with_time_distance_correction_estimation</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(
   <span class='no'>split_times</span>,
   <span class='fu'>model_using_splits_with_corrections</span>(<span class='no'>distance</span>, <span class='no'>time</span>)
 )
-<span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span>(<span class='no'>model_with_time_distance_correction_estimation</span>$<span class='no'>parameters</span>)</div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
+
+<span class='co'># unlist(model_with_time_distance_correction_estimation$parameters)</span>
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>model_with_time_distance_correction_estimation</span>)</div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
 #&gt;            8.070141            2.684240            3.006490            6.065701 
 #&gt;     time_correction distance_correction 
 #&gt;            3.038271           12.015492 </div></pre>

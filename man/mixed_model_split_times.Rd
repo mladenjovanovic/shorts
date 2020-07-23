@@ -90,7 +90,9 @@ mixed_model <- mixed_model_using_splits(
   time = "time",
   athlete = "athlete"
 )
-mixed_model$parameters
+
+# mixed_model$parameters
+coef(mixed_model)
 
 mixed_model <- mixed_model_using_splits_with_time_correction(
   data = split_times,
@@ -98,7 +100,9 @@ mixed_model <- mixed_model_using_splits_with_time_correction(
   time = "time",
   athlete = "athlete"
 )
-mixed_model$parameters
+
+# mixed_model$parameters
+coef(mixed_model)
 
 mixed_model <- mixed_model_using_splits_with_corrections(
   data = split_times,
@@ -106,7 +110,9 @@ mixed_model <- mixed_model_using_splits_with_corrections(
   time = "time",
   athlete = "athlete"
 )
-mixed_model$parameters
+
+# mixed_model$parameters
+coef(mixed_model)
 }
 \references{
 Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
