@@ -64,7 +64,7 @@
 #'   model_using_splits_with_time_correction(distance, time)
 #' )
 #'
-#' #unlist(model_with_time_correction_estimation$parameters)
+#' # unlist(model_with_time_correction_estimation$parameters)
 #' coef(model_with_time_correction_estimation)
 #'
 #' # Model with time and distance correction estimation

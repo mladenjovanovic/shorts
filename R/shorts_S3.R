@@ -13,7 +13,7 @@
 #'   model_using_splits(distance, time)
 #' )
 #'
-#' #unlist(simple_model$parameters)
+#' # unlist(simple_model$parameters)
 #' coef(simple_model)
 #' @export
 coef.shorts_model <- function(object, ...) {
@@ -64,7 +64,6 @@ coef.shorts_mixed_model <- function(object, ...) {
 #' head(predict(simple_model))
 #' @export
 predict.shorts_model <- function(object, ...) {
-
   df <- data.frame(
     time = seq(0, 6, length.out = 6 * 100 + 1)
   )
@@ -180,8 +179,7 @@ predict.shorts_mixed_model <- function(object, ...) {
 #'
 #' print(simple_model)
 #' @export
-print.shorts_model <- function(x, ...){
-
+print.shorts_model <- function(x, ...) {
   cat("Estimated model parameters\n")
   cat("--------------------------\n")
   print(unlist(x$parameters))
@@ -209,8 +207,7 @@ print.shorts_model <- function(x, ...){
 #'
 #' summary(simple_model)
 #' @export
-summary.shorts_model <- function(object, ...){
-
+summary.shorts_model <- function(object, ...) {
   summary(object$model)
 }
 
@@ -230,8 +227,7 @@ summary.shorts_model <- function(object, ...){
 #'
 #' print(mixed_model)
 #' @export
-print.shorts_mixed_model <- function(x, ...){
-
+print.shorts_mixed_model <- function(x, ...) {
   cat("Estimated fixed model parameters\n")
   cat("--------------------------------\n")
   print(unlist(x$parameters$fixed))
@@ -260,7 +256,7 @@ print.shorts_mixed_model <- function(x, ...){
 #'
 #' summary(mixed_model)
 #' @export
-summary.shorts_mixed_model <- function(object, ...){
+summary.shorts_mixed_model <- function(object, ...) {
   summary(object$model)
 }
 

@@ -26,6 +26,6 @@ simple_model <- with(
   model_using_splits(distance, time)
 )
 
-#unlist(simple_model$parameters)
+# unlist(simple_model$parameters)
 coef(simple_model)
 }
