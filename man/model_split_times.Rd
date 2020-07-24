@@ -30,6 +30,7 @@ model_using_splits_with_corrections(
   distance,
   time,
   weights = 1,
+  LOOCV = FALSE,
   na.rm = FALSE,
   ...
 )
