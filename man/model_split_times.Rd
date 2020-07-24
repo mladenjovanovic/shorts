@@ -21,6 +21,7 @@ model_using_splits_with_time_correction(
   distance,
   time,
   weights = 1,
+  LOOCV = FALSE,
   na.rm = FALSE,
   ...
 )

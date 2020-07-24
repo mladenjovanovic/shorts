@@ -176,7 +176,7 @@ model_using_splits <- function(distance,
     })
 
     # Extract predicted time
-    testing_pred_time <- sapply(testing, function(data)data$pred_time)
+    testing_pred_time <- sapply(testing, function(data) data$pred_time)
     testing_pred_time <- testing_pred_time - time_correction
 
     testing_model_fit <- shorts_model_fit(
@@ -186,7 +186,10 @@ model_using_splits <- function(distance,
     )
     # Extract model parameters
     testing_parameters <- as.data.frame(
-      t(sapply(testing, function(data){c(data$MSS, data$TAU, data$MAC, data$PMAX)})))
+      t(sapply(testing, function(data) {
+        c(data$MSS, data$TAU, data$MAC, data$PMAX)
+      }))
+    )
 
     colnames(testing_parameters) <- c("MSS", "TAU", "MAC", "PMAX")
     testing_parameters$time_correction <- time_correction
@@ -239,8 +242,46 @@ model_using_splits <- function(distance,
 model_using_splits_with_time_correction <- function(distance,
                                                     time,
                                                     weights = 1,
+                                                    LOOCV = FALSE,
                                                     na.rm = FALSE,
                                                     ...) {
+  run_model <- function(train, test, ...) {
+
+    # Non-linear model
+    speed_mod <- stats::nls(
+      time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU - time_correction,
+      data = train,
+      start = list(MSS = 7, TAU = 0.8, time_correction = 0),
+      weights = train$weights,
+      ...
+    )
+
+    # Maximal Sprinting Speed
+    MSS <- stats::coef(speed_mod)[[1]]
+    TAU <- stats::coef(speed_mod)[[2]]
+    time_correction <- stats::coef(speed_mod)[[3]]
+
+    # Maximal acceleration
+    MAC <- MSS / TAU
+
+    # Maximal Power (relative)
+    PMAX <- (MSS * MAC) / 4
+
+    # Model fit
+    pred_time <- TAU * I(LambertW::W(-exp(1)^(-test$distance / (MSS * TAU) - 1))) + test$distance / MSS + TAU - time_correction
+
+    return(list(
+      model = speed_mod,
+      MSS = MSS,
+      TAU = TAU,
+      MAC = MAC,
+      PMAX = PMAX,
+      time_correction = time_correction,
+      pred_time = pred_time
+    ))
+  }
+
+  # =========================
   # Put data into data frame
   df <- data.frame(
     distance = distance,
@@ -253,57 +294,98 @@ model_using_splits_with_time_correction <- function(distance,
     df <- stats::na.omit(df)
   }
 
-  # Non-linear model
-  speed_mod <- stats::nls(
-    time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU - time_correction,
-    data = df,
-    start = list(MSS = 7, TAU = 0.8, time_correction = 0),
-    weights = df$weights,
+
+  # Run model
+  training_model <- run_model(
+    train = df,
+    test = df,
     ...
   )
 
-  # Maximal Sprinting Speed
-  MSS <- stats::coef(speed_mod)[[1]]
-  TAU <- stats::coef(speed_mod)[[2]]
-  time_correction <- stats::coef(speed_mod)[[3]]
-
-  # Maximal acceleration
-  MAC <- MSS / TAU
-
-  # Maximal Power (relative)
-  PMAX <- (MSS * MAC) / 4
-
-  # Model fit
-  pred_time <- TAU * I(LambertW::W(-exp(1)^(-df$distance / (MSS * TAU) - 1))) + df$distance / MSS + TAU - time_correction
-
-  model_fit <- shorts_model_fit(
-    model = speed_mod,
+  training_model_fit <- shorts_model_fit(
+    model = training_model$model,
     observed = df$time,
-    predicted = pred_time,
+    predicted = training_model$pred_time,
     na.rm = na.rm
   )
+
+  # LOOCV
+  LOOCV_data <- NULL
+
+  if (LOOCV) {
+    cv_folds <- data.frame(index = seq_len(nrow(df)), df)
+    cv_folds <- split(cv_folds, cv_folds$index)
+
+    testing <- lapply(cv_folds, function(fold) {
+      train_data <- df[-fold$index, ]
+      test_data <- df[fold$index, ]
+
+      model <- run_model(
+        train = train_data,
+        test = test_data,
+        ...
+      )
+
+      return(model)
+    })
+
+    # Extract predicted time
+    testing_pred_time <- sapply(testing, function(data) data$pred_time)
+
+    testing_model_fit <- shorts_model_fit(
+      observed = df$time,
+      predicted = testing_pred_time,
+      na.rm = na.rm
+    )
+    # Extract model parameters
+    testing_parameters <- as.data.frame(
+      t(sapply(testing, function(data) {
+        c(data$MSS, data$TAU, data$MAC, data$PMAX, data$time_correction)
+      }))
+    )
+
+    colnames(testing_parameters) <- c("MSS", "TAU", "MAC", "PMAX", "time_correction")
+    testing_parameters$distance_correction <- 0
+
+    # Modify df
+    testing_df <- data.frame(
+      distance = distance,
+      time = time,
+      weights = weights,
+      pred_time = testing_pred_time
+    )
+
+    # Save everything in the object
+    LOOCV_data <- list(
+      parameters = testing_parameters,
+      model_fit = testing_model_fit,
+      data = testing_df
+    )
+  }
+
 
   # Add predicted time to df
   df <- data.frame(
     distance = distance,
     time = time,
     weights = weights,
-    pred_time = pred_time
+    pred_time = training_model$pred_time
   )
 
   # Return object
   return(new_shorts_model(
     parameters = list(
-      MSS = MSS,
-      TAU = TAU,
-      MAC = MAC,
-      PMAX = PMAX,
-      time_correction = time_correction,
+      MSS = training_model$MSS,
+      TAU = training_model$TAU,
+      MAC = training_model$MAC,
+      PMAX = training_model$PMAX,
+      time_correction = training_model$time_correction,
       distance_correction = 0
     ),
-    model_fit = model_fit,
-    model = speed_mod,
-    data = df
+    model_fit = training_model_fit,
+    model = training_model$model,
+    data = df,
+    LOOCV = LOOCV_data
   ))
 }
 
