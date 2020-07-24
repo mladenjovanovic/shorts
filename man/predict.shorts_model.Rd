@@ -2,7 +2,7 @@
 % Please edit documentation in R/shorts_S3.R
 \name{predict.shorts_model}
 \alias{predict.shorts_model}
-\title{S3 method for predicting kinematics from \code{shorts_model} object}
+\title{S3 method for returning predictions of \code{shorts_model}}
 \usage{
 \method{predict}{shorts_model}(object, ...)
 }
@@ -11,12 +11,8 @@
 
 \item{...}{Extra arguments. Not used}
 }
-\value{
-Data frame
-}
 \description{
-Predicts sprint kinematics for 0-6sec (100hz) which include distance,
-    velocity, acceleration, and relative power
+S3 method for returning predictions of \code{shorts_model}
 }
 \examples{
 split_times <- data.frame(
@@ -30,5 +26,5 @@ simple_model <- with(
   model_using_splits(distance, time)
 )
 
-head(predict(simple_model))
+predict(simple_model)
 }

@@ -2,22 +2,17 @@
 % Please edit documentation in R/shorts_S3.R
 \name{predict.shorts_mixed_model}
 \alias{predict.shorts_mixed_model}
-\title{S3 method for predicting kinematics from \code{shorts_mixed_model} object}
+\title{S3 method for returning predictions of \code{shorts_mixed_model}}
 \usage{
 \method{predict}{shorts_mixed_model}(object, ...)
 }
 \arguments{
-\item{object}{\code{shorts_model} object}
+\item{object}{\code{shorts_mixed_model} object}
 
 \item{...}{Extra arguments. Not used}
 }
-\value{
-Data frame
-}
 \description{
-Predicts sprint kinematics for 0-6sec (100hz) which include distance,
-    velocity, acceleration, and relative power. This is done for each
-    athlete (i.e. level) inside the model
+S3 method for returning predictions of \code{shorts_mixed_model}
 }
 \examples{
 data("split_times")
@@ -29,5 +24,5 @@ mixed_model <- mixed_model_using_splits(
   athlete = "athlete"
 )
 
-head(predict(mixed_model))
+predict(mixed_model)
 }
