@@ -89,7 +89,7 @@ model_using_splits <- function(distance,
                                LOOCV = FALSE,
                                na.rm = FALSE,
                                ...) {
-  run_model <- function(train, test) {
+  run_model <- function(train, test, ...) {
     # Non-linear model
     speed_mod <- stats::nls(
       corrected_time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU,
@@ -141,7 +141,8 @@ model_using_splits <- function(distance,
   # Run model
   training_model <- run_model(
     train = df,
-    test = df
+    test = df,
+    ...
   )
 
   # Adjust predicted time to be comparable to original time
@@ -155,35 +156,54 @@ model_using_splits <- function(distance,
   )
 
   # LOOCV
+  LOOCV_data <- NULL
+
   if (LOOCV) {
-    cv_folds <- data.frame(index = seq_len(nrow(df)))
+    cv_folds <- data.frame(index = seq_len(nrow(df)), df)
     cv_folds <- split(cv_folds, cv_folds$index)
 
-    testing <- sapply(cv_folds, function(fold) {
+    testing <- lapply(cv_folds, function(fold) {
       train_data <- df[-fold$index, ]
       test_data <- df[fold$index, ]
 
       model <- run_model(
         train = train_data,
-        test = test_data
+        test = test_data,
+        ...
       )
 
-      return(model$pred_time)
+      return(model)
     })
-    testing_pred_time <- testing - time_correction
+
+    # Extract predicted time
+    testing_pred_time <- sapply(testing, function(data)data$pred_time)
+    testing_pred_time <- testing_pred_time - time_correction
 
     testing_model_fit <- shorts_model_fit(
       observed = df$time,
       predicted = testing_pred_time,
       na.rm = na.rm
     )
+    # Extract model parameters
+    testing_parameters <- as.data.frame(
+      t(sapply(testing, function(data){c(data$MSS, data$TAU, data$MAC, data$PMAX)})))
 
-    pred_time <- testing_pred_time
-    model_fit <- testing_model_fit
-  } else {
-    # Use training model performance and predictions
-    pred_time <- training_pred_time
-    model_fit <- training_model_fit
+    colnames(testing_parameters) <- c("MSS", "TAU", "MAC", "PMAX")
+
+    # Modify df
+    testing_df <- data.frame(
+      distance = distance,
+      time = time,
+      weights = weights,
+      pred_time = testing_pred_time
+    )
+
+    # Save everything in the object
+    LOOCV_data <- list(
+      parameters = testing_parameters,
+      model_fit = testing_model_fit,
+      data = testing_df
+    )
   }
 
   # Add predicted time to df
@@ -191,7 +211,7 @@ model_using_splits <- function(distance,
     distance = distance,
     time = time,
     weights = weights,
-    pred_time = pred_time
+    pred_time = training_pred_time
   )
 
   # Return object
@@ -204,9 +224,10 @@ model_using_splits <- function(distance,
       time_correction = time_correction,
       distance_correction = 0
     ),
-    model_fit = model_fit,
+    model_fit = training_model_fit,
     model = training_model$model,
-    data = df
+    data = df,
+    LOOCV = LOOCV_data
   ))
 }
 
