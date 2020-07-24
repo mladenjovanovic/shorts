@@ -189,6 +189,8 @@ model_using_splits <- function(distance,
       t(sapply(testing, function(data){c(data$MSS, data$TAU, data$MAC, data$PMAX)})))
 
     colnames(testing_parameters) <- c("MSS", "TAU", "MAC", "PMAX")
+    testing_parameters$time_correction <- time_correction
+    testing_parameters$distance_correction <- 0
 
     # Modify df
     testing_df <- data.frame(

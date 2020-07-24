@@ -6,6 +6,7 @@
 * Added S3 `predict_kinematics` function that predicts 0-6s distance (100Hz), velocity, acceleration, and relative power
 * Added S3 `print`, `coef`, `summary`, `predict`, and `residuals` methods
 * Added LOOCV option to `model_using_splits...` which provided cross-validated predictions and estimated model parameters
+* Expanded the Readme.md file
 
 # shorts 1.0.1
 
