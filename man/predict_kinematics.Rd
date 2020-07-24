@@ -60,6 +60,8 @@ predict_relative_power_at_distance(
 )
 
 predict_relative_power_at_time(time, MSS, TAU, time_correction = 0)
+
+predict_kinematics(object, max_time = 6, frequency = 100)
 }
 \arguments{
 \item{time, distance, velocity}{Numeric vectors}
@@ -69,9 +71,17 @@ predict_relative_power_at_time(time, MSS, TAU, time_correction = 0)
 \item{time_correction}{Numeric vector. Used for correction. Default is 0. See references for more info}
 
 \item{distance_correction}{Numeric vector. Used for correction. Default is 0. See vignettes for more info}
+
+\item{object}{\code{shorts_model} or \code{shorts_mixed_model} object}
+
+\item{max_time}{Predict from 0 to \code{max_time}. Default is 6seconds}
+
+\item{frequency}{Number of samples within one second. Default is 100Hz}
 }
 \value{
 Numeric vector
+
+Data frame
 }
 \description{
 Predicts kinematic from known \code{MSS} and \code{TAU} parameters
