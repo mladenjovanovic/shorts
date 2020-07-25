@@ -170,6 +170,16 @@ print.shorts_mixed_model <- function(x, ...) {
   cat("\nModel fit estimators\n")
   cat("--------------------\n")
   print(unlist(x$model_fit))
+
+  if(!is.null(x$LOOCV)){
+    cat("\n\nLeave-One-Out Cross-Validation\n")
+    cat("------------------------------\n")
+
+    cat("Fixed parameters:\n")
+    print(x$LOOCV$parameters$fixed)
+    cat("\nModel fit:\n")
+    print(unlist(x$LOOCV$model_fit))
+  }
 }
 
 #' S3 method for providing summary for the \code{shorts_mixed_model} object
