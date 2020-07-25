@@ -13,6 +13,7 @@ mixed_model_using_splits(
   time,
   athlete,
   time_correction = 0,
+  LOOCV = FALSE,
   na.rm = FALSE,
   ...
 )
@@ -48,6 +49,8 @@ mixed_model_using_splits_with_corrections(
 
 \item{time_correction}{Numeric vector. Used to correct for different starting techniques.  This correction is
 done by adding \code{time_correction} to \code{time}. Default is 0. See more in Haugen et al. (2018)}
+
+\item{LOOCV}{Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}}
 
 \item{na.rm}{Logical. Default is FALSE}
 
