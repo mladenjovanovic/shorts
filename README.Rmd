@@ -135,7 +135,7 @@ ggplot(kimberley_pred, aes(x = distance, y = value)) +
   ylab(NULL)
 ```
 
-To do prediction simpler, use `predict_kinematics` function. This will provide kinematics for 0-6s sprint using 100Hz. 
+To do prediction simpler, use `shorts::predict_kinematics` function. This will provide kinematics for 0-6s sprint using 100Hz. 
 
 ```{r}
 predicted_kinematics <- predict_kinematics(kimberley_profile)
@@ -222,6 +222,20 @@ ggplot(velocity_over_distance, aes(x = distance, y = pred_velocity, color = athl
   ylab("Predicted velocity (m/s)")
 ```
 
+To modify random effects, which are by default `MSS` and `TAU` (`MSS + TAU ~ 1`), use the `random` parameter. For example, we can assume same `TAU` for all athletes and only use `MSS` as random effect:
+
+```{r}
+mixed_model <- shorts::mixed_model_using_splits(
+  data = split_times,
+  distance = "distance",
+  time = "time",
+  athlete = "athlete",
+  random = MSS ~ 1
+)
+
+mixed_model
+```
+
 ### Profiling using radar gun data
 
 The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using `shorts::model_using_radar` function. Let's do analysis for Jim:
@@ -268,7 +282,7 @@ summary(mixed_model)
 Let's plot predicted acceleration over time (0-6sec) for athletes in the `radar_gun_data` data set:
 
 ```{r}
-model_predictions <- predict_kinematics(mixed_model)
+model_predictions <- shorts::predict_kinematics(mixed_model)
 
 ggplot(model_predictions, aes(x = time, y = acceleration, color = athlete)) +
   theme_bw() +
@@ -334,13 +348,12 @@ kimberley_profile_with_time_correction <- shorts::model_using_splits_with_time_c
 kimberley_profile_with_time_correction
 
 # Mixed-effect model using `time_correction` as fixed effect only
-# To use `time_correction` as random effects, use corrections_as_random_effects = TRUE
+# To use `time_correction` as random effects, use random = MSS + TAU + time_correction ~ 1
 mixed_model_with_time_correction <- shorts::mixed_model_using_splits_with_time_correction(
   data = split_times,
   distance = "distance",
   time = "time",
-  athlete = "athlete",
-  corrections_as_random_effects = FALSE
+  athlete = "athlete"
 )
 
 # Parameters

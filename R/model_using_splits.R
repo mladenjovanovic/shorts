@@ -111,6 +111,8 @@ model_using_splits <- function(distance,
 
     # Model fit
     pred_time <- TAU * I(LambertW::W(-exp(1)^(-test$distance / (MSS * TAU) - 1))) + test$distance / MSS + TAU
+    pred_time <- pred_time - time_correction
+
 
     return(list(
       model = speed_mod,
@@ -145,8 +147,8 @@ model_using_splits <- function(distance,
     ...
   )
 
-  # Adjust predicted time to be comparable to original time
-  training_pred_time <- training_model$pred_time - time_correction
+  # Get the predicted time
+  training_pred_time <- training_model$pred_time
 
   training_model_fit <- shorts_model_fit(
     model = training_model$model,
@@ -177,7 +179,6 @@ model_using_splits <- function(distance,
 
     # Extract predicted time
     testing_pred_time <- sapply(testing, function(data) data$pred_time)
-    testing_pred_time <- testing_pred_time - time_correction
 
     testing_model_fit <- shorts_model_fit(
       observed = df$time,

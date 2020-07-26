@@ -9,7 +9,8 @@ model_using_radar(
   velocity,
   time_correction = 0,
   weights = 1,
-  na.rm = FALSE
+  na.rm = FALSE,
+  ...
 )
 }
 \arguments{
@@ -23,6 +24,8 @@ done by adding \code{time_correction} to \code{time}. Default is 0. See more in 
 \item{weights}{Numeric vector. Default is 1}
 
 \item{na.rm}{Logical. Default is FALSE}
+
+\item{...}{Forwarded to \code{\link[nlme]{nlme}} function}
 }
 \value{
 List object with the following elements:

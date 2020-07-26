@@ -186,7 +186,9 @@
   <span class='kw'>distance_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>
 )
 
-<span class='fu'>predict_relative_power_at_time</span>(<span class='no'>time</span>, <span class='no'>MSS</span>, <span class='no'>TAU</span>, <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+<span class='fu'>predict_relative_power_at_time</span>(<span class='no'>time</span>, <span class='no'>MSS</span>, <span class='no'>TAU</span>, <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>)
+
+<span class='fu'>predict_kinematics</span>(<span class='no'>object</span>, <span class='kw'>max_time</span> <span class='kw'>=</span> <span class='fl'>6</span>, <span class='kw'>frequency</span> <span class='kw'>=</span> <span class='fl'>100</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -207,11 +209,24 @@
       <th>distance_correction</th>
       <td><p>Numeric vector. Used for correction. Default is 0. See vignettes for more info</p></td>
     </tr>
+    <tr>
+      <th>object</th>
+      <td><p><code>shorts_model</code> or <code>shorts_mixed_model</code> object</p></td>
+    </tr>
+    <tr>
+      <th>max_time</th>
+      <td><p>Predict from 0 to <code>max_time</code>. Default is 6seconds</p></td>
+    </tr>
+    <tr>
+      <th>frequency</th>
+      <td><p>Number of samples within one second. Default is 100Hz</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Numeric vector</p>
+<p>Data frame</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start

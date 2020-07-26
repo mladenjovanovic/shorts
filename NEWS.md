@@ -6,6 +6,8 @@
 * Added S3 `predict_kinematics` function that predicts 0-6s distance (100Hz), velocity, acceleration, and relative power
 * Added S3 `print`, `coef`, `summary`, `predict`, and `residuals` methods
 * Added LOOCV option to `model_using_splits...` which provided cross-validated predictions and estimated model parameters
+* Added `random` parameter to `mixed_` family of functions to allow higher flexibility in model definitions, but removed `corrections_as_random_effects` parameter. The default behavious is to use all parameters as random effects. 
+* Added `...` to `model_using_radar` and `mixed_model_using_radar` to be forwarded to `nlme::nlme`
 * Expanded the Readme.md file
 
 # shorts 1.0.1

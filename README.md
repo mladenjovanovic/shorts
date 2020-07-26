@@ -197,8 +197,8 @@ ggplot(kimberley_pred, aes(x = distance, y = value)) +
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
-To do prediction simpler, use `predict_kinematics` function. This will
-provide kinematics for 0-6s sprint using 100Hz.
+To do prediction simpler, use `shorts::predict_kinematics` function.
+This will provide kinematics for 0-6s sprint using 100Hz.
 
 ``` r
 predicted_kinematics <- predict_kinematics(kimberley_profile)
@@ -313,7 +313,7 @@ mixed_model
 summary(mixed_model)
 #> Nonlinear mixed-effects model fit by maximum likelihood
 #>   Model: corrected_time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS *      TAU) - 1))) + distance/MSS + TAU 
-#>  Data: df 
+#>  Data: train 
 #>         AIC       BIC  logLik
 #>   -75.06719 -66.66001 43.5336
 #> 
@@ -391,6 +391,50 @@ ggplot(velocity_over_distance, aes(x = distance, y = pred_velocity, color = athl
 
 <img src="man/figures/README-unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
 
+To modify random effects, which are by default `MSS` and `TAU` (`MSS +
+TAU ~ 1`), use the `random` parameter. For example, we can assume same
+`TAU` for all athletes and only use `MSS` as random effect:
+
+``` r
+mixed_model <- shorts::mixed_model_using_splits(
+  data = split_times,
+  distance = "distance",
+  time = "time",
+  athlete = "athlete",
+  random = MSS ~ 1
+)
+
+mixed_model
+#> Estimated fixed model parameters
+#> --------------------------------
+#>                 MSS                 TAU                 MAC                PMAX 
+#>           7.9366665           0.6277251          12.6435385          25.0868872 
+#>     time_correction distance_correction 
+#>           0.0000000           0.0000000 
+#> 
+#> Estimated frandom model parameters
+#> ----------------------------------
+#>     athlete      MSS       TAU      MAC     PMAX time_correction
+#> 1     James 9.021822 0.6277251 14.37225 32.41597               0
+#> 2       Jim 8.111530 0.6277251 12.92211 26.20451               0
+#> 3      John 7.576142 0.6277251 12.06920 22.85950               0
+#> 4 Kimberley 8.144414 0.6277251 12.97449 26.41741               0
+#> 5  Samantha 6.829424 0.6277251 10.87964 18.57542               0
+#>   distance_correction
+#> 1                   0
+#> 2                   0
+#> 3                   0
+#> 4                   0
+#> 5                   0
+#> 
+#> Model fit estimators
+#> --------------------
+#>         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
+#>  0.07635631  0.99801628 -0.10228573  0.15987989  0.15987989  0.06979851 
+#>         MAE        MAPE 
+#>  0.05845303  2.68555639
+```
+
 ### Profiling using radar gun data
 
 The radar gun data is modeled using measured velocity as target variable
@@ -450,7 +494,7 @@ ggplot(jim_profile$data, aes(x = time)) +
   ylab("Velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
 Radar gun data can be modeled individually or using *non-linear mixed
 model* implemented in `shorts::mixed_model_using_radar`:
@@ -496,7 +540,7 @@ mixed_model
 summary(mixed_model)
 #> Nonlinear mixed-effects model fit by maximum likelihood
 #>   Model: velocity ~ MSS * (1 - exp(1)^(-(corrected_time)/TAU)) 
-#>  Data: df 
+#>  Data: train 
 #>         AIC       BIC   logLik
 #>   -9150.177 -9114.139 4581.089
 #> 
@@ -529,7 +573,7 @@ Let’s plot predicted acceleration over time (0-6sec) for athletes in the
 `radar_gun_data` data set:
 
 ``` r
-model_predictions <- predict_kinematics(mixed_model)
+model_predictions <- shorts::predict_kinematics(mixed_model)
 
 ggplot(model_predictions, aes(x = time, y = acceleration, color = athlete)) +
   theme_bw() +
@@ -538,7 +582,7 @@ ggplot(model_predictions, aes(x = time, y = acceleration, color = athlete)) +
   ylab("Predicted acceleration (m/s^2)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Using corrections
 
@@ -602,7 +646,7 @@ mixed_model_corrected
 summary(mixed_model_corrected)
 #> Nonlinear mixed-effects model fit by maximum likelihood
 #>   Model: corrected_time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS *      TAU) - 1))) + distance/MSS + TAU 
-#>  Data: df 
+#>  Data: train 
 #>         AIC       BIC   logLik
 #>   -96.92355 -88.51636 54.46177
 #> 
@@ -655,7 +699,7 @@ ggplot(velocity_over_distance_corrected, aes(x = distance, y = pred_velocity, co
   ylab("Predicted velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
 
 Instead of providing for `time_correction`, this parameter can be
 estimated using `shorts::model_using_splits_with_time_correction` and
@@ -682,13 +726,12 @@ kimberley_profile_with_time_correction
 #>  0.0007983565  0.0006586035  0.0282352643
 
 # Mixed-effect model using `time_correction` as fixed effect only
-# To use `time_correction` as random effects, use corrections_as_random_effects = TRUE
+# To use `time_correction` as random effects, use random = MSS + TAU + time_correction ~ 1
 mixed_model_with_time_correction <- shorts::mixed_model_using_splits_with_time_correction(
   data = split_times,
   distance = "distance",
   time = "time",
-  athlete = "athlete",
-  corrections_as_random_effects = FALSE
+  athlete = "athlete"
 )
 
 # Parameters
@@ -702,12 +745,18 @@ mixed_model_with_time_correction
 #> 
 #> Estimated frandom model parameters
 #> ----------------------------------
-#>         MSS       TAU       MAC     PMAX time_correction distance_correction
-#> 1 10.186327 1.2429367  8.195370 20.87018       0.1989677                   0
-#> 2  7.946099 0.7643674 10.395655 20.65123       0.1989677                   0
-#> 3  7.996262 1.0488272  7.624003 15.24088       0.1989677                   0
-#> 4  8.899472 1.1615147  7.661953 17.04683       0.1989677                   0
-#> 5  6.491911 0.6260282 10.369998 16.83028       0.1989677                   0
+#>     athlete       MSS       TAU       MAC     PMAX time_correction
+#> 1     James 10.186327 1.2429367  8.195370 20.87018       0.1989677
+#> 2       Jim  7.946099 0.7643674 10.395655 20.65123       0.1989677
+#> 3      John  7.996262 1.0488272  7.624003 15.24088       0.1989677
+#> 4 Kimberley  8.899472 1.1615147  7.661953 17.04683       0.1989677
+#> 5  Samantha  6.491911 0.6260282 10.369998 16.83028       0.1989677
+#>   distance_correction
+#> 1                   0
+#> 2                   0
+#> 3                   0
+#> 4                   0
+#> 5                   0
 #> 
 #> Model fit estimators
 #> --------------------
@@ -786,7 +835,7 @@ ggplot(LOOCV_parameters, aes(y = value)) +
   theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
 ```
 
-<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot model LOOCV predictions and training (when using all data
 set) predictions against observed performance:
@@ -807,7 +856,7 @@ ggplot(kimberley_data, aes(x = distance)) +
   ylab("Time (s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot predicted velocity using LOOCV estimate parameters to check
 robustness of the model predictions:
@@ -839,7 +888,7 @@ ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
   ylab("Velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Citation
 

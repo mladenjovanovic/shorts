@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>S3 method for predicting kinematics from <code>shorts_mixed_model</code> object — predict.shorts_mixed_model • shorts</title>
+<title>S3 method for returning predictions of <code>shorts_mixed_model</code> — predict.shorts_mixed_model • shorts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,8 @@
 
 
 
-<meta property="og:title" content="S3 method for predicting kinematics from <code>shorts_mixed_model</code> object — predict.shorts_mixed_model" />
-<meta property="og:description" content="Predicts sprint kinematics for 0-6sec (100hz) which include distance,
-    velocity, acceleration, and relative power. This is done for each
-    athlete (i.e. level) inside the model" />
+<meta property="og:title" content="S3 method for returning predictions of <code>shorts_mixed_model</code> — predict.shorts_mixed_model" />
+<meta property="og:description" content="S3 method for returning predictions of shorts_mixed_model" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -133,15 +131,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>S3 method for predicting kinematics from <code>shorts_mixed_model</code> object</h1>
+    <h1>S3 method for returning predictions of <code>shorts_mixed_model</code></h1>
     <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/R/shorts_S3.R'><code>R/shorts_S3.R</code></a></small>
     <div class="hidden name"><code>predict.shorts_mixed_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Predicts sprint kinematics for 0-6sec (100hz) which include distance,
-    velocity, acceleration, and relative power. This is done for each
-    athlete (i.e. level) inside the model</p>
+    <p>S3 method for returning predictions of <code>shorts_mixed_model</code></p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for shorts_mixed_model</span>
@@ -152,7 +148,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p><code>shorts_model</code> object</p></td>
+      <td><p><code>shorts_mixed_model</code> object</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -160,9 +156,6 @@
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Data frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"split_times"</span>)
@@ -174,13 +167,10 @@
   <span class='kw'>athlete</span> <span class='kw'>=</span> <span class='st'>"athlete"</span>
 )
 
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>mixed_model</span>))</div><div class='output co'>#&gt;   athlete time     distance  velocity acceleration    power
-#&gt; 1   James 0.00 0.0000000000 0.0000000     11.44278 0.000000
-#&gt; 2   James 0.01 0.0005698938 0.1137549     11.30847 1.286394
-#&gt; 3   James 0.02 0.0022706479 0.2261747     11.17574 2.527669
-#&gt; 4   James 0.03 0.0050889888 0.3372749     11.04457 3.725055
-#&gt; 5   James 0.04 0.0090117993 0.4470711     10.91493 4.879751
-#&gt; 6   James 0.05 0.0140261157 0.5555786     10.78682 5.992927</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>mixed_model</span>)</div><div class='output co'>#&gt;  [1] 1.237305 1.963808 2.635941 3.290096 4.581938 5.868329 1.207646 1.893420
+#&gt;  [9] 2.517842 3.119655 4.299229 5.469052 1.084173 1.766131 2.415457 3.056766
+#&gt; [17] 4.334405 5.611040 1.143270 1.774562 2.341309 2.882411 3.934256 4.971811
+#&gt; [25] 1.148317 1.942202 2.719953 3.495576 5.046191 6.596752</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -142,8 +142,13 @@
 <li>Used constructor functions for all modeling functions</li>
 <li>Added modular short_model_fit function with three extra estimators: MAE, MAPE, and MaxAbsErr. This function is hidden from the user, but allows easier extension and modularity as well avoidance of code repetition</li>
 <li>Added <code>time_correction</code> and <code>distance_correction</code> to all model parameters output to align them</li>
-<li>Added S3 <code>predict</code> function that predicts 0-6s distance (100Hz), velocity, acceleration, and relative power</li>
-<li>Added S3 <code>print</code>, <code>coef</code>, <code>summary</code>, and <code>residuals</code> methods</li>
+<li>Added S3 <code>predict_kinematics</code> function that predicts 0-6s distance (100Hz), velocity, acceleration, and relative power</li>
+<li>Added S3 <code>print</code>, <code>coef</code>, <code>summary</code>, <code>predict</code>, and <code>residuals</code> methods</li>
+<li>Added LOOCV option to <code>model_using_splits...</code> which provided cross-validated predictions and estimated model parameters</li>
+<li>Added <code>random</code> parameter to <code>mixed_</code> family of functions to allow higher flexibility in model definitions, but removed <code>corrections_as_random_effects</code> parameter. The default behavious is to use all parameters as random effects.</li>
+<li>Added <code>...</code> to <code>model_using_radar</code> and <code>mixed_model_using_radar</code> to be forwarded to <code><a href="https://rdrr.io/pkg/nlme/man/nlme.html">nlme::nlme</a></code>
+</li>
+<li>Expanded the Readme.md file</li>
 </ul>
 </div>
     <div id="shorts-101" class="section level1">

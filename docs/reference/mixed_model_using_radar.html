@@ -154,7 +154,9 @@
   <span class='no'>velocity</span>,
   <span class='no'>athlete</span>,
   <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>random</span> <span class='kw'>=</span> <span class='no'>MSS</span> + <span class='no'>TAU</span> ~ <span class='fl'>1</span>,
+  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -182,8 +184,16 @@
 This correction is done by adding <code>time_correction</code> to <code>time</code>. Default is 0. See more in Samozino (2018)</p></td>
     </tr>
     <tr>
+      <th>random</th>
+      <td><p>Formula forwarded to <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> to set random effects. Default is <code>MSS + TAU ~ 1</code></p></td>
+    </tr>
+    <tr>
       <th>na.rm</th>
       <td><p>Logical. Default is FALSE</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Forwarded to <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> function</p></td>
     </tr>
     </table>
 
