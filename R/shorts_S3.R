@@ -41,14 +41,10 @@ coef.shorts_mixed_model <- function(object, ...) {
   return(object$parameters)
 }
 
-#' S3 method for predicting kinematics from \code{shorts_model} object
-#'
-#' Predicts sprint kinematics for 0-6sec (100hz) which include distance,
-#'     velocity, acceleration, and relative power
+#' S3 method for returning predictions of \code{shorts_model}
 #'
 #' @param object \code{shorts_model} object
 #' @param ... Extra arguments. Not used
-#' @return Data frame
 #' @examples
 #' split_times <- data.frame(
 #'   distance = c(5, 10, 20, 30, 35),
@@ -61,54 +57,16 @@ coef.shorts_mixed_model <- function(object, ...) {
 #'   model_using_splits(distance, time)
 #' )
 #'
-#' head(predict(simple_model))
+#' predict(simple_model)
 #' @export
 predict.shorts_model <- function(object, ...) {
-  df <- data.frame(
-    time = seq(0, 6, length.out = 6 * 100 + 1)
-  )
-
-  df$distance <- predict_distance_at_time(
-    time = df$time,
-    MSS = object$parameters$MSS,
-    TAU = object$parameters$TAU,
-    time_correction = object$parameters$time_correction,
-    distance_correction = object$parameters$distance_correction
-  )
-
-  df$velocity <- predict_velocity_at_time(
-    time = df$time,
-    MSS = object$parameters$MSS,
-    TAU = object$parameters$TAU,
-    time_correction = object$parameters$time_correction
-  )
-
-  df$acceleration <- predict_acceleration_at_time(
-    time = df$time,
-    MSS = object$parameters$MSS,
-    TAU = object$parameters$TAU,
-    time_correction = object$parameters$time_correction
-  )
-
-  df$power <- predict_relative_power_at_time(
-    time = df$time,
-    MSS = object$parameters$MSS,
-    TAU = object$parameters$TAU,
-    time_correction = object$parameters$time_correction
-  )
-
-  return(df)
+  object$data[[4]]
 }
 
-#' S3 method for predicting kinematics from \code{shorts_mixed_model} object
+#' S3 method for returning predictions of \code{shorts_mixed_model}
 #'
-#' Predicts sprint kinematics for 0-6sec (100hz) which include distance,
-#'     velocity, acceleration, and relative power. This is done for each
-#'     athlete (i.e. level) inside the model
-#'
-#' @param object \code{shorts_model} object
+#' @param object \code{shorts_mixed_model} object
 #' @param ... Extra arguments. Not used
-#' @return Data frame
 #' @examples
 #' data("split_times")
 #'
@@ -119,47 +77,10 @@ predict.shorts_model <- function(object, ...) {
 #'   athlete = "athlete"
 #' )
 #'
-#' head(predict(mixed_model))
+#' predict(mixed_model)
 #' @export
 predict.shorts_mixed_model <- function(object, ...) {
-  df <- expand.grid(
-    time = seq(0, 6, length.out = 6 * 100 + 1),
-    athlete = object$parameters$random$athlete
-  )
-
-  df <- merge(df, object$parameters$random, by = "athlete", all = TRUE)
-
-  df$distance <- predict_distance_at_time(
-    time = df$time,
-    MSS = df$MSS,
-    TAU = df$TAU,
-    time_correction = df$time_correction,
-    distance_correction = df$distance_correction
-  )
-
-  df$velocity <- predict_velocity_at_time(
-    time = df$time,
-    MSS = df$MSS,
-    TAU = df$TAU,
-    time_correction = df$time_correction
-  )
-
-  df$acceleration <- predict_acceleration_at_time(
-    time = df$time,
-    MSS = df$MSS,
-    TAU = df$TAU,
-    time_correction = df$time_correction
-  )
-
-  df$power <- predict_relative_power_at_time(
-    time = df$time,
-    MSS = df$MSS,
-    TAU = df$TAU,
-    time_correction = df$time_correction
-  )
-
-  df <- df[c("athlete", "time", "distance", "velocity", "acceleration", "power")]
-  return(df)
+  as.numeric(object$data[[4]])
 }
 
 #' S3 method for printing \code{shorts_model} object
@@ -187,6 +108,16 @@ print.shorts_model <- function(x, ...) {
   cat("\nModel fit estimators\n")
   cat("--------------------\n")
   print(unlist(x$model_fit))
+
+  if(!is.null(x$LOOCV)){
+    cat("\n\nLeave-One-Out Cross-Validation\n")
+    cat("------------------------------\n")
+
+    cat("Parameters:\n")
+    print(x$LOOCV$parameters)
+    cat("\nModel fit:\n")
+    print(unlist(x$LOOCV$model_fit))
+  }
 }
 
 
@@ -239,6 +170,16 @@ print.shorts_mixed_model <- function(x, ...) {
   cat("\nModel fit estimators\n")
   cat("--------------------\n")
   print(unlist(x$model_fit))
+
+  if(!is.null(x$LOOCV)){
+    cat("\n\nLeave-One-Out Cross-Validation\n")
+    cat("------------------------------\n")
+
+    cat("Fixed parameters:\n")
+    print(x$LOOCV$parameters$fixed)
+    cat("\nModel fit:\n")
+    print(unlist(x$LOOCV$model_fit))
+  }
 }
 
 #' S3 method for providing summary for the \code{shorts_mixed_model} object

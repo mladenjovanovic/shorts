@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>S3 method for predicting kinematics from <code>shorts_model</code> object — predict.shorts_model • shorts</title>
+<title>S3 method for returning predictions of <code>shorts_model</code> — predict.shorts_model • shorts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,9 +46,8 @@
 
 
 
-<meta property="og:title" content="S3 method for predicting kinematics from <code>shorts_model</code> object — predict.shorts_model" />
-<meta property="og:description" content="Predicts sprint kinematics for 0-6sec (100hz) which include distance,
-    velocity, acceleration, and relative power" />
+<meta property="og:title" content="S3 method for returning predictions of <code>shorts_model</code> — predict.shorts_model" />
+<meta property="og:description" content="S3 method for returning predictions of shorts_model" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -132,14 +131,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>S3 method for predicting kinematics from <code>shorts_model</code> object</h1>
+    <h1>S3 method for returning predictions of <code>shorts_model</code></h1>
     <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/R/shorts_S3.R'><code>R/shorts_S3.R</code></a></small>
     <div class="hidden name"><code>predict.shorts_model.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Predicts sprint kinematics for 0-6sec (100hz) which include distance,
-    velocity, acceleration, and relative power</p>
+    <p>S3 method for returning predictions of <code>shorts_model</code></p>
     </div>
 
     <pre class="usage"><span class='co'># S3 method for shorts_model</span>
@@ -158,9 +156,6 @@
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Data frame</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>split_times</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
@@ -174,13 +169,7 @@
   <span class='fu'><a href='model_split_times.html'>model_using_splits</a></span>(<span class='no'>distance</span>, <span class='no'>time</span>)
 )
 
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>simple_model</span>))</div><div class='output co'>#&gt;   time     distance  velocity acceleration    power
-#&gt; 1 0.00 0.0000000000 0.0000000     11.59360 0.000000
-#&gt; 2 0.01 0.0005766621 0.1150318     11.41323 1.312884
-#&gt; 3 0.02 0.0022946704 0.2282739     11.23566 2.564809
-#&gt; 4 0.03 0.0051362680 0.3397542     11.06086 3.757973
-#&gt; 5 0.04 0.0090839740 0.4495001     10.88877 4.894505
-#&gt; 6 0.05 0.0141205796 0.5575386     10.71937 5.976460</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/predict.html'>predict</a></span>(<span class='no'>simple_model</span>)</div><div class='output co'>#&gt; [1] 1.219807 1.960767 3.339339 4.694821 5.371333</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -13,6 +13,8 @@ mixed_model_using_splits(
   time,
   athlete,
   time_correction = 0,
+  random = MSS + TAU ~ 1,
+  LOOCV = FALSE,
   na.rm = FALSE,
   ...
 )
@@ -22,7 +24,8 @@ mixed_model_using_splits_with_time_correction(
   distance,
   time,
   athlete,
-  corrections_as_random_effects = FALSE,
+  random = MSS + TAU ~ 1,
+  LOOCV = FALSE,
   na.rm = FALSE,
   ...
 )
@@ -32,7 +35,8 @@ mixed_model_using_splits_with_corrections(
   distance,
   time,
   athlete,
-  corrections_as_random_effects = FALSE,
+  random = MSS + TAU ~ 1,
+  LOOCV = FALSE,
   na.rm = FALSE,
   ...
 )
@@ -49,12 +53,13 @@ mixed_model_using_splits_with_corrections(
 \item{time_correction}{Numeric vector. Used to correct for different starting techniques.  This correction is
 done by adding \code{time_correction} to \code{time}. Default is 0. See more in Haugen et al. (2018)}
 
+\item{random}{Formula forwarded to \code{\link[nlme]{nlme}} to set random effects. Default is \code{MSS + TAU ~ 1}}
+
+\item{LOOCV}{Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}}
+
 \item{na.rm}{Logical. Default is FALSE}
 
 \item{...}{Forwarded to \code{\link[nlme]{nlme}} function}
-
-\item{corrections_as_random_effects}{Logical. Should corrections \code{time_correction} and/or \code{distance_correction}
-be modeled as random effects? Default is FALSE}
 }
 \value{
 List object with the following elements:

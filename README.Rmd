@@ -52,11 +52,17 @@ data("split_times", "radar_gun_data")
 
 ### Profiling using split times 
 
-To model sprint performance using split times, distance will be used as predictor and time as target. Since `split_times` contains data for multiple athletes, let's extract only one athlete and model it using `shorts::model_using_splits` function:
+To model sprint performance using split times, distance will be used as predictor and time as target. Since `split_times` contains data for multiple athletes, let's extract only one athlete and model it using `shorts::model_using_splits` function. 
 
 ```{r}
 kimberley_data <- filter(split_times, athlete == "Kimberley")
 
+kimberley_data
+```
+
+`shorts::model_using_splits` returns an object with `parameters`, `model_fit`, `model` returned from `stats::nls` function and `data` used to estimate parameters. Parameters estimated using mono-exponential equation are *maximal sprinting speed* (MSS), and *relative acceleration* (TAU). Additional parameters computed from MSS and TAU are *maximal acceleration* (MAC) and *maximal relative power* (PMAX). 
+
+```{r}
 kimberley_profile <- shorts::model_using_splits(
   distance = kimberley_data$distance,
   time = kimberley_data$time)  
@@ -68,13 +74,11 @@ summary(kimberley_profile)
 coef(kimberley_profile)
 ```
 
-To show used data and predicted outcome (in this case time variable), explore the returned object:
+To return the predicted outcome (in this case time variable), use `predict` function: 
 
 ```{r}
-kimberley_profile$data
+predict(kimberley_profile)
 ```
-
-`shorts::model_using_splits` returns an object with `parameters`, `model_fit`, `model` returned from `stats::nls` function and `data` used to estimate parameters. Parameters estimated using mono-exponential equation are *maximal sprinting speed* (MSS), and *relative acceleration* (TAU). Additional parameters computed from MSS and TAU are *maximal acceleration* (MAC) and *maximal relative power* (PMAX). 
 
 If you are interested in calculating average split velocity, use `shorts::format_splits`
 
@@ -84,7 +88,7 @@ shorts::format_splits(
   time = kimberley_data$time)
 ```
 
-Let's plot observed vs fitted split times. For this we can use `data` returned from `shorts::model_using_splits` since it contains `pred_time` column, but we can also use `shorts:predict_` family of functions. 
+Let's plot observed vs fitted split times. For this we can use `data` returned from `shorts::model_using_splits` since it contains `pred_time` column.
 
 ```{r}
 ggplot(kimberley_profile$data, aes(x = distance)) +
@@ -131,10 +135,10 @@ ggplot(kimberley_pred, aes(x = distance, y = value)) +
   ylab(NULL)
 ```
 
-To do prediction simpler, use `predict` function. This will provide kinematics for 0-6s sprint using 100Hz. 
+To do prediction simpler, use `shorts::predict_kinematics` function. This will provide kinematics for 0-6s sprint using 100Hz. 
 
 ```{r}
-predicted_kinematics <- predict(kimberley_profile)
+predicted_kinematics <- predict_kinematics(kimberley_profile)
 head(predicted_kinematics)
 ```
 
@@ -190,6 +194,8 @@ mixed_model <- shorts::mixed_model_using_splits(
 mixed_model
 
 summary(mixed_model)
+
+coef(mixed_model)
 ```
 
 `shorts::mixed_model_using_splits` return the similar object, but `parameters` contain two elements: `fixed` and `random`. 
@@ -214,6 +220,20 @@ ggplot(velocity_over_distance, aes(x = distance, y = pred_velocity, color = athl
   geom_line() +
   xlab("Distance (m)") +
   ylab("Predicted velocity (m/s)")
+```
+
+To modify random effects, which are by default `MSS` and `TAU` (`MSS + TAU ~ 1`), use the `random` parameter. For example, we can assume same `TAU` for all athletes and only use `MSS` as random effect:
+
+```{r}
+mixed_model <- shorts::mixed_model_using_splits(
+  data = split_times,
+  distance = "distance",
+  time = "time",
+  athlete = "athlete",
+  random = MSS ~ 1
+)
+
+mixed_model
 ```
 
 ### Profiling using radar gun data
@@ -262,7 +282,7 @@ summary(mixed_model)
 Let's plot predicted acceleration over time (0-6sec) for athletes in the `radar_gun_data` data set:
 
 ```{r}
-model_predictions <- predict(mixed_model)
+model_predictions <- shorts::predict_kinematics(mixed_model)
 
 ggplot(model_predictions, aes(x = time, y = acceleration, color = athlete)) +
   theme_bw() +
@@ -328,13 +348,12 @@ kimberley_profile_with_time_correction <- shorts::model_using_splits_with_time_c
 kimberley_profile_with_time_correction
 
 # Mixed-effect model using `time_correction` as fixed effect only
-# To use `time_correction` as random effects, use corrections_as_random_effects = TRUE
+# To use `time_correction` as random effects, use random = MSS + TAU + time_correction ~ 1
 mixed_model_with_time_correction <- shorts::mixed_model_using_splits_with_time_correction(
   data = split_times,
   distance = "distance",
   time = "time",
-  athlete = "athlete",
-  corrections_as_random_effects = FALSE
+  athlete = "athlete"
 )
 
 # Parameters
@@ -342,6 +361,83 @@ mixed_model_with_time_correction
 ```
 
 For more details, please refer to `sprint-corrections` [vignette](https://mladenjovanovic.github.io/shorts/articles/sprint-corrections.html).
+
+### Leave-One-Out Cross-Validation (LOOCV)
+
+`...model_using_splits..` family of functions come with LOOCV feature that is performed by setting the function parameter `LOOCV = TRUE`. This feature is very useful for checking model parameters robustness and model predictions on unseen data. LOOCV involve iterative model building and testing by removing observation one by one and making predictions for them. Let's use Kimberly again, but this time perform LOOCV:
+
+```{r}
+kimberley_profile_LOOCV <- shorts::model_using_splits(
+  distance = kimberley_data$distance,
+  time = kimberley_data$time,
+  LOOCV = TRUE)  
+
+kimberley_profile_LOOCV
+```
+
+Box-plot is suitable method for plotting estimated parameters: 
+
+```{r}
+LOOCV_parameters <- gather(kimberley_profile_LOOCV$LOOCV$parameters) %>%
+  mutate(key = factor(
+    key,
+    levels = c("MSS", "TAU", "MAC", "PMAX", "time_correction", "distance_correction")
+  ))
+
+ggplot(LOOCV_parameters, aes(y = value)) +
+  theme_bw() +
+  geom_boxplot() +
+  facet_wrap(~key, scales = "free") +
+  ylab(NULL) +
+  theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
+```
+
+Let's plot model LOOCV predictions and training (when using all data set) predictions against observed performance:
+
+```{r}
+kimberley_data <- kimberley_data %>%
+  mutate(
+    pred_time = predict(kimberley_profile_LOOCV),
+    LOOCV_time = kimberley_profile_LOOCV$LOOCV$data$pred_time
+  )
+
+ggplot(kimberley_data, aes(x = distance)) +
+  theme_bw() +
+  geom_point(aes(y = time)) +
+  geom_line(aes(y = pred_time), color = "black") +
+  geom_line(aes(y = LOOCV_time), color = "red") +
+  xlab("Distance (m)") +
+  ylab("Time (s)")
+```
+
+Let's plot predicted velocity using LOOCV estimate parameters to check robustness of the model predictions:
+
+```{r}
+plot_data <- kimberley_profile_LOOCV$LOOCV$parameters %>%
+  mutate(LOOCV = row_number())
+
+plot_data <- expand_grid(
+  data.frame(time = seq(0, 6, length.out = 100)),
+  plot_data
+) %>%
+  mutate(
+    LOOCV_velocity = predict_velocity_at_time(
+      time = time,
+      MSS = MSS,
+      TAU = TAU),
+    velocity = predict_velocity_at_time(
+      time = time,
+      MSS = kimberley_profile_LOOCV$parameters$MSS,
+      TAU = kimberley_profile_LOOCV$parameters$TAU)
+  )
+
+ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
+  theme_bw() +
+  geom_line(alpha = 0.8) +
+  geom_line(aes(y = velocity), color = "red", size = 0.5) +
+  xlab("Time (sec)") +
+  ylab("Velocity (m/s)")
+```
 
 ## Citation
 

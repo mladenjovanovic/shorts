@@ -12,6 +12,7 @@ model_using_splits(
   time,
   time_correction = 0,
   weights = 1,
+  LOOCV = FALSE,
   na.rm = FALSE,
   ...
 )
@@ -20,6 +21,7 @@ model_using_splits_with_time_correction(
   distance,
   time,
   weights = 1,
+  LOOCV = FALSE,
   na.rm = FALSE,
   ...
 )
@@ -28,6 +30,7 @@ model_using_splits_with_corrections(
   distance,
   time,
   weights = 1,
+  LOOCV = FALSE,
   na.rm = FALSE,
   ...
 )
@@ -41,6 +44,8 @@ done by adding \code{time_correction} to \code{time}. Default is 0. See more in 
 \item{weights}{Numeric vector. Default is vector of 1.
 This is used to give more weight to particular observations. For example, use \code{1\\distance} to give
 more weight to observations from shorter distances.}
+
+\item{LOOCV}{Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}}
 
 \item{na.rm}{Logical. Default is FALSE}
 

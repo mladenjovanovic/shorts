@@ -10,7 +10,9 @@ mixed_model_using_radar(
   velocity,
   athlete,
   time_correction = 0,
-  na.rm = FALSE
+  random = MSS + TAU ~ 1,
+  na.rm = FALSE,
+  ...
 )
 }
 \arguments{
@@ -25,7 +27,11 @@ mixed_model_using_radar(
 \item{time_correction}{Numeric vector. Used to filter out noisy data from the radar gun.
 This correction is done by adding \code{time_correction} to \code{time}. Default is 0. See more in Samozino (2018)}
 
+\item{random}{Formula forwarded to \code{\link[nlme]{nlme}} to set random effects. Default is \code{MSS + TAU ~ 1}}
+
 \item{na.rm}{Logical. Default is FALSE}
+
+\item{...}{Forwarded to \code{\link[nlme]{nlme}} function}
 }
 \value{
 List object with the following elements:

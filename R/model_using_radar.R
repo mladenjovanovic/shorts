@@ -9,7 +9,9 @@
 #' @param time_correction Numeric vector. Used to filter out noisy data from the radar gun. This correction is
 #'     done by adding \code{time_correction} to \code{time}. Default is 0. See more in Samozino (2018)
 #' @param weights Numeric vector. Default is 1
+#' @param LOOCV Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}
 #' @param na.rm Logical. Default is FALSE
+#' @param ... Forwarded to \code{\link[nlme]{nlme}} function
 #' @return List object with the following elements:
 #'     \describe{
 #'         \item{parameters}{List with the following estimated parameters:
@@ -43,8 +45,44 @@ model_using_radar <- function(time,
                               velocity,
                               time_correction = 0,
                               weights = 1,
-                              na.rm = FALSE) {
+                              LOOCV = FALSE,
+                              na.rm = FALSE,
+                              ...) {
 
+  run_model <- function(train, test, ...) {
+    # Non-linear model
+    speed_mod <- stats::nls(
+      velocity ~ MSS * (1 - exp(1)^(-(corrected_time) / TAU)),
+      data = train,
+      start = list(MSS = 7, TAU = 0.8),
+      weights = train$weights,
+      ...
+    )
+
+    # Maximal Sprinting Speed
+    MSS <- stats::coef(speed_mod)[[1]]
+    TAU <- stats::coef(speed_mod)[[2]]
+
+    # Maximal acceleration
+    MAC <- MSS / TAU
+
+    # Maximal Power (relative)
+    PMAX <- (MSS * MAC) / 4
+
+    # Model fit
+    pred_velocity <- MSS * (1 - exp(1)^(-(test$corrected_time) / TAU))
+
+    return(list(
+      model = speed_mod,
+      MSS = MSS,
+      TAU = TAU,
+      MAC = MAC,
+      PMAX = PMAX,
+      pred_velocity = pred_velocity
+    ))
+  }
+
+  # ==================================
   # Put data into data frame
   df <- data.frame(
     time = time,
@@ -59,55 +97,97 @@ model_using_radar <- function(time,
     df <- stats::na.omit(df)
   }
 
-  # Non-linear model
-  speed_mod <- stats::nls(
-    velocity ~ MSS * (1 - exp(1)^(-(corrected_time) / TAU)),
-    data = df,
-    start = list(MSS = 7, TAU = 0.8),
-    weights = df$weights
+  # Run model
+  training_model <- run_model(
+    train = df,
+    test = df,
+    ...
   )
 
-  # Maximal Sprinting Speed
-  MSS <- stats::coef(speed_mod)[[1]]
-  TAU <- stats::coef(speed_mod)[[2]]
-
-  # Maximal acceleration
-  MAC <- MSS / TAU
-
-  # Maximal Power (relative)
-  PMAX <- (MSS * MAC) / 4
-
-  # Model fit
-  pred_velocity <- MSS * (1 - exp(1)^(-(df$corrected_time) / TAU))
-
-  model_fit <- shorts_model_fit(
-    model = speed_mod,
+  training_model_fit <- shorts_model_fit(
+    model = training_model$model,
     observed = df$velocity,
-    predicted = pred_velocity,
+    predicted = training_model$pred_velocity,
     na.rm = na.rm
   )
+
+  # LOOCV
+  LOOCV_data <- NULL
+
+  if (LOOCV) {
+    cv_folds <- data.frame(index = seq_len(nrow(df)), df)
+    cv_folds <- split(cv_folds, cv_folds$index)
+
+    testing <- lapply(cv_folds, function(fold) {
+      train_data <- df[-fold$index, ]
+      test_data <- df[fold$index, ]
+
+      model <- run_model(
+        train = train_data,
+        test = test_data,
+        ...
+      )
+
+      return(model)
+    })
+
+    # Extract predicted time
+    testing_pred_velocity <- sapply(testing, function(data) data$pred_velocity)
+
+    testing_model_fit <- shorts_model_fit(
+      observed = df$velocity,
+      predicted = testing_pred_velocity,
+      na.rm = na.rm
+    )
+    # Extract model parameters
+    testing_parameters <- as.data.frame(
+      t(sapply(testing, function(data) {
+        c(data$MSS, data$TAU, data$MAC, data$PMAX)
+      }))
+    )
+
+    colnames(testing_parameters) <- c("MSS", "TAU", "MAC", "PMAX")
+    testing_parameters$time_correction <- time_correction
+    testing_parameters$distance_correction <- 0
+
+    # Modify df
+    testing_df <- data.frame(
+      time = time,
+      velocity = velocity,
+      weights = weights,
+      pred_velocity = testing_pred_velocity
+    )
+
+    # Save everything in the object
+    LOOCV_data <- list(
+      parameters = testing_parameters,
+      model_fit = testing_model_fit,
+      data = testing_df
+    )
+  }
 
   # Add predicted velocity to df
   df <- data.frame(
     time = time,
     velocity = velocity,
     weights = weights,
-    pred_velocity = pred_velocity
+    pred_velocity = training_model$pred_velocity
   )
 
   # Return object
   return(new_shorts_model(
     parameters = list(
-      MSS = MSS,
-      TAU = TAU,
-      MAC = MAC,
-      PMAX = PMAX,
+      MSS = training_model$MSS,
+      TAU = training_model$TAU,
+      MAC = training_model$MAC,
+      PMAX = training_model$PMAX,
       time_correction = time_correction,
       distance_correction = 0
     ),
-    model_fit = model_fit,
-    model = speed_mod,
-    data = df
+    model_fit = training_model_fit,
+    model = training_model$model,
+    data = df,
+    LOOCV = LOOCV_data
   ))
 }
 
@@ -125,7 +205,11 @@ model_using_radar <- function(time,
 #' @param athlete Character string. Name of the column in \code{data}. Used as levels in the \code{\link[nlme]{nlme}}
 #' @param time_correction Numeric vector. Used to filter out noisy data from the radar gun.
 #'     This correction is done by adding \code{time_correction} to \code{time}. Default is 0. See more in Samozino (2018)
+#' @param random Formula forwarded to \code{\link[nlme]{nlme}} to set random effects. Default is \code{MSS + TAU ~ 1}
+#' @param LOOCV Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}.
+#'     This can be very slow process due high level of samples in the radar data
 #' @param na.rm Logical. Default is FALSE
+#' @param ... Forwarded to \code{\link[nlme]{nlme}} function
 #' @return List object with the following elements:
 #'     \describe{
 #'         \item{parameters}{List with two data frames: \code{fixed} and \code{random} containing the following
@@ -153,11 +237,83 @@ mixed_model_using_radar <- function(data,
                                     velocity,
                                     athlete,
                                     time_correction = 0,
+                                    random = MSS + TAU ~ 1,
+                                    LOOCV = FALSE,
                                     # weights = rep(1, nrow(data)),
-                                    na.rm = FALSE) {
+                                    na.rm = FALSE,
+                                    ...) {
 
 
+  run_model <- function(train, test, ...) {
+
+    # Create mixed model
+    mixed_model <- nlme::nlme(
+      velocity ~ MSS * (1 - exp(1)^(-(corrected_time) / TAU)),
+      data = train,
+      fixed = MSS + TAU ~ 1,
+      random = random,
+      groups = ~athlete,
+      # weights = ~weights,
+      start = c(MSS = 7, TAU = 0.8),
+      ...
+    )
+
+    # Pull estimates
+    fixed_effects <- nlme::fixed.effects(mixed_model)
+    random_effects <- nlme::random.effects(mixed_model)
+    athlete_list <- row.names(random_effects)
+
+    empty_df <- matrix(
+      0,
+      nrow = nrow(random_effects),
+      ncol = length(fixed_effects)
+    )
+    colnames(empty_df) <- names(fixed_effects)
+    empty_df <- as.data.frame(empty_df)
+
+    random_effects <- as.data.frame(random_effects)
+    effect_names <- colnames(random_effects)[colnames(random_effects) %in% colnames(empty_df)]
+
+    empty_df[, effect_names] <- random_effects[, effect_names]
+
+    fixed_effects_athlete <- matrix(
+      fixed_effects,
+      nrow = nrow(random_effects),
+      ncol = length(fixed_effects),
+      byrow = TRUE
+    )
+
+    random_effects <- empty_df + fixed_effects_athlete
+    random_effects <- data.frame(
+      athlete = athlete_list,
+      random_effects
+    )
+
+    fixed_effects <- data.frame(t(fixed_effects))
+    fixed_effects$MAC <- fixed_effects$MSS / fixed_effects$TAU
+    fixed_effects$PMAX <- (fixed_effects$MSS * fixed_effects$MAC) / 4
+    fixed_effects$time_correction <- time_correction
+    fixed_effects$distance_correction <- 0
+
+    random_effects$MAC <- random_effects$MSS / random_effects$TAU
+    random_effects$PMAX <- (random_effects$MSS * random_effects$MAC) / 4
+    random_effects$time_correction <- time_correction
+    random_effects$distance_correction <- 0
+
+    # Model fit
+    pred_velocity <- stats::predict(mixed_model, newdata = test)
+
+    return(list(
+      model = mixed_model,
+      fixed_effects = fixed_effects,
+      random_effects = random_effects,
+      pred_velocity = as.numeric(pred_velocity)
+    ))
+  }
+
+  # ================================================
   # Combine to DF
+
   df <- data.frame(
     athlete = data[[athlete]],
     time = data[[time]],
@@ -172,64 +328,112 @@ mixed_model_using_radar <- function(data,
     df <- stats::na.omit(df)
   }
 
-  # Create mixed model
-  mixed_model <- nlme::nlme(
-    velocity ~ MSS * (1 - exp(1)^(-(corrected_time) / TAU)),
-    data = df,
-    fixed = MSS + TAU ~ 1,
-    random = MSS + TAU ~ 1,
-    groups = ~athlete,
-    # weights = ~weights,
-    start = c(MSS = 7, TAU = 0.8)
+
+  # Run model
+  training_model <- run_model(
+    train = df,
+    test = df,
+    ...
   )
 
-  # Pull estimates
-  fixed_effects <- nlme::fixed.effects(mixed_model)
-  random_effects <- nlme::random.effects(mixed_model)
-
-  # Fixed effects
-  fixed_effects <- data.frame(t(fixed_effects))
-  fixed_effects$MAC <- fixed_effects$MSS / fixed_effects$TAU
-  fixed_effects$PMAX <- (fixed_effects$MSS * fixed_effects$MAC) / 4
-  fixed_effects$time_correction <- time_correction
-  fixed_effects$distance_correction <- 0
-
-  random_effects$athlete <- rownames(random_effects)
-  random_effects$MSS <- random_effects$MSS + fixed_effects$MSS
-  random_effects$TAU <- random_effects$TAU + fixed_effects$TAU
-  rownames(random_effects) <- NULL
-  random_effects <- random_effects[c("athlete", "MSS", "TAU")]
-  random_effects$MAC <- random_effects$MSS / random_effects$TAU
-  random_effects$PMAX <- (random_effects$MSS * random_effects$MAC) / 4
-  random_effects$time_correction <- time_correction
-  random_effects$distance_correction <- 0
-
-  # Model fit
-  pred_velocity <- stats::predict(mixed_model, newdata = df)
-
-  model_fit <- shorts_model_fit(
-    model = mixed_model,
+  training_model_fit <- shorts_model_fit(
+    model = training_model$model,
     observed = df$velocity,
-    predicted = pred_velocity,
+    predicted = training_model$pred_velocity,
     na.rm = na.rm
   )
+
+  # LOOCV
+  LOOCV_data <- NULL
+
+  if (LOOCV) {
+    cv_folds <- data.frame(index = seq_len(nrow(df)), df)
+    cv_folds <- split(cv_folds, cv_folds$index)
+
+    testing <- lapply(cv_folds, function(fold) {
+      train_data <- df[-fold$index, ]
+      test_data <- df[fold$index, ]
+
+      model <- run_model(
+        train = train_data,
+        test = test_data,
+        ...
+      )
+
+      return(model)
+    })
+
+    # Extract predicted time
+    testing_pred_velocity <- sapply(testing, function(data) data$pred_velocity)
+
+    testing_model_fit <- shorts_model_fit(
+      observed = df$velocity,
+      predicted = testing_pred_velocity,
+      na.rm = na.rm
+    )
+
+    # Extract model parameters
+    testing_fixed_parameters <- as.data.frame(
+      t(sapply(testing, function(data) {
+        c(
+          data$fixed_effects$MSS,
+          data$fixed_effects$TAU,
+          data$fixed_effects$MAC,
+          data$fixed_effects$PMAX,
+          data$fixed_effects$time_correction,
+          data$fixed_effects$distance_correction
+        )
+      }))
+    )
+    colnames(testing_fixed_parameters) <- c(
+      "MSS",
+      "TAU",
+      "MAC",
+      "PMAX",
+      "time_correction",
+      "distance_correction"
+    )
+
+    testing_random_parameters <- lapply(testing, function(data) data$random_effects)
+    testing_random_parameters <- do.call(rbind, testing_random_parameters)
+
+    # Modify df
+    testing_df <- data.frame(
+      athlete = data[[athlete]],
+      time = data[[time]],
+      velocity = data[[velocity]],
+      pred_velocity = testing_pred_velocity # ,
+      # weights = weights
+    )
+
+    # Save everything in the object
+    LOOCV_data <- list(
+      parameters = list(
+        fixed = testing_fixed_parameters,
+        random = testing_random_parameters
+      ),
+      model_fit = testing_model_fit,
+      data = testing_df
+    )
+  }
 
   # Add predicted velocity to df
   df <- data.frame(
     athlete = data[[athlete]],
     time = data[[time]],
     velocity = data[[velocity]],
-    pred_velocity = pred_velocity # ,
+    pred_velocity = training_model$pred_velocity # ,
     # weights = weights
   )
 
   return(new_shorts_mixed_model(
     parameters = list(
-      fixed = fixed_effects,
-      random = random_effects
+      fixed = training_model$fixed_effects,
+      random = training_model$random_effects
     ),
-    model_fit = model_fit,
-    model = mixed_model,
-    data = df
+    model_fit = training_model_fit,
+    model = training_model$model,
+    data = df,
+    LOOCV = LOOCV_data
   ))
 }

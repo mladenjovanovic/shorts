@@ -3,8 +3,13 @@
 * Used constructor functions for all modeling functions
 * Added modular short_model_fit function with three extra estimators: MAE, MAPE, and MaxAbsErr. This function is hidden from the user, but allows easier extension and modularity as well avoidance of code repetition
 * Added `time_correction` and `distance_correction` to all model parameters output to align them
-* Added S3 `predict` function that predicts 0-6s distance (100Hz), velocity, acceleration, and relative power
-* Added S3 `print`, `coef`, `summary`, and `residuals` methods
+* Added S3 `predict_kinematics` function that predicts 0-6s distance (100Hz), velocity, acceleration, and relative power
+* Added S3 `print`, `coef`, `summary`, `predict`, and `residuals` methods
+* Added LOOCV option to modeling functions which provided cross-validated predictions and estimated model parameters
+* Added `random` parameter to `mixed_` family of functions to allow higher flexibility in model definitions, but removed `corrections_as_random_effects` parameter. The default behavious is to use all parameters as random effects. 
+* Added `...` to `model_using_radar` and `mixed_model_using_radar` to be forwarded to `nlme::nlme`
+* Expanded the Readme.md file
+* Expanded the `sprint-corrections` vignette by adding a short simulation study
 
 # shorts 1.0.1
 

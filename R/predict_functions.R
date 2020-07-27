@@ -114,3 +114,94 @@ predict_relative_power_at_time <- function(time, MSS, TAU, time_correction = 0) 
 
   acc * vel
 }
+
+#' Predicts sprint kinematics for 0-6sec (100hz) which include distance,
+#'     velocity, acceleration, and relative power. This is done for each
+#'     athlete (i.e. level) inside the model for the \code{shorts_mixed_model}
+#'     object
+#' @rdname predict_kinematics
+#' @param object \code{shorts_model} or \code{shorts_mixed_model} object
+#' @param max_time Predict from 0 to \code{max_time}. Default is 6seconds
+#' @param frequency Number of samples within one second. Default is 100Hz
+#' @return Data frame
+#' @export
+predict_kinematics <- function(object, max_time = 6, frequency = 100) {
+  df <- NULL
+
+  if (class(object) == "shorts_model") {
+    df <- data.frame(
+      time = seq(0, max_time, length.out = max_time * frequency + 1)
+    )
+
+    df$distance <- predict_distance_at_time(
+      time = df$time,
+      MSS = object$parameters$MSS,
+      TAU = object$parameters$TAU,
+      time_correction = object$parameters$time_correction,
+      distance_correction = object$parameters$distance_correction
+    )
+
+    df$velocity <- predict_velocity_at_time(
+      time = df$time,
+      MSS = object$parameters$MSS,
+      TAU = object$parameters$TAU,
+      time_correction = object$parameters$time_correction
+    )
+
+    df$acceleration <- predict_acceleration_at_time(
+      time = df$time,
+      MSS = object$parameters$MSS,
+      TAU = object$parameters$TAU,
+      time_correction = object$parameters$time_correction
+    )
+
+    df$power <- predict_relative_power_at_time(
+      time = df$time,
+      MSS = object$parameters$MSS,
+      TAU = object$parameters$TAU,
+      time_correction = object$parameters$time_correction
+    )
+  }
+
+  if (class(object) == "shorts_mixed_model") {
+    df <- expand.grid(
+      time = seq(0, max_time, length.out = max_time * frequency + 1),
+      athlete = object$parameters$random$athlete
+    )
+
+    df <- merge(df, object$parameters$random, by = "athlete", all = TRUE)
+
+    df$distance <- predict_distance_at_time(
+      time = df$time,
+      MSS = df$MSS,
+      TAU = df$TAU,
+      time_correction = df$time_correction,
+      distance_correction = df$distance_correction
+    )
+
+    df$velocity <- predict_velocity_at_time(
+      time = df$time,
+      MSS = df$MSS,
+      TAU = df$TAU,
+      time_correction = df$time_correction
+    )
+
+    df$acceleration <- predict_acceleration_at_time(
+      time = df$time,
+      MSS = df$MSS,
+      TAU = df$TAU,
+      time_correction = df$time_correction
+    )
+
+    df$power <- predict_relative_power_at_time(
+      time = df$time,
+      MSS = df$MSS,
+      TAU = df$TAU,
+      time_correction = df$time_correction
+    )
+
+    df <- df[c("athlete", "time", "distance", "velocity", "acceleration", "power")]
+  }
+
+  return(df)
+}
