@@ -206,6 +206,8 @@ model_using_radar <- function(time,
 #' @param time_correction Numeric vector. Used to filter out noisy data from the radar gun.
 #'     This correction is done by adding \code{time_correction} to \code{time}. Default is 0. See more in Samozino (2018)
 #' @param random Formula forwarded to \code{\link[nlme]{nlme}} to set random effects. Default is \code{MSS + TAU ~ 1}
+#' @param LOOCV Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}.
+#'     This can be very slow process due high level of samples in the radar data
 #' @param na.rm Logical. Default is FALSE
 #' @param ... Forwarded to \code{\link[nlme]{nlme}} function
 #' @return List object with the following elements:
@@ -236,6 +238,7 @@ mixed_model_using_radar <- function(data,
                                     athlete,
                                     time_correction = 0,
                                     random = MSS + TAU ~ 1,
+                                    LOOCV = FALSE,
                                     # weights = rep(1, nrow(data)),
                                     na.rm = FALSE,
                                     ...) {
@@ -340,6 +343,80 @@ mixed_model_using_radar <- function(data,
     na.rm = na.rm
   )
 
+  # LOOCV
+  LOOCV_data <- NULL
+
+  if (LOOCV) {
+    cv_folds <- data.frame(index = seq_len(nrow(df)), df)
+    cv_folds <- split(cv_folds, cv_folds$index)
+
+    testing <- lapply(cv_folds, function(fold) {
+      train_data <- df[-fold$index, ]
+      test_data <- df[fold$index, ]
+
+      model <- run_model(
+        train = train_data,
+        test = test_data,
+        ...
+      )
+
+      return(model)
+    })
+
+    # Extract predicted time
+    testing_pred_velocity <- sapply(testing, function(data) data$pred_velocity)
+
+    testing_model_fit <- shorts_model_fit(
+      observed = df$velocity,
+      predicted = testing_pred_velocity,
+      na.rm = na.rm
+    )
+
+    # Extract model parameters
+    testing_fixed_parameters <- as.data.frame(
+      t(sapply(testing, function(data) {
+        c(
+          data$fixed_effects$MSS,
+          data$fixed_effects$TAU,
+          data$fixed_effects$MAC,
+          data$fixed_effects$PMAX,
+          data$fixed_effects$time_correction,
+          data$fixed_effects$distance_correction
+        )
+      }))
+    )
+    colnames(testing_fixed_parameters) <- c(
+      "MSS",
+      "TAU",
+      "MAC",
+      "PMAX",
+      "time_correction",
+      "distance_correction"
+    )
+
+    testing_random_parameters <- lapply(testing, function(data) data$random_effects)
+    testing_random_parameters <- do.call(rbind, testing_random_parameters)
+
+    # Modify df
+    testing_df <- data.frame(
+      athlete = data[[athlete]],
+      time = data[[time]],
+      velocity = data[[velocity]],
+      pred_velocity = testing_pred_velocity # ,
+      # weights = weights
+    )
+
+    # Save everything in the object
+    LOOCV_data <- list(
+      parameters = list(
+        fixed = testing_fixed_parameters,
+        random = testing_random_parameters
+      ),
+      model_fit = testing_model_fit,
+      data = testing_df
+    )
+  }
+
   # Add predicted velocity to df
   df <- data.frame(
     athlete = data[[athlete]],
@@ -356,6 +433,7 @@ mixed_model_using_radar <- function(data,
     ),
     model_fit = training_model_fit,
     model = training_model$model,
-    data = df
+    data = df,
+    LOOCV = LOOCV_data
   ))
 }
