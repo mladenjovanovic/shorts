@@ -9,6 +9,7 @@
 #' @param time_correction Numeric vector. Used to filter out noisy data from the radar gun. This correction is
 #'     done by adding \code{time_correction} to \code{time}. Default is 0. See more in Samozino (2018)
 #' @param weights Numeric vector. Default is 1
+#' @param LOOCV Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}
 #' @param na.rm Logical. Default is FALSE
 #' @param ... Forwarded to \code{\link[nlme]{nlme}} function
 #' @return List object with the following elements:
@@ -44,6 +45,7 @@ model_using_radar <- function(time,
                               velocity,
                               time_correction = 0,
                               weights = 1,
+                              LOOCV = FALSE,
                               na.rm = FALSE,
                               ...) {
 
@@ -68,7 +70,7 @@ model_using_radar <- function(time,
     PMAX <- (MSS * MAC) / 4
 
     # Model fit
-    pred_velocity <- MSS * (1 - exp(1)^(-(df$corrected_time) / TAU))
+    pred_velocity <- MSS * (1 - exp(1)^(-(test$corrected_time) / TAU))
 
     return(list(
       model = speed_mod,
@@ -109,6 +111,61 @@ model_using_radar <- function(time,
     na.rm = na.rm
   )
 
+  # LOOCV
+  LOOCV_data <- NULL
+
+  if (LOOCV) {
+    cv_folds <- data.frame(index = seq_len(nrow(df)), df)
+    cv_folds <- split(cv_folds, cv_folds$index)
+
+    testing <- lapply(cv_folds, function(fold) {
+      train_data <- df[-fold$index, ]
+      test_data <- df[fold$index, ]
+
+      model <- run_model(
+        train = train_data,
+        test = test_data,
+        ...
+      )
+
+      return(model)
+    })
+
+    # Extract predicted time
+    testing_pred_velocity <- sapply(testing, function(data) data$pred_velocity)
+
+    testing_model_fit <- shorts_model_fit(
+      observed = df$velocity,
+      predicted = testing_pred_velocity,
+      na.rm = na.rm
+    )
+    # Extract model parameters
+    testing_parameters <- as.data.frame(
+      t(sapply(testing, function(data) {
+        c(data$MSS, data$TAU, data$MAC, data$PMAX)
+      }))
+    )
+
+    colnames(testing_parameters) <- c("MSS", "TAU", "MAC", "PMAX")
+    testing_parameters$time_correction <- time_correction
+    testing_parameters$distance_correction <- 0
+
+    # Modify df
+    testing_df <- data.frame(
+      time = time,
+      velocity = velocity,
+      weights = weights,
+      pred_velocity = testing_pred_velocity
+    )
+
+    # Save everything in the object
+    LOOCV_data <- list(
+      parameters = testing_parameters,
+      model_fit = testing_model_fit,
+      data = testing_df
+    )
+  }
+
   # Add predicted velocity to df
   df <- data.frame(
     time = time,
@@ -129,7 +186,8 @@ model_using_radar <- function(time,
     ),
     model_fit = training_model_fit,
     model = training_model$model,
-    data = df
+    data = df,
+    LOOCV = LOOCV_data
   ))
 }
 

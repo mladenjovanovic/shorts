@@ -9,6 +9,7 @@ model_using_radar(
   velocity,
   time_correction = 0,
   weights = 1,
+  LOOCV = FALSE,
   na.rm = FALSE,
   ...
 )
@@ -22,6 +23,8 @@ model_using_radar(
 done by adding \code{time_correction} to \code{time}. Default is 0. See more in Samozino (2018)}
 
 \item{weights}{Numeric vector. Default is 1}
+
+\item{LOOCV}{Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}}
 
 \item{na.rm}{Logical. Default is FALSE}
 
