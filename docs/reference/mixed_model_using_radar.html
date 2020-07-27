@@ -155,6 +155,7 @@
   <span class='no'>athlete</span>,
   <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
   <span class='kw'>random</span> <span class='kw'>=</span> <span class='no'>MSS</span> + <span class='no'>TAU</span> ~ <span class='fl'>1</span>,
+  <span class='kw'>LOOCV</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='no'>...</span>
 )</pre>
@@ -186,6 +187,11 @@ This correction is done by adding <code>time_correction</code> to <code>time</co
     <tr>
       <th>random</th>
       <td><p>Formula forwarded to <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> to set random effects. Default is <code>MSS + TAU ~ 1</code></p></td>
+    </tr>
+    <tr>
+      <th>LOOCV</th>
+      <td><p>Should Leave-one-out cross-validation be used to estimate model fit? Default is <code>FALSE</code>.
+This can be very slow process due high level of samples in the radar data</p></td>
     </tr>
     <tr>
       <th>na.rm</th>

@@ -11,6 +11,7 @@ mixed_model_using_radar(
   athlete,
   time_correction = 0,
   random = MSS + TAU ~ 1,
+  LOOCV = FALSE,
   na.rm = FALSE,
   ...
 )
@@ -28,6 +29,9 @@ mixed_model_using_radar(
 This correction is done by adding \code{time_correction} to \code{time}. Default is 0. See more in Samozino (2018)}
 
 \item{random}{Formula forwarded to \code{\link[nlme]{nlme}} to set random effects. Default is \code{MSS + TAU ~ 1}}
+
+\item{LOOCV}{Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}.
+This can be very slow process due high level of samples in the radar data}
 
 \item{na.rm}{Logical. Default is FALSE}
 
