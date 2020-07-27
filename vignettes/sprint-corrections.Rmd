@@ -555,6 +555,208 @@ ggplot(kinematics_per_time, aes(x = time, y = value, color = name)) +
 
 Although it cannot be seen from these images, model with time and distance correction is completely over the *true* model. 
 
+## Additional simulation
+
+To showcase effects of *cheating* on the sprint start on estimated `MSS` and `TAU` I will provide additional simulation. In this simulation, cheating refers to starting behind the initial timing gate. This distance will vary from 0 to 1 meter. Estimation models involve model without any correction, model with 0.3 second adjustment, model with `time_correction` and model with both `time_correction` and `distance_correction`. 
+
+```{r}
+time_correction <- 0.3
+
+# Wrapper functions
+ind_model_wrapper <- function(data, ...) {
+  sprint_mod <- shorts::model_using_splits(
+    distance = data$distance,
+    time = data$time,
+    ...
+  )
+  
+  data.frame(
+    sprint_mod$parameters
+  )
+}
+
+ind_model_wrapper_with_time_correction <- function(data, ...) {
+  sprint_mod <- shorts::model_using_splits(
+    distance = data$distance,
+    time = data$time,
+    time_correction = time_correction,
+    ...
+  )
+  
+  data.frame(
+    sprint_mod$parameters
+  )
+}
+
+ind_model_wrapper_with_time_correction_estimation <- function(data, ...) {
+  sprint_mod <- shorts::model_using_splits_with_time_correction(
+    distance = data$distance,
+    time = data$time,
+    ...
+  )
+  
+  data.frame(
+    sprint_mod$parameters
+  )
+}
+
+ind_model_wrapper_with_correction_estimations <- function(data, ...) {
+  sprint_mod <- shorts::model_using_splits_with_corrections(
+    distance = data$distance,
+    time = data$time,
+    ...
+  )
+  
+  data.frame(
+    sprint_mod$parameters
+  )
+}
+
+# -----------------------------------------------
+set.seed(1667)
+
+
+sim_df <- expand_grid(
+  simulation = 1:1,
+  true_MSS = c(7, 8, 9),
+  true_TAU = c(0.6, 0.75, 0.9),
+  cheating_distance = seq(0, 1, length.out = 10),
+  distance = c(5, 10, 15, 20, 30, 40)
+) %>%
+  mutate(
+    true_MAC = true_MSS / true_TAU,
+    true_PMAX = (true_MSS * true_MAC) / 4,
+    true_distance = distance + cheating_distance,
+    cheating_time = predict_time_at_distance(cheating_distance, true_MSS, true_TAU),
+    true_time = predict_time_at_distance(true_distance, true_MSS, true_TAU),
+    time = true_time - cheating_time,
+    # Add small noise to allow fitting
+    time = time + rnorm(n(), 0, 10^-5)
+  ) 
+
+ind_model <- sim_df %>%
+  group_by(simulation, cheating_distance, true_MSS, true_TAU) %>%
+  do(ind_model_wrapper(.)) %>%
+  mutate(time_correction = 0)
+
+ind_model_with_time_correction <- sim_df %>%
+  group_by(simulation, cheating_distance, true_MSS, true_TAU) %>%
+  do(ind_model_wrapper_with_time_correction(.)) %>%
+  mutate(time_correction = time_correction)
+
+ind_model_with_time_correction_estimation <- sim_df %>%
+  group_by(simulation, cheating_distance, true_MSS, true_TAU) %>%
+  do(ind_model_wrapper_with_time_correction_estimation(., control = nls.control(tol = 0.1)))
+
+ind_model_with_time_and_distance_correction_estimation <- sim_df %>%
+  group_by(simulation, cheating_distance, true_MSS, true_TAU) %>%
+  do(ind_model_wrapper_with_correction_estimations(., control = nls.control(tol = 0.1)))
+
+combined_parameters <- rbind(
+  data.frame(
+    model = "norm",
+    ind_model
+  ),
+  data.frame(
+    model = "norm+time correction",
+    ind_model_with_time_correction
+  ),
+  data.frame(
+    model = "norm+time estimation",
+    ind_model_with_time_correction_estimation
+  ),
+  data.frame(
+    model = "norm+time+dist estimation",
+    ind_model_with_time_and_distance_correction_estimation))
+
+# Combine
+sim_df <- left_join(
+  combined_parameters,
+  sim_df,
+  by = c("simulation", "cheating_distance", "true_MSS", "true_TAU")
+) %>%
+  mutate(
+    pred_time = predict_time_at_distance(distance, MSS, TAU, time_correction),
+    sim_id = paste0(simulation, "-", cheating_distance)
+  )
+
+head(sim_df)
+```
+
+Now we can plot effects on estimated `MSS`:
+
+```{r}
+sim_df <- sim_df %>%
+  mutate(
+    true_MSS_text = factor(paste0("MSS = ", true_MSS)),
+    true_TAU_text = factor(paste0("TAU = ", true_TAU))
+  )
+
+ggplot(
+  sim_df,
+  aes(x = cheating_distance, y = MSS, color = model)
+) +
+  theme_minimal(8) +
+  geom_hline(aes(yintercept = true_MSS), linetype = "dashed", color = "grey") +
+  geom_line() +
+  facet_grid(true_MSS_text~true_TAU_text, scales = "free_y") +
+  theme(legend.text = element_text(size = 6)) +
+  ylab("Estimated MSS") +
+  xlab("Cheating distance (m)")
+```
+
+Estimated `TAU`:
+
+```{r}
+ggplot(
+  sim_df,
+  aes(x = cheating_distance, y = TAU, color = model)
+) +
+  theme_minimal(8) +
+  geom_hline(aes(yintercept = true_TAU), linetype = "dashed", color = "grey") +
+  geom_line() +
+  facet_grid(true_MSS_text~true_TAU_text, scales = "free") +
+  theme(legend.text = element_text(size = 6)) +
+  ylab("Estimated TAU") +
+  xlab("Cheating distance (m)")
+```
+
+Estimated `MAC`:
+
+```{r}
+ggplot(
+  sim_df,
+  aes(x = cheating_distance, y = MAC, color = model)
+) +
+  theme_minimal(8) +
+  geom_hline(aes(yintercept = true_MAC), linetype = "dashed", color = "grey") +
+  geom_line() +
+  facet_grid(true_MSS_text~true_TAU_text, scales = "free") +
+  theme(legend.text = element_text(size = 6)) +
+  ylab("Estimated MAC") +
+  xlab("Cheating distance (m)")
+```
+
+And finally estimated `PMAX`:
+
+```{r}
+ggplot(
+  sim_df,
+  aes(x = cheating_distance, y = PMAX, color = model)
+) +
+  theme_minimal(8) +
+  geom_hline(aes(yintercept = true_PMAX), linetype = "dashed", color = "grey") +
+  geom_line() +
+  facet_grid(true_MSS_text~true_TAU_text, scales = "free") +
+  theme(legend.text = element_text(size = 6)) +
+  ylab("Estimated PMAX") +
+  xlab("Cheating distance (m)")
+```
+
+As can be seen from the simulations, model with time and distance correction correctly estimated all parameters, while model with `time_correction` only showed second best prediction. Other two models were biased when cheating was involved. 
+
+In this simulation there was not measurement error involved, which should also be simulated as well as the effect of different number of timing gates and their positions.  
+
 # Word of caution
 
 The estimation of `time_correction` and `distance_correction` are ideas that are not well researched. Further simulation studies to estimate validity of those models, as well as to calculate simple *heuristic* correction to be used in practical settings are left to be done. 
