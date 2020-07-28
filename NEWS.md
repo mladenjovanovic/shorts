@@ -1,3 +1,5 @@
+# shorts 1.1.0.9000 (Development version)
+
 # shorts 1.1.0
 
 * Used constructor functions for all modeling functions
