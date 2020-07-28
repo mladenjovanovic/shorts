@@ -2,7 +2,7 @@
 title: "Correction factors in `shorts` for estimation using split times"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{sprint-corrections}
+  %\VignetteIndexEntry{Correction factors in `shorts` for estimation using split times}
   %\VignetteEncoding{UTF-8}
   %\VignetteEngine{knitr::rmarkdown}
 editor_options: 
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
   fig.align = "center",
   fig.width = 6,
   fig.height = 4,
-  dpi = 300,
+  dpi = 80,
   out.width = "90%",
   auto_pdf = TRUE,
   message = FALSE,
