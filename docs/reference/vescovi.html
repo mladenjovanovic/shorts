@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Model Using Instantaneous Velocity or Radar Gun — model_using_radar • shorts</title>
+<title>Vescovi Timing Gates Sprint Times — vescovi • shorts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,9 @@
 
 
 
-<meta property="og:title" content="Model Using Instantaneous Velocity or Radar Gun — model_using_radar" />
-<meta property="og:description" content="This function models the sprint instantaneous velocity using mono-exponential equation that estimates
-    maximum sprinting speed (MSS) and relative acceleration (TAU). velocity is used as target or outcome
-    variable, and time as predictor." />
+<meta property="og:title" content="Vescovi Timing Gates Sprint Times — vescovi" />
+<meta property="og:description" content="Timing gates sprint times involving 52 female athletes. Timing gates were located at
+    5m, 10m, 20m, 30m, and 35m. See Details for more information." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -133,96 +132,79 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Model Using Instantaneous Velocity or Radar Gun</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/R/model_using_radar.R'><code>R/model_using_radar.R</code></a></small>
-    <div class="hidden name"><code>model_using_radar.Rd</code></div>
+    <h1>Vescovi Timing Gates Sprint Times</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/R/vescovi.R'><code>R/vescovi.R</code></a></small>
+    <div class="hidden name"><code>vescovi.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function models the sprint instantaneous velocity using mono-exponential equation that estimates
-    maximum sprinting speed (<code>MSS</code>) and relative acceleration (<code>TAU</code>). <code>velocity</code> is used as target or outcome
-    variable, and <code>time</code> as predictor.</p>
+    <p>Timing gates sprint times involving 52 female athletes. Timing gates were located at
+    5m, 10m, 20m, 30m, and 35m. See <strong>Details</strong> for more information.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model_using_radar</span>(
-  <span class='no'>time</span>,
-  <span class='no'>velocity</span>,
-  <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>LOOCV</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='no'>vescovi</span>)</pre>
 
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>time</th>
-      <td><p>Numeric vector</p></td>
-    </tr>
-    <tr>
-      <th>velocity</th>
-      <td><p>Numeric vector</p></td>
-    </tr>
-    <tr>
-      <th>time_correction</th>
-      <td><p>Numeric vector. Used to filter out noisy data from the radar gun. This correction is
-done by adding <code>time_correction</code> to <code>time</code>. Default is 0. See more in Samozino (2018)</p></td>
-    </tr>
-    <tr>
-      <th>weights</th>
-      <td><p>Numeric vector. Default is 1</p></td>
-    </tr>
-    <tr>
-      <th>LOOCV</th>
-      <td><p>Should Leave-one-out cross-validation be used to estimate model fit? Default is <code>FALSE</code></p></td>
-    </tr>
-    <tr>
-      <th>na.rm</th>
-      <td><p>Logical. Default is FALSE</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Forwarded to <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> function</p></td>
-    </tr>
-    </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>List object with the following elements:</p><dl'>
-        <dt>parameters</dt><dd><p>List with the following estimated parameters:
-            <code>MSS</code>, <code>TAU</code>, <code>MAC</code>, and <code>PMAX</code></p></dd>
-        <dt>model_fit</dt><dd><p>List with the following components:
-            <code>RSE</code>, <code>R_squared</code>, <code>minErr</code>, <code>maxErr</code>, and <code>RMSE</code></p></dd>
-        <dt>model</dt><dd><p>Model returned by the <code><a href='https://rdrr.io/r/stats/nls.html'>nls</a></code> function</p></dd>
-        <dt>data</dt><dd><p>Data frame used to estimate the sprint parameters, consisting of <code>time</code>,
-           <code>velocity</code>, <code>weights</code>, and <code>pred_velocity</code> columns</p></dd>
-        
+    <p>Data frame with 17 variables and 52 observations:</p><dl'>
+   <dt>Team</dt><dd><p>Team or sport. Contains the following levels: 'W Soccer' (Women Soccer),
+   'FH Sr' (Field Hockey Seniors), 'FH U21' (Field Hockey Under 21), and 'FH U17' (Field Hockey Under 17)</p></dd>
+   <dt>Surface</dt><dd><p>Type of testing surface. Contains the following levels: 'Hard Cours' and 'Natural Grass'</p></dd>
+   <dt>Athlete</dt><dd><p>Athlete ID</p></dd>
+   <dt>Age</dt><dd><p>Athlete age in years</p></dd>
+   <dt>Height</dt><dd><p>Body height in cm</p></dd>
+   <dt>Bodyweight</dt><dd><p>Body weight in kg</p></dd>
+   <dt>BMI</dt><dd><p>Body Mass Index</p></dd>
+   <dt>BSA</dt><dd><p>Body Surface Area. Calculated using Mosteller equation <code><a href='https://rdrr.io/r/base/MathFun.html'>sqrt((height/weight)/3600)</a></code></p></dd>
+   <dt>5m</dt><dd><p>Time in seconds at 5m gate</p></dd>
+   <dt>10m</dt><dd><p>Time in seconds at 10m gate</p></dd>
+   <dt>20m</dt><dd><p>Time in seconds at 20m gate</p></dd>
+   <dt>30m</dt><dd><p>Time in seconds at 30m gate</p></dd>
+   <dt>35m</dt><dd><p>Time in seconds at 35m gate</p></dd>
+   <dt>10m-5m split</dt><dd><p>Split time in seconds between 10m and 5m gate</p></dd>
+   <dt>20m-10m split</dt><dd><p>Split time in seconds between 20m and 10m gate</p></dd>
+   <dt>30m-20m split</dt><dd><p>Split time in seconds between 30m and 20m gate</p></dd>
+   <dt>35m-30m split</dt><dd><p>Split time in seconds between 35m and 30m gate</p></dd>
+
 </dl>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>This data-set represents sub-set of data from a total of 220 high-level female athletes
+   (151 soccer players and 69 field hockey players).  Using a random number generator,
+   a total of 52 players (35 soccer and 17 field hockey) were selected for this data-set.
+   Soccer players were older (24.6±3.6 vs. 18.9±2.7 yr, p &lt; 0.001), however there were no
+   differences for height (167.3±5.9 vs. 167.0±5.7 cm, p = 0.886),
+   body mass (62.5±5.9 vs. 64.0±9.4 kg, p = 0.500) or any sprint interval time (p &gt; 0.650).</p>
+<p>The protocol for assessing linear sprint speed has been described previously (Vescovi 2014,
+   2016, 2012) and was identical for each cohort.  Briefly, all athletes performed a standardized
+   warm-up that included general exercises such as jogging, shuffling, multi-directional movements,
+   and dynamic stretching exercises. Infrared timing gates (Brower Timing, Utah) were positioned at
+   the start line and at 5, 10, 20, and 35 meters at a height of approximately 1.0 meter.
+   Participants stood with their lead foot positioned approximately 5 cm behind the initial infrared beam
+   (i.e., start line). Only forward movement was permitted (no leaning or rocking backwards) and timing
+   started when the laser of the starting gate was triggered. The best 35 m time, and all associated split
+   times were kept for analysis.  The assessment of linear sprints using infrared timing gates does not
+   require familiarization (Moir, Button, Glaister, and Stone 2004).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
-        Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
-       Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.</p>
+    <p>Moir G, Button C, Glaister M, Stone MH (2004). "Inlfuence of Familiarization on the Reliability
+    of Vertical Jump and Acceleration Sprinting Performance in Physically Active Men."
+    The Journal of Strength and Conditioning Research, 18(2), 276. ISSN 1064-8011, 1533-4287.
+    doi:10.1519/R-13093.1.</p>
+<p>Vescovi JD (2012). "Sprint Speed Characteristics of High-Level American Female Soccer
+    Players: Female Athletes in Motion (FAiM) Study." Journal of Science and Medicine in
+    Sport, 15(5), 474-478. ISSN 14402440. doi:10.1016/j.jsams.2012.03.006.</p>
+<p>Vescovi JD (2014). "Impact of Maximum Speed on Sprint Performance During High-Level
+    Youth Female Field Hockey Matches: Female Athletes in Motion (FAiM) Study." International
+    Journal of Sports Physiology and Performance, 9(4), 621-626. ISSN 1555-0265,
+   1555-0273. doi:10.1123/ijspp.2013-0263.</p>
+<p>Vescovi JD (2016). "Locomotor, Heart-Rate, and Metabolic Power Characteristics of Youth
+   Women's Field Hockey: Female Athletes in Motion (FAiM) Study." Research Quarterly for
+   Exercise and Sport, 87(1), 68-77. ISSN 0270-1367, 2168-3824.
+   doi:10.1080/02701367.2015.1124972.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>instant_velocity</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  <span class='kw'>time</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>),
-  <span class='kw'>velocity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.00</span>, <span class='fl'>4.99</span>, <span class='fl'>6.43</span>, <span class='fl'>6.84</span>, <span class='fl'>6.95</span>, <span class='fl'>6.99</span>, <span class='fl'>7.00</span>)
-)
-
-<span class='no'>sprint_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(
-  <span class='no'>instant_velocity</span>,
-  <span class='fu'>model_using_radar</span>(<span class='no'>time</span>, <span class='no'>velocity</span>)
-)
-
-<span class='co'># sprint_model$parameters</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>sprint_model</span>)</div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
-#&gt;           7.0032304           0.8013733           8.7390359          15.3003704 
-#&gt;     time_correction distance_correction 
-#&gt;           0.0000000           0.0000000 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

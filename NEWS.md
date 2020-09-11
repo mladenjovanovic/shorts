@@ -1,3 +1,5 @@
+# shorts 1.1.1.9000 (Developmental version)
+
 # shorts 1.1.1
 
 * Added James Vescovi contributed dataset (`data("vescovi")`). For more info see `?vescovi`
