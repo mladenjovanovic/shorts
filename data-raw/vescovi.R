@@ -7,9 +7,8 @@ vescovi <- read_csv("vescovi_data.csv")
 
 # Sort the athletes from fastest 35m to slowest
 vescovi <- vescovi %>%
-  mutate(ID = fct_reorder(ID, `35m`)) %>%
+  mutate(Athlete = fct_reorder(Athlete, `35m`)) %>%
   arrange(`35m`) %>%
-  rename(Athlete = ID) %>%
   # Add splits
   mutate(
     `10m-5m split` = `10m` - `5m`,

@@ -7,7 +7,7 @@
 #' This data-set represents sub-set of data from a total of 220 high-level female athletes
 #'    (151 soccer players and 69 field hockey players).  Using a random number generator,
 #'    a total of 52 players (35 soccer and 17 field hockey) were selected for this data-set.
-#'    Soccer players were older (24.6±3.6 vs. 18.9±2.7 yr, p < 0.0001), however there were no
+#'    Soccer players were older (24.6±3.6 vs. 18.9±2.7 yr, p < 0.001), however there were no
 #'    differences for height (167.3±5.9 vs. 167.0±5.7 cm, p = 0.886),
 #'    body mass (62.5±5.9 vs. 64.0±9.4 kg, p = 0.500) or any sprint interval time (p > 0.650).
 #'
@@ -22,15 +22,17 @@
 #'    times were kept for analysis.  The assessment of linear sprints using infrared timing gates does not
 #'    require familiarization (Moir, Button, Glaister, and Stone 2004).
 #'
-#' @format Data frame with 16 variables and 52 observations:
+#' @format Data frame with 17 variables and 52 observations:
 #' \describe{
-#'    \item{Tag}{To be added}
+#'    \item{Team}{Team or sport. Contains the following levels: 'W Soccer' (Women Soccer),
+#'    'FH Sr' (Field Hockey Seniors), 'FH U21' (Field Hockey Under 21), and 'FH U17' (Field Hockey Under 17)}
+#'    \item{Surface}{Type of testing surface. Contains the following levels: 'Hard Cours' and 'Natural Grass'}
 #'    \item{Athlete}{Athlete ID}
 #'    \item{Age}{Athlete age in years}
 #'    \item{Height}{Body height in cm}
 #'    \item{Bodyweight}{Body weight in kg}
 #'    \item{BMI}{Body Mass Index}
-#'    \item{BSA}{Body Surface Area}
+#'    \item{BSA}{Body Surface Area. Calculated using Mosteller equation \code{sqrt((height/weight)/3600)}}
 #'    \item{5m}{Time in seconds at 5m gate}
 #'    \item{10m}{Time in seconds at 10m gate}
 #'    \item{20m}{Time in seconds at 20m gate}
