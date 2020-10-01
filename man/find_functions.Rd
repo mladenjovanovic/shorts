@@ -65,26 +65,39 @@ find_power_critical_time(MSS, TAU, time_correction = 0, percent = 0.9, ...)
 \item{percent}{Numeric vector. Used to calculate critical distance. Default is 0.9}
 }
 \value{
-List with two elements: \code{max_power} and \code{distance} at which max power occurs
+\code{find_max_power_distance} returns list with two elements: \code{max_power}
+   and \code{distance} at which max power occurs
 
-List with two elements: \code{max_power} and \code{time} at which max power occurs
+\code{find_max_power_time} returns list with two elements: \code{max_power} and
+    \code{time} at which max power occurs
 }
 \description{
-`find_max_power_distance` Finds maximum power and \code{distance} at which max power occurs
+Family of functions that serve a purpose of finding maximal value and critical distances and times
+    at which power, acceleration or velocity drops below certain threshold.
 
-`find_max_power_time` Finds maximum power and \code{time} at which max power occurs
+\code{find_max_power_distance} finds maximum power and \code{distance} at
+   which max power occurs
 
-`find_velocity_critical_distance` finds critical distance at which \code{percent} of \code{MSS} is achieved
+\code{find_max_power_time} finds maximum power and \code{time} at which
+    max power occurs
 
-`find_velocity_critical_time` finds critical time at which \code{percent} of \code{MSS} is achieved
+\code{find_velocity_critical_distance} finds critical distance at which \code{percent}
+    of \code{MSS} is achieved
 
-`find_acceleration_critical_distance` finds critical distance at which \code{percent} of \code{MAC} is reached
+\code{find_velocity_critical_time} finds critical time at which \code{percent} of \code{MSS}
+    is achieved
 
-`find_acceleration_critical_time` finds critical time at which \code{percent} of \code{MAC} is reached
+\code{find_acceleration_critical_distance} finds critical distance at which \code{percent}
+    of \code{MAC} is reached
 
-`find_power_critical_distance` finds critical distances at which maximal power over \code{percent} is achieved
+\code{find_acceleration_critical_time} finds critical time at which \code{percent} of
+    \code{MAC} is reached
 
-`find_power_critical_time` finds critical times at which maximal power over \code{percent} is achieved
+\code{find_power_critical_distance} finds critical distances at which maximal power over
+    \code{percent} is achieved
+
+\code{find_power_critical_time} finds critical times at which maximal power over
+    \code{percent} is achieved
 }
 \examples{
 dist <- seq(0, 40, length.out = 1000)

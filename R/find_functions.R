@@ -1,4 +1,8 @@
 #' Find functions
+#'
+#' Family of functions that serve a purpose of finding maximal value and critical distances and times
+#'     at which power, acceleration or velocity drops below certain threshold.
+#'
 #' @param time_correction Numeric vector. Used for correction. Default is 0. See references for more info
 #' @param distance_correction Numeric vector. Used for correction. Default is 0. See vignettes for more info
 #' @param MSS,TAU Numeric vectors. Model parameters
@@ -60,8 +64,10 @@
 NULL
 
 #' @rdname find_functions
-#' @description `find_max_power_distance` Finds maximum power and \code{distance} at which max power occurs
-#' @return List with two elements: \code{max_power} and \code{distance} at which max power occurs
+#' @description \code{find_max_power_distance} finds maximum power and \code{distance} at
+#'    which max power occurs
+#' @return \code{find_max_power_distance} returns list with two elements: \code{max_power}
+#'    and \code{distance} at which max power occurs
 #' @export
 find_max_power_distance <- function(MSS, TAU, time_correction = 0, distance_correction = 0, ...) {
   max_power <- stats::optimize(
@@ -86,8 +92,10 @@ find_max_power_distance <- function(MSS, TAU, time_correction = 0, distance_corr
 }
 
 #' @rdname find_functions
-#' @description `find_max_power_time` Finds maximum power and \code{time} at which max power occurs
-#' @return List with two elements: \code{max_power} and \code{time} at which max power occurs
+#' @description \code{find_max_power_time} finds maximum power and \code{time} at which
+#'     max power occurs
+#' @return \code{find_max_power_time} returns list with two elements: \code{max_power} and
+#'     \code{time} at which max power occurs
 #' @export
 find_max_power_time <- function(MSS, TAU, time_correction = 0, ...) {
   max_power <- stats::optimize(
@@ -112,7 +120,8 @@ find_max_power_time <- function(MSS, TAU, time_correction = 0, ...) {
 
 
 #' @rdname find_functions
-#' @description `find_velocity_critical_distance` finds critical distance at which \code{percent} of \code{MSS} is achieved
+#' @description \code{find_velocity_critical_distance} finds critical distance at which \code{percent}
+#'     of \code{MSS} is achieved
 #' @export
 find_velocity_critical_distance <- function(MSS, TAU, time_correction = 0, distance_correction = 0, percent = 0.9) {
   critical_distance <- stats::optimize(
@@ -134,7 +143,8 @@ find_velocity_critical_distance <- function(MSS, TAU, time_correction = 0, dista
 }
 
 #' @rdname find_functions
-#' @description `find_velocity_critical_time` finds critical time at which \code{percent} of \code{MSS} is achieved
+#' @description \code{find_velocity_critical_time} finds critical time at which \code{percent} of \code{MSS}
+#'     is achieved
 #' @export
 find_velocity_critical_time <- function(MSS, TAU, time_correction = 0, percent = 0.9) {
   critical_distance <- stats::optimize(
@@ -156,7 +166,8 @@ find_velocity_critical_time <- function(MSS, TAU, time_correction = 0, percent =
 
 
 #' @rdname find_functions
-#' @description `find_acceleration_critical_distance` finds critical distance at which \code{percent} of \code{MAC} is reached
+#' @description \code{find_acceleration_critical_distance} finds critical distance at which \code{percent}
+#'     of \code{MAC} is reached
 #' @export
 find_acceleration_critical_distance <- function(MSS, TAU, time_correction = 0, distance_correction = 0, percent = 0.9) {
   critical_distance <- stats::optimize(
@@ -178,7 +189,8 @@ find_acceleration_critical_distance <- function(MSS, TAU, time_correction = 0, d
 }
 
 #' @rdname find_functions
-#' @description `find_acceleration_critical_time` finds critical time at which \code{percent} of \code{MAC} is reached
+#' @description \code{find_acceleration_critical_time} finds critical time at which \code{percent} of
+#'     \code{MAC} is reached
 #' @export
 find_acceleration_critical_time <- function(MSS, TAU, time_correction = 0, percent = 0.9) {
   critical_distance <- stats::optimize(
@@ -200,7 +212,8 @@ find_acceleration_critical_time <- function(MSS, TAU, time_correction = 0, perce
 
 
 #' @rdname find_functions
-#' @description `find_power_critical_distance` finds critical distances at which maximal power over \code{percent} is achieved
+#' @description \code{find_power_critical_distance} finds critical distances at which maximal power over
+#'     \code{percent} is achieved
 #' @export
 find_power_critical_distance <- function(MSS, TAU, time_correction = 0, distance_correction = 0, percent = 0.9, ...) {
   max_power <- find_max_power_distance(MSS, TAU, time_correction, distance_correction, ...)
@@ -245,7 +258,8 @@ find_power_critical_distance <- function(MSS, TAU, time_correction = 0, distance
 
 
 #' @rdname find_functions
-#' @description `find_power_critical_time` finds critical times at which maximal power over \code{percent} is achieved
+#' @description \code{find_power_critical_time} finds critical times at which maximal power over
+#'     \code{percent} is achieved
 #' @export
 find_power_critical_time <- function(MSS, TAU, time_correction = 0, percent = 0.9, ...) {
   max_power <- find_max_power_time(MSS, TAU, time_correction, ...)
