@@ -8,6 +8,8 @@
 * Function `predict_kinematics` now uses aforementioned changes in `predict_relative_power_` functions, and added force and air resistance in the output
 * Functions `find_max_power_distance` and `find_power_critical_distance` now uses aforementioned changes and returns absolute power, rather than relative, and air resistance is used in the power calculations
 * Added `find_max_power_time`, `find_velocity_critical_time`, `find_acceleration_critical_time`, and `find_power_critical_time` functions
+* Added `model_using_radar_with_time_correction` where time_correction parameter is estimated
+* Added `mixed_model_using_radar_with_time_correction` where time_correction parameter is estimated
 
 # shorts 1.1.1
 
