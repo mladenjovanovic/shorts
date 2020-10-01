@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>S3 method for providing residuals for the <code>shorts_mixed_model</code> object — residuals.shorts_mixed_model • shorts</title>
+<title>S3 method for providing residuals for the shorts_mixed_model object — residuals.shorts_mixed_model • shorts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="S3 method for providing residuals for the <code>shorts_mixed_model</code> object — residuals.shorts_mixed_model" />
+<meta property="og:title" content="S3 method for providing residuals for the shorts_mixed_model object — residuals.shorts_mixed_model" />
 <meta property="og:description" content="S3 method for providing residuals for the shorts_mixed_model object" />
 <meta property="og:image" content="/logo.png" />
 
@@ -141,7 +141,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for shorts_mixed_model</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/residuals.html'>residuals</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/residuals.html'>residuals</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,16 +158,17 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"split_times"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"split_times"</span><span class='op'>)</span>
 
-<span class='no'>mixed_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mixed_model_split_times.html'>mixed_model_using_splits</a></span>(
-  <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>split_times</span>,
-  <span class='kw'>distance</span> <span class='kw'>=</span> <span class='st'>"distance"</span>,
-  <span class='kw'>time</span> <span class='kw'>=</span> <span class='st'>"time"</span>,
-  <span class='kw'>athlete</span> <span class='kw'>=</span> <span class='st'>"athlete"</span>
-)
+<span class='va'>mixed_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='mixed_model_split_times.html'>mixed_model_using_splits</a></span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='va'>split_times</span>,
+  distance <span class='op'>=</span> <span class='st'>"distance"</span>,
+  time <span class='op'>=</span> <span class='st'>"time"</span>,
+  athlete <span class='op'>=</span> <span class='st'>"athlete"</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/stats/residuals.html'>residuals</a></span>(<span class='no'>mixed_model</span>)</div><div class='output co'>#&gt;  [1]  0.0363045196 -0.0031923744 -0.0200589383 -0.0239042398 -0.0090617852
+<span class='fu'><a href='https://rdrr.io/r/stats/residuals.html'>residuals</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;  [1]  0.0363045196 -0.0031923744 -0.0200589383 -0.0239042398 -0.0090617852
 #&gt;  [6]  0.0193292270  0.0496458203  0.0004203916 -0.0231583214 -0.0293451926
 #&gt; [11] -0.0137708135  0.0250522028  0.0491732063  0.0021309851 -0.0165434107
 #&gt; [16] -0.0202339770 -0.0065949303  0.0160404842  0.0302701749  0.0025622802
@@ -188,7 +189,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

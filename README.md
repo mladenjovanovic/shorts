@@ -66,7 +66,8 @@ kimberley_data
 to estimate parameters. Parameters estimated using mono-exponential
 equation are *maximal sprinting speed* (MSS), and *relative
 acceleration* (TAU). Additional parameters computed from MSS and TAU are
-*maximal acceleration* (MAC) and *maximal relative power* (PMAX).
+*maximal acceleration* (MAC) and *maximal relative power* (PMAX) (which
+is calculated as \(\frac{MSS \times MAC}{4}\)).
 
 ``` r
 kimberley_profile <- shorts::model_using_splits(
@@ -158,10 +159,16 @@ ggplot(kimberley_profile$data, aes(x = distance)) +
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
 
-To plot predicted velocity, acceleration, and relative power over
-distance, use `shorts:predict_`
+To plot predicted velocity, acceleration, air resistance, force, and
+power over distance, use `shorts:predict_`. Please note that to
+calculate force, air resistance, and power, we need Kimberley’s bodymass
+and height (as well as other characteristics such as air pressure,
+temperature and wind - see `get_air_resistance` function).
 
 ``` r
+kimberley_bodymass <- 60 # in kilograms
+kimberley_bodyheight <- 1.7 # in meters
+
 kimberley_pred <- tibble(
   distance = seq(0, 40, length.out = 1000),
   
@@ -177,11 +184,29 @@ kimberley_pred <- tibble(
     kimberley_profile$parameters$MSS,
     kimberley_profile$parameters$TAU),
   
-  # Power
-  pred_power = shorts::predict_relative_power_at_distance(
+  # Air resistance
+  pred_air_resistance = shorts::predict_air_resistance_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
-    kimberley_profile$parameters$TAU),
+    kimberley_profile$parameters$TAU,
+    bodymass = kimberley_bodymass,
+    bodyheight = kimberley_bodyheight),
+  
+  # Force
+  pred_force = shorts::predict_force_at_distance(
+    distance,
+    kimberley_profile$parameters$MSS,
+    kimberley_profile$parameters$TAU,
+    bodymass = kimberley_bodymass,
+    bodyheight = kimberley_bodyheight),
+  
+  # Power
+  pred_power = shorts::predict_power_at_distance(
+    distance,
+    kimberley_profile$parameters$MSS,
+    kimberley_profile$parameters$TAU,
+    bodymass = kimberley_bodymass,
+    bodyheight = kimberley_bodyheight),
 )
 
 # Convert to long
@@ -201,15 +226,26 @@ To do prediction simpler, use `shorts::predict_kinematics` function.
 This will provide kinematics for 0-6s sprint using 100Hz.
 
 ``` r
-predicted_kinematics <- predict_kinematics(kimberley_profile)
+predicted_kinematics <- predict_kinematics(
+  kimberley_profile,
+  bodymass = kimberley_bodymass,
+  bodyheight = kimberley_bodyheight)
+
 head(predicted_kinematics)
-#>   time     distance  velocity acceleration    power
-#> 1 0.00 0.0000000000 0.0000000    10.588986 0.000000
-#> 2 0.01 0.0005272807 0.1052400    10.459272 1.100733
-#> 3 0.02 0.0021005019 0.2091907    10.331148 2.161181
-#> 4 0.03 0.0047068510 0.3118682    10.204593 3.182488
-#> 5 0.04 0.0083336724 0.4132878    10.079589 4.165771
-#> 6 0.05 0.0129684654 0.5134650     9.956116 5.112117
+#>   time     distance  velocity acceleration air_resistance    force     power
+#> 1 0.00 0.0000000000 0.0000000    10.588986    0.000000000 635.3391   0.00000
+#> 2 0.01 0.0005272807 0.1052400    10.459272    0.002662044 627.5590  66.04428
+#> 3 0.02 0.0021005019 0.2091907    10.331148    0.010518136 619.8794 129.67303
+#> 4 0.03 0.0047068510 0.3118682    10.204593    0.023377383 612.2990 190.95655
+#> 5 0.04 0.0083336724 0.4132878    10.079589    0.041054329 604.8164 249.96322
+#> 6 0.05 0.0129684654 0.5134650     9.956116    0.063368815 597.4303 306.75958
+#>   relative_power
+#> 1       0.000000
+#> 2       1.100738
+#> 3       2.161217
+#> 4       3.182609
+#> 5       4.166054
+#> 6       5.112660
 ```
 
 To get model residuals, use `residuals` function:
@@ -232,10 +268,10 @@ shorts::find_max_power_distance(
   kimberley_profile$parameters$TAU
 )
 #> $max_power
-#> [1] 22.74287
+#> [1] 1727.734
 #> 
 #> $distance
-#> [1] 1.346271
+#> [1] 1.41578
 
 # Distance over which power is over 50%
 shorts::find_power_critical_distance(
@@ -244,10 +280,10 @@ shorts::find_power_critical_distance(
   percent = 0.5
 )
 #> $lower
-#> [1] 0.08295615
+#> [1] 0.08555527
 #> 
 #> $upper
-#> [1] 7.441024
+#> [1] 8.364589
 
 # Distance over which acceleration is under 50%
 shorts::find_acceleration_critical_distance(
@@ -776,7 +812,7 @@ that is performed by setting the function parameter `LOOCV = TRUE`. This
 feature is very useful for checking model parameters robustness and
 model predictions on unseen data. LOOCV involve iterative model building
 and testing by removing observation one by one and making predictions
-for them. Let’s use Kimberly again, but this time perform LOOCV:
+for them. Let’s use Kimberley again, but this time perform LOOCV:
 
 ``` r
 kimberley_profile_LOOCV <- shorts::model_using_splits(

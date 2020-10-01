@@ -47,10 +47,14 @@
 
 
 <meta property="og:title" content="Find functions — find_functions" />
-<meta property="og:description" content="Finds maximum power and distance at which max power occurs
-Finds critical distance at which percent of MSS is achieved
-Finds critical distance at which percent of MAC is reached
-Finds critical distances at which maximal power over percent is achieved" />
+<meta property="og:description" content="`find_max_power_distance` Finds maximum power and distance at which max power occurs
+`find_max_power_time` Finds maximum power and time at which max power occurs
+`find_velocity_critical_distance` finds critical distance at which percent of MSS is achieved
+`find_velocity_critical_time` finds critical time at which percent of MSS is achieved
+`find_acceleration_critical_distance` finds critical distance at which percent of MAC is reached
+`find_acceleration_critical_time` finds critical time at which percent of MAC is reached
+`find_power_critical_distance` finds critical distances at which maximal power over percent is achieved
+`find_power_critical_time` finds critical times at which maximal power over percent is achieved" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -140,37 +144,56 @@ Finds critical distances at which maximal power over percent is achieved" />
     </div>
 
     <div class="ref-description">
-    <p>Finds maximum power and <code>distance</code> at which max power occurs</p>
-<p>Finds critical distance at which <code>percent</code> of <code>MSS</code> is achieved</p>
-<p>Finds critical distance at which <code>percent</code> of <code>MAC</code> is reached</p>
-<p>Finds critical distances at which maximal power over <code>percent</code> is achieved</p>
+    <p>`find_max_power_distance` Finds maximum power and <code>distance</code> at which max power occurs</p>
+<p>`find_max_power_time` Finds maximum power and <code>time</code> at which max power occurs</p>
+<p>`find_velocity_critical_distance` finds critical distance at which <code>percent</code> of <code>MSS</code> is achieved</p>
+<p>`find_velocity_critical_time` finds critical time at which <code>percent</code> of <code>MSS</code> is achieved</p>
+<p>`find_acceleration_critical_distance` finds critical distance at which <code>percent</code> of <code>MAC</code> is reached</p>
+<p>`find_acceleration_critical_time` finds critical time at which <code>percent</code> of <code>MAC</code> is reached</p>
+<p>`find_power_critical_distance` finds critical distances at which maximal power over <code>percent</code> is achieved</p>
+<p>`find_power_critical_time` finds critical times at which maximal power over <code>percent</code> is achieved</p>
     </div>
 
-    <pre class="usage"><span class='fu'>find_max_power_distance</span>(<span class='no'>MSS</span>, <span class='no'>TAU</span>, <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>distance_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>)
+    <pre class="usage"><span class='fu'>find_max_power_distance</span><span class='op'>(</span>
+  <span class='va'>MSS</span>,
+  <span class='va'>TAU</span>,
+  time_correction <span class='op'>=</span> <span class='fl'>0</span>,
+  distance_correction <span class='op'>=</span> <span class='fl'>0</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'>find_velocity_critical_distance</span>(
-  <span class='no'>MSS</span>,
-  <span class='no'>TAU</span>,
-  <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>distance_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>percent</span> <span class='kw'>=</span> <span class='fl'>0.9</span>
-)
+<span class='fu'>find_max_power_time</span><span class='op'>(</span><span class='va'>MSS</span>, <span class='va'>TAU</span>, time_correction <span class='op'>=</span> <span class='fl'>0</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>find_acceleration_critical_distance</span>(
-  <span class='no'>MSS</span>,
-  <span class='no'>TAU</span>,
-  <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>distance_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>percent</span> <span class='kw'>=</span> <span class='fl'>0.9</span>
-)
+<span class='fu'>find_velocity_critical_distance</span><span class='op'>(</span>
+  <span class='va'>MSS</span>,
+  <span class='va'>TAU</span>,
+  time_correction <span class='op'>=</span> <span class='fl'>0</span>,
+  distance_correction <span class='op'>=</span> <span class='fl'>0</span>,
+  percent <span class='op'>=</span> <span class='fl'>0.9</span>
+<span class='op'>)</span>
 
-<span class='fu'>find_power_critical_distance</span>(
-  <span class='no'>MSS</span>,
-  <span class='no'>TAU</span>,
-  <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>distance_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>percent</span> <span class='kw'>=</span> <span class='fl'>0.9</span>
-)</pre>
+<span class='fu'>find_velocity_critical_time</span><span class='op'>(</span><span class='va'>MSS</span>, <span class='va'>TAU</span>, time_correction <span class='op'>=</span> <span class='fl'>0</span>, percent <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span>
+
+<span class='fu'>find_acceleration_critical_distance</span><span class='op'>(</span>
+  <span class='va'>MSS</span>,
+  <span class='va'>TAU</span>,
+  time_correction <span class='op'>=</span> <span class='fl'>0</span>,
+  distance_correction <span class='op'>=</span> <span class='fl'>0</span>,
+  percent <span class='op'>=</span> <span class='fl'>0.9</span>
+<span class='op'>)</span>
+
+<span class='fu'>find_acceleration_critical_time</span><span class='op'>(</span><span class='va'>MSS</span>, <span class='va'>TAU</span>, time_correction <span class='op'>=</span> <span class='fl'>0</span>, percent <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span>
+
+<span class='fu'>find_power_critical_distance</span><span class='op'>(</span>
+  <span class='va'>MSS</span>,
+  <span class='va'>TAU</span>,
+  time_correction <span class='op'>=</span> <span class='fl'>0</span>,
+  distance_correction <span class='op'>=</span> <span class='fl'>0</span>,
+  percent <span class='op'>=</span> <span class='fl'>0.9</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
+
+<span class='fu'>find_power_critical_time</span><span class='op'>(</span><span class='va'>MSS</span>, <span class='va'>TAU</span>, time_correction <span class='op'>=</span> <span class='fl'>0</span>, percent <span class='op'>=</span> <span class='fl'>0.9</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -188,6 +211,10 @@ Finds critical distances at which maximal power over percent is achieved" />
       <td><p>Numeric vector. Used for correction. Default is 0. See vignettes for more info</p></td>
     </tr>
     <tr>
+      <th>...</th>
+      <td><p>Forwarded to <code><a href='predict_kinematics.html'>predict_power_at_distance</a></code> for the purpose of calculation of air resistance</p></td>
+    </tr>
+    <tr>
       <th>percent</th>
       <td><p>Numeric vector. Used to calculate critical distance. Default is 0.9</p></td>
     </tr>
@@ -196,6 +223,7 @@ Finds critical distances at which maximal power over percent is achieved" />
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>List with two elements: <code>max_power</code> and <code>distance</code> at which max power occurs</p>
+<p>List with two elements: <code>max_power</code> and <code>time</code> at which max power occurs</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
@@ -206,37 +234,50 @@ Finds critical distances at which maximal power over percent is achieved" />
        Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>dist</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>40</span>, <span class='kw'>length.out</span> <span class='kw'>=</span> <span class='fl'>1000</span>)
+    <pre class="examples"><div class='input'><span class='va'>dist</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>40</span>, length.out <span class='op'>=</span> <span class='fl'>1000</span><span class='op'>)</span>
 
-<span class='no'>velocity</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='predict_kinematics.html'>predict_velocity_at_distance</a></span>(
-  <span class='kw'>distance</span> <span class='kw'>=</span> <span class='no'>dist</span>,
-  <span class='kw'>MSS</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>TAU</span> <span class='kw'>=</span> <span class='fl'>0.9</span>
-)
+<span class='va'>velocity</span> <span class='op'>&lt;-</span> <span class='fu'><a href='predict_kinematics.html'>predict_velocity_at_distance</a></span><span class='op'>(</span>
+  distance <span class='op'>=</span> <span class='va'>dist</span>,
+  MSS <span class='op'>=</span> <span class='fl'>10</span>,
+  TAU <span class='op'>=</span> <span class='fl'>0.9</span>
+<span class='op'>)</span>
 
-<span class='no'>acceleration</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='predict_kinematics.html'>predict_acceleration_at_distance</a></span>(
-  <span class='kw'>distance</span> <span class='kw'>=</span> <span class='no'>dist</span>,
-  <span class='kw'>MSS</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>TAU</span> <span class='kw'>=</span> <span class='fl'>0.9</span>
-)
+<span class='va'>acceleration</span> <span class='op'>&lt;-</span> <span class='fu'><a href='predict_kinematics.html'>predict_acceleration_at_distance</a></span><span class='op'>(</span>
+  distance <span class='op'>=</span> <span class='va'>dist</span>,
+  MSS <span class='op'>=</span> <span class='fl'>10</span>,
+  TAU <span class='op'>=</span> <span class='fl'>0.9</span>
+<span class='op'>)</span>
 
-<span class='no'>pwr</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='predict_kinematics.html'>predict_relative_power_at_distance</a></span>(
-  <span class='kw'>distance</span> <span class='kw'>=</span> <span class='no'>dist</span>,
-  <span class='kw'>MSS</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>TAU</span> <span class='kw'>=</span> <span class='fl'>0.9</span>
-)
+<span class='va'>pwr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='predict_kinematics.html'>predict_relative_power_at_distance</a></span><span class='op'>(</span>
+  distance <span class='op'>=</span> <span class='va'>dist</span>,
+  MSS <span class='op'>=</span> <span class='fl'>10</span>,
+  TAU <span class='op'>=</span> <span class='fl'>0.9</span>
+<span class='op'>)</span>
 
 <span class='co'># Find critical distance when 90% of MSS is reached</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>dist</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>velocity</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>h</span> <span class='kw'>=</span> <span class='fl'>10</span> * <span class='fl'>0.9</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"gray"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='fu'>find_velocity_critical_distance</span>(<span class='kw'>MSS</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>TAU</span> <span class='kw'>=</span> <span class='fl'>0.9</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</div><div class='img'><img src='find_functions-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>dist</span>, y <span class='op'>=</span> <span class='va'>velocity</span>, type <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>h <span class='op'>=</span> <span class='fl'>10</span> <span class='op'>*</span> <span class='fl'>0.9</span>, col <span class='op'>=</span> <span class='st'>"gray"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v <span class='op'>=</span> <span class='fu'>find_velocity_critical_distance</span><span class='op'>(</span>MSS <span class='op'>=</span> <span class='fl'>10</span>, TAU <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
+</div><div class='img'><img src='find_functions-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Find critical distance when 20% of MAC is reached</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>dist</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>acceleration</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>h</span> <span class='kw'>=</span> (<span class='fl'>10</span> / <span class='fl'>0.9</span>) * <span class='fl'>0.2</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"gray"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='fu'>find_acceleration_critical_distance</span>(<span class='kw'>MSS</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>TAU</span> <span class='kw'>=</span> <span class='fl'>0.9</span>, <span class='kw'>percent</span> <span class='kw'>=</span> <span class='fl'>0.2</span>), <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</div><div class='img'><img src='find_functions-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>dist</span>, y <span class='op'>=</span> <span class='va'>acceleration</span>, type <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>h <span class='op'>=</span> <span class='op'>(</span><span class='fl'>10</span> <span class='op'>/</span> <span class='fl'>0.9</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>0.2</span>, col <span class='op'>=</span> <span class='st'>"gray"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v <span class='op'>=</span> <span class='fu'>find_acceleration_critical_distance</span><span class='op'>(</span>MSS <span class='op'>=</span> <span class='fl'>10</span>, TAU <span class='op'>=</span> <span class='fl'>0.9</span>, percent <span class='op'>=</span> <span class='fl'>0.2</span><span class='op'>)</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
+</div><div class='img'><img src='find_functions-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Find max power and location of max power</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>dist</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>pwr</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>)</div><div class='input'>
-<span class='no'>max_pwr</span> <span class='kw'>&lt;-</span> <span class='fu'>find_max_power_distance</span>(<span class='kw'>MSS</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>TAU</span> <span class='kw'>=</span> <span class='fl'>0.9</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>h</span> <span class='kw'>=</span> <span class='no'>max_pwr</span>$<span class='no'>max_power</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"gray"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='no'>max_pwr</span>$<span class='no'>distance</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"red"</span>)</div><div class='img'><img src='find_functions-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>dist</span>, y <span class='op'>=</span> <span class='va'>pwr</span>, type <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span>
+</div><div class='input'>
+<span class='va'>max_pwr</span> <span class='op'>&lt;-</span> <span class='fu'>find_max_power_distance</span><span class='op'>(</span>MSS <span class='op'>=</span> <span class='fl'>10</span>, TAU <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>h <span class='op'>=</span> <span class='va'>max_pwr</span><span class='op'>$</span><span class='va'>max_power</span>, col <span class='op'>=</span> <span class='st'>"gray"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v <span class='op'>=</span> <span class='va'>max_pwr</span><span class='op'>$</span><span class='va'>distance</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
+</div><div class='img'><img src='find_functions-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Find distance in which relative power stays over 75% of PMAX'</span>
-<span class='fu'><a href='https://rdrr.io/r/base/plot.html'>plot</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>dist</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='no'>pwr</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"l"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>h</span> <span class='kw'>=</span> <span class='no'>max_pwr</span>$<span class='no'>max_power</span> * <span class='fl'>0.75</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"gray"</span>)</div><div class='input'><span class='no'>pwr_zone</span> <span class='kw'>&lt;-</span> <span class='fu'>find_power_critical_distance</span>(<span class='kw'>MSS</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>TAU</span> <span class='kw'>=</span> <span class='fl'>0.9</span>, <span class='kw'>percent</span> <span class='kw'>=</span> <span class='fl'>0.75</span>)
-<span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='no'>pwr_zone</span>$<span class='no'>lower</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span>(<span class='kw'>v</span> <span class='kw'>=</span> <span class='no'>pwr_zone</span>$<span class='no'>upper</span>, <span class='kw'>col</span> <span class='kw'>=</span> <span class='st'>"blue"</span>)</div><div class='img'><img src='find_functions-4.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>dist</span>, y <span class='op'>=</span> <span class='va'>pwr</span>, type <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>h <span class='op'>=</span> <span class='va'>max_pwr</span><span class='op'>$</span><span class='va'>max_power</span> <span class='op'>*</span> <span class='fl'>0.75</span>, col <span class='op'>=</span> <span class='st'>"gray"</span><span class='op'>)</span>
+</div><div class='input'><span class='va'>pwr_zone</span> <span class='op'>&lt;-</span> <span class='fu'>find_power_critical_distance</span><span class='op'>(</span>MSS <span class='op'>=</span> <span class='fl'>10</span>, TAU <span class='op'>=</span> <span class='fl'>0.9</span>, percent <span class='op'>=</span> <span class='fl'>0.75</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v <span class='op'>=</span> <span class='va'>pwr_zone</span><span class='op'>$</span><span class='va'>lower</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
+</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v <span class='op'>=</span> <span class='va'>pwr_zone</span><span class='op'>$</span><span class='va'>upper</span>, col <span class='op'>=</span> <span class='st'>"blue"</span><span class='op'>)</span>
+</div><div class='img'><img src='find_functions-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -252,7 +293,7 @@ Finds critical distances at which maximal power over percent is achieved" />
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

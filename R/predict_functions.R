@@ -5,6 +5,8 @@
 #' @param time_correction Numeric vector. Used for correction. Default is 0. See references for more info
 #' @param distance_correction Numeric vector. Used for correction. Default is 0. See vignettes for more info
 #' @param MSS,TAU Numeric vectors. Model parameters
+#' @param bodymass Body mass in kg. Used to calculate relative power and forwarded to \code{\link{get_air_resistance}}
+#' @param ... Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance
 #' @return Numeric vector
 #' @references
 #' Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
@@ -99,20 +101,84 @@ predict_acceleration_at_velocity <- function(velocity, MSS, TAU) {
 
 #' @rdname predict_kinematics
 #' @export
-predict_relative_power_at_distance <- function(distance, MSS, TAU, time_correction = 0, distance_correction = 0) {
-  acc <- predict_acceleration_at_distance(distance, MSS, TAU, time_correction, distance_correction)
-  vel <- predict_velocity_at_distance(distance, MSS, TAU, time_correction, distance_correction)
+predict_air_resistance_at_time <- function(time, MSS, TAU, time_correction = 0, ...) {
+  vel <- predict_velocity_at_time(time, MSS, TAU, time_correction)
 
-  acc * vel
+  get_air_resistance(velocity = vel, ...)
 }
 
 #' @rdname predict_kinematics
 #' @export
-predict_relative_power_at_time <- function(time, MSS, TAU, time_correction = 0) {
+predict_air_resistance_at_distance <- function(distance, MSS, TAU, time_correction = 0, distance_correction = 0, ...) {
+  vel <- predict_velocity_at_distance(distance, MSS, TAU, time_correction, distance_correction)
+
+  get_air_resistance(velocity = vel, ...)
+}
+
+#' @rdname predict_kinematics
+#' @export
+predict_force_at_time <- function(time, MSS, TAU, time_correction = 0, bodymass = 75, ...) {
   acc <- predict_acceleration_at_time(time, MSS, TAU, time_correction)
   vel <- predict_velocity_at_time(time, MSS, TAU, time_correction)
+  air_res <- get_air_resistance(velocity = vel, bodymass = bodymass, ...)
 
-  acc * vel
+  bodymass * acc + air_res
+}
+
+#' @rdname predict_kinematics
+#' @export
+predict_force_at_distance <- function(distance, MSS, TAU, time_correction = 0, distance_correction = 0, bodymass = 75, ...) {
+  acc <- predict_acceleration_at_distance(distance, MSS, TAU, time_correction, distance_correction)
+  vel <- predict_velocity_at_distance(distance, MSS, TAU, time_correction, distance_correction)
+  air_res <- get_air_resistance(velocity = vel, bodymass = bodymass, ...)
+
+  bodymass * acc + air_res
+}
+
+#' @rdname predict_kinematics
+#' @export
+predict_power_at_distance <- function(distance, MSS, TAU, time_correction = 0, distance_correction = 0, bodymass = 75, ...) {
+  acc <- predict_acceleration_at_distance(distance, MSS, TAU, time_correction, distance_correction)
+  vel <- predict_velocity_at_distance(distance, MSS, TAU, time_correction, distance_correction)
+  air_res <- get_air_resistance(velocity = vel, bodymass = bodymass, ...)
+
+  (bodymass * acc + air_res) * vel
+}
+
+
+#' @rdname predict_kinematics
+#' @export
+predict_power_at_time <- function(time, MSS, TAU, time_correction = 0, bodymass = 75, ...) {
+  acc <- predict_acceleration_at_time(time, MSS, TAU, time_correction)
+  vel <- predict_velocity_at_time(time, MSS, TAU, time_correction)
+  air_res <- get_air_resistance(velocity = vel, bodymass = bodymass, ...)
+
+  (bodymass * acc + air_res) * vel
+}
+
+#' @rdname predict_kinematics
+#' @export
+predict_relative_power_at_distance <- function(distance, MSS, TAU, time_correction = 0, distance_correction = 0, bodymass = 75, ...) {
+  predict_power_at_distance(
+    distance = distance,
+    MSS = MSS,
+    TAU = TAU,
+    time_correction = time_correction,
+    distance_correction = distance_correction,
+    bodymass = bodymass,
+    ...) / bodymass
+}
+
+#' @rdname predict_kinematics
+#' @export
+predict_relative_power_at_time <- function(time, MSS, TAU, time_correction = 0, bodymass = 75, ...) {
+  predict_power_at_time(
+    time = time,
+    MSS = MSS,
+    TAU = TAU,
+    time_correction = time_correction,
+    bodymass = bodymass,
+    ...) / bodymass
 }
 
 #' Predicts sprint kinematics for 0-6sec (100hz) which include distance,
@@ -125,7 +191,7 @@ predict_relative_power_at_time <- function(time, MSS, TAU, time_correction = 0) 
 #' @param frequency Number of samples within one second. Default is 100Hz
 #' @return Data frame
 #' @export
-predict_kinematics <- function(object, max_time = 6, frequency = 100) {
+predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass = 75, ...) {
   df <- NULL
 
   if (class(object) == "shorts_model") {
@@ -155,11 +221,40 @@ predict_kinematics <- function(object, max_time = 6, frequency = 100) {
       time_correction = object$parameters$time_correction
     )
 
-    df$power <- predict_relative_power_at_time(
+    df$air_resistance <- predict_air_resistance_at_time(
       time = df$time,
       MSS = object$parameters$MSS,
       TAU = object$parameters$TAU,
-      time_correction = object$parameters$time_correction
+      time_correction = object$parameters$time_correction,
+      bodymass = bodymass,
+      ...
+    )
+
+    df$force <- predict_force_at_time(
+      time = df$time,
+      MSS = object$parameters$MSS,
+      TAU = object$parameters$TAU,
+      time_correction = object$parameters$time_correction,
+      bodymass = bodymass,
+      ...
+    )
+
+    df$power <- predict_power_at_time(
+      time = df$time,
+      MSS = object$parameters$MSS,
+      TAU = object$parameters$TAU,
+      time_correction = object$parameters$time_correction,
+      bodymass = bodymass,
+      ...
+    )
+
+    df$relative_power <- predict_relative_power_at_time(
+      time = df$time,
+      MSS = object$parameters$MSS,
+      TAU = object$parameters$TAU,
+      time_correction = object$parameters$time_correction,
+      bodymass = bodymass,
+      ...
     )
   }
 
@@ -193,11 +288,40 @@ predict_kinematics <- function(object, max_time = 6, frequency = 100) {
       time_correction = df$time_correction
     )
 
-    df$power <- predict_relative_power_at_time(
+    df$air_resistance <- predict_air_resistance_at_time(
       time = df$time,
       MSS = df$MSS,
       TAU = df$TAU,
-      time_correction = df$time_correction
+      time_correction = df$time_correction,
+      bodymass = bodymass,
+      ...
+    )
+
+    df$force <- predict_force_at_time(
+      time = df$time,
+      MSS = df$MSS,
+      TAU = df$TAU,
+      time_correction = df$time_correction,
+      bodymass = bodymass,
+      ...
+    )
+
+    df$power <- predict_power_at_time(
+      time = df$time,
+      MSS = df$MSS,
+      TAU = df$TAU,
+      time_correction = df$time_correction,
+      bodymass = bodymass,
+      ...
+    )
+
+    df$relative_power <- predict_relative_power_at_time(
+      time = df$time,
+      MSS = df$MSS,
+      TAU = df$TAU,
+      time_correction = df$time_correction,
+      bodymass = bodymass,
+      ...
     )
 
     df <- df[c("athlete", "time", "distance", "velocity", "acceleration", "power")]
