@@ -5,13 +5,13 @@ citEntry(entry = "Manual",
   author       = personList(as.person("Mladen Jovanovic")),
   note         = "R package version 1.1.1.9000",
   year         = "2020",
-  url          = "https://mladenjovanovic.github.io/shorts/",
+  url          = "https://CRAN.R-project.org/package=shorts",
   doi          = "10.5281/zenodo.3751836",
 
   textVersion  =
   paste("Mladen Jovanovic (2020).",
         "shorts: Short Sprints.",
         "R package version 1.1.1.9000.",
-        "url: https://mladenjovanovic.github.io/shorts/",
+        "url: https://CRAN.R-project.org/package=shorts.",
         "doi: 10.5281/zenodo.3751836")
 )
