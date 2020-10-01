@@ -60,7 +60,7 @@ kimberley_data <- filter(split_times, athlete == "Kimberley")
 kimberley_data
 ```
 
-`shorts::model_using_splits` returns an object with `parameters`, `model_fit`, `model` returned from `stats::nls` function and `data` used to estimate parameters. Parameters estimated using mono-exponential equation are *maximal sprinting speed* (MSS), and *relative acceleration* (TAU). Additional parameters computed from MSS and TAU are *maximal acceleration* (MAC) and *maximal relative power* (PMAX). 
+`shorts::model_using_splits` returns an object with `parameters`, `model_fit`, `model` returned from `stats::nls` function and `data` used to estimate parameters. Parameters estimated using mono-exponential equation are *maximal sprinting speed* (MSS), and *relative acceleration* (TAU). Additional parameters computed from MSS and TAU are *maximal acceleration* (MAC) and *maximal relative power* (PMAX) (which is calculated as $\frac{MSS \times MAC}{4}$). 
 
 ```{r}
 kimberley_profile <- shorts::model_using_splits(
@@ -99,9 +99,12 @@ ggplot(kimberley_profile$data, aes(x = distance)) +
   ylab("Time (s)")
 ```
 
-To plot predicted velocity, acceleration, and relative power over distance, use `shorts:predict_`
+To plot predicted velocity, acceleration, air resistance, force, and power over distance, use `shorts:predict_`. Please note that to calculate force, air resistance, and power, we need Kimberley's bodymass and height (as well as other characteristics such as air pressure, temperature and wind - see `get_air_resistance` function).
 
 ```{r}
+kimberley_bodymass <- 60 # in kilograms
+kimberley_bodyheight <- 1.7 # in meters
+
 kimberley_pred <- tibble(
   distance = seq(0, 40, length.out = 1000),
   
@@ -117,11 +120,29 @@ kimberley_pred <- tibble(
     kimberley_profile$parameters$MSS,
     kimberley_profile$parameters$TAU),
   
-  # Power
-  pred_power = shorts::predict_relative_power_at_distance(
+  # Air resistance
+  pred_air_resistance = shorts::predict_air_resistance_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
-    kimberley_profile$parameters$TAU),
+    kimberley_profile$parameters$TAU,
+    bodymass = kimberley_bodymass,
+    bodyheight = kimberley_bodyheight),
+  
+  # Force
+  pred_force = shorts::predict_force_at_distance(
+    distance,
+    kimberley_profile$parameters$MSS,
+    kimberley_profile$parameters$TAU,
+    bodymass = kimberley_bodymass,
+    bodyheight = kimberley_bodyheight),
+  
+  # Power
+  pred_power = shorts::predict_power_at_distance(
+    distance,
+    kimberley_profile$parameters$MSS,
+    kimberley_profile$parameters$TAU,
+    bodymass = kimberley_bodymass,
+    bodyheight = kimberley_bodyheight),
 )
 
 # Convert to long
@@ -138,7 +159,11 @@ ggplot(kimberley_pred, aes(x = distance, y = value)) +
 To do prediction simpler, use `shorts::predict_kinematics` function. This will provide kinematics for 0-6s sprint using 100Hz. 
 
 ```{r}
-predicted_kinematics <- predict_kinematics(kimberley_profile)
+predicted_kinematics <- predict_kinematics(
+  kimberley_profile,
+  bodymass = kimberley_bodymass,
+  bodyheight = kimberley_bodyheight)
+
 head(predicted_kinematics)
 ```
 
@@ -364,7 +389,7 @@ For more details, please refer to `sprint-corrections` [vignette](https://mladen
 
 ### Leave-One-Out Cross-Validation (LOOCV)
 
-`...model_using_splits..` family of functions come with LOOCV feature that is performed by setting the function parameter `LOOCV = TRUE`. This feature is very useful for checking model parameters robustness and model predictions on unseen data. LOOCV involve iterative model building and testing by removing observation one by one and making predictions for them. Let's use Kimberly again, but this time perform LOOCV:
+`...model_using_splits..` family of functions come with LOOCV feature that is performed by setting the function parameter `LOOCV = TRUE`. This feature is very useful for checking model parameters robustness and model predictions on unseen data. LOOCV involve iterative model building and testing by removing observation one by one and making predictions for them. Let's use Kimberley again, but this time perform LOOCV:
 
 ```{r}
 kimberley_profile_LOOCV <- shorts::model_using_splits(

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>S3 method for providing residuals for the <code>shorts_model</code> object — residuals.shorts_model • shorts</title>
+<title>S3 method for providing residuals for the shorts_model object — residuals.shorts_model • shorts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="S3 method for providing residuals for the <code>shorts_model</code> object — residuals.shorts_model" />
+<meta property="og:title" content="S3 method for providing residuals for the shorts_model object — residuals.shorts_model" />
 <meta property="og:description" content="S3 method for providing residuals for the shorts_model object" />
 <meta property="og:image" content="/logo.png" />
 
@@ -141,7 +141,7 @@
     </div>
 
     <pre class="usage"><span class='co'># S3 method for shorts_model</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/residuals.html'>residuals</a></span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/residuals.html'>residuals</a></span><span class='op'>(</span><span class='va'>object</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -158,18 +158,19 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>split_times</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  <span class='kw'>distance</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>30</span>, <span class='fl'>35</span>),
-  <span class='kw'>time</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1.20</span>, <span class='fl'>1.96</span>, <span class='fl'>3.36</span>, <span class='fl'>4.71</span>, <span class='fl'>5.35</span>)
-)
+    <pre class="examples"><div class='input'><span class='va'>split_times</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  distance <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>30</span>, <span class='fl'>35</span><span class='op'>)</span>,
+  time <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1.20</span>, <span class='fl'>1.96</span>, <span class='fl'>3.36</span>, <span class='fl'>4.71</span>, <span class='fl'>5.35</span><span class='op'>)</span>
+<span class='op'>)</span>
 
 <span class='co'># Simple model</span>
-<span class='no'>simple_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(
-  <span class='no'>split_times</span>,
-  <span class='fu'><a href='model_split_times.html'>model_using_splits</a></span>(<span class='no'>distance</span>, <span class='no'>time</span>)
-)
+<span class='va'>simple_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span>
+  <span class='va'>split_times</span>,
+  <span class='fu'><a href='model_split_times.html'>model_using_splits</a></span><span class='op'>(</span><span class='va'>distance</span>, <span class='va'>time</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/stats/residuals.html'>residuals</a></span>(<span class='no'>simple_model</span>)</div><div class='output co'>#&gt; [1]  0.0198074092  0.0007672174 -0.0206609077 -0.0151785670  0.0213334139</div></pre>
+<span class='fu'><a href='https://rdrr.io/r/stats/residuals.html'>residuals</a></span><span class='op'>(</span><span class='va'>simple_model</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1]  0.0198074092  0.0007672174 -0.0206609077 -0.0151785670  0.0213334139</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -185,7 +186,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

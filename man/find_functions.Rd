@@ -3,12 +3,24 @@
 \name{find_functions}
 \alias{find_functions}
 \alias{find_max_power_distance}
+\alias{find_max_power_time}
 \alias{find_velocity_critical_distance}
+\alias{find_velocity_critical_time}
 \alias{find_acceleration_critical_distance}
+\alias{find_acceleration_critical_time}
 \alias{find_power_critical_distance}
+\alias{find_power_critical_time}
 \title{Find functions}
 \usage{
-find_max_power_distance(MSS, TAU, time_correction = 0, distance_correction = 0)
+find_max_power_distance(
+  MSS,
+  TAU,
+  time_correction = 0,
+  distance_correction = 0,
+  ...
+)
+
+find_max_power_time(MSS, TAU, time_correction = 0, ...)
 
 find_velocity_critical_distance(
   MSS,
@@ -18,6 +30,8 @@ find_velocity_critical_distance(
   percent = 0.9
 )
 
+find_velocity_critical_time(MSS, TAU, time_correction = 0, percent = 0.9)
+
 find_acceleration_critical_distance(
   MSS,
   TAU,
@@ -26,13 +40,18 @@ find_acceleration_critical_distance(
   percent = 0.9
 )
 
+find_acceleration_critical_time(MSS, TAU, time_correction = 0, percent = 0.9)
+
 find_power_critical_distance(
   MSS,
   TAU,
   time_correction = 0,
   distance_correction = 0,
-  percent = 0.9
+  percent = 0.9,
+  ...
 )
+
+find_power_critical_time(MSS, TAU, time_correction = 0, percent = 0.9, ...)
 }
 \arguments{
 \item{MSS, TAU}{Numeric vectors. Model parameters}
@@ -41,19 +60,31 @@ find_power_critical_distance(
 
 \item{distance_correction}{Numeric vector. Used for correction. Default is 0. See vignettes for more info}
 
+\item{...}{Forwarded to \code{\link{predict_power_at_distance}} for the purpose of calculation of air resistance}
+
 \item{percent}{Numeric vector. Used to calculate critical distance. Default is 0.9}
 }
 \value{
 List with two elements: \code{max_power} and \code{distance} at which max power occurs
+
+List with two elements: \code{max_power} and \code{time} at which max power occurs
 }
 \description{
-Finds maximum power and \code{distance} at which max power occurs
+`find_max_power_distance` Finds maximum power and \code{distance} at which max power occurs
 
-Finds critical distance at which \code{percent} of \code{MSS} is achieved
+`find_max_power_time` Finds maximum power and \code{time} at which max power occurs
 
-Finds critical distance at which \code{percent} of \code{MAC} is reached
+`find_velocity_critical_distance` finds critical distance at which \code{percent} of \code{MSS} is achieved
 
-Finds critical distances at which maximal power over \code{percent} is achieved
+`find_velocity_critical_time` finds critical time at which \code{percent} of \code{MSS} is achieved
+
+`find_acceleration_critical_distance` finds critical distance at which \code{percent} of \code{MAC} is reached
+
+`find_acceleration_critical_time` finds critical time at which \code{percent} of \code{MAC} is reached
+
+`find_power_critical_distance` finds critical distances at which maximal power over \code{percent} is achieved
+
+`find_power_critical_time` finds critical times at which maximal power over \code{percent} is achieved
 }
 \examples{
 dist <- seq(0, 40, length.out = 1000)

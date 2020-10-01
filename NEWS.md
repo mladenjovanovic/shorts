@@ -1,5 +1,14 @@
 # shorts 1.1.1.9000 (Developmental version)
 
+* Added `get_air_resistance` function to estimate air resistance in newtons
+* Added `predict_air_resistance_at_time` and `predict_air_resistance_at_time` functions
+* Added `predict_force_at_time` and `predict_force_at_distance` functions
+* Added `predict_power_at_time` and `predict_power_at_distance` functions
+* Now power calculations in `predict_relative_power_at_distance` and `predict_relative_power_at_time` use air resistance to do the calculations. The default bodymass is 75kg. To replicate earlier function behavior, use `predict_velocity_at_` multiplied by `predict_acceleration_at_` to get relative power without air resistance
+* Function `predict_kinematics` now uses aforementioned changes in `predict_relative_power_` functions, and added force and air resistance in the output
+* Functions `find_max_power_distance` and `find_power_critical_distance` now uses aforementioned changes and returns absolute power, rather than relative, and air resistance is used in the power calculations
+* Added `find_max_power_time`, `find_velocity_critical_time`, `find_acceleration_critical_time`, and `find_power_critical_time` functions
+
 # shorts 1.1.1
 
 * Added James Vescovi contributed dataset (`data("vescovi")`). For more info see `?vescovi`
