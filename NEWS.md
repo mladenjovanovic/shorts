@@ -1,5 +1,8 @@
 # shorts 1.1.1.9000 (Developmental version)
 
+* Added `get_air_resistance` function to estimate air resistance in newtons
+
+
 # shorts 1.1.1
 
 * Added James Vescovi contributed dataset (`data("vescovi")`). For more info see `?vescovi`
