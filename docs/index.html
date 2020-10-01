@@ -495,11 +495,11 @@
 <div id="profiling-using-radar-gun-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#profiling-using-radar-gun-data" class="anchor"></a>Profiling using radar gun data</h3>
-<p>The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using <code><a href="reference/model_using_radar.html">shorts::model_using_radar</a></code> function. Let’s do analysis for Jim:</p>
+<p>The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using <code><a href="reference/model_radar.html">shorts::model_using_radar</a></code> function. Let’s do analysis for Jim:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit">
 <span class="va">jim_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">radar_gun_data</span>, <span class="va">athlete</span> <span class="op">==</span> <span class="st">"Jim"</span><span class="op">)</span>
 
-<span class="va">jim_profile</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_using_radar.html">model_using_radar</a></span><span class="op">(</span>
+<span class="va">jim_profile</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_radar.html">model_using_radar</a></span><span class="op">(</span>
   time <span class="op">=</span> <span class="va">jim_data</span><span class="op">$</span><span class="va">time</span>,
   velocity <span class="op">=</span> <span class="va">jim_data</span><span class="op">$</span><span class="va">velocity</span>
 <span class="op">)</span>
@@ -534,7 +534,7 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of iterations to convergence: 3 </span>
 <span class="co">#&gt; Achieved convergence tolerance: 9.313e-07</span></pre></div>
-<p>The object returned from <code><a href="reference/model_using_radar.html">shorts::model_using_radar</a></code> is same as object returned from <code><a href="reference/model_split_times.html">shorts::model_using_splits</a></code>. Let’s plot Jim’s measured velocity and predicted velocity:</p>
+<p>The object returned from <code><a href="reference/model_radar.html">shorts::model_using_radar</a></code> is same as object returned from <code><a href="reference/model_split_times.html">shorts::model_using_splits</a></code>. Let’s plot Jim’s measured velocity and predicted velocity:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit">
 <span class="fu">ggplot</span><span class="op">(</span><span class="va">jim_profile</span><span class="op">$</span><span class="va">data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -543,9 +543,9 @@
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Time (s)"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ylab</span><span class="op">(</span><span class="st">"Velocity (m/s)"</span><span class="op">)</span></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>Radar gun data can be modeled individually or using <em>non-linear mixed model</em> implemented in <code><a href="reference/mixed_model_using_radar.html">shorts::mixed_model_using_radar</a></code>:</p>
+<p>Radar gun data can be modeled individually or using <em>non-linear mixed model</em> implemented in <code><a href="reference/mixed_model_radar.html">shorts::mixed_model_using_radar</a></code>:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="va">mixed_model</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_using_radar.html">mixed_model_using_radar</a></span><span class="op">(</span>
+<span class="va">mixed_model</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_radar.html">mixed_model_using_radar</a></span><span class="op">(</span>
   data <span class="op">=</span> <span class="va">radar_gun_data</span>,
   time <span class="op">=</span> <span class="st">"time"</span>,
   velocity <span class="op">=</span> <span class="st">"velocity"</span>,
