@@ -144,15 +144,15 @@
     variable, and <code>time</code> as predictor.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model_using_radar</span>(
-  <span class='no'>time</span>,
-  <span class='no'>velocity</span>,
-  <span class='kw'>time_correction</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-  <span class='kw'>weights</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-  <span class='kw'>LOOCV</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>model_using_radar</span><span class='op'>(</span>
+  <span class='va'>time</span>,
+  <span class='va'>velocity</span>,
+  time_correction <span class='op'>=</span> <span class='fl'>0</span>,
+  weights <span class='op'>=</span> <span class='fl'>1</span>,
+  LOOCV <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,7 +190,7 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List object with the following elements:</p><dl'>
+    <p>List object with the following elements:</p><dl>
         <dt>parameters</dt><dd><p>List with the following estimated parameters:
             <code>MSS</code>, <code>TAU</code>, <code>MAC</code>, and <code>PMAX</code></p></dd>
         <dt>model_fit</dt><dd><p>List with the following components:
@@ -208,18 +208,19 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
        Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>instant_velocity</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  <span class='kw'>time</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span>),
-  <span class='kw'>velocity</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0.00</span>, <span class='fl'>4.99</span>, <span class='fl'>6.43</span>, <span class='fl'>6.84</span>, <span class='fl'>6.95</span>, <span class='fl'>6.99</span>, <span class='fl'>7.00</span>)
-)
+    <pre class="examples"><div class='input'><span class='va'>instant_velocity</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  time <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>, <span class='fl'>6</span><span class='op'>)</span>,
+  velocity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.00</span>, <span class='fl'>4.99</span>, <span class='fl'>6.43</span>, <span class='fl'>6.84</span>, <span class='fl'>6.95</span>, <span class='fl'>6.99</span>, <span class='fl'>7.00</span><span class='op'>)</span>
+<span class='op'>)</span>
 
-<span class='no'>sprint_model</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span>(
-  <span class='no'>instant_velocity</span>,
-  <span class='fu'>model_using_radar</span>(<span class='no'>time</span>, <span class='no'>velocity</span>)
-)
+<span class='va'>sprint_model</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span>
+  <span class='va'>instant_velocity</span>,
+  <span class='fu'>model_using_radar</span><span class='op'>(</span><span class='va'>time</span>, <span class='va'>velocity</span><span class='op'>)</span>
+<span class='op'>)</span>
 
 <span class='co'># sprint_model$parameters</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>sprint_model</span>)</div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
+<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>sprint_model</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
 #&gt;           7.0032304           0.8013733           8.7390359          15.3003704 
 #&gt;     time_correction distance_correction 
 #&gt;           0.0000000           0.0000000 </div></pre>
@@ -238,7 +239,7 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

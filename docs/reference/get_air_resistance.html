@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mixed Model Using Instantaneous Velocity — mixed_model_using_radar • shorts</title>
+<title>Get Air Resistance — get_air_resistance • shorts</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,12 +46,8 @@
 
 
 
-<meta property="og:title" content="Mixed Model Using Instantaneous Velocity — mixed_model_using_radar" />
-<meta property="og:description" content="This function models the sprint instantaneous velocity using mono-exponential equation and non-linear
-    mixed model using nlme to estimate fixed and random maximum sprinting speed (MSS)
-    and relative acceleration (TAU) parameters. In mixed model, fixed and random effects are estimated for
-    MSS and TAU parameters using athlete as levels. velocity is used as target or outcome
-    variable, and time as predictor." />
+<meta property="og:title" content="Get Air Resistance — get_air_resistance" />
+<meta property="og:description" content="get_air_resistance estimates air resitance in Newtons" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -135,119 +131,80 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Mixed Model Using Instantaneous Velocity</h1>
-    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/R/model_using_radar.R'><code>R/model_using_radar.R</code></a></small>
-    <div class="hidden name"><code>mixed_model_using_radar.Rd</code></div>
+    <h1>Get Air Resistance</h1>
+    <small class="dont-index">Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/R/get_air_resistance.R'><code>R/get_air_resistance.R</code></a></small>
+    <div class="hidden name"><code>get_air_resistance.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function models the sprint instantaneous velocity using mono-exponential equation and non-linear
-    mixed model using <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> to estimate fixed and random maximum sprinting speed (<code>MSS</code>)
-    and relative acceleration (<code>TAU</code>) parameters. In mixed model, fixed and random effects are estimated for
-    <code>MSS</code> and <code>TAU</code> parameters using <code>athlete</code> as levels. <code>velocity</code> is used as target or outcome
-    variable, and <code>time</code> as predictor.</p>
+    <p><code>get_air_resistance</code> estimates air resitance in Newtons</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mixed_model_using_radar</span><span class='op'>(</span>
-  <span class='va'>data</span>,
-  <span class='va'>time</span>,
+    <pre class="usage"><span class='fu'>get_air_resistance</span><span class='op'>(</span>
   <span class='va'>velocity</span>,
-  <span class='va'>athlete</span>,
-  time_correction <span class='op'>=</span> <span class='fl'>0</span>,
-  random <span class='op'>=</span> <span class='va'>MSS</span> <span class='op'>+</span> <span class='va'>TAU</span> <span class='op'>~</span> <span class='fl'>1</span>,
-  LOOCV <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  <span class='va'>...</span>
+  bodymass <span class='op'>=</span> <span class='fl'>75</span>,
+  bodyheight <span class='op'>=</span> <span class='fl'>1.75</span>,
+  barometric_pressure <span class='op'>=</span> <span class='fl'>760</span>,
+  air_temperature <span class='op'>=</span> <span class='fl'>25</span>,
+  wind_velocity <span class='op'>=</span> <span class='fl'>0</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>data</th>
-      <td><p>Data frame</p></td>
-    </tr>
-    <tr>
-      <th>time</th>
-      <td><p>Character string. Name of the column in <code>data</code></p></td>
-    </tr>
-    <tr>
       <th>velocity</th>
-      <td><p>Character string. Name of the column in <code>data</code></p></td>
+      <td><p>Instantaneous running velocity in meters per second (m/s)</p></td>
     </tr>
     <tr>
-      <th>athlete</th>
-      <td><p>Character string. Name of the column in <code>data</code>. Used as levels in the <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code></p></td>
+      <th>bodymass</th>
+      <td><p>In kilograms (kg)</p></td>
     </tr>
     <tr>
-      <th>time_correction</th>
-      <td><p>Numeric vector. Used to filter out noisy data from the radar gun.
-This correction is done by adding <code>time_correction</code> to <code>time</code>. Default is 0. See more in Samozino (2018)</p></td>
+      <th>bodyheight</th>
+      <td><p>In meters (m)</p></td>
     </tr>
     <tr>
-      <th>random</th>
-      <td><p>Formula forwarded to <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> to set random effects. Default is <code>MSS + TAU ~ 1</code></p></td>
+      <th>barometric_pressure</th>
+      <td><p>In Torrs</p></td>
     </tr>
     <tr>
-      <th>LOOCV</th>
-      <td><p>Should Leave-one-out cross-validation be used to estimate model fit? Default is <code>FALSE</code>.
-This can be very slow process due high level of samples in the radar data</p></td>
+      <th>air_temperature</th>
+      <td><p>In Celzius (C)</p></td>
     </tr>
     <tr>
-      <th>na.rm</th>
-      <td><p>Logical. Default is FALSE</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Forwarded to <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> function</p></td>
+      <th>wind_velocity</th>
+      <td><p>In meters per second (m/s). Use negative number as head
+wind, and positive number as back wind</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>List object with the following elements:</p><dl>
-        <dt>parameters</dt><dd><p>List with two data frames: <code>fixed</code> and <code>random</code> containing the following
-            estimated parameters: <code>MSS</code>, <code>TAU</code>, <code>MAC</code>, and <code>PMAX</code></p></dd>
-        <dt>model_fit</dt><dd><p>List with the following components:
-            <code>RSE</code>, <code>R_squared</code>, <code>minErr</code>, <code>maxErr</code>, and <code>RMSE</code></p></dd>
-        <dt>model</dt><dd><p>Model returned by the <code><a href='https://rdrr.io/pkg/nlme/man/nlme.html'>nlme</a></code> function</p></dd>
-        <dt>data</dt><dd><p>Data frame used to estimate the sprint parameters, consisting of <code>athlete</code>, <code>time</code>,
-          <code>velocity</code>, and <code>pred_velocity</code> columns</p></dd>
-        
-</dl>
-
+    <p>Air resistance in Newtons (N)</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
-        Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
-       Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.</p>
+    <p>Arsac LM, Locatelli E. 2002. Modeling the energetics of 100-m running by using speed curves of
+        world champions. Journal of Applied Physiology 92:1781–1788.
+        DOI: 10.1152/japplphysiol.00754.2001.</p>
+<p>Samozino P, Rabita G, Dorel S, Slawinski J, Peyrot N, Saez de Villarreal E, Morin J-B. 2016.
+        A simple method for measuring power, force, velocity properties, and mechanical
+        effectiveness in sprint running: Simple method to compute sprint mechanics.
+        Scandinavian Journal of Medicine &amp; Science in Sports 26:648–658. DOI: 10.1111/sms.12490.</p>
+<p>van Ingen Schenau GJ, Jacobs R, de Koning JJ. 1991. Can cycle power predict sprint running
+       performance? European Journal of Applied Physiology and Occupational Physiology 63:255–260.
+       DOI: 10.1007/BF00233857.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"radar_gun_data"</span><span class='op'>)</span>
-<span class='va'>mixed_model</span> <span class='op'>&lt;-</span> <span class='fu'>mixed_model_using_radar</span><span class='op'>(</span><span class='va'>radar_gun_data</span>, <span class='st'>"time"</span>, <span class='st'>"velocity"</span>, <span class='st'>"athlete"</span><span class='op'>)</span>
-
-<span class='co'># mixed_model$parameters</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $fixed
-#&gt;                 MSS                 TAU                 MAC                PMAX 
-#&gt;            8.301178            1.007782            8.237080           17.094367 
-#&gt;     time_correction distance_correction 
-#&gt;            0.000000            0.000000 
-#&gt; 
-#&gt; $random
-#&gt;     athlete      MSS       TAU      MAC     PMAX time_correction
-#&gt; 1     James 9.998556 1.1108457 9.000851 22.49888               0
-#&gt; 2       Jim 7.997945 0.8886712 8.999892 17.99516               0
-#&gt; 3      John 8.000051 1.0690357 7.483427 14.96695               0
-#&gt; 4 Kimberley 9.005500 1.2855706 7.005061 15.77102               0
-#&gt; 5  Samantha 6.503839 0.6847851 9.497635 15.44277               0
-#&gt;   distance_correction
-#&gt; 1                   0
-#&gt; 2                   0
-#&gt; 3                   0
-#&gt; 4                   0
-#&gt; 5                   0
-#&gt; </div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>get_air_resistance</span><span class='op'>(</span>
+  velocity <span class='op'>=</span> <span class='fl'>5</span>,
+  bodymass <span class='op'>=</span> <span class='fl'>80</span>,
+  bodyheight <span class='op'>=</span> <span class='fl'>1.90</span>,
+  barometric_pressure <span class='op'>=</span> <span class='fl'>760</span>,
+  air_temperature <span class='op'>=</span> <span class='fl'>16</span>,
+  wind_velocity <span class='op'>=</span> <span class='op'>-</span><span class='fl'>0.5</span>
+ <span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] 9.183696</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
