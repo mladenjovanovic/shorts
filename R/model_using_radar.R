@@ -229,7 +229,7 @@ model_using_radar_with_time_correction <- function(time,
     PMAX <- (MSS * MAC) / 4
 
     # Model fit
-    pred_velocity <- MSS * (1 - exp(1)^(-(test$time - time_correction) / TAU))
+    pred_velocity <- MSS * (1 - exp(1)^(-(test$time + time_correction) / TAU))
 
     return(list(
       model = speed_mod,
