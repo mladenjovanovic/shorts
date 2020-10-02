@@ -210,7 +210,7 @@ model_using_radar_with_time_correction <- function(time,
   run_model <- function(train, test, ...) {
     # Non-linear model
     speed_mod <- stats::nls(
-      velocity ~ MSS * (1 - exp(1)^(-(time - time_correction) / TAU)),
+      velocity ~ MSS * (1 - exp(1)^(-(time + time_correction) / TAU)),
       data = train,
       start = list(MSS = 7, TAU = 0.8, time_correction = 0),
       weights = train$weights,

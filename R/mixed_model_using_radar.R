@@ -268,7 +268,7 @@ mixed_model_using_radar_with_time_correction <- function(data,
   run_model <- function(train, test, ...) {
     # Create mixed model
     mixed_model <- nlme::nlme(
-      velocity ~ MSS * (1 - exp(1)^(-(time - time_correction) / TAU)),
+      velocity ~ MSS * (1 - exp(1)^(-(time + time_correction) / TAU)),
       data = train,
       fixed = MSS + TAU + time_correction ~ 1,
       random = random,
