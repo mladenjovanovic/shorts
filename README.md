@@ -67,7 +67,7 @@ to estimate parameters. Parameters estimated using mono-exponential
 equation are *maximal sprinting speed* (MSS), and *relative
 acceleration* (TAU). Additional parameters computed from MSS and TAU are
 *maximal acceleration* (MAC) and *maximal relative power* (PMAX) (which
-is calculated as \(\frac{MSS \times MAC}{4}\)).
+is calculated as MAC\*MSS/4).
 
 ``` r
 kimberley_profile <- shorts::model_using_splits(
