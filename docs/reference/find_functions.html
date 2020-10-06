@@ -270,10 +270,16 @@ find_power_critical_time finds critical times at which maximal power over
   TAU <span class='op'>=</span> <span class='fl'>0.9</span>
 <span class='op'>)</span>
 
+<span class='co'># Use ... to forward parameters to the shorts::get_air_resistance</span>
 <span class='va'>pwr</span> <span class='op'>&lt;-</span> <span class='fu'><a href='predict_kinematics.html'>predict_relative_power_at_distance</a></span><span class='op'>(</span>
   distance <span class='op'>=</span> <span class='va'>dist</span>,
   MSS <span class='op'>=</span> <span class='fl'>10</span>,
   TAU <span class='op'>=</span> <span class='fl'>0.9</span>
+  <span class='co'># bodyweight = 100,</span>
+  <span class='co'># bodyheight = 1.9,</span>
+  <span class='co'># barometric_pressure = 760,</span>
+  <span class='co'># air_temperature = 25,</span>
+  <span class='co'># wind_velocity = 0</span>
 <span class='op'>)</span>
 
 <span class='co'># Find critical distance when 90% of MSS is reached</span>
@@ -289,7 +295,11 @@ find_power_critical_time finds critical times at which maximal power over
 <span class='co'># Find max power and location of max power</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>dist</span>, y <span class='op'>=</span> <span class='va'>pwr</span>, type <span class='op'>=</span> <span class='st'>"l"</span><span class='op'>)</span>
 </div><div class='input'>
-<span class='va'>max_pwr</span> <span class='op'>&lt;-</span> <span class='fu'>find_max_power_distance</span><span class='op'>(</span>MSS <span class='op'>=</span> <span class='fl'>10</span>, TAU <span class='op'>=</span> <span class='fl'>0.9</span><span class='op'>)</span>
+<span class='va'>max_pwr</span> <span class='op'>&lt;-</span> <span class='fu'>find_max_power_distance</span><span class='op'>(</span>
+  MSS <span class='op'>=</span> <span class='fl'>10</span>,
+  TAU <span class='op'>=</span> <span class='fl'>0.9</span>
+  <span class='co'># Use ... to forward parameters to the shorts::get_air_resistance</span>
+<span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>h <span class='op'>=</span> <span class='va'>max_pwr</span><span class='op'>$</span><span class='va'>max_power</span>, col <span class='op'>=</span> <span class='st'>"gray"</span><span class='op'>)</span>
 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/abline.html'>abline</a></span><span class='op'>(</span>v <span class='op'>=</span> <span class='va'>max_pwr</span><span class='op'>$</span><span class='va'>distance</span>, col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
 </div><div class='img'><img src='find_functions-3.png' alt='' width='700' height='433' /></div><div class='input'>

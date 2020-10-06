@@ -255,7 +255,7 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Forwarded to <code><a href='get_air_resistance.html'>get_air_resistance</a></code> for the purpose of calculation of air resistance</p></td>
+      <td><p>Forwarded to <code><a href='get_air_resistance.html'>get_air_resistance</a></code> for the purpose of calculation of air resistance and power</p></td>
     </tr>
     <tr>
       <th>bodymass</th>
@@ -306,6 +306,15 @@
 <span class='va'>df</span><span class='op'>$</span><span class='va'>acceleration_at_distance</span> <span class='op'>&lt;-</span> <span class='fu'>predict_acceleration_at_distance</span><span class='op'>(</span><span class='va'>df</span><span class='op'>$</span><span class='va'>distance_at_time</span>, <span class='va'>MSS</span>, <span class='va'>TAU</span><span class='op'>)</span>
 <span class='va'>df</span><span class='op'>$</span><span class='va'>acceleration_at_velocity</span> <span class='op'>&lt;-</span> <span class='fu'>predict_acceleration_at_velocity</span><span class='op'>(</span><span class='va'>df</span><span class='op'>$</span><span class='va'>velocity_at_time</span>, <span class='va'>MSS</span>, <span class='va'>TAU</span><span class='op'>)</span>
 
+<span class='co'># Power calculation uses shorts::get_air_resistance function and its defaults</span>
+<span class='co'># values to calculate power. Use the ... to setup your own parameters for power</span>
+<span class='co'># calculations</span>
+<span class='va'>df</span><span class='op'>$</span><span class='va'>power_at_time</span> <span class='op'>&lt;-</span> <span class='fu'>predict_power_at_time</span><span class='op'>(</span>
+  time <span class='op'>=</span> <span class='va'>df</span><span class='op'>$</span><span class='va'>time</span>, MSS <span class='op'>=</span> <span class='va'>MSS</span>, TAU <span class='op'>=</span> <span class='va'>TAU</span>,
+  <span class='co'># Check shorts::get_air_resistance for available params</span>
+  bodymass <span class='op'>=</span> <span class='fl'>100</span>, bodyheight <span class='op'>=</span> <span class='fl'>1.85</span>
+<span class='op'>)</span>
+
 <span class='va'>df</span>
 </div><div class='output co'>#&gt;         time distance_at_time velocity_at_time acceleration_at_time
 #&gt; 1  0.0000000         0.000000         0.000000         11.428571429
@@ -329,17 +338,17 @@
 #&gt; 8      4.666666....         7.989818....             0.014544....
 #&gt; 9      5.333333....         7.996071....             0.005611....
 #&gt; 10                6         7.998484....             0.002165....
-#&gt;    acceleration_at_velocity
-#&gt; 1              11.428571429
-#&gt; 2               4.409386364
-#&gt; 3               1.701235209
-#&gt; 4               0.656372792
-#&gt; 5               0.253242608
-#&gt; 6               0.097706394
-#&gt; 7               0.037697209
-#&gt; 8               0.014544386
-#&gt; 9               0.005611534
-#&gt; 10              0.002165049</div></pre>
+#&gt;    acceleration_at_velocity power_at_time
+#&gt; 1              11.428571429        0.0000
+#&gt; 2               4.409386364     2204.1842
+#&gt; 3               1.701235209     1258.6337
+#&gt; 4               0.656372792      631.0758
+#&gt; 5               0.253242608      350.1031
+#&gt; 6               0.097706394      235.9303
+#&gt; 7               0.037697209      191.0223
+#&gt; 8               0.014544386      173.5683
+#&gt; 9               0.005611534      166.8151
+#&gt; 10              0.002165049      164.2068</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
