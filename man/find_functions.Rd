@@ -114,10 +114,16 @@ acceleration <- predict_acceleration_at_distance(
   TAU = 0.9
 )
 
+# Use ... to forward parameters to the shorts::get_air_resistance
 pwr <- predict_relative_power_at_distance(
   distance = dist,
   MSS = 10,
   TAU = 0.9
+  # bodyweight = 100,
+  # bodyheight = 1.9,
+  # barometric_pressure = 760,
+  # air_temperature = 25,
+  # wind_velocity = 0
 )
 
 # Find critical distance when 90\% of MSS is reached
@@ -133,7 +139,11 @@ abline(v = find_acceleration_critical_distance(MSS = 10, TAU = 0.9, percent = 0.
 # Find max power and location of max power
 plot(x = dist, y = pwr, type = "l")
 
-max_pwr <- find_max_power_distance(MSS = 10, TAU = 0.9)
+max_pwr <- find_max_power_distance(
+  MSS = 10,
+  TAU = 0.9
+  # Use ... to forward parameters to the shorts::get_air_resistance
+)
 abline(h = max_pwr$max_power, col = "gray")
 abline(v = max_pwr$distance, col = "red")
 

@@ -6,7 +6,7 @@
 #' @param distance_correction Numeric vector. Used for correction. Default is 0. See vignettes for more info
 #' @param MSS,TAU Numeric vectors. Model parameters
 #' @param bodymass Body mass in kg. Used to calculate relative power and forwarded to \code{\link{get_air_resistance}}
-#' @param ... Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance
+#' @param ... Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance and power
 #' @return Numeric vector
 #' @references
 #' Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
@@ -33,6 +33,15 @@
 #' df$velocity_at_distance <- predict_velocity_at_distance(df$distance_at_time, MSS, TAU)
 #' df$acceleration_at_distance <- predict_acceleration_at_distance(df$distance_at_time, MSS, TAU)
 #' df$acceleration_at_velocity <- predict_acceleration_at_velocity(df$velocity_at_time, MSS, TAU)
+#'
+#' # Power calculation uses shorts::get_air_resistance function and its defaults
+#' # values to calculate power. Use the ... to setup your own parameters for power
+#' # calculations
+#' df$power_at_time <- predict_power_at_time(
+#'   time = df$time, MSS = MSS, TAU = TAU,
+#'   # Check shorts::get_air_resistance for available params
+#'   bodymass = 100, bodyheight = 1.85
+#' )
 #'
 #' df
 #' @name predict_kinematics

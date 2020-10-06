@@ -122,7 +122,7 @@ predict_kinematics(object, max_time = 6, frequency = 100, bodymass = 75, ...)
 
 \item{distance_correction}{Numeric vector. Used for correction. Default is 0. See vignettes for more info}
 
-\item{...}{Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance}
+\item{...}{Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance and power}
 
 \item{bodymass}{Body mass in kg. Used to calculate relative power and forwarded to \code{\link{get_air_resistance}}}
 
@@ -157,6 +157,15 @@ df$time_at_distance <- predict_time_at_distance(df$distance_at_time, MSS, TAU)
 df$velocity_at_distance <- predict_velocity_at_distance(df$distance_at_time, MSS, TAU)
 df$acceleration_at_distance <- predict_acceleration_at_distance(df$distance_at_time, MSS, TAU)
 df$acceleration_at_velocity <- predict_acceleration_at_velocity(df$velocity_at_time, MSS, TAU)
+
+# Power calculation uses shorts::get_air_resistance function and its defaults
+# values to calculate power. Use the ... to setup your own parameters for power
+# calculations
+df$power_at_time <- predict_power_at_time(
+  time = df$time, MSS = MSS, TAU = TAU,
+  # Check shorts::get_air_resistance for available params
+  bodymass = 100, bodyheight = 1.85
+)
 
 df
 }
