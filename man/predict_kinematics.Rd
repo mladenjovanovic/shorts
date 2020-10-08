@@ -168,6 +168,20 @@ df$power_at_time <- predict_power_at_time(
 )
 
 df
+
+# Example for predict_kinematics
+split_times <- data.frame(
+  distance = c(5, 10, 20, 30, 35),
+  time = c(1.20, 1.96, 3.36, 4.71, 5.35)
+)
+
+# Simple model
+simple_model <- with(
+  split_times,
+  model_using_splits(distance, time)
+)
+
+predict_kinematics(simple_model)
 }
 \references{
 Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start

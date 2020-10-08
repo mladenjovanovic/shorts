@@ -200,6 +200,21 @@ predict_relative_power_at_time <- function(time, MSS, TAU, time_correction = 0, 
 #' @param frequency Number of samples within one second. Default is 100Hz
 #' @return Data frame
 #' @export
+#' @examples
+#'
+#' # Example for predict_kinematics
+#' split_times <- data.frame(
+#'   distance = c(5, 10, 20, 30, 35),
+#'   time = c(1.20, 1.96, 3.36, 4.71, 5.35)
+#' )
+#'
+#' # Simple model
+#' simple_model <- with(
+#'   split_times,
+#'   model_using_splits(distance, time)
+#' )
+#'
+#' predict_kinematics(simple_model)
 predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass = 75, ...) {
   df <- NULL
 
@@ -333,7 +348,9 @@ predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass =
       ...
     )
 
-    df <- df[c("athlete", "time", "distance", "velocity", "acceleration", "power")]
+    df <- df[c("athlete", "time", "distance", "velocity",
+               "acceleration", "air_resistance", "force",
+               "power", "relative_power")]
   }
 
   return(df)
