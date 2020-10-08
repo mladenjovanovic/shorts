@@ -11,7 +11,7 @@ status](https://www.r-pkg.org/badges/version/shorts)](https://cran.r-project.org
 <!-- badges: end -->
 
 This package creates short sprint (\<6sec) profiles using the split
-times or the radar gun data. Mono-exponential equation is used to
+times, or the radar gun data. Mono-exponential equation is used to
 estimate maximal sprinting speed (MSS), relative acceleration (TAU), and
 other parameters. These parameters can be used to predict kinematic and
 kinetics variables and to compare individuals.
@@ -324,7 +324,7 @@ mixed_model
 #>     time_correction distance_correction 
 #>           0.0000000           0.0000000 
 #> 
-#> Estimated frandom model parameters
+#> Estimated random model parameters
 #> ----------------------------------
 #>     athlete      MSS       TAU      MAC     PMAX time_correction
 #> 1     James 9.691736 0.8469741 11.44278 27.72510               0
@@ -448,7 +448,7 @@ mixed_model
 #>     time_correction distance_correction 
 #>           0.0000000           0.0000000 
 #> 
-#> Estimated frandom model parameters
+#> Estimated random model parameters
 #> ----------------------------------
 #>     athlete      MSS       TAU      MAC     PMAX time_correction
 #> 1     James 9.021822 0.6277251 14.37225 32.41597               0
@@ -551,7 +551,7 @@ mixed_model
 #>     time_correction distance_correction 
 #>            0.000000            0.000000 
 #> 
-#> Estimated frandom model parameters
+#> Estimated random model parameters
 #> ----------------------------------
 #>     athlete      MSS       TAU      MAC     PMAX time_correction
 #> 1     James 9.998556 1.1108457 9.000851 22.49888               0
@@ -657,7 +657,7 @@ mixed_model_corrected
 #>     time_correction distance_correction 
 #>            0.300000            0.000000 
 #> 
-#> Estimated frandom model parameters
+#> Estimated random model parameters
 #> ----------------------------------
 #>     athlete       MSS       TAU      MAC     PMAX time_correction
 #> 1     James 10.549314 1.4953619 7.054689 18.60553             0.3
@@ -779,7 +779,7 @@ mixed_model_with_time_correction
 #>     time_correction distance_correction 
 #>           0.1989677           0.0000000 
 #> 
-#> Estimated frandom model parameters
+#> Estimated random model parameters
 #> ----------------------------------
 #>     athlete       MSS       TAU       MAC     PMAX time_correction
 #> 1     James 10.186327 1.2429367  8.195370 20.87018       0.1989677

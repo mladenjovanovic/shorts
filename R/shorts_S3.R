@@ -163,7 +163,7 @@ print.shorts_mixed_model <- function(x, ...) {
   cat("--------------------------------\n")
   print(unlist(x$parameters$fixed))
 
-  cat("\nEstimated frandom model parameters\n")
+  cat("\nEstimated random model parameters\n")
   cat("----------------------------------\n")
   print(x$parameters$random)
 
