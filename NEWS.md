@@ -1,4 +1,4 @@
-# shorts 1.1.1.9000 (Developmental version)
+# shorts 1.1.2
 
 * Added `get_air_resistance` function to estimate air resistance in newtons
 * Added `predict_air_resistance_at_time` and `predict_air_resistance_at_time` functions
