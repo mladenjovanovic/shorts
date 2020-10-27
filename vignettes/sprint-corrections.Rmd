@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
   fig.align = "center",
   fig.width = 6,
   fig.height = 4,
-  dpi = 90, #90 for CRAN, 150 for github
+  dpi = 150, #90 for CRAN, 150 for github
   out.width = "90%",
   auto_pdf = TRUE,
   message = FALSE,

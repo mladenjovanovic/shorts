@@ -1,3 +1,5 @@
+# shorts 1.1.2.9001 (Development version)
+
 # shorts 1.1.2
 
 * Added `get_air_resistance` function to estimate air resistance in newtons
