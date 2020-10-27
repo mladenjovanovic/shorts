@@ -1,5 +1,8 @@
 # shorts 1.1.2.9001 (Development version)
 
+* Added sample radar gun data from Jean-Benoît Morin Microsoft Excel spreadsheet, freely available at his [website](https://jbmorin.net/2017/12/13/a-spreadsheet-for-sprint-acceleration-force-velocity-power-profiling/) (accessed October 27, 2020)). For more infor `?jb_morin`
+
+
 # shorts 1.1.2
 
 * Added `get_air_resistance` function to estimate air resistance in newtons
