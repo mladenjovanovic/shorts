@@ -78,16 +78,14 @@ kimberley_profile
 #> Estimated model parameters
 #> --------------------------
 #>                 MSS                 TAU                 MAC                PMAX 
-#>           8.5911421           0.8113282          10.5889855          22.7428698 
+#>               8.591               0.811              10.589              22.743 
 #>     time_correction distance_correction 
-#>           0.0000000           0.0000000 
+#>               0.000               0.000 
 #> 
 #> Model fit estimators
 #> --------------------
-#>         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
-#>  0.03403413  0.99965531 -0.02699169  0.05293444  0.05293444  0.02778875 
-#>         MAE        MAPE 
-#>  0.02333342  1.19263116
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>    0.0340    0.9997   -0.0270    0.0529    0.0529    0.0278    0.0233    1.1926
 
 summary(kimberley_profile)
 #> 
@@ -96,21 +94,21 @@ summary(kimberley_profile)
 #> 
 #> Parameters:
 #>     Estimate Std. Error t value Pr(>|t|)    
-#> MSS  8.59114    0.12251   70.13 2.48e-07 ***
-#> TAU  0.81133    0.04581   17.71 5.97e-05 ***
+#> MSS   8.5911     0.1225    70.1  2.5e-07 ***
+#> TAU   0.8113     0.0458    17.7  6.0e-05 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 0.03403 on 4 degrees of freedom
+#> Residual standard error: 0.034 on 4 degrees of freedom
 #> 
 #> Number of iterations to convergence: 4 
-#> Achieved convergence tolerance: 4.058e-06
+#> Achieved convergence tolerance: 4.06e-06
 
 coef(kimberley_profile)
 #>                 MSS                 TAU                 MAC                PMAX 
-#>           8.5911421           0.8113282          10.5889855          22.7428698 
+#>               8.591               0.811              10.589              22.743 
 #>     time_correction distance_correction 
-#>           0.0000000           0.0000000
+#>               0.000               0.000
 ```
 
 To return the predicted outcome (in this case time variable), use
@@ -118,7 +116,7 @@ To return the predicted outcome (in this case time variable), use
 
 ``` r
 predict(kimberley_profile)
-#> [1] 1.210934 1.897021 2.521028 3.122008 4.299243 5.466325
+#> [1] 1.21 1.90 2.52 3.12 4.30 5.47
 ```
 
 If you are interested in calculating average split velocity, use
@@ -232,28 +230,20 @@ predicted_kinematics <- predict_kinematics(
   bodyheight = kimberley_bodyheight)
 
 head(predicted_kinematics)
-#>   time     distance  velocity acceleration air_resistance    force     power
-#> 1 0.00 0.0000000000 0.0000000    10.588986    0.000000000 635.3391   0.00000
-#> 2 0.01 0.0005272807 0.1052400    10.459272    0.002662044 627.5590  66.04428
-#> 3 0.02 0.0021005019 0.2091907    10.331148    0.010518136 619.8794 129.67303
-#> 4 0.03 0.0047068510 0.3118682    10.204593    0.023377383 612.2990 190.95655
-#> 5 0.04 0.0083336724 0.4132878    10.079589    0.041054329 604.8164 249.96322
-#> 6 0.05 0.0129684654 0.5134650     9.956116    0.063368815 597.4303 306.75958
-#>   relative_power
-#> 1       0.000000
-#> 2       1.100738
-#> 3       2.161217
-#> 4       3.182609
-#> 5       4.166054
-#> 6       5.112660
+#>   time distance velocity acceleration air_resistance force power relative_power
+#> 1 0.00 0.000000    0.000        10.59        0.00000   635     0           0.00
+#> 2 0.01 0.000527    0.105        10.46        0.00266   628    66           1.10
+#> 3 0.02 0.002101    0.209        10.33        0.01052   620   130           2.16
+#> 4 0.03 0.004707    0.312        10.20        0.02338   612   191           3.18
+#> 5 0.04 0.008334    0.413        10.08        0.04105   605   250           4.17
+#> 6 0.05 0.012968    0.513         9.96        0.06337   597   307           5.11
 ```
 
 To get model residuals, use `residuals` function:
 
 ``` r
 residuals(kimberley_profile)
-#> [1]  0.052934436  0.004021074 -0.019971823 -0.026991691 -0.013756850
-#> [6]  0.022324628
+#> [1]  0.05293  0.00402 -0.01997 -0.02699 -0.01376  0.02232
 ```
 
 Package `shorts` comes with `find_` family of functions that allow
@@ -268,10 +258,10 @@ shorts::find_max_power_distance(
   kimberley_profile$parameters$TAU
 )
 #> $max_power
-#> [1] 1727.734
+#> [1] 1728
 #> 
 #> $distance
-#> [1] 1.41578
+#> [1] 1.42
 
 # Distance over which power is over 50%
 shorts::find_power_critical_distance(
@@ -280,10 +270,10 @@ shorts::find_power_critical_distance(
   percent = 0.5
 )
 #> $lower
-#> [1] 0.08555527
+#> [1] 0.0856
 #> 
 #> $upper
-#> [1] 8.364589
+#> [1] 8.36
 
 # Distance over which acceleration is under 50%
 shorts::find_acceleration_critical_distance(
@@ -291,7 +281,7 @@ shorts::find_acceleration_critical_distance(
   TAU = kimberley_profile$parameters$TAU,
   percent = 0.5
 )
-#> [1] 1.346279
+#> [1] 1.35
 
 # Distance over which velocity is over 95%
 shorts::find_velocity_critical_distance(
@@ -299,7 +289,7 @@ shorts::find_velocity_critical_distance(
   TAU = kimberley_profile$parameters$TAU,
   percent = 0.95
 )
-#> [1] 14.25922
+#> [1] 14.3
 ```
 
 #### Mixed-effect models
@@ -320,59 +310,51 @@ mixed_model
 #> Estimated fixed model parameters
 #> --------------------------------
 #>                 MSS                 TAU                 MAC                PMAX 
-#>           8.0649112           0.6551988          12.3091052          24.8179600 
+#>               8.065               0.655              12.309              24.818 
 #>     time_correction distance_correction 
-#>           0.0000000           0.0000000 
+#>               0.000               0.000 
 #> 
 #> Estimated random model parameters
 #> ----------------------------------
-#>     athlete      MSS       TAU      MAC     PMAX time_correction
-#> 1     James 9.691736 0.8469741 11.44278 27.72510               0
-#> 2       Jim 7.833622 0.5048535 15.51663 30.38785               0
-#> 3      John 7.780395 0.7274302 10.69573 20.80424               0
-#> 4 Kimberley 8.569518 0.8022235 10.68221 22.88535               0
-#> 5  Samantha 6.449284 0.3945129 16.34746 26.35735               0
-#>   distance_correction
-#> 1                   0
-#> 2                   0
-#> 3                   0
-#> 4                   0
-#> 5                   0
+#>     athlete  MSS   TAU  MAC PMAX time_correction distance_correction
+#> 1     James 9.69 0.847 11.4 27.7               0                   0
+#> 2       Jim 7.83 0.505 15.5 30.4               0                   0
+#> 3      John 7.78 0.727 10.7 20.8               0                   0
+#> 4 Kimberley 8.57 0.802 10.7 22.9               0                   0
+#> 5  Samantha 6.45 0.395 16.3 26.4               0                   0
 #> 
 #> Model fit estimators
 #> --------------------
-#>         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
-#>  0.02600213  0.99982036 -0.02934519  0.04964582  0.04964582  0.02139178 
-#>         MAE        MAPE 
-#>  0.01722581  0.90185579
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>    0.0260    0.9998   -0.0293    0.0496    0.0496    0.0214    0.0172    0.9019
 
 summary(mixed_model)
 #> Nonlinear mixed-effects model fit by maximum likelihood
 #>   Model: corrected_time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS *      TAU) - 1))) + distance/MSS + TAU 
 #>  Data: train 
-#>         AIC       BIC  logLik
-#>   -75.06719 -66.66001 43.5336
+#>     AIC   BIC logLik
+#>   -75.1 -66.7   43.5
 #> 
 #> Random effects:
 #>  Formula: list(MSS ~ 1, TAU ~ 1)
 #>  Level: athlete
 #>  Structure: General positive-definite, Log-Cholesky parametrization
-#>          StdDev     Corr 
-#> MSS      1.06581655 MSS  
-#> TAU      0.17821114 0.877
-#> Residual 0.02600213      
+#>          StdDev Corr 
+#> MSS      1.066  MSS  
+#> TAU      0.178  0.877
+#> Residual 0.026       
 #> 
 #> Fixed effects: MSS + TAU ~ 1 
-#>        Value Std.Error DF   t-value p-value
-#> MSS 8.064911 0.4949104 24 16.295699       0
-#> TAU 0.655199 0.0837593 24  7.822404       0
+#>     Value Std.Error DF t-value p-value
+#> MSS  8.06     0.495 24   16.30       0
+#> TAU  0.66     0.084 24    7.82       0
 #>  Correlation: 
 #>     MSS  
 #> TAU 0.874
 #> 
 #> Standardized Within-Group Residuals:
-#>        Min         Q1        Med         Q3        Max 
-#> -1.9092981 -0.6050683  0.1536529  0.5226467  1.1285687 
+#>    Min     Q1    Med     Q3    Max 
+#> -1.909 -0.605  0.154  0.523  1.129 
 #> 
 #> Number of Observations: 30
 #> Number of Groups: 5
@@ -380,23 +362,17 @@ summary(mixed_model)
 coef(mixed_model)
 #> $fixed
 #>                 MSS                 TAU                 MAC                PMAX 
-#>           8.0649112           0.6551988          12.3091052          24.8179600 
+#>               8.065               0.655              12.309              24.818 
 #>     time_correction distance_correction 
-#>           0.0000000           0.0000000 
+#>               0.000               0.000 
 #> 
 #> $random
-#>     athlete      MSS       TAU      MAC     PMAX time_correction
-#> 1     James 9.691736 0.8469741 11.44278 27.72510               0
-#> 2       Jim 7.833622 0.5048535 15.51663 30.38785               0
-#> 3      John 7.780395 0.7274302 10.69573 20.80424               0
-#> 4 Kimberley 8.569518 0.8022235 10.68221 22.88535               0
-#> 5  Samantha 6.449284 0.3945129 16.34746 26.35735               0
-#>   distance_correction
-#> 1                   0
-#> 2                   0
-#> 3                   0
-#> 4                   0
-#> 5                   0
+#>     athlete  MSS   TAU  MAC PMAX time_correction distance_correction
+#> 1     James 9.69 0.847 11.4 27.7               0                   0
+#> 2       Jim 7.83 0.505 15.5 30.4               0                   0
+#> 3      John 7.78 0.727 10.7 20.8               0                   0
+#> 4 Kimberley 8.57 0.802 10.7 22.9               0                   0
+#> 5  Samantha 6.45 0.395 16.3 26.4               0                   0
 ```
 
 `shorts::mixed_model_using_splits` return the similar object, but
@@ -444,31 +420,23 @@ mixed_model
 #> Estimated fixed model parameters
 #> --------------------------------
 #>                 MSS                 TAU                 MAC                PMAX 
-#>           7.9366665           0.6277251          12.6435385          25.0868872 
+#>               7.937               0.628              12.644              25.087 
 #>     time_correction distance_correction 
-#>           0.0000000           0.0000000 
+#>               0.000               0.000 
 #> 
 #> Estimated random model parameters
 #> ----------------------------------
-#>     athlete      MSS       TAU      MAC     PMAX time_correction
-#> 1     James 9.021822 0.6277251 14.37225 32.41597               0
-#> 2       Jim 8.111530 0.6277251 12.92211 26.20451               0
-#> 3      John 7.576142 0.6277251 12.06920 22.85950               0
-#> 4 Kimberley 8.144414 0.6277251 12.97449 26.41741               0
-#> 5  Samantha 6.829424 0.6277251 10.87964 18.57542               0
-#>   distance_correction
-#> 1                   0
-#> 2                   0
-#> 3                   0
-#> 4                   0
-#> 5                   0
+#>     athlete  MSS   TAU  MAC PMAX time_correction distance_correction
+#> 1     James 9.02 0.628 14.4 32.4               0                   0
+#> 2       Jim 8.11 0.628 12.9 26.2               0                   0
+#> 3      John 7.58 0.628 12.1 22.9               0                   0
+#> 4 Kimberley 8.14 0.628 13.0 26.4               0                   0
+#> 5  Samantha 6.83 0.628 10.9 18.6               0                   0
 #> 
 #> Model fit estimators
 #> --------------------
-#>         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
-#>  0.07635631  0.99801628 -0.10228573  0.15987989  0.15987989  0.06979851 
-#>         MAE        MAPE 
-#>  0.05845303  2.68555639
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>    0.0764    0.9980   -0.1023    0.1599    0.1599    0.0698    0.0585    2.6856
 ```
 
 ### Profiling using radar gun data
@@ -489,16 +457,14 @@ jim_profile
 #> Estimated model parameters
 #> --------------------------
 #>                 MSS                 TAU                 MAC                PMAX 
-#>           7.9979331           0.8886595           8.9999977          17.9953449 
+#>               7.998               0.889               9.000              17.995 
 #>     time_correction distance_correction 
-#>           0.0000000           0.0000000 
+#>               0.000               0.000 
 #> 
 #> Model fit estimators
 #> --------------------
-#>         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
-#>  0.05058726  0.99924408 -0.15099212  0.16415830  0.16415830  0.05050288 
-#>         MAE        MAPE 
-#>  0.03927901         NaN
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>    0.0506    0.9992   -0.1510    0.1642    0.1642    0.0505    0.0393       NaN
 
 summary(jim_profile)
 #> 
@@ -506,15 +472,15 @@ summary(jim_profile)
 #> 
 #> Parameters:
 #>     Estimate Std. Error t value Pr(>|t|)    
-#> MSS 7.997933   0.003069  2606.3   <2e-16 ***
-#> TAU 0.888659   0.001564   568.2   <2e-16 ***
+#> MSS  7.99793    0.00307    2606   <2e-16 ***
+#> TAU  0.88866    0.00156     568   <2e-16 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 0.05059 on 598 degrees of freedom
+#> Residual standard error: 0.0506 on 598 degrees of freedom
 #> 
 #> Number of iterations to convergence: 3 
-#> Achieved convergence tolerance: 9.313e-07
+#> Achieved convergence tolerance: 9.31e-07
 ```
 
 The object returned from `shorts::model_using_radar` is same as object
@@ -547,59 +513,51 @@ mixed_model
 #> Estimated fixed model parameters
 #> --------------------------------
 #>                 MSS                 TAU                 MAC                PMAX 
-#>            8.301178            1.007782            8.237080           17.094367 
+#>                8.30                1.01                8.24               17.09 
 #>     time_correction distance_correction 
-#>            0.000000            0.000000 
+#>                0.00                0.00 
 #> 
 #> Estimated random model parameters
 #> ----------------------------------
-#>     athlete      MSS       TAU      MAC     PMAX time_correction
-#> 1     James 9.998556 1.1108457 9.000851 22.49888               0
-#> 2       Jim 7.997945 0.8886712 8.999892 17.99516               0
-#> 3      John 8.000051 1.0690357 7.483427 14.96695               0
-#> 4 Kimberley 9.005500 1.2855706 7.005061 15.77102               0
-#> 5  Samantha 6.503839 0.6847851 9.497635 15.44277               0
-#>   distance_correction
-#> 1                   0
-#> 2                   0
-#> 3                   0
-#> 4                   0
-#> 5                   0
+#>     athlete   MSS   TAU  MAC PMAX time_correction distance_correction
+#> 1     James 10.00 1.111 9.00 22.5               0                   0
+#> 2       Jim  8.00 0.889 9.00 18.0               0                   0
+#> 3      John  8.00 1.069 7.48 15.0               0                   0
+#> 4 Kimberley  9.01 1.286 7.01 15.8               0                   0
+#> 5  Samantha  6.50 0.685 9.50 15.4               0                   0
 #> 
 #> Model fit estimators
 #> --------------------
-#>         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
-#>  0.05164818  0.99942171 -0.21912952  0.19832897  0.21912952  0.05156203 
-#>         MAE        MAPE 
-#>  0.03949473         NaN
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>    0.0516    0.9994   -0.2191    0.1983    0.2191    0.0516    0.0395       NaN
 
 summary(mixed_model)
 #> Nonlinear mixed-effects model fit by maximum likelihood
 #>   Model: velocity ~ MSS * (1 - exp(1)^(-(corrected_time)/TAU)) 
 #>  Data: train 
-#>         AIC       BIC   logLik
-#>   -9150.177 -9114.139 4581.089
+#>     AIC   BIC logLik
+#>   -9150 -9114   4581
 #> 
 #> Random effects:
 #>  Formula: list(MSS ~ 1, TAU ~ 1)
 #>  Level: athlete
 #>  Structure: General positive-definite, Log-Cholesky parametrization
-#>          StdDev     Corr 
-#> MSS      1.16535852 MSS  
-#> TAU      0.20497379 0.811
-#> Residual 0.05164818      
+#>          StdDev Corr 
+#> MSS      1.1654 MSS  
+#> TAU      0.2050 0.811
+#> Residual 0.0516      
 #> 
 #> Fixed effects: MSS + TAU ~ 1 
-#>        Value Std.Error   DF  t-value p-value
-#> MSS 8.301178 0.5213403 2994 15.92276       0
-#> TAU 1.007782 0.0917011 2994 10.98986       0
+#>     Value Std.Error   DF t-value p-value
+#> MSS  8.30     0.521 2994    15.9       0
+#> TAU  1.01     0.092 2994    11.0       0
 #>  Correlation: 
 #>     MSS  
 #> TAU 0.811
 #> 
 #> Standardized Within-Group Residuals:
-#>           Min            Q1           Med            Q3           Max 
-#> -3.8399995748 -0.5932967650 -0.0002562518  0.6111624765  4.2427350284 
+#>       Min        Q1       Med        Q3       Max 
+#> -3.840000 -0.593297 -0.000256  0.611162  4.242735 
 #> 
 #> Number of Observations: 3000
 #> Number of Groups: 5
@@ -653,59 +611,51 @@ mixed_model_corrected
 #> Estimated fixed model parameters
 #> --------------------------------
 #>                 MSS                 TAU                 MAC                PMAX 
-#>            8.474621            1.154940            7.337715           15.546088 
+#>                8.47                1.15                7.34               15.55 
 #>     time_correction distance_correction 
-#>            0.300000            0.000000 
+#>                0.30                0.00 
 #> 
 #> Estimated random model parameters
 #> ----------------------------------
-#>     athlete       MSS       TAU      MAC     PMAX time_correction
-#> 1     James 10.549314 1.4953619 7.054689 18.60553             0.3
-#> 2       Jim  8.048378 0.9216038 8.733012 17.57165             0.3
-#> 3      John  8.130968 1.2295728 6.612839 13.44220             0.3
-#> 4 Kimberley  9.114979 1.3721302 6.642940 15.13756             0.3
-#> 5  Samantha  6.529465 0.7560310 8.636504 14.09794             0.3
-#>   distance_correction
-#> 1                   0
-#> 2                   0
-#> 3                   0
-#> 4                   0
-#> 5                   0
+#>     athlete   MSS   TAU  MAC PMAX time_correction distance_correction
+#> 1     James 10.55 1.495 7.05 18.6             0.3                   0
+#> 2       Jim  8.05 0.922 8.73 17.6             0.3                   0
+#> 3      John  8.13 1.230 6.61 13.4             0.3                   0
+#> 4 Kimberley  9.11 1.372 6.64 15.1             0.3                   0
+#> 5  Samantha  6.53 0.756 8.64 14.1             0.3                   0
 #> 
 #> Model fit estimators
 #> --------------------
-#>          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE 
-#>  0.015195052  0.999941466 -0.041155421  0.020298042  0.041155421  0.012443740 
-#>          MAE         MAPE 
-#>  0.009087699  0.496822694
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>   0.01520   0.99994  -0.04116   0.02030   0.04116   0.01244   0.00909   0.49682
 
 summary(mixed_model_corrected)
 #> Nonlinear mixed-effects model fit by maximum likelihood
 #>   Model: corrected_time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS *      TAU) - 1))) + distance/MSS + TAU 
 #>  Data: train 
-#>         AIC       BIC   logLik
-#>   -96.92355 -88.51636 54.46177
+#>     AIC   BIC logLik
+#>   -96.9 -88.5   54.5
 #> 
 #> Random effects:
 #>  Formula: list(MSS ~ 1, TAU ~ 1)
 #>  Level: athlete
 #>  Structure: General positive-definite, Log-Cholesky parametrization
-#>          StdDev     Corr 
-#> MSS      1.32853982 MSS  
-#> TAU      0.27791928 0.924
-#> Residual 0.01519505      
+#>          StdDev Corr 
+#> MSS      1.3285 MSS  
+#> TAU      0.2779 0.924
+#> Residual 0.0152      
 #> 
 #> Fixed effects: MSS + TAU ~ 1 
-#>        Value Std.Error DF   t-value p-value
-#> MSS 8.474621 0.6159646 24 13.758292       0
-#> TAU 1.154940 0.1293310 24  8.930112       0
+#>     Value Std.Error DF t-value p-value
+#> MSS  8.47     0.616 24   13.76       0
+#> TAU  1.15     0.129 24    8.93       0
 #>  Correlation: 
 #>     MSS  
 #> TAU 0.923
 #> 
 #> Standardized Within-Group Residuals:
-#>        Min         Q1        Med         Q3        Max 
-#> -1.3358323 -0.4066588 -0.1325837  0.3284514  2.7084751 
+#>    Min     Q1    Med     Q3    Max 
+#> -1.336 -0.407 -0.133  0.328  2.708 
 #> 
 #> Number of Observations: 30
 #> Number of Groups: 5
@@ -750,16 +700,14 @@ kimberley_profile_with_time_correction
 #> Estimated model parameters
 #> --------------------------
 #>                 MSS                 TAU                 MAC                PMAX 
-#>           8.9748353           1.2348565           7.2679175          16.3070907 
+#>               8.975               1.235               7.268              16.307 
 #>     time_correction distance_correction 
-#>           0.2346537           0.0000000 
+#>               0.235               0.000 
 #> 
 #> Model fit estimators
 #> --------------------
-#>           RSE     R_squared        minErr        maxErr     maxAbsErr 
-#>  0.0011290466  0.9999996942 -0.0012094658  0.0011807342  0.0012094658 
-#>          RMSE           MAE          MAPE 
-#>  0.0007983565  0.0006586035  0.0282352643
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>  0.001129  1.000000 -0.001209  0.001181  0.001209  0.000798  0.000659  0.028235
 
 # Mixed-effect model using `time_correction` as fixed effect only
 # To use `time_correction` as random effects, use random = MSS + TAU + time_correction ~ 1
@@ -775,31 +723,23 @@ mixed_model_with_time_correction
 #> Estimated fixed model parameters
 #> --------------------------------
 #>                 MSS                 TAU                 MAC                PMAX 
-#>           8.3040140           0.9687348           8.5720197          17.7955429 
+#>               8.304               0.969               8.572              17.796 
 #>     time_correction distance_correction 
-#>           0.1989677           0.0000000 
+#>               0.199               0.000 
 #> 
 #> Estimated random model parameters
 #> ----------------------------------
-#>     athlete       MSS       TAU       MAC     PMAX time_correction
-#> 1     James 10.186327 1.2429367  8.195370 20.87018       0.1989677
-#> 2       Jim  7.946099 0.7643674 10.395655 20.65123       0.1989677
-#> 3      John  7.996262 1.0488272  7.624003 15.24088       0.1989677
-#> 4 Kimberley  8.899472 1.1615147  7.661953 17.04683       0.1989677
-#> 5  Samantha  6.491911 0.6260282 10.369998 16.83028       0.1989677
-#>   distance_correction
-#> 1                   0
-#> 2                   0
-#> 3                   0
-#> 4                   0
-#> 5                   0
+#>     athlete   MSS   TAU   MAC PMAX time_correction distance_correction
+#> 1     James 10.19 1.243  8.20 20.9           0.199                   0
+#> 2       Jim  7.95 0.764 10.40 20.7           0.199                   0
+#> 3      John  8.00 1.049  7.62 15.2           0.199                   0
+#> 4 Kimberley  8.90 1.162  7.66 17.0           0.199                   0
+#> 5  Samantha  6.49 0.626 10.37 16.8           0.199                   0
 #> 
 #> Model fit estimators
 #> --------------------
-#>          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE 
-#>  0.005976815  0.999990286 -0.016508275  0.009370607  0.016508275  0.004882226 
-#>          MAE         MAPE 
-#>  0.003481096  0.186135567
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>   0.00598   0.99999  -0.01651   0.00937   0.01651   0.00488   0.00348   0.18614
 ```
 
 For more details, please refer to `sprint-corrections`
@@ -824,34 +764,30 @@ kimberley_profile_LOOCV
 #> Estimated model parameters
 #> --------------------------
 #>                 MSS                 TAU                 MAC                PMAX 
-#>           8.5911421           0.8113282          10.5889855          22.7428698 
+#>               8.591               0.811              10.589              22.743 
 #>     time_correction distance_correction 
-#>           0.0000000           0.0000000 
+#>               0.000               0.000 
 #> 
 #> Model fit estimators
 #> --------------------
-#>         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
-#>  0.03403413  0.99965531 -0.02699169  0.05293444  0.05293444  0.02778875 
-#>         MAE        MAPE 
-#>  0.02333342  1.19263116 
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>    0.0340    0.9997   -0.0270    0.0529    0.0529    0.0278    0.0233    1.1926 
 #> 
 #> 
 #> Leave-One-Out Cross-Validation
 #> ------------------------------
 #> Parameters:
-#>        MSS       TAU      MAC     PMAX time_correction distance_correction
-#> 1 8.693799 0.8561004 10.15512 22.07164               0                   0
-#> 2 8.599598 0.8152654 10.54822 22.67761               0                   0
-#> 3 8.560665 0.7953644 10.76320 23.03504               0                   0
-#> 4 8.571599 0.7972996 10.75079 23.03786               0                   0
-#> 5 8.608051 0.8130138 10.58783 22.78514               0                   0
-#> 6 8.394673 0.7596923 11.05010 23.19049               0                   0
+#>    MSS   TAU  MAC PMAX time_correction distance_correction
+#> 1 8.69 0.856 10.2 22.1               0                   0
+#> 2 8.60 0.815 10.5 22.7               0                   0
+#> 3 8.56 0.795 10.8 23.0               0                   0
+#> 4 8.57 0.797 10.8 23.0               0                   0
+#> 5 8.61 0.813 10.6 22.8               0                   0
+#> 6 8.39 0.760 11.1 23.2               0                   0
 #> 
 #> Model fit:
-#>         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
-#>          NA  0.99901083 -0.03444984  0.08009048  0.08009048  0.04742769 
-#>         MAE        MAPE 
-#>  0.03923869  1.72270273
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>        NA    0.9990   -0.0344    0.0801    0.0801    0.0474    0.0392    1.7227
 ```
 
 Box-plot is suitable method for plotting estimated parameters:

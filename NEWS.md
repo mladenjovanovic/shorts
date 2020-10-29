@@ -1,6 +1,6 @@
 # shorts 1.1.3
 
-* Added sample radar gun data from Jean-Benoît Morin Microsoft Excel spreadsheet, freely available at his [website](https://jbmorin.net/2017/12/13/a-spreadsheet-for-sprint-acceleration-force-velocity-power-profiling/) (accessed October 27, 2020)). For more infor `?jb_morin`
+* Added sample radar gun data from Jean-Benoît Morin Microsoft Excel spreadsheet, freely available at his [website](https://jbmorin.net/2017/12/13/a-spreadsheet-for-sprint-acceleration-force-velocity-power-profiling/) (accessed October 27, 2020)). For more information `?jb_morin`
 
 * Added `get_FV_profile` for generating Force-Velocity profile summary using Pierre Samozino and Jean-Benoît Morin method (for more DOI:10.1111/sms.12490)
 
