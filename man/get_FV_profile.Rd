@@ -4,7 +4,15 @@
 \alias{get_FV_profile}
 \title{Get Force-Velocity Profile}
 \usage{
-get_FV_profile(MSS, TAU, bodymass = 75, max_time = 6, frequency = 100, ...)
+get_FV_profile(
+  MSS,
+  TAU,
+  bodymass = 75,
+  max_time = 6,
+  frequency = 100,
+  RFmax_cutoff = 0.3,
+  ...
+)
 }
 \arguments{
 \item{MSS}{Numeric vectors. Model parameters}
@@ -16,6 +24,8 @@ get_FV_profile(MSS, TAU, bodymass = 75, max_time = 6, frequency = 100, ...)
 \item{max_time}{Predict from 0 to \code{max_time}. Default is 6seconds}
 
 \item{frequency}{Number of samples within one second. Default is 100Hz}
+
+\item{RFmax_cutoff}{Time cut-off used to estimate \code{RFmax} and \code{Drf}. Default is 0.3s}
 
 \item{...}{Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance and power}
 }
@@ -30,6 +40,7 @@ List containing the following elements:
         \item{Pmax_rel}{\code{Pmax} divided by \code{bodymass}}
         \item{FV_slope}{Slope of the FV profile. See References for more info}
         \item{RFmax}{Maximal force ratio after 0.3sec. See References for more info}
+        \item{RFmax_cutoff}{Time cut-off used to estimate RFmax}
         \item{Drf}{Slope of Force Ratio (RF) and velocity. See References for more info}
         \item{RSE_FV}{Residual standard error of the FV profile.}
         \item{RSE_Drf}{Residual standard error of the RF-velocity profile}

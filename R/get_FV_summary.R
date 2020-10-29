@@ -2,6 +2,7 @@
 #'
 #' Provides Force-Velocity (FV) profile suggested by Pierre Samozino and JB-Morin, et al.
 #' @inheritParams predict_kinematics
+#' @param RFmax_cutoff Time cut-off used to estimate \code{RFmax} and \code{Drf}. Default is 0.3s
 #' @return List containing the following elements:
 #'     \describe{
 #'         \item{bodymass}{Returned \code{bodymass} used in FV profiling}
@@ -12,6 +13,7 @@
 #'         \item{Pmax_rel}{\code{Pmax} divided by \code{bodymass}}
 #'         \item{FV_slope}{Slope of the FV profile. See References for more info}
 #'         \item{RFmax}{Maximal force ratio after 0.3sec. See References for more info}
+#'         \item{RFmax_cutoff}{Time cut-off used to estimate RFmax}
 #'         \item{Drf}{Slope of Force Ratio (RF) and velocity. See References for more info}
 #'         \item{RSE_FV}{Residual standard error of the FV profile.}
 #'         \item{RSE_Drf}{Residual standard error of the RF-velocity profile}
@@ -34,9 +36,15 @@
 #'   TAU = m1$parameters$TAU,
 #'   bodyheight = 1.72,
 #'   bodymass = 120)
-get_FV_profile <- function(MSS, TAU, bodymass = 75, max_time = 6, frequency = 100, ...) {
+get_FV_profile <- function(MSS,
+                           TAU,
+                           bodymass = 75,
+                           max_time = 6,
+                           frequency = 100,
+                           RFmax_cutoff = 0.3,
+                           ...) {
 
-  # Create 0-6s sample
+  # Create 0-max_time sample
   df <- data.frame(time = seq(0, 6, length.out = frequency * max_time))
 
   # There is no need for time_correction here since we want to
@@ -61,13 +69,13 @@ get_FV_profile <- function(MSS, TAU, bodymass = 75, max_time = 6, frequency = 10
   df$RF <- df$force / df$resultant_foce
 
   # Get RF max when t > 0.3sec
-  RFmax <- max(df[df$time > 0.3, ]$RF)
+  RFmax <- max(df[df$time > RFmax_cutoff, ]$RF)
 
   # Get DRF
-  vel_over_03sec <- df[df$time > 0.3, ]$velocity
-  RF_over_03sec <- df[df$time > 0.3, ]$RF
+  vel_over_cutoff <- df[df$time > RFmax_cutoff, ]$velocity
+  RF_over_cutoff <- df[df$time > RFmax_cutoff, ]$RF
 
-  Drf_model <- stats::lm(RF_over_03sec~vel_over_03sec)
+  Drf_model <- stats::lm(RF_over_cutoff~vel_over_cutoff)
 
   Drf <- stats::coef(Drf_model)[[2]]
 
@@ -94,6 +102,7 @@ get_FV_profile <- function(MSS, TAU, bodymass = 75, max_time = 6, frequency = 10
     Pmax = Pmax,
     Pmax_relative = Pmax_relative,
     FV_slope = Slope,
+    RFmax_cutoff = RFmax_cutoff,
     RFmax = RFmax,
     Drf = Drf,
     RSE_FV = summary(fv_profile)$sigma,
