@@ -135,7 +135,7 @@ predict_kinematics(object, max_time = 6, frequency = 100, bodymass = 75, ...)
 \value{
 Numeric vector
 
-Data frame
+Data frame with kinetic and kinematic variables
 }
 \description{
 Predicts kinematic from known \code{MSS} and \code{TAU} parameters

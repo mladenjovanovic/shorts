@@ -33,10 +33,22 @@
 #'
 #' @examples
 #' data("radar_gun_data")
+#'
 #' mixed_model <- mixed_model_using_radar(radar_gun_data, "time", "velocity", "athlete")
 #'
-#' # mixed_model$parameters
+#' print(mixed_model)
 #' coef(mixed_model)
+#' plot(mixed_model)
+#'
+#' mixed_model_correction <- mixed_model_using_radar_with_time_correction(
+#'   radar_gun_data,
+#'   "time",
+#'   "velocity",
+#'   "athlete")
+#'
+#' print(mixed_model_correction)
+#' coef(mixed_model_correction)
+#' plot(mixed_model_correction)
 #' @name mixed_model_radar
 NULL
 

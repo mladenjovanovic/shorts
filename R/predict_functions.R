@@ -198,7 +198,7 @@ predict_relative_power_at_time <- function(time, MSS, TAU, time_correction = 0, 
 #' @param object \code{shorts_model} or \code{shorts_mixed_model} object
 #' @param max_time Predict from 0 to \code{max_time}. Default is 6seconds
 #' @param frequency Number of samples within one second. Default is 100Hz
-#' @return Data frame
+#' @return Data frame with kinetic and kinematic variables
 #' @export
 #' @examples
 #'
@@ -245,6 +245,10 @@ predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass =
       time_correction = object$parameters$time_correction
     )
 
+    df$bodymass <- bodymass
+
+    df$net_horizontal_force <- df$bodymass * df$acceleration
+
     df$air_resistance <- predict_air_resistance_at_time(
       time = df$time,
       MSS = object$parameters$MSS,
@@ -254,7 +258,7 @@ predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass =
       ...
     )
 
-    df$force <- predict_force_at_time(
+    df$horizontal_force <- predict_force_at_time(
       time = df$time,
       MSS = object$parameters$MSS,
       TAU = object$parameters$TAU,
@@ -263,23 +267,15 @@ predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass =
       ...
     )
 
-    df$power <- predict_power_at_time(
-      time = df$time,
-      MSS = object$parameters$MSS,
-      TAU = object$parameters$TAU,
-      time_correction = object$parameters$time_correction,
-      bodymass = bodymass,
-      ...
-    )
+    df$horizontal_force_relative <- df$horizontal_force / bodymass
+    df$vertical_force <- (bodymass * 9.81)
 
-    df$relative_power <- predict_relative_power_at_time(
-      time = df$time,
-      MSS = object$parameters$MSS,
-      TAU = object$parameters$TAU,
-      time_correction = object$parameters$time_correction,
-      bodymass = bodymass,
-      ...
-    )
+    df$resultant_force <- sqrt(df$horizontal_force^2 + df$vertical_force^2)
+    df$resultant_force_relative <- df$resultant_force / bodymass
+    df$power <- df$horizontal_force * df$velocity
+    df$relative_power <- df$horizontal_force_relative * df$velocity
+    df$RF <- df$horizontal_force / df$resultant_force
+    df$force_angle <- atan(df$vertical_force / df$horizontal_force) * 180 / pi
   }
 
   if (class(object) == "shorts_mixed_model") {
@@ -312,6 +308,10 @@ predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass =
       time_correction = df$time_correction
     )
 
+    df$bodymass <- bodymass
+
+    df$net_horizontal_force <- df$bodymass * df$acceleration
+
     df$air_resistance <- predict_air_resistance_at_time(
       time = df$time,
       MSS = df$MSS,
@@ -321,7 +321,7 @@ predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass =
       ...
     )
 
-    df$force <- predict_force_at_time(
+    df$horizontal_force <- predict_force_at_time(
       time = df$time,
       MSS = df$MSS,
       TAU = df$TAU,
@@ -330,27 +330,21 @@ predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass =
       ...
     )
 
-    df$power <- predict_power_at_time(
-      time = df$time,
-      MSS = df$MSS,
-      TAU = df$TAU,
-      time_correction = df$time_correction,
-      bodymass = bodymass,
-      ...
-    )
+    df$horizontal_force_relative <- df$horizontal_force / bodymass
+    df$vertical_force <- (bodymass * 9.81)
 
-    df$relative_power <- predict_relative_power_at_time(
-      time = df$time,
-      MSS = df$MSS,
-      TAU = df$TAU,
-      time_correction = df$time_correction,
-      bodymass = bodymass,
-      ...
-    )
+    df$resultant_force <- sqrt(df$horizontal_force^2 + df$vertical_force^2)
+    df$resultant_force_relative <- df$resultant_force / bodymass
+    df$power <- df$horizontal_force * df$velocity
+    df$relative_power <- df$horizontal_force_relative * df$velocity
+    df$RF <- df$horizontal_force / df$resultant_force
+    df$force_angle <- atan(df$vertical_force / df$horizontal_force) * 180 / pi
 
     df <- df[c("athlete", "time", "distance", "velocity",
-               "acceleration", "air_resistance", "force",
-               "power", "relative_power")]
+               "acceleration", "bodymass", "net_horizontal_force", "air_resistance",
+               "horizontal_force", "horizontal_force_relative", "vertical_force",
+               "resultant_force", "resultant_force_relative",  "power",
+               "relative_power", "RF", "force_angle")]
   }
 
   return(df)

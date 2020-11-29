@@ -13,6 +13,9 @@
 
 \item{...}{Not used}
 }
+\value{
+\link[ggplot2]{ggplot} object
+}
 \description{
 S3 method for plotting \code{shorts_fv_profile} object
 }
