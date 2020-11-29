@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -106,43 +106,81 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="co"># Install from CRAN</span>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Install from CRAN</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"shorts"</span><span class="op">)</span>
 
 <span class="co"># Or the development version from GitHub</span>
 <span class="co"># install.packages("devtools")</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"mladenjovanovic/shorts"</span><span class="op">)</span></pre></div>
+<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"mladenjovanovic/shorts"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
 <p><code>shorts</code> comes with two sample data sets: <code>split_times</code> and <code>radar_gun_data</code> with N=5 athletes. Let’s load them both:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://mladenjovanovic.github.io/shorts/">shorts</a></span><span class="op">)</span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://mladenjovanovic.github.io/shorts/">shorts</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"split_times"</span>, <span class="st">"radar_gun_data"</span><span class="op">)</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"split_times"</span>, <span class="st">"radar_gun_data"</span><span class="op">)</span></code></pre></div>
 <div id="profiling-using-split-times" class="section level3">
 <h3 class="hasAnchor">
 <a href="#profiling-using-split-times" class="anchor"></a>Profiling using split times</h3>
 <p>To model sprint performance using split times, distance will be used as predictor and time as target. Since <code>split_times</code> contains data for multiple athletes, let’s extract only one athlete and model it using <code><a href="reference/model_split_times.html">shorts::model_using_splits</a></code> function.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="va">kimberley_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">split_times</span>, <span class="va">athlete</span> <span class="op">==</span> <span class="st">"Kimberley"</span><span class="op">)</span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kimberley_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">split_times</span>, <span class="va">athlete</span> <span class="op">==</span> <span class="st">"Kimberley"</span><span class="op">)</span>
 
-<span class="va">kimberley_data</span>
-<span class="co">#&gt; # A tibble: 6 x 4</span>
-<span class="co">#&gt;   athlete   bodyweight distance     time</span>
-<span class="co">#&gt;   &lt;chr&gt;          &lt;dbl&gt;    &lt;dbl&gt; &lt;I&lt;dbl&gt;&gt;</span>
-<span class="co">#&gt; 1 Kimberley         55        5     1.16</span>
-<span class="co">#&gt; 2 Kimberley         55       10     1.89</span>
-<span class="co">#&gt; 3 Kimberley         55       15     2.54</span>
-<span class="co">#&gt; 4 Kimberley         55       20     3.15</span>
-<span class="co">#&gt; 5 Kimberley         55       30     4.31</span>
-<span class="co">#&gt; 6 Kimberley         55       40     5.44</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">kimberley_data</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">athlete</th>
+<th align="right">bodyweight</th>
+<th align="right">distance</th>
+<th align="right">time</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">Kimberley</td>
+<td align="right">55</td>
+<td align="right">5</td>
+<td align="right">1.158</td>
+</tr>
+<tr class="even">
+<td align="left">Kimberley</td>
+<td align="right">55</td>
+<td align="right">10</td>
+<td align="right">1.893</td>
+</tr>
+<tr class="odd">
+<td align="left">Kimberley</td>
+<td align="right">55</td>
+<td align="right">15</td>
+<td align="right">2.541</td>
+</tr>
+<tr class="even">
+<td align="left">Kimberley</td>
+<td align="right">55</td>
+<td align="right">20</td>
+<td align="right">3.149</td>
+</tr>
+<tr class="odd">
+<td align="left">Kimberley</td>
+<td align="right">55</td>
+<td align="right">30</td>
+<td align="right">4.313</td>
+</tr>
+<tr class="even">
+<td align="left">Kimberley</td>
+<td align="right">55</td>
+<td align="right">40</td>
+<td align="right">5.444</td>
+</tr>
+</tbody>
+</table>
 <p><code><a href="reference/model_split_times.html">shorts::model_using_splits</a></code> returns an object with <code>parameters</code>, <code>model_fit</code>, <code>model</code> returned from <code><a href="https://rdrr.io/r/stats/nls.html">stats::nls</a></code> function and <code>data</code> used to estimate parameters. Parameters estimated using mono-exponential equation are <em>maximal sprinting speed</em> (MSS), and <em>relative acceleration</em> (TAU). Additional parameters computed from MSS and TAU are <em>maximal acceleration</em> (MAC) and <em>maximal relative power</em> (PMAX) (which is calculated as MAC*MSS/4).</p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-<span class="va">kimberley_profile</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_split_times.html">model_using_splits</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kimberley_profile</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_split_times.html">model_using_splits</a></span><span class="op">(</span>
   distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,
   time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>  
 
@@ -180,42 +218,117 @@
 <span class="co">#&gt;                 MSS                 TAU                 MAC                PMAX </span>
 <span class="co">#&gt;               8.591               0.811              10.589              22.743 </span>
 <span class="co">#&gt;     time_correction distance_correction </span>
-<span class="co">#&gt;               0.000               0.000</span></pre></div>
+<span class="co">#&gt;               0.000               0.000</span></code></pre></div>
 <p>To return the predicted outcome (in this case time variable), use <code>predict</code> function:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span>
-<span class="co">#&gt; [1] 1.21 1.90 2.52 3.12 4.30 5.47</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span>
+<span class="co">#&gt; [1] 1.21 1.90 2.52 3.12 4.30 5.47</span></code></pre></div>
+<p>To create a simple plot, use S3 <code>plot</code> method:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>If you are interested in calculating average split velocity, use <code><a href="reference/format_splits.html">shorts::format_splits</a></code></p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/format_splits.html">format_splits</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/format_splits.html">format_splits</a></span><span class="op">(</span>
   distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,
-  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>
-<span class="co">#&gt;   split split_distance_start split_distance_stop split_distance</span>
-<span class="co">#&gt; 1     1                    0                   5              5</span>
-<span class="co">#&gt; 2     2                    5                  10              5</span>
-<span class="co">#&gt; 3     3                   10                  15              5</span>
-<span class="co">#&gt; 4     4                   15                  20              5</span>
-<span class="co">#&gt; 5     5                   20                  30             10</span>
-<span class="co">#&gt; 6     6                   30                  40             10</span>
-<span class="co">#&gt;   split_time_start split_time_stop split_time split_mean_velocity</span>
-<span class="co">#&gt; 1                0           1.158      1.158        4.317789....</span>
-<span class="co">#&gt; 2            1.158           1.893      0.735        6.802721....</span>
-<span class="co">#&gt; 3            1.893           2.541      0.648        7.716049....</span>
-<span class="co">#&gt; 4            2.541           3.149      0.608        8.223684....</span>
-<span class="co">#&gt; 5            3.149           4.313      1.164        8.591065....</span>
-<span class="co">#&gt; 6            4.313           5.444      1.131        8.841732....</span></pre></div>
+  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="3%">
+<col width="16%">
+<col width="16%">
+<col width="11%">
+<col width="13%">
+<col width="13%">
+<col width="8%">
+<col width="16%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">split</th>
+<th align="right">split_distance_start</th>
+<th align="right">split_distance_stop</th>
+<th align="right">split_distance</th>
+<th align="right">split_time_start</th>
+<th align="right">split_time_stop</th>
+<th align="right">split_time</th>
+<th align="right">split_mean_velocity</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">1.158</td>
+<td align="right">1.158</td>
+<td align="right">4.317789….</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">5</td>
+<td align="right">10</td>
+<td align="right">5</td>
+<td align="right">1.158</td>
+<td align="right">1.893</td>
+<td align="right">0.735</td>
+<td align="right">6.802721….</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">10</td>
+<td align="right">15</td>
+<td align="right">5</td>
+<td align="right">1.893</td>
+<td align="right">2.541</td>
+<td align="right">0.648</td>
+<td align="right">7.716049….</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">15</td>
+<td align="right">20</td>
+<td align="right">5</td>
+<td align="right">2.541</td>
+<td align="right">3.149</td>
+<td align="right">0.608</td>
+<td align="right">8.223684….</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">20</td>
+<td align="right">30</td>
+<td align="right">10</td>
+<td align="right">3.149</td>
+<td align="right">4.313</td>
+<td align="right">1.164</td>
+<td align="right">8.591065….</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">30</td>
+<td align="right">40</td>
+<td align="right">10</td>
+<td align="right">4.313</td>
+<td align="right">5.444</td>
+<td align="right">1.131</td>
+<td align="right">8.841732….</td>
+</tr>
+</tbody>
+</table>
 <p>Let’s plot observed vs fitted split times. For this we can use <code>data</code> returned from <code><a href="reference/model_split_times.html">shorts::model_using_splits</a></code> since it contains <code>pred_time</code> column.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">$</span><span class="va">data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">$</span><span class="va">data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_point</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">time</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">pred_time</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Time (s)"</span><span class="op">)</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;"></p>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Time (s)"</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>To plot predicted velocity, acceleration, air resistance, force, and power over distance, use <code>shorts:predict_</code>. Please note that to calculate force, air resistance, and power, we need Kimberley’s bodymass and height (as well as other characteristics such as air pressure, temperature and wind - see <code>get_air_resistance</code> function).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="va">kimberley_bodymass</span> <span class="op">&lt;-</span> <span class="fl">60</span> <span class="co"># in kilograms</span>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kimberley_bodymass</span> <span class="op">&lt;-</span> <span class="fl">60</span> <span class="co"># in kilograms</span>
 <span class="va">kimberley_bodyheight</span> <span class="op">&lt;-</span> <span class="fl">1.7</span> <span class="co"># in meters</span>
 
 <span class="va">kimberley_pred</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>
@@ -266,30 +379,171 @@
   <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">metric</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span> 
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>To do prediction simpler, use <code><a href="reference/predict_kinematics.html">shorts::predict_kinematics</a></code> function. This will provide kinematics for 0-6s sprint using 100Hz.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit">
-<span class="va">predicted_kinematics</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_kinematics.html">predict_kinematics</a></span><span class="op">(</span>
+  <span class="fu">ylab</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p>To do prediction simpler, use <code><a href="reference/predict_kinematics.html">shorts::predict_kinematics</a></code> function. This will provide kinetics and kinematics for 0-6s sprint using 100Hz.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">predicted_kinematics</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_kinematics.html">predict_kinematics</a></span><span class="op">(</span>
   <span class="va">kimberley_profile</span>,
   bodymass <span class="op">=</span> <span class="va">kimberley_bodymass</span>,
   bodyheight <span class="op">=</span> <span class="va">kimberley_bodyheight</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">predicted_kinematics</span><span class="op">)</span>
-<span class="co">#&gt;   time distance velocity acceleration air_resistance force power relative_power</span>
-<span class="co">#&gt; 1 0.00 0.000000    0.000        10.59        0.00000   635     0           0.00</span>
-<span class="co">#&gt; 2 0.01 0.000527    0.105        10.46        0.00266   628    66           1.10</span>
-<span class="co">#&gt; 3 0.02 0.002101    0.209        10.33        0.01052   620   130           2.16</span>
-<span class="co">#&gt; 4 0.03 0.004707    0.312        10.20        0.02338   612   191           3.18</span>
-<span class="co">#&gt; 5 0.04 0.008334    0.413        10.08        0.04105   605   250           4.17</span>
-<span class="co">#&gt; 6 0.05 0.012968    0.513         9.96        0.06337   597   307           5.11</span></pre></div>
+<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">predicted_kinematics</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<colgroup>
+<col width="1%">
+<col width="3%">
+<col width="3%">
+<col width="5%">
+<col width="3%">
+<col width="10%">
+<col width="6%">
+<col width="7%">
+<col width="12%">
+<col width="6%">
+<col width="7%">
+<col width="12%">
+<col width="2%">
+<col width="6%">
+<col width="2%">
+<col width="5%">
+</colgroup>
+<thead><tr class="header">
+<th align="right">time</th>
+<th align="right">distance</th>
+<th align="right">velocity</th>
+<th align="right">acceleration</th>
+<th align="right">bodymass</th>
+<th align="right">net_horizontal_force</th>
+<th align="right">air_resistance</th>
+<th align="right">horizontal_force</th>
+<th align="right">horizontal_force_relative</th>
+<th align="right">vertical_force</th>
+<th align="right">resultant_force</th>
+<th align="right">resultant_force_relative</th>
+<th align="right">power</th>
+<th align="right">relative_power</th>
+<th align="right">RF</th>
+<th align="right">force_angle</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.00</td>
+<td align="right">0.000</td>
+<td align="right">0.000</td>
+<td align="right">10.59</td>
+<td align="right">60</td>
+<td align="right">635</td>
+<td align="right">0.000</td>
+<td align="right">635</td>
+<td align="right">10.59</td>
+<td align="right">589</td>
+<td align="right">866</td>
+<td align="right">14.4</td>
+<td align="right">0</td>
+<td align="right">0.00</td>
+<td align="right">0.734</td>
+<td align="right">42.8</td>
+</tr>
+<tr class="even">
+<td align="right">0.01</td>
+<td align="right">0.001</td>
+<td align="right">0.105</td>
+<td align="right">10.46</td>
+<td align="right">60</td>
+<td align="right">628</td>
+<td align="right">0.003</td>
+<td align="right">628</td>
+<td align="right">10.46</td>
+<td align="right">589</td>
+<td align="right">860</td>
+<td align="right">14.3</td>
+<td align="right">66</td>
+<td align="right">1.10</td>
+<td align="right">0.729</td>
+<td align="right">43.2</td>
+</tr>
+<tr class="odd">
+<td align="right">0.02</td>
+<td align="right">0.002</td>
+<td align="right">0.209</td>
+<td align="right">10.33</td>
+<td align="right">60</td>
+<td align="right">620</td>
+<td align="right">0.011</td>
+<td align="right">620</td>
+<td align="right">10.33</td>
+<td align="right">589</td>
+<td align="right">855</td>
+<td align="right">14.2</td>
+<td align="right">130</td>
+<td align="right">2.16</td>
+<td align="right">0.725</td>
+<td align="right">43.5</td>
+</tr>
+<tr class="even">
+<td align="right">0.03</td>
+<td align="right">0.005</td>
+<td align="right">0.312</td>
+<td align="right">10.21</td>
+<td align="right">60</td>
+<td align="right">612</td>
+<td align="right">0.023</td>
+<td align="right">612</td>
+<td align="right">10.21</td>
+<td align="right">589</td>
+<td align="right">849</td>
+<td align="right">14.2</td>
+<td align="right">191</td>
+<td align="right">3.18</td>
+<td align="right">0.721</td>
+<td align="right">43.9</td>
+</tr>
+<tr class="odd">
+<td align="right">0.04</td>
+<td align="right">0.008</td>
+<td align="right">0.413</td>
+<td align="right">10.08</td>
+<td align="right">60</td>
+<td align="right">605</td>
+<td align="right">0.041</td>
+<td align="right">605</td>
+<td align="right">10.08</td>
+<td align="right">589</td>
+<td align="right">844</td>
+<td align="right">14.1</td>
+<td align="right">250</td>
+<td align="right">4.17</td>
+<td align="right">0.717</td>
+<td align="right">44.2</td>
+</tr>
+<tr class="even">
+<td align="right">0.05</td>
+<td align="right">0.013</td>
+<td align="right">0.513</td>
+<td align="right">9.96</td>
+<td align="right">60</td>
+<td align="right">597</td>
+<td align="right">0.063</td>
+<td align="right">597</td>
+<td align="right">9.96</td>
+<td align="right">589</td>
+<td align="right">839</td>
+<td align="right">14.0</td>
+<td align="right">307</td>
+<td align="right">5.11</td>
+<td align="right">0.712</td>
+<td align="right">44.6</td>
+</tr>
+</tbody>
+</table>
 <p>To get model residuals, use <code>residuals</code> function:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span>
-<span class="co">#&gt; [1]  0.05293  0.00402 -0.01997 -0.02699 -0.01376  0.02232</span></pre></div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span>
+<span class="co">#&gt; [1]  0.05293  0.00402 -0.01997 -0.02699 -0.01376  0.02232</span></code></pre></div>
 <p>Package <code>shorts</code> comes with <code>find_</code> family of functions that allow finding peak power and it’s location, as well as <em>critical distance</em> over which velocity, acceleration, or power drops below certain threshold:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit">
-<span class="co"># Peak power and location</span>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># Peak power and location</span>
 <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/find_functions.html">find_max_power_distance</a></span><span class="op">(</span>
   <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,
   <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span>
@@ -326,13 +580,13 @@
   TAU <span class="op">=</span> <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span>,
   percent <span class="op">=</span> <span class="fl">0.95</span>
 <span class="op">)</span>
-<span class="co">#&gt; [1] 14.3</span></pre></div>
+<span class="co">#&gt; [1] 14.3</span></code></pre></div>
 <div id="mixed-effect-models" class="section level4">
 <h4 class="hasAnchor">
 <a href="#mixed-effect-models" class="anchor"></a>Mixed-effect models</h4>
 <p>Each individual can be modeled separately, or we can perform <em>non-linear mixed model</em> using <code>nlme</code> function from <em>nlme</em> package (Pinheiro <em>et al.</em>, 2019). This is done using <code><a href="reference/mixed_model_split_times.html">shorts::mixed_model_using_splits</a></code>:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit">
-<span class="va">mixed_model</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_split_times.html">mixed_model_using_splits</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mixed_model</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_split_times.html">mixed_model_using_splits</a></span><span class="op">(</span>
   data <span class="op">=</span> <span class="va">split_times</span>,
   distance <span class="op">=</span> <span class="st">"distance"</span>,
   time <span class="op">=</span> <span class="st">"time"</span>,
@@ -405,11 +659,76 @@
 <span class="co">#&gt; 2       Jim 7.83 0.505 15.5 30.4               0                   0</span>
 <span class="co">#&gt; 3      John 7.78 0.727 10.7 20.8               0                   0</span>
 <span class="co">#&gt; 4 Kimberley 8.57 0.802 10.7 22.9               0                   0</span>
-<span class="co">#&gt; 5  Samantha 6.45 0.395 16.3 26.4               0                   0</span></pre></div>
+<span class="co">#&gt; 5  Samantha 6.45 0.395 16.3 26.4               0                   0</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">athlete</th>
+<th align="right">MSS</th>
+<th align="right">TAU</th>
+<th align="right">MAC</th>
+<th align="right">PMAX</th>
+<th align="right">time_correction</th>
+<th align="right">distance_correction</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">James</td>
+<td align="right">9.69</td>
+<td align="right">0.847</td>
+<td align="right">11.4</td>
+<td align="right">27.7</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Jim</td>
+<td align="right">7.83</td>
+<td align="right">0.505</td>
+<td align="right">15.5</td>
+<td align="right">30.4</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">John</td>
+<td align="right">7.78</td>
+<td align="right">0.727</td>
+<td align="right">10.7</td>
+<td align="right">20.8</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Kimberley</td>
+<td align="right">8.57</td>
+<td align="right">0.802</td>
+<td align="right">10.7</td>
+<td align="right">22.9</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Samantha</td>
+<td align="right">6.45</td>
+<td align="right">0.395</td>
+<td align="right">16.3</td>
+<td align="right">26.4</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
 <p><code><a href="reference/mixed_model_split_times.html">shorts::mixed_model_using_splits</a></code> return the similar object, but <code>parameters</code> contain two elements: <code>fixed</code> and <code>random</code>.</p>
 <p>Let’s plot predicted velocity over distance for athletes in the <code>split_times</code> data set:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit">
-<span class="va">velocity_over_distance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">velocity_over_distance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span>
     <span class="va">mixed_model</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span>,
     <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>distance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span>, length.out <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span><span class="op">)</span>
 <span class="op">)</span>
@@ -425,11 +744,11 @@
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Predicted velocity (m/s)"</span><span class="op">)</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;"></p>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Predicted velocity (m/s)"</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>To modify random effects, which are by default <code>MSS</code> and <code>TAU</code> (<code>MSS + TAU ~ 1</code>), use the <code>random</code> parameter. For example, we can assume same <code>TAU</code> for all athletes and only use <code>MSS</code> as random effect:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit">
-<span class="va">mixed_model</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_split_times.html">mixed_model_using_splits</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mixed_model</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_split_times.html">mixed_model_using_splits</a></span><span class="op">(</span>
   data <span class="op">=</span> <span class="va">split_times</span>,
   distance <span class="op">=</span> <span class="st">"distance"</span>,
   time <span class="op">=</span> <span class="st">"time"</span>,
@@ -457,15 +776,15 @@
 <span class="co">#&gt; Model fit estimators</span>
 <span class="co">#&gt; --------------------</span>
 <span class="co">#&gt;       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE </span>
-<span class="co">#&gt;    0.0764    0.9980   -0.1023    0.1599    0.1599    0.0698    0.0585    2.6856</span></pre></div>
+<span class="co">#&gt;    0.0764    0.9980   -0.1023    0.1599    0.1599    0.0698    0.0585    2.6856</span></code></pre></div>
 </div>
 </div>
 <div id="profiling-using-radar-gun-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#profiling-using-radar-gun-data" class="anchor"></a>Profiling using radar gun data</h3>
 <p>The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using <code><a href="reference/model_radar.html">shorts::model_using_radar</a></code> function. Let’s do analysis for Jim:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit">
-<span class="va">jim_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">radar_gun_data</span>, <span class="va">athlete</span> <span class="op">==</span> <span class="st">"Jim"</span><span class="op">)</span>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">jim_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">radar_gun_data</span>, <span class="va">athlete</span> <span class="op">==</span> <span class="st">"Jim"</span><span class="op">)</span>
 
 <span class="va">jim_profile</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_radar.html">model_using_radar</a></span><span class="op">(</span>
   time <span class="op">=</span> <span class="va">jim_data</span><span class="op">$</span><span class="va">time</span>,
@@ -499,19 +818,23 @@
 <span class="co">#&gt; Residual standard error: 0.0506 on 598 degrees of freedom</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of iterations to convergence: 3 </span>
-<span class="co">#&gt; Achieved convergence tolerance: 9.31e-07</span></pre></div>
+<span class="co">#&gt; Achieved convergence tolerance: 9.31e-07</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">jim_profile</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>The object returned from <code><a href="reference/model_radar.html">shorts::model_using_radar</a></code> is same as object returned from <code><a href="reference/model_split_times.html">shorts::model_using_splits</a></code>. Let’s plot Jim’s measured velocity and predicted velocity:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit">
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">jim_profile</span><span class="op">$</span><span class="va">data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">jim_profile</span><span class="op">$</span><span class="va">data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">velocity</span><span class="op">)</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">pred_velocity</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Time (s)"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Velocity (m/s)"</span><span class="op">)</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;"></p>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Velocity (m/s)"</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>Radar gun data can be modeled individually or using <em>non-linear mixed model</em> implemented in <code><a href="reference/mixed_model_radar.html">shorts::mixed_model_using_radar</a></code>:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit">
-<span class="va">mixed_model</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_radar.html">mixed_model_using_radar</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mixed_model</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_radar.html">mixed_model_using_radar</a></span><span class="op">(</span>
   data <span class="op">=</span> <span class="va">radar_gun_data</span>,
   time <span class="op">=</span> <span class="st">"time"</span>,
   velocity <span class="op">=</span> <span class="st">"velocity"</span>,
@@ -569,27 +892,119 @@
 <span class="co">#&gt; -3.840000 -0.593297 -0.000256  0.611162  4.242735 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Observations: 3000</span>
-<span class="co">#&gt; Number of Groups: 5</span></pre></div>
+<span class="co">#&gt; Number of Groups: 5</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">athlete</th>
+<th align="right">MSS</th>
+<th align="right">TAU</th>
+<th align="right">MAC</th>
+<th align="right">PMAX</th>
+<th align="right">time_correction</th>
+<th align="right">distance_correction</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">James</td>
+<td align="right">10.00</td>
+<td align="right">1.111</td>
+<td align="right">9.00</td>
+<td align="right">22.5</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Jim</td>
+<td align="right">8.00</td>
+<td align="right">0.889</td>
+<td align="right">9.00</td>
+<td align="right">18.0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">John</td>
+<td align="right">8.00</td>
+<td align="right">1.069</td>
+<td align="right">7.48</td>
+<td align="right">15.0</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Kimberley</td>
+<td align="right">9.01</td>
+<td align="right">1.286</td>
+<td align="right">7.00</td>
+<td align="right">15.8</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Samantha</td>
+<td align="right">6.50</td>
+<td align="right">0.685</td>
+<td align="right">9.50</td>
+<td align="right">15.4</td>
+<td align="right">0</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
 <p>Let’s plot predicted acceleration over time (0-6sec) for athletes in the <code>radar_gun_data</code> data set:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit">
-<span class="va">model_predictions</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/predict_kinematics.html">predict_kinematics</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">)</span>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">model_predictions</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/predict_kinematics.html">predict_kinematics</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">)</span>
 
 <span class="fu">ggplot</span><span class="op">(</span><span class="va">model_predictions</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">acceleration</span>, color <span class="op">=</span> <span class="va">athlete</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Time (s)"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Predicted acceleration (m/s^2)"</span><span class="op">)</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;"></p>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Predicted acceleration (m/s^2)"</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;"></p>
+</div>
+<div id="force-velocity-profiling" class="section level3">
+<h3 class="hasAnchor">
+<a href="#force-velocity-profiling" class="anchor"></a>Force-Velocity Profiling</h3>
+<p>To estimate Force-Velocity profile using approach by Samozino <em>et al.</em> (2016), use <code>get_FV_profile</code>:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kimberley_fv</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/get_FV_profile.html">get_FV_profile</a></span><span class="op">(</span>
+  MSS <span class="op">=</span> <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,
+  TAU <span class="op">=</span> <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span>,
+  <span class="co"># These are needed to estimate air resistance</span>
+  bodymass <span class="op">=</span> <span class="va">kimberley_bodymass</span>,
+  bodyheight <span class="op">=</span> <span class="va">kimberley_bodyheight</span>
+<span class="op">)</span>
+
+<span class="va">kimberley_fv</span>
+<span class="co">#&gt; Estimated Force-Velocity Profile</span>
+<span class="co">#&gt; --------------------------</span>
+<span class="co">#&gt;      bodymass            F0        F0_rel            V0          Pmax </span>
+<span class="co">#&gt;      6.00e+01      6.30e+02      1.05e+01      8.83e+00      1.39e+03 </span>
+<span class="co">#&gt; Pmax_relative      FV_slope  RFmax_cutoff         RFmax           Drf </span>
+<span class="co">#&gt;      2.32e+01     -1.19e+00      3.00e-01      5.99e-01     -1.04e-01 </span>
+<span class="co">#&gt;        RSE_FV       RSE_Drf </span>
+<span class="co">#&gt;      9.95e-01      9.46e-03</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">kimberley_fv</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div id="using-corrections" class="section level3">
 <h3 class="hasAnchor">
 <a href="#using-corrections" class="anchor"></a>Using corrections</h3>
 <p>You have probably noticed that estimated MSS and TAU were a bit too high for splits data. Biased estimates are due to differences in starting positions and <em>timing triggering methods</em> for certain measurement approaches (e.g. starting behind first timing gate, or allowing for body rocking). This topic is further explained in <code>sprint-corrections</code> <a href="https://mladenjovanovic.github.io/shorts/articles/sprint-corrections.html">vignette</a> that can be accessed by typing:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">"sprint-corrections"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/vignette.html">vignette</a></span><span class="op">(</span><span class="st">"sprint-corrections"</span><span class="op">)</span></code></pre></div>
 <p>Here I will provide quick summary. Often, this bias in estimates is dealt with by using heuristic rule of thumb of adding <code>time_correction</code> to split times (e.g. from 0.3-0.5sec; see more in Haugen <em>et al.</em>, 2012). This functionality is available in all covered <code>shorts</code> functions:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit">
-<span class="va">mixed_model_corrected</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_split_times.html">mixed_model_using_splits</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">mixed_model_corrected</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_split_times.html">mixed_model_using_splits</a></span><span class="op">(</span>
   data <span class="op">=</span> <span class="va">split_times</span>,
   distance <span class="op">=</span> <span class="st">"distance"</span>,
   time <span class="op">=</span> <span class="st">"time"</span>,
@@ -648,10 +1063,75 @@
 <span class="co">#&gt; -1.336 -0.407 -0.133  0.328  2.708 </span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Number of Observations: 30</span>
-<span class="co">#&gt; Number of Groups: 5</span></pre></div>
+<span class="co">#&gt; Number of Groups: 5</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mixed_model_corrected</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model_corrected</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">athlete</th>
+<th align="right">MSS</th>
+<th align="right">TAU</th>
+<th align="right">MAC</th>
+<th align="right">PMAX</th>
+<th align="right">time_correction</th>
+<th align="right">distance_correction</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">James</td>
+<td align="right">10.55</td>
+<td align="right">1.495</td>
+<td align="right">7.05</td>
+<td align="right">18.6</td>
+<td align="right">0.3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Jim</td>
+<td align="right">8.05</td>
+<td align="right">0.922</td>
+<td align="right">8.73</td>
+<td align="right">17.6</td>
+<td align="right">0.3</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">John</td>
+<td align="right">8.13</td>
+<td align="right">1.230</td>
+<td align="right">6.61</td>
+<td align="right">13.4</td>
+<td align="right">0.3</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Kimberley</td>
+<td align="right">9.12</td>
+<td align="right">1.372</td>
+<td align="right">6.64</td>
+<td align="right">15.1</td>
+<td align="right">0.3</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Samantha</td>
+<td align="right">6.53</td>
+<td align="right">0.756</td>
+<td align="right">8.64</td>
+<td align="right">14.1</td>
+<td align="right">0.3</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
 <p>And <code>time_correction</code> can also be used in <code>predict_</code> and <code>find_</code> family of functions:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit">
-<span class="va">velocity_over_distance_corrected</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">velocity_over_distance_corrected</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span>
     <span class="va">mixed_model_corrected</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span>,
     <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>distance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span>, length.out <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span><span class="op">)</span>
 <span class="op">)</span>
@@ -668,11 +1148,11 @@
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Predicted velocity (m/s)"</span><span class="op">)</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;"></p>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Predicted velocity (m/s)"</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>Instead of providing for <code>time_correction</code>, this parameter can be estimated using <code><a href="reference/model_split_times.html">shorts::model_using_splits_with_time_correction</a></code> and <code><a href="reference/mixed_model_split_times.html">shorts::mixed_model_using_splits_with_time_correction</a></code>:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit">
-<span class="va">kimberley_profile_with_time_correction</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_split_times.html">model_using_splits_with_time_correction</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kimberley_profile_with_time_correction</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_split_times.html">model_using_splits_with_time_correction</a></span><span class="op">(</span>
   distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,
   time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>  
 
@@ -719,15 +1199,81 @@
 <span class="co">#&gt; Model fit estimators</span>
 <span class="co">#&gt; --------------------</span>
 <span class="co">#&gt;       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE </span>
-<span class="co">#&gt;   0.00598   0.99999  -0.01651   0.00937   0.01651   0.00488   0.00348   0.18614</span></pre></div>
+<span class="co">#&gt;   0.00598   0.99999  -0.01651   0.00937   0.01651   0.00488   0.00348   0.18614</span>
+
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">mixed_model_with_time_correction</span><span class="op">)</span> <span class="op">+</span>
+  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model_with_time_correction</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
+<table class="table">
+<thead><tr class="header">
+<th align="left">athlete</th>
+<th align="right">MSS</th>
+<th align="right">TAU</th>
+<th align="right">MAC</th>
+<th align="right">PMAX</th>
+<th align="right">time_correction</th>
+<th align="right">distance_correction</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">James</td>
+<td align="right">10.19</td>
+<td align="right">1.243</td>
+<td align="right">8.20</td>
+<td align="right">20.9</td>
+<td align="right">0.199</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Jim</td>
+<td align="right">7.95</td>
+<td align="right">0.764</td>
+<td align="right">10.40</td>
+<td align="right">20.7</td>
+<td align="right">0.199</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">John</td>
+<td align="right">8.00</td>
+<td align="right">1.049</td>
+<td align="right">7.62</td>
+<td align="right">15.2</td>
+<td align="right">0.199</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">Kimberley</td>
+<td align="right">8.90</td>
+<td align="right">1.162</td>
+<td align="right">7.66</td>
+<td align="right">17.0</td>
+<td align="right">0.199</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">Samantha</td>
+<td align="right">6.49</td>
+<td align="right">0.626</td>
+<td align="right">10.37</td>
+<td align="right">16.8</td>
+<td align="right">0.199</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
 <p>For more details, please refer to <code>sprint-corrections</code> <a href="https://mladenjovanovic.github.io/shorts/articles/sprint-corrections.html">vignette</a>.</p>
 </div>
 <div id="leave-one-out-cross-validation-loocv" class="section level3">
 <h3 class="hasAnchor">
 <a href="#leave-one-out-cross-validation-loocv" class="anchor"></a>Leave-One-Out Cross-Validation (LOOCV)</h3>
 <p><code>...model_using_splits..</code> family of functions come with LOOCV feature that is performed by setting the function parameter <code>LOOCV = TRUE</code>. This feature is very useful for checking model parameters robustness and model predictions on unseen data. LOOCV involve iterative model building and testing by removing observation one by one and making predictions for them. Let’s use Kimberley again, but this time perform LOOCV:</p>
-<div class="sourceCode" id="cb23"><pre class="downlit">
-<span class="va">kimberley_profile_LOOCV</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_split_times.html">model_using_splits</a></span><span class="op">(</span>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kimberley_profile_LOOCV</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_split_times.html">model_using_splits</a></span><span class="op">(</span>
   distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,
   time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span>,
   LOOCV <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  
@@ -759,10 +1305,10 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Model fit:</span>
 <span class="co">#&gt;       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE </span>
-<span class="co">#&gt;        NA    0.9990   -0.0344    0.0801    0.0801    0.0474    0.0392    1.7227</span></pre></div>
+<span class="co">#&gt;        NA    0.9990   -0.0344    0.0801    0.0801    0.0474    0.0392    1.7227</span></code></pre></div>
 <p>Box-plot is suitable method for plotting estimated parameters:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit">
-<span class="va">LOOCV_parameters</span> <span class="op">&lt;-</span> <span class="fu">gather</span><span class="op">(</span><span class="va">kimberley_profile_LOOCV</span><span class="op">$</span><span class="va">LOOCV</span><span class="op">$</span><span class="va">parameters</span><span class="op">)</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">LOOCV_parameters</span> <span class="op">&lt;-</span> <span class="fu">gather</span><span class="op">(</span><span class="va">kimberley_profile_LOOCV</span><span class="op">$</span><span class="va">LOOCV</span><span class="op">$</span><span class="va">parameters</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu">mutate</span><span class="op">(</span>key <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span>
     <span class="va">key</span>,
     levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"MSS"</span>, <span class="st">"TAU"</span>, <span class="st">"MAC"</span>, <span class="st">"PMAX"</span>, <span class="st">"time_correction"</span>, <span class="st">"distance_correction"</span><span class="op">)</span>
@@ -773,11 +1319,11 @@
   <span class="fu">geom_boxplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">facet_wrap</span><span class="op">(</span><span class="op">~</span><span class="va">key</span>, scales <span class="op">=</span> <span class="st">"free"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ylab</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">theme</span><span class="op">(</span>axis.ticks.x <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, axis.text.x <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;"></p>
+  <span class="fu">theme</span><span class="op">(</span>axis.ticks.x <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span>, axis.text.x <span class="op">=</span> <span class="fu">element_blank</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>Let’s plot model LOOCV predictions and training (when using all data set) predictions against observed performance:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit">
-<span class="va">kimberley_data</span> <span class="op">&lt;-</span> <span class="va">kimberley_data</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">kimberley_data</span> <span class="op">&lt;-</span> <span class="va">kimberley_data</span> <span class="op">%&gt;%</span>
   <span class="fu">mutate</span><span class="op">(</span>
     pred_time <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">kimberley_profile_LOOCV</span><span class="op">)</span>,
     LOOCV_time <span class="op">=</span> <span class="va">kimberley_profile_LOOCV</span><span class="op">$</span><span class="va">LOOCV</span><span class="op">$</span><span class="va">data</span><span class="op">$</span><span class="va">pred_time</span>
@@ -789,11 +1335,11 @@
   <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">pred_time</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">LOOCV_time</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Time (s)"</span><span class="op">)</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;"></p>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Time (s)"</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>Let’s plot predicted velocity using LOOCV estimate parameters to check robustness of the model predictions:</p>
-<div class="sourceCode" id="cb26"><pre class="downlit">
-<span class="va">plot_data</span> <span class="op">&lt;-</span> <span class="va">kimberley_profile_LOOCV</span><span class="op">$</span><span class="va">LOOCV</span><span class="op">$</span><span class="va">parameters</span> <span class="op">%&gt;%</span>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">plot_data</span> <span class="op">&lt;-</span> <span class="va">kimberley_profile_LOOCV</span><span class="op">$</span><span class="va">LOOCV</span><span class="op">$</span><span class="va">parameters</span> <span class="op">%&gt;%</span>
   <span class="fu">mutate</span><span class="op">(</span>LOOCV <span class="op">=</span> <span class="fu">row_number</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>
 
 <span class="va">plot_data</span> <span class="op">&lt;-</span> <span class="fu">expand_grid</span><span class="op">(</span>
@@ -816,16 +1362,25 @@
   <span class="fu">geom_line</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">velocity</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Time (sec)"</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Velocity (m/s)"</span><span class="op">)</span></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;"></p>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Velocity (m/s)"</span><span class="op">)</span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
+</div>
+<div id="publications" class="section level2">
+<h2 class="hasAnchor">
+<a href="#publications" class="anchor"></a>Publications</h2>
+<p>Here are the submitted publications using the package:</p>
+<ol>
+<li><p>Jovanović, M., Vescovi, J.D. (2020). <strong>shorts: An R Package for Modeling Short Sprints</strong>. Submitted to <em>Journal of Statistical Software</em></p></li>
+<li><p>Vescovi, J.D., Jovanović, M. (2020). <strong>Sprint mechanical characteristics of female soccer players: A novel approach for correction of timing gate starts</strong>. Submitted to <em>Frontiers in Sports and Active Living</em></p></li>
+</ol>
 </div>
 <div id="citation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#citation" class="anchor"></a>Citation</h2>
 <p>To cite <code>shorts</code>, please use the following command to get the BibTex entry:</p>
-<div class="sourceCode" id="cb27"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">"shorts"</span><span class="op">)</span></pre></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/citation.html">citation</a></span><span class="op">(</span><span class="st">"shorts"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="references" class="section level2">
 <h2 class="hasAnchor">
@@ -837,6 +1392,7 @@
 <p>Greene PR. 1986. Predicting sprint dynamics from maximum-velocity measurements. Mathematical Biosciences 80:1–18. DOI: 10.1016/0025-5564(86)90063-5.</p>
 <p>Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479. DOI: 10.1519/JSC.0b013e318226030b.</p>
 <p>Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team. 2019. nlme: Linear and nonlinear mixed effects models.</p>
+<p>Samozino P, Rabita G, Dorel S, Slawinski J, Peyrot N, Saez de Villarreal E, Morin J-B. 2016. A simple method for measuring power, force, velocity properties, and mechanical effectiveness in sprint running: Simple method to compute sprint mechanics. Scandinavian Journal of Medicine &amp; Science in Sports 26:648–658. DOI: 10.1111/sms.12490.</p>
 <p>Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing. Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.</p>
 </div>
 </div>

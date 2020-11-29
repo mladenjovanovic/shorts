@@ -89,7 +89,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
       </span>
     </div>
 
@@ -264,8 +264,35 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
   athlete <span class='op'>=</span> <span class='st'>"athlete"</span>
 <span class='op'>)</span>
 
-<span class='co'># mixed_model$parameters</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Estimated fixed model parameters
+#&gt; --------------------------------
+#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;           8.0649112           0.6551988          12.3091052          24.8179600 
+#&gt;     time_correction distance_correction 
+#&gt;           0.0000000           0.0000000 
+#&gt; 
+#&gt; Estimated random model parameters
+#&gt; ----------------------------------
+#&gt;     athlete      MSS       TAU      MAC     PMAX time_correction
+#&gt; 1     James 9.691736 0.8469741 11.44278 27.72510               0
+#&gt; 2       Jim 7.833622 0.5048535 15.51663 30.38785               0
+#&gt; 3      John 7.780395 0.7274302 10.69573 20.80424               0
+#&gt; 4 Kimberley 8.569518 0.8022235 10.68221 22.88535               0
+#&gt; 5  Samantha 6.449284 0.3945129 16.34746 26.35735               0
+#&gt;   distance_correction
+#&gt; 1                   0
+#&gt; 2                   0
+#&gt; 3                   0
+#&gt; 4                   0
+#&gt; 5                   0
+#&gt; 
+#&gt; Model fit estimators
+#&gt; --------------------
+#&gt;         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
+#&gt;  0.02600213  0.99982036 -0.02934519  0.04964582  0.04964582  0.02139178 
+#&gt;         MAE        MAPE 
+#&gt;  0.01722581  0.90185579 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $fixed
 #&gt;                 MSS                 TAU                 MAC                PMAX 
 #&gt;           8.0649112           0.6551988          12.3091052          24.8179600 
@@ -285,7 +312,8 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 #&gt; 3                   0
 #&gt; 4                   0
 #&gt; 5                   0
-#&gt; </div><div class='input'>
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+</div><div class='img'><img src='mixed_model_split_times-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='va'>mixed_model</span> <span class='op'>&lt;-</span> <span class='fu'>mixed_model_using_splits_with_time_correction</span><span class='op'>(</span>
   data <span class='op'>=</span> <span class='va'>split_times</span>,
   distance <span class='op'>=</span> <span class='st'>"distance"</span>,
@@ -293,8 +321,35 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
   athlete <span class='op'>=</span> <span class='st'>"athlete"</span>
 <span class='op'>)</span>
 
-<span class='co'># mixed_model$parameters</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Estimated fixed model parameters
+#&gt; --------------------------------
+#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;           8.3040140           0.9687348           8.5720197          17.7955429 
+#&gt;     time_correction distance_correction 
+#&gt;           0.1989677           0.0000000 
+#&gt; 
+#&gt; Estimated random model parameters
+#&gt; ----------------------------------
+#&gt;     athlete       MSS       TAU       MAC     PMAX time_correction
+#&gt; 1     James 10.186327 1.2429367  8.195370 20.87018       0.1989677
+#&gt; 2       Jim  7.946099 0.7643674 10.395655 20.65123       0.1989677
+#&gt; 3      John  7.996262 1.0488272  7.624003 15.24088       0.1989677
+#&gt; 4 Kimberley  8.899472 1.1615147  7.661953 17.04683       0.1989677
+#&gt; 5  Samantha  6.491911 0.6260282 10.369998 16.83028       0.1989677
+#&gt;   distance_correction
+#&gt; 1                   0
+#&gt; 2                   0
+#&gt; 3                   0
+#&gt; 4                   0
+#&gt; 5                   0
+#&gt; 
+#&gt; Model fit estimators
+#&gt; --------------------
+#&gt;          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE 
+#&gt;  0.005976815  0.999990286 -0.016508275  0.009370607  0.016508275  0.004882226 
+#&gt;          MAE         MAPE 
+#&gt;  0.003481096  0.186135567 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $fixed
 #&gt;                 MSS                 TAU                 MAC                PMAX 
 #&gt;           8.3040140           0.9687348           8.5720197          17.7955429 
@@ -314,7 +369,8 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 #&gt; 3                   0
 #&gt; 4                   0
 #&gt; 5                   0
-#&gt; </div><div class='input'>
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+</div><div class='img'><img src='mixed_model_split_times-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='va'>mixed_model</span> <span class='op'>&lt;-</span> <span class='fu'>mixed_model_using_splits_with_corrections</span><span class='op'>(</span>
   data <span class='op'>=</span> <span class='va'>split_times</span>,
   distance <span class='op'>=</span> <span class='st'>"distance"</span>,
@@ -322,8 +378,35 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
   athlete <span class='op'>=</span> <span class='st'>"athlete"</span>
 <span class='op'>)</span>
 
-<span class='co'># mixed_model$parameters</span>
-<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Estimated fixed model parameters
+#&gt; --------------------------------
+#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;          8.30214146          0.96451514          8.60758021         17.86533713 
+#&gt;     time_correction distance_correction 
+#&gt;          0.19182206         -0.03160813 
+#&gt; 
+#&gt; Estimated random model parameters
+#&gt; ----------------------------------
+#&gt;     athlete       MSS       TAU       MAC     PMAX time_correction
+#&gt; 1     James 10.181185 1.2365903  8.233273 20.95612       0.1918221
+#&gt; 2       Jim  7.945162 0.7606548 10.445161 20.74713       0.1918221
+#&gt; 3      John  7.995271 1.0449746  7.651163 15.29328       0.1918221
+#&gt; 4 Kimberley  8.897262 1.1566801  7.692068 17.10959       0.1918221
+#&gt; 5  Samantha  6.491827 0.6236760 10.408973 16.89331       0.1918221
+#&gt;   distance_correction
+#&gt; 1         -0.03160813
+#&gt; 2         -0.03160813
+#&gt; 3         -0.03160813
+#&gt; 4         -0.03160813
+#&gt; 5         -0.03160813
+#&gt; 
+#&gt; Model fit estimators
+#&gt; --------------------
+#&gt;          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE 
+#&gt;  0.005978968  0.999990279 -0.016518623  0.009421823  0.016518623  0.004883964 
+#&gt;          MAE         MAPE 
+#&gt;  0.003494858  0.186774770 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $fixed
 #&gt;                 MSS                 TAU                 MAC                PMAX 
 #&gt;          8.30214146          0.96451514          8.60758021         17.86533713 
@@ -343,7 +426,8 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 #&gt; 3         -0.03160813
 #&gt; 4         -0.03160813
 #&gt; 5         -0.03160813
-#&gt; </div></pre>
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='mixed_model_split_times-3.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
