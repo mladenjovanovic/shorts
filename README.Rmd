@@ -50,6 +50,7 @@ devtools::install_github("mladenjovanovic/shorts")
 ```{r example}
 require(shorts)
 require(tidyverse)
+require(knitr)
 
 data("split_times", "radar_gun_data")
 ```
@@ -61,7 +62,7 @@ To model sprint performance using split times, distance will be used as predicto
 ```{r}
 kimberley_data <- filter(split_times, athlete == "Kimberley")
 
-kimberley_data
+kable(kimberley_data)
 ```
 
 `shorts::model_using_splits` returns an object with `parameters`, `model_fit`, `model` returned from `stats::nls` function and `data` used to estimate parameters. Parameters estimated using mono-exponential equation are *maximal sprinting speed* (MSS), and *relative acceleration* (TAU). Additional parameters computed from MSS and TAU are *maximal acceleration* (MAC) and *maximal relative power* (PMAX) (which is calculated as MAC*MSS/4). 
@@ -84,12 +85,19 @@ To return the predicted outcome (in this case time variable), use `predict` func
 predict(kimberley_profile)
 ```
 
+To create a simple plot, use S3 `plot` method:
+
+```{r}
+plot(kimberley_profile) +
+  theme_bw()
+```
+
 If you are interested in calculating average split velocity, use `shorts::format_splits`
 
 ```{r}
-shorts::format_splits(
+kable(shorts::format_splits(
   distance = kimberley_data$distance,
-  time = kimberley_data$time)
+  time = kimberley_data$time))
 ```
 
 Let's plot observed vs fitted split times. For this we can use `data` returned from `shorts::model_using_splits` since it contains `pred_time` column.
@@ -160,7 +168,7 @@ ggplot(kimberley_pred, aes(x = distance, y = value)) +
   ylab(NULL)
 ```
 
-To do prediction simpler, use `shorts::predict_kinematics` function. This will provide kinematics for 0-6s sprint using 100Hz. 
+To do prediction simpler, use `shorts::predict_kinematics` function. This will provide kinetics and kinematics for 0-6s sprint using 100Hz. 
 
 ```{r}
 predicted_kinematics <- predict_kinematics(
@@ -168,7 +176,7 @@ predicted_kinematics <- predict_kinematics(
   bodymass = kimberley_bodymass,
   bodyheight = kimberley_bodyheight)
 
-head(predicted_kinematics)
+kable(head(predicted_kinematics))
 ```
 
 To get model residuals, use `residuals` function:
@@ -225,6 +233,11 @@ mixed_model
 summary(mixed_model)
 
 coef(mixed_model)
+
+plot(mixed_model) +
+  theme_bw()
+
+kable(mixed_model$parameters$random)
 ```
 
 `shorts::mixed_model_using_splits` return the similar object, but `parameters` contain two elements: `fixed` and `random`. 
@@ -280,6 +293,9 @@ jim_profile <- shorts::model_using_radar(
 jim_profile
 
 summary(jim_profile)
+
+plot(jim_profile) +
+  theme_bw()
 ```
 
 The object returned from `shorts::model_using_radar` is same as object returned from `shorts::model_using_splits`. Let's plot Jim's measured velocity and predicted velocity: 
@@ -306,6 +322,11 @@ mixed_model <- shorts::mixed_model_using_radar(
 mixed_model
 
 summary(mixed_model)
+
+plot(mixed_model) +
+  theme_bw()
+
+kable(mixed_model$parameters$random)
 ```
 
 Let's plot predicted acceleration over time (0-6sec) for athletes in the `radar_gun_data` data set:
@@ -319,6 +340,26 @@ ggplot(model_predictions, aes(x = time, y = acceleration, color = athlete)) +
   xlab("Time (s)") +
   ylab("Predicted acceleration (m/s^2)")
 ```
+
+### Force-Velocity Profiling
+
+To estimate Force-Velocity profile using approach by Samozino *et al.* (2016), use `get_FV_profile`:
+
+```{r}
+kimberley_fv <- shorts::get_FV_profile(
+  MSS = kimberley_profile$parameters$MSS,
+  TAU = kimberley_profile$parameters$TAU,
+  # These are needed to estimate air resistance
+  bodymass = kimberley_bodymass,
+  bodyheight = kimberley_bodyheight
+)
+
+kimberley_fv
+
+plot(kimberley_fv) +
+  theme_bw()
+```
+
 
 ### Using corrections
 
@@ -342,6 +383,11 @@ mixed_model_corrected <- shorts::mixed_model_using_splits(
 mixed_model_corrected
 
 summary(mixed_model_corrected)
+
+plot(mixed_model_corrected) +
+  theme_bw()
+
+kable(mixed_model_corrected$parameters$random)
 ```
 
 And `time_correction` can also be used in `predict_` and `find_` family of functions:
@@ -387,6 +433,12 @@ mixed_model_with_time_correction <- shorts::mixed_model_using_splits_with_time_c
 
 # Parameters
 mixed_model_with_time_correction
+
+
+plot(mixed_model_with_time_correction) +
+  theme_bw()
+
+kable(mixed_model_with_time_correction$parameters$random)
 ```
 
 For more details, please refer to `sprint-corrections` [vignette](https://mladenjovanovic.github.io/shorts/articles/sprint-corrections.html).
@@ -468,6 +520,14 @@ ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
   ylab("Velocity (m/s)")
 ```
 
+## Publications
+
+Here are the submitted publications using the \code{shorts} package:
+
+1. Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for Modeling Short Sprints**. Submitted to *Journal of Statistical Software*
+
+2. Vescovi, J.D., Jovanović, M. (2020). **Sprint mechanical characteristics of female soccer players: A novel approach for correction of timing gate starts**. Submitted to *Frontiers in Sports and Active Living*
+
 ## Citation
 
 To cite `shorts`, please use the following command to get the BibTex entry:
@@ -496,5 +556,7 @@ Greene PR. 1986. Predicting sprint dynamics from maximum-velocity measurements. 
 Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479. DOI: 10.1519/JSC.0b013e318226030b.
 
 Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team. 2019. nlme: Linear and nonlinear mixed effects models.
+
+Samozino P, Rabita G, Dorel S, Slawinski J, Peyrot N, Saez de Villarreal E, Morin J-B. 2016. A simple method for measuring power, force, velocity properties, and mechanical effectiveness in sprint running: Simple method to compute sprint mechanics. Scandinavian Journal of Medicine & Science in Sports 26:648–658. DOI: 10.1111/sms.12490.
 
 Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing. Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.

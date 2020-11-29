@@ -88,8 +88,9 @@ simple_model <- with(
   model_using_splits(distance, time)
 )
 
-# unlist(simple_model$parameters)
+print(simple_model)
 coef(simple_model)
+plot(simple_model)
 
 # Model with correction of 0.3s
 model_with_correction <- with(
@@ -97,8 +98,9 @@ model_with_correction <- with(
   model_using_splits(distance, time, time_correction = 0.3)
 )
 
-# unlist(model_with_correction$parameters)
+print(model_with_correction)
 coef(model_with_correction)
+plot(model_with_correction)
 
 # Model with time_correction estimation
 model_with_time_correction_estimation <- with(
@@ -106,8 +108,9 @@ model_with_time_correction_estimation <- with(
   model_using_splits_with_time_correction(distance, time)
 )
 
-# unlist(model_with_time_correction_estimation$parameters)
+print(model_with_time_correction_estimation)
 coef(model_with_time_correction_estimation)
+plot(model_with_time_correction_estimation)
 
 # Model with time and distance correction estimation
 model_with_time_distance_correction_estimation <- with(
@@ -115,8 +118,9 @@ model_with_time_distance_correction_estimation <- with(
   model_using_splits_with_corrections(distance, time)
 )
 
-# unlist(model_with_time_distance_correction_estimation$parameters)
+print(model_with_time_distance_correction_estimation)
 coef(model_with_time_distance_correction_estimation)
+plot(model_with_time_distance_correction_estimation)
 }
 \references{
 Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start

@@ -46,8 +46,9 @@
 #'   athlete = "athlete"
 #' )
 #'
-#' # mixed_model$parameters
+#' print(mixed_model)
 #' coef(mixed_model)
+#' plot(mixed_model)
 #'
 #' mixed_model <- mixed_model_using_splits_with_time_correction(
 #'   data = split_times,
@@ -56,8 +57,9 @@
 #'   athlete = "athlete"
 #' )
 #'
-#' # mixed_model$parameters
+#' print(mixed_model)
 #' coef(mixed_model)
+#' plot(mixed_model)
 #'
 #' mixed_model <- mixed_model_using_splits_with_corrections(
 #'   data = split_times,
@@ -66,8 +68,9 @@
 #'   athlete = "athlete"
 #' )
 #'
-#' # mixed_model$parameters
+#' print(mixed_model)
 #' coef(mixed_model)
+#' plot(mixed_model)
 #' @name mixed_model_split_times
 NULL
 

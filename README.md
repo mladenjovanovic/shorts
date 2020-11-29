@@ -35,6 +35,7 @@ devtools::install_github("mladenjovanovic/shorts")
 ``` r
 require(shorts)
 require(tidyverse)
+require(knitr)
 
 data("split_times", "radar_gun_data")
 ```
@@ -49,17 +50,17 @@ multiple athletes, let’s extract only one athlete and model it using
 ``` r
 kimberley_data <- filter(split_times, athlete == "Kimberley")
 
-kimberley_data
-#> # A tibble: 6 x 4
-#>   athlete   bodyweight distance     time
-#>   <chr>          <dbl>    <dbl> <I<dbl>>
-#> 1 Kimberley         55        5     1.16
-#> 2 Kimberley         55       10     1.89
-#> 3 Kimberley         55       15     2.54
-#> 4 Kimberley         55       20     3.15
-#> 5 Kimberley         55       30     4.31
-#> 6 Kimberley         55       40     5.44
+kable(kimberley_data)
 ```
+
+| athlete   | bodyweight | distance |  time |
+| :-------- | ---------: | -------: | ----: |
+| Kimberley |         55 |        5 | 1.158 |
+| Kimberley |         55 |       10 | 1.893 |
+| Kimberley |         55 |       15 | 2.541 |
+| Kimberley |         55 |       20 | 3.149 |
+| Kimberley |         55 |       30 | 4.313 |
+| Kimberley |         55 |       40 | 5.444 |
 
 `shorts::model_using_splits` returns an object with `parameters`,
 `model_fit`, `model` returned from `stats::nls` function and `data` used
@@ -119,28 +120,32 @@ predict(kimberley_profile)
 #> [1] 1.21 1.90 2.52 3.12 4.30 5.47
 ```
 
+To create a simple plot, use S3 `plot` method:
+
+``` r
+plot(kimberley_profile) +
+  theme_bw()
+```
+
+<img src="man/figures/README-unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" />
+
 If you are interested in calculating average split velocity, use
 `shorts::format_splits`
 
 ``` r
-shorts::format_splits(
+kable(shorts::format_splits(
   distance = kimberley_data$distance,
-  time = kimberley_data$time)
-#>   split split_distance_start split_distance_stop split_distance
-#> 1     1                    0                   5              5
-#> 2     2                    5                  10              5
-#> 3     3                   10                  15              5
-#> 4     4                   15                  20              5
-#> 5     5                   20                  30             10
-#> 6     6                   30                  40             10
-#>   split_time_start split_time_stop split_time split_mean_velocity
-#> 1                0           1.158      1.158        4.317789....
-#> 2            1.158           1.893      0.735        6.802721....
-#> 3            1.893           2.541      0.648        7.716049....
-#> 4            2.541           3.149      0.608        8.223684....
-#> 5            3.149           4.313      1.164        8.591065....
-#> 6            4.313           5.444      1.131        8.841732....
+  time = kimberley_data$time))
 ```
+
+| split | split\_distance\_start | split\_distance\_stop | split\_distance | split\_time\_start | split\_time\_stop | split\_time | split\_mean\_velocity |
+| ----: | ---------------------: | --------------------: | --------------: | -----------------: | ----------------: | ----------: | --------------------: |
+|     1 |                      0 |                     5 |               5 |                  0 |             1.158 |       1.158 |            4.317789…. |
+|     2 |                      5 |                    10 |               5 |              1.158 |             1.893 |       0.735 |            6.802721…. |
+|     3 |                     10 |                    15 |               5 |              1.893 |             2.541 |       0.648 |            7.716049…. |
+|     4 |                     15 |                    20 |               5 |              2.541 |             3.149 |       0.608 |            8.223684…. |
+|     5 |                     20 |                    30 |              10 |              3.149 |             4.313 |       1.164 |            8.591065…. |
+|     6 |                     30 |                    40 |              10 |              4.313 |             5.444 |       1.131 |            8.841732…. |
 
 Let’s plot observed vs fitted split times. For this we can use `data`
 returned from `shorts::model_using_splits` since it contains `pred_time`
@@ -155,7 +160,7 @@ ggplot(kimberley_profile$data, aes(x = distance)) +
   ylab("Time (s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
 To plot predicted velocity, acceleration, air resistance, force, and
 power over distance, use `shorts:predict_`. Please note that to
@@ -218,10 +223,10 @@ ggplot(kimberley_pred, aes(x = distance, y = value)) +
   ylab(NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" />
 
 To do prediction simpler, use `shorts::predict_kinematics` function.
-This will provide kinematics for 0-6s sprint using 100Hz.
+This will provide kinetics and kinematics for 0-6s sprint using 100Hz.
 
 ``` r
 predicted_kinematics <- predict_kinematics(
@@ -229,15 +234,17 @@ predicted_kinematics <- predict_kinematics(
   bodymass = kimberley_bodymass,
   bodyheight = kimberley_bodyheight)
 
-head(predicted_kinematics)
-#>   time distance velocity acceleration air_resistance force power relative_power
-#> 1 0.00 0.000000    0.000        10.59        0.00000   635     0           0.00
-#> 2 0.01 0.000527    0.105        10.46        0.00266   628    66           1.10
-#> 3 0.02 0.002101    0.209        10.33        0.01052   620   130           2.16
-#> 4 0.03 0.004707    0.312        10.20        0.02338   612   191           3.18
-#> 5 0.04 0.008334    0.413        10.08        0.04105   605   250           4.17
-#> 6 0.05 0.012968    0.513         9.96        0.06337   597   307           5.11
+kable(head(predicted_kinematics))
 ```
+
+| time | distance | velocity | acceleration | bodymass | net\_horizontal\_force | air\_resistance | horizontal\_force | horizontal\_force\_relative | vertical\_force | resultant\_force | resultant\_force\_relative | power | relative\_power |    RF | force\_angle |
+| ---: | -------: | -------: | -----------: | -------: | ---------------------: | --------------: | ----------------: | --------------------------: | --------------: | ---------------: | -------------------------: | ----: | --------------: | ----: | -----------: |
+| 0.00 |    0.000 |    0.000 |        10.59 |       60 |                    635 |           0.000 |               635 |                       10.59 |             589 |              866 |                       14.4 |     0 |            0.00 | 0.734 |         42.8 |
+| 0.01 |    0.001 |    0.105 |        10.46 |       60 |                    628 |           0.003 |               628 |                       10.46 |             589 |              860 |                       14.3 |    66 |            1.10 | 0.729 |         43.2 |
+| 0.02 |    0.002 |    0.209 |        10.33 |       60 |                    620 |           0.011 |               620 |                       10.33 |             589 |              855 |                       14.2 |   130 |            2.16 | 0.725 |         43.5 |
+| 0.03 |    0.005 |    0.312 |        10.21 |       60 |                    612 |           0.023 |               612 |                       10.21 |             589 |              849 |                       14.2 |   191 |            3.18 | 0.721 |         43.9 |
+| 0.04 |    0.008 |    0.413 |        10.08 |       60 |                    605 |           0.041 |               605 |                       10.08 |             589 |              844 |                       14.1 |   250 |            4.17 | 0.717 |         44.2 |
+| 0.05 |    0.013 |    0.513 |         9.96 |       60 |                    597 |           0.063 |               597 |                        9.96 |             589 |              839 |                       14.0 |   307 |            5.11 | 0.712 |         44.6 |
 
 To get model residuals, use `residuals` function:
 
@@ -373,7 +380,25 @@ coef(mixed_model)
 #> 3      John 7.78 0.727 10.7 20.8               0                   0
 #> 4 Kimberley 8.57 0.802 10.7 22.9               0                   0
 #> 5  Samantha 6.45 0.395 16.3 26.4               0                   0
+
+plot(mixed_model) +
+  theme_bw()
 ```
+
+<img src="man/figures/README-unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+
+``` r
+
+kable(mixed_model$parameters$random)
+```
+
+| athlete   |  MSS |   TAU |  MAC | PMAX | time\_correction | distance\_correction |
+| :-------- | ---: | ----: | ---: | ---: | ---------------: | -------------------: |
+| James     | 9.69 | 0.847 | 11.4 | 27.7 |                0 |                    0 |
+| Jim       | 7.83 | 0.505 | 15.5 | 30.4 |                0 |                    0 |
+| John      | 7.78 | 0.727 | 10.7 | 20.8 |                0 |                    0 |
+| Kimberley | 8.57 | 0.802 | 10.7 | 22.9 |                0 |                    0 |
+| Samantha  | 6.45 | 0.395 | 16.3 | 26.4 |                0 |                    0 |
 
 `shorts::mixed_model_using_splits` return the similar object, but
 `parameters` contain two elements: `fixed` and `random`.
@@ -401,7 +426,7 @@ ggplot(velocity_over_distance, aes(x = distance, y = pred_velocity, color = athl
   ylab("Predicted velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
 To modify random effects, which are by default `MSS` and `TAU` (`MSS +
 TAU ~ 1`), use the `random` parameter. For example, we can assume same
@@ -481,7 +506,12 @@ summary(jim_profile)
 #> 
 #> Number of iterations to convergence: 3 
 #> Achieved convergence tolerance: 9.31e-07
+
+plot(jim_profile) +
+  theme_bw()
 ```
+
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
 The object returned from `shorts::model_using_radar` is same as object
 returned from `shorts::model_using_splits`. Let’s plot Jim’s measured
@@ -496,7 +526,7 @@ ggplot(jim_profile$data, aes(x = time)) +
   ylab("Velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
 
 Radar gun data can be modeled individually or using *non-linear mixed
 model* implemented in `shorts::mixed_model_using_radar`:
@@ -561,7 +591,25 @@ summary(mixed_model)
 #> 
 #> Number of Observations: 3000
 #> Number of Groups: 5
+
+plot(mixed_model) +
+  theme_bw()
 ```
+
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
+
+``` r
+
+kable(mixed_model$parameters$random)
+```
+
+| athlete   |   MSS |   TAU |  MAC | PMAX | time\_correction | distance\_correction |
+| :-------- | ----: | ----: | ---: | ---: | ---------------: | -------------------: |
+| James     | 10.00 | 1.111 | 9.00 | 22.5 |                0 |                    0 |
+| Jim       |  8.00 | 0.889 | 9.00 | 18.0 |                0 |                    0 |
+| John      |  8.00 | 1.069 | 7.48 | 15.0 |                0 |                    0 |
+| Kimberley |  9.01 | 1.286 | 7.00 | 15.8 |                0 |                    0 |
+| Samantha  |  6.50 | 0.685 | 9.50 | 15.4 |                0 |                    0 |
 
 Let’s plot predicted acceleration over time (0-6sec) for athletes in the
 `radar_gun_data` data set:
@@ -576,7 +624,37 @@ ggplot(model_predictions, aes(x = time, y = acceleration, color = athlete)) +
   ylab("Predicted acceleration (m/s^2)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
+
+### Force-Velocity Profiling
+
+To estimate Force-Velocity profile using approach by Samozino *et al.*
+(2016), use `get_FV_profile`:
+
+``` r
+kimberley_fv <- shorts::get_FV_profile(
+  MSS = kimberley_profile$parameters$MSS,
+  TAU = kimberley_profile$parameters$TAU,
+  # These are needed to estimate air resistance
+  bodymass = kimberley_bodymass,
+  bodyheight = kimberley_bodyheight
+)
+
+kimberley_fv
+#> Estimated Force-Velocity Profile
+#> --------------------------
+#>      bodymass            F0        F0_rel            V0          Pmax 
+#>      6.00e+01      6.30e+02      1.05e+01      8.83e+00      1.39e+03 
+#> Pmax_relative      FV_slope  RFmax_cutoff         RFmax           Drf 
+#>      2.32e+01     -1.19e+00      3.00e-01      5.99e-01     -1.04e-01 
+#>        RSE_FV       RSE_Drf 
+#>      9.95e-01      9.46e-03
+
+plot(kimberley_fv) +
+  theme_bw()
+```
+
+<img src="man/figures/README-unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Using corrections
 
@@ -659,7 +737,25 @@ summary(mixed_model_corrected)
 #> 
 #> Number of Observations: 30
 #> Number of Groups: 5
+
+plot(mixed_model_corrected) +
+  theme_bw()
 ```
+
+<img src="man/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+
+``` r
+
+kable(mixed_model_corrected$parameters$random)
+```
+
+| athlete   |   MSS |   TAU |  MAC | PMAX | time\_correction | distance\_correction |
+| :-------- | ----: | ----: | ---: | ---: | ---------------: | -------------------: |
+| James     | 10.55 | 1.495 | 7.05 | 18.6 |              0.3 |                    0 |
+| Jim       |  8.05 | 0.922 | 8.73 | 17.6 |              0.3 |                    0 |
+| John      |  8.13 | 1.230 | 6.61 | 13.4 |              0.3 |                    0 |
+| Kimberley |  9.12 | 1.372 | 6.64 | 15.1 |              0.3 |                    0 |
+| Samantha  |  6.53 | 0.756 | 8.64 | 14.1 |              0.3 |                    0 |
 
 And `time_correction` can also be used in `predict_` and `find_` family
 of functions:
@@ -685,7 +781,7 @@ ggplot(velocity_over_distance_corrected, aes(x = distance, y = pred_velocity, co
   ylab("Predicted velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 Instead of providing for `time_correction`, this parameter can be
 estimated using `shorts::model_using_splits_with_time_correction` and
@@ -740,7 +836,26 @@ mixed_model_with_time_correction
 #> --------------------
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
 #>   0.00598   0.99999  -0.01651   0.00937   0.01651   0.00488   0.00348   0.18614
+
+
+plot(mixed_model_with_time_correction) +
+  theme_bw()
 ```
+
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+
+``` r
+
+kable(mixed_model_with_time_correction$parameters$random)
+```
+
+| athlete   |   MSS |   TAU |   MAC | PMAX | time\_correction | distance\_correction |
+| :-------- | ----: | ----: | ----: | ---: | ---------------: | -------------------: |
+| James     | 10.19 | 1.243 |  8.20 | 20.9 |            0.199 |                    0 |
+| Jim       |  7.95 | 0.764 | 10.40 | 20.7 |            0.199 |                    0 |
+| John      |  8.00 | 1.049 |  7.62 | 15.2 |            0.199 |                    0 |
+| Kimberley |  8.90 | 1.162 |  7.66 | 17.0 |            0.199 |                    0 |
+| Samantha  |  6.49 | 0.626 | 10.37 | 16.8 |            0.199 |                    0 |
 
 For more details, please refer to `sprint-corrections`
 [vignette](https://mladenjovanovic.github.io/shorts/articles/sprint-corrections.html).
@@ -807,7 +922,7 @@ ggplot(LOOCV_parameters, aes(y = value)) +
   theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
 ```
 
-<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot model LOOCV predictions and training (when using all data
 set) predictions against observed performance:
@@ -828,7 +943,7 @@ ggplot(kimberley_data, aes(x = distance)) +
   ylab("Time (s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot predicted velocity using LOOCV estimate parameters to check
 robustness of the model predictions:
@@ -860,7 +975,20 @@ ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
   ylab("Velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
+
+## Publications
+
+Here are the submitted publications using the  package:
+
+1.  Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for
+    Modeling Short Sprints**. Submitted to *Journal of Statistical
+    Software*
+
+2.  Vescovi, J.D., Jovanović, M. (2020). **Sprint mechanical
+    characteristics of female soccer players: A novel approach for
+    correction of timing gate starts**. Submitted to *Frontiers in
+    Sports and Active Living*
 
 ## Citation
 
@@ -900,6 +1028,12 @@ Journal of Strength and Conditioning Research 26:473–479. DOI:
 
 Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team. 2019. nlme: Linear
 and nonlinear mixed effects models.
+
+Samozino P, Rabita G, Dorel S, Slawinski J, Peyrot N, Saez de Villarreal
+E, Morin J-B. 2016. A simple method for measuring power, force, velocity
+properties, and mechanical effectiveness in sprint running: Simple
+method to compute sprint mechanics. Scandinavian Journal of Medicine &
+Science in Sports 26:648–658. DOI: 10.1111/sms.12490.
 
 Samozino P. 2018. A Simple Method for Measuring Force, Velocity and
 Power Capabilities and Mechanical Effectiveness During Sprint Running.

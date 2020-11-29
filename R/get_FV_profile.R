@@ -31,11 +31,15 @@
 #'
 #' m1 <- model_using_radar_with_time_correction(time = jb_morin$time, velocity = jb_morin$velocity)
 #'
-#' get_FV_profile(
-#'  MSS = m1$parameters$MSS,
+#' fv_profile <- get_FV_profile(
+#'   MSS = m1$parameters$MSS,
 #'   TAU = m1$parameters$TAU,
 #'   bodyheight = 1.72,
 #'   bodymass = 120)
+#'
+#' print(fv_profile)
+#' plot(fv_profile)
+#' plot(fv_profile, "time")
 get_FV_profile <- function(MSS,
                            TAU,
                            bodymass = 75,
@@ -55,18 +59,38 @@ get_FV_profile <- function(MSS,
     TAU = TAU
   )
 
-  df$force <- predict_force_at_time(
+  df$acceleration <- predict_acceleration_at_time(
+    time = df$time,
+    MSS = MSS,
+    TAU = TAU
+  )
+
+  df$bodymass <- bodymass
+
+  df$net_horizontal_force <- df$bodymass * df$acceleration
+
+  df$air_resistance <- predict_air_resistance_at_time(
     time = df$time,
     MSS = MSS,
     TAU = TAU,
     bodymass = bodymass, ...
   )
 
-  df$resultant_foce <- sqrt(df$force^2 + (bodymass * 9.81)^2)
+  df$horizontal_force <- predict_force_at_time(
+    time = df$time,
+    MSS = MSS,
+    TAU = TAU,
+    bodymass = bodymass, ...
+  )
+  df$horizontal_force_relative <- df$horizontal_force / bodymass
+  df$vertical_force <- (bodymass * 9.81)
 
-  df$force_relative <- df$force / bodymass
-  df$relative_power <- df$force_relative * df$velocity
-  df$RF <- df$force / df$resultant_foce
+  df$resultant_force <- sqrt(df$horizontal_force^2 + df$vertical_force^2)
+  df$resultant_force_relative <- df$resultant_force / bodymass
+  df$power <- df$horizontal_force * df$velocity
+  df$relative_power <- df$horizontal_force_relative * df$velocity
+  df$RF <- df$horizontal_force / df$resultant_force
+  df$force_angle <- atan(df$vertical_force / df$horizontal_force) * 180 / pi
 
   # Get RF max when t > 0.3sec
   RFmax <- max(df[df$time > RFmax_cutoff, ]$RF)
@@ -81,7 +105,7 @@ get_FV_profile <- function(MSS,
 
   # FV profile
   fv_profile <- stats::lm(
-    df$force~df$velocity
+    df$horizontal_force~df$velocity
   )
 
   F0 <- stats::coef(fv_profile)[[1]]
@@ -94,7 +118,7 @@ get_FV_profile <- function(MSS,
   Pmax_relative = Pmax / bodymass
 
   # Return list
-  list(
+  new_fv_profile(
     bodymass = bodymass,
     F0 = F0,
     F0_rel = F0_rel,

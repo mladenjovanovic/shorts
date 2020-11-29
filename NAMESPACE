@@ -2,8 +2,12 @@
 
 S3method(coef,shorts_mixed_model)
 S3method(coef,shorts_model)
+S3method(plot,shorts_fv_profile)
+S3method(plot,shorts_mixed_model)
+S3method(plot,shorts_model)
 S3method(predict,shorts_mixed_model)
 S3method(predict,shorts_model)
+S3method(print,shorts_fv_profile)
 S3method(print,shorts_mixed_model)
 S3method(print,shorts_model)
 S3method(residuals,shorts_mixed_model)

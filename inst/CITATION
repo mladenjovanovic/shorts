@@ -3,7 +3,7 @@ citHeader("To cite 'shorts' in publications use:")
 citEntry(entry = "Manual",
   title        = "{shorts}: Short Sprints",
   author       = personList(as.person("Mladen Jovanović")),
-  note         = "R package version 1.1.3",
+  note         = "R package version 1.1.4",
   year         = "2020",
   url          = "https://CRAN.R-project.org/package=shorts",
   doi          = "10.5281/zenodo.3751836",
@@ -11,7 +11,7 @@ citEntry(entry = "Manual",
   textVersion  =
   paste("Mladen Jovanović (2020).",
         "shorts: Short Sprints.",
-        "R package version 1.1.3.",
+        "R package version 1.1.4.",
         "url: https://CRAN.R-project.org/package=shorts.",
         "doi: 10.5281/zenodo.3751836")
 )

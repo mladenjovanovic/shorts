@@ -1,3 +1,14 @@
+# shorts 1.1.4
+
+* Added `ggplot2` and `tidyr` package dependency and implemented it in S3 plotting functions
+* `get_FV_profile` now return a object class `shorts_fv_profile`
+*  Added S3 print and plot methods for `shorts_fv_profile` object
+* Renamed column `force` and `relative_force` to `horizontal_force` and `relative_horizontal_force` in the `shorts_fv_profile` object and data frame returned by the `predict_kinematics` 
+* Added `acceleration`, `bodymass`, `net_horizontal_force`, `air_resistance`, and `vertical_force`, `resultant_force_relative`, `power`, and `force_angle` in the `shorts_fv_profile` object and data frame returned by the `predict_kinematics`
+* Improved examples and README.Rmd
+* Added S3 plot method for `shorts_model` and `shorts_mixed_model` objects
+
+
 # shorts 1.1.3
 
 * Added sample radar gun data from Jean-Benoît Morin Microsoft Excel spreadsheet, freely available at his [website](https://jbmorin.net/2017/12/13/a-spreadsheet-for-sprint-acceleration-force-velocity-power-profiling/) (accessed October 27, 2020)). For more information `?jb_morin`

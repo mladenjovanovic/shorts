@@ -38,8 +38,18 @@
 #'   model_using_radar(time, velocity)
 #' )
 #'
-#' # sprint_model$parameters
+#' print(sprint_model)
 #' coef(sprint_model)
+#' plot(sprint_model)
+#'
+#' sprint_model_correction <- with(
+#'   instant_velocity,
+#'   model_using_radar_with_time_correction(time + 0.3, velocity)
+#' )
+#'
+#' print(sprint_model_correction)
+#' coef(sprint_model_correction)
+#' plot(sprint_model_correction)
 #' @name model_radar
 NULL
 
