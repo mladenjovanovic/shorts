@@ -2,6 +2,6 @@ pandoc: 2.9.1.1
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  sprint-corrections: sprint-corrections.html
-last_built: 2020-11-29T20:39Z
+  shorts: shorts.html
+last_built: 2020-12-25T15:46Z
 

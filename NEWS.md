@@ -1,3 +1,7 @@
+# shorts 1.1.5
+
+* Vignette
+
 # shorts 1.1.4
 
 * Added `ggplot2` and `tidyr` package dependency and implemented it in S3 plotting functions
