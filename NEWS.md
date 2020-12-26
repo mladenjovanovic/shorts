@@ -1,3 +1,5 @@
+# shorts 1.1.4.9000 (Development version)
+
 # shorts 1.1.4
 
 * Added `ggplot2` and `tidyr` package dependency and implemented it in S3 plotting functions

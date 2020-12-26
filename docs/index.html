@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4.9000</span>
       </span>
     </div>
 
@@ -54,7 +54,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -80,7 +80,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/mladenjovanovic/shorts/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -127,7 +127,7 @@
 <div id="profiling-using-split-times" class="section level3">
 <h3 class="hasAnchor">
 <a href="#profiling-using-split-times" class="anchor"></a>Profiling using split times</h3>
-<p>To model sprint performance using split times, distance will be used as predictor and time as target. Since <code>split_times</code> contains data for multiple athletes, let’s extract only one athlete and model it using <code><a href="reference/model_split_times.html">shorts::model_using_splits</a></code> function.</p>
+<p>To model sprint performance using split times, distance will be used as predictor and time as target. Since <code>split_times</code> contains data for multiple athletes, let’s extract only one athlete and model it using <code><a href="reference/model_split_times.html">shorts::model_using_splits()</a></code> function.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kimberley_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">split_times</span>, <span class="va">athlete</span> <span class="op">==</span> <span class="st">"Kimberley"</span><span class="op">)</span>
 
@@ -178,7 +178,7 @@
 </tr>
 </tbody>
 </table>
-<p><code><a href="reference/model_split_times.html">shorts::model_using_splits</a></code> returns an object with <code>parameters</code>, <code>model_fit</code>, <code>model</code> returned from <code><a href="https://rdrr.io/r/stats/nls.html">stats::nls</a></code> function and <code>data</code> used to estimate parameters. Parameters estimated using mono-exponential equation are <em>maximal sprinting speed</em> (MSS), and <em>relative acceleration</em> (TAU). Additional parameters computed from MSS and TAU are <em>maximal acceleration</em> (MAC) and <em>maximal relative power</em> (PMAX) (which is calculated as MAC*MSS/4).</p>
+<p><code><a href="reference/model_split_times.html">shorts::model_using_splits()</a></code> returns an object with <code>parameters</code>, <code>model_fit</code>, <code>model</code> returned from <code><a href="https://rdrr.io/r/stats/nls.html">stats::nls()</a></code> function and <code>data</code> used to estimate parameters. Parameters estimated using mono-exponential equation are <em>maximal sprinting speed</em> (MSS), and <em>relative acceleration</em> (TAU). Additional parameters computed from MSS and TAU are <em>maximal acceleration</em> (MAC) and <em>maximal relative power</em> (PMAX) (which is calculated as MAC*MSS/4).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kimberley_profile</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_split_times.html">model_using_splits</a></span><span class="op">(</span>
   distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,
@@ -219,16 +219,16 @@
 <span class="co">#&gt;               8.591               0.811              10.589              22.743 </span>
 <span class="co">#&gt;     time_correction distance_correction </span>
 <span class="co">#&gt;               0.000               0.000</span></code></pre></div>
-<p>To return the predicted outcome (in this case time variable), use <code>predict</code> function:</p>
+<p>To return the predicted outcome (in this case time variable), use <code><a href="https://rdrr.io/r/stats/predict.html">predict()</a></code> function:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span>
 <span class="co">#&gt; [1] 1.21 1.90 2.52 3.12 4.30 5.47</span></code></pre></div>
-<p>To create a simple plot, use S3 <code>plot</code> method:</p>
+<p>To create a simple plot, use S3 <code><a href="https://rdrr.io/r/graphics/plot.default.html">plot()</a></code> method:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>If you are interested in calculating average split velocity, use <code><a href="reference/format_splits.html">shorts::format_splits</a></code></p>
+<p>If you are interested in calculating average split velocity, use <code><a href="reference/format_splits.html">shorts::format_splits()</a></code></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/format_splits.html">format_splits</a></span><span class="op">(</span>
   distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,
@@ -317,7 +317,7 @@
 </tr>
 </tbody>
 </table>
-<p>Let’s plot observed vs fitted split times. For this we can use <code>data</code> returned from <code><a href="reference/model_split_times.html">shorts::model_using_splits</a></code> since it contains <code>pred_time</code> column.</p>
+<p>Let’s plot observed vs fitted split times. For this we can use <code>data</code> returned from <code><a href="reference/model_split_times.html">shorts::model_using_splits()</a></code> since it contains <code>pred_time</code> column.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">$</span><span class="va">data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -326,7 +326,7 @@
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ylab</span><span class="op">(</span><span class="st">"Time (s)"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>To plot predicted velocity, acceleration, air resistance, force, and power over distance, use <code>shorts:predict_</code>. Please note that to calculate force, air resistance, and power, we need Kimberley’s bodymass and height (as well as other characteristics such as air pressure, temperature and wind - see <code>get_air_resistance</code> function).</p>
+<p>To plot predicted velocity, acceleration, air resistance, force, and power over distance, use <code>shorts:predict_XXX()</code>. Please note that to calculate force, air resistance, and power, we need Kimberley’s bodymass and height (as well as other characteristics such as air pressure, temperature and wind - see <code><a href="reference/get_air_resistance.html">get_air_resistance()</a></code> function).</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kimberley_bodymass</span> <span class="op">&lt;-</span> <span class="fl">60</span> <span class="co"># in kilograms</span>
 <span class="va">kimberley_bodyheight</span> <span class="op">&lt;-</span> <span class="fl">1.7</span> <span class="co"># in meters</span>
@@ -381,7 +381,7 @@
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ylab</span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>To do prediction simpler, use <code><a href="reference/predict_kinematics.html">shorts::predict_kinematics</a></code> function. This will provide kinetics and kinematics for 0-6s sprint using 100Hz.</p>
+<p>To do prediction simpler, use <code><a href="reference/predict_kinematics.html">shorts::predict_kinematics()</a></code> function. This will provide kinetics and kinematics for 0-6s sprint using 100Hz.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">predicted_kinematics</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_kinematics.html">predict_kinematics</a></span><span class="op">(</span>
   <span class="va">kimberley_profile</span>,
@@ -537,11 +537,11 @@
 </tr>
 </tbody>
 </table>
-<p>To get model residuals, use <code>residuals</code> function:</p>
+<p>To get model residuals, use <code><a href="https://rdrr.io/r/stats/residuals.html">residuals()</a></code> function:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span>
 <span class="co">#&gt; [1]  0.05293  0.00402 -0.01997 -0.02699 -0.01376  0.02232</span></code></pre></div>
-<p>Package <code>shorts</code> comes with <code>find_</code> family of functions that allow finding peak power and it’s location, as well as <em>critical distance</em> over which velocity, acceleration, or power drops below certain threshold:</p>
+<p>Package <code>shorts</code> comes with <code>find_XXX()</code> family of functions that allow finding peak power and it’s location, as well as <em>critical distance</em> over which velocity, acceleration, or power drops below certain threshold:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Peak power and location</span>
 <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/find_functions.html">find_max_power_distance</a></span><span class="op">(</span>
@@ -584,7 +584,7 @@
 <div id="mixed-effect-models" class="section level4">
 <h4 class="hasAnchor">
 <a href="#mixed-effect-models" class="anchor"></a>Mixed-effect models</h4>
-<p>Each individual can be modeled separately, or we can perform <em>non-linear mixed model</em> using <code>nlme</code> function from <em>nlme</em> package (Pinheiro <em>et al.</em>, 2019). This is done using <code><a href="reference/mixed_model_split_times.html">shorts::mixed_model_using_splits</a></code>:</p>
+<p>Each individual can be modeled separately, or we can perform <em>non-linear mixed model</em> using <code>nlme()</code> function from <em>nlme</em> package (Pinheiro <em>et al.</em>, 2019). This is done using <code><a href="reference/mixed_model_split_times.html">shorts::mixed_model_using_splits()</a></code>:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mixed_model</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_split_times.html">mixed_model_using_splits</a></span><span class="op">(</span>
   data <span class="op">=</span> <span class="va">split_times</span>,
@@ -618,7 +618,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">)</span>
 <span class="co">#&gt; Nonlinear mixed-effects model fit by maximum likelihood</span>
 <span class="co">#&gt;   Model: corrected_time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS *      TAU) - 1))) + distance/MSS + TAU </span>
-<span class="co">#&gt;  Data: train </span>
+<span class="co">#&gt;   Data: train </span>
 <span class="co">#&gt;     AIC   BIC logLik</span>
 <span class="co">#&gt;   -75.1 -66.7   43.5</span>
 <span class="co">#&gt; </span>
@@ -631,7 +631,7 @@
 <span class="co">#&gt; TAU      0.178  0.877</span>
 <span class="co">#&gt; Residual 0.026       </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Fixed effects: MSS + TAU ~ 1 </span>
+<span class="co">#&gt; Fixed effects:  MSS + TAU ~ 1 </span>
 <span class="co">#&gt;     Value Std.Error DF t-value p-value</span>
 <span class="co">#&gt; MSS  8.06     0.495 24   16.30       0</span>
 <span class="co">#&gt; TAU  0.66     0.084 24    7.82       0</span>
@@ -725,7 +725,7 @@
 </tr>
 </tbody>
 </table>
-<p><code><a href="reference/mixed_model_split_times.html">shorts::mixed_model_using_splits</a></code> return the similar object, but <code>parameters</code> contain two elements: <code>fixed</code> and <code>random</code>.</p>
+<p><code><a href="reference/mixed_model_split_times.html">shorts::mixed_model_using_splits()</a></code> return the similar object, but <code>parameters</code> contain two elements: <code>fixed</code> and <code>random</code>.</p>
 <p>Let’s plot predicted velocity over distance for athletes in the <code>split_times</code> data set:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">velocity_over_distance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span>
@@ -782,7 +782,7 @@
 <div id="profiling-using-radar-gun-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#profiling-using-radar-gun-data" class="anchor"></a>Profiling using radar gun data</h3>
-<p>The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using <code><a href="reference/model_radar.html">shorts::model_using_radar</a></code> function. Let’s do analysis for Jim:</p>
+<p>The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using <code><a href="reference/model_radar.html">shorts::model_using_radar()</a></code> function. Let’s do analysis for Jim:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">jim_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">radar_gun_data</span>, <span class="va">athlete</span> <span class="op">==</span> <span class="st">"Jim"</span><span class="op">)</span>
 
@@ -823,7 +823,7 @@
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">jim_profile</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>The object returned from <code><a href="reference/model_radar.html">shorts::model_using_radar</a></code> is same as object returned from <code><a href="reference/model_split_times.html">shorts::model_using_splits</a></code>. Let’s plot Jim’s measured velocity and predicted velocity:</p>
+<p>The object returned from <code><a href="reference/model_radar.html">shorts::model_using_radar()</a></code> is same as object returned from <code><a href="reference/model_split_times.html">shorts::model_using_splits()</a></code>. Let’s plot Jim’s measured velocity and predicted velocity:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">ggplot</span><span class="op">(</span><span class="va">jim_profile</span><span class="op">$</span><span class="va">data</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -832,7 +832,7 @@
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Time (s)"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ylab</span><span class="op">(</span><span class="st">"Velocity (m/s)"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>Radar gun data can be modeled individually or using <em>non-linear mixed model</em> implemented in <code><a href="reference/mixed_model_radar.html">shorts::mixed_model_using_radar</a></code>:</p>
+<p>Radar gun data can be modeled individually or using <em>non-linear mixed model</em> implemented in <code><a href="reference/mixed_model_radar.html">shorts::mixed_model_using_radar()</a></code>:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">mixed_model</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/mixed_model_radar.html">mixed_model_using_radar</a></span><span class="op">(</span>
   data <span class="op">=</span> <span class="va">radar_gun_data</span>,
@@ -866,7 +866,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">)</span>
 <span class="co">#&gt; Nonlinear mixed-effects model fit by maximum likelihood</span>
 <span class="co">#&gt;   Model: velocity ~ MSS * (1 - exp(1)^(-(corrected_time)/TAU)) </span>
-<span class="co">#&gt;  Data: train </span>
+<span class="co">#&gt;   Data: train </span>
 <span class="co">#&gt;     AIC   BIC logLik</span>
 <span class="co">#&gt;   -9150 -9114   4581</span>
 <span class="co">#&gt; </span>
@@ -879,7 +879,7 @@
 <span class="co">#&gt; TAU      0.2050 0.811</span>
 <span class="co">#&gt; Residual 0.0516      </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Fixed effects: MSS + TAU ~ 1 </span>
+<span class="co">#&gt; Fixed effects:  MSS + TAU ~ 1 </span>
 <span class="co">#&gt;     Value Std.Error   DF t-value p-value</span>
 <span class="co">#&gt; MSS  8.30     0.521 2994    15.9       0</span>
 <span class="co">#&gt; TAU  1.01     0.092 2994    11.0       0</span>
@@ -972,7 +972,7 @@
 <div id="force-velocity-profiling" class="section level3">
 <h3 class="hasAnchor">
 <a href="#force-velocity-profiling" class="anchor"></a>Force-Velocity Profiling</h3>
-<p>To estimate Force-Velocity profile using approach by Samozino <em>et al.</em> (2016), use <code>get_FV_profile</code>:</p>
+<p>To estimate Force-Velocity profile using approach by Samozino <em>et al.</em> (2016), use <code><a href="reference/get_FV_profile.html">shorts::get_FV_profile()</a></code>:</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kimberley_fv</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/get_FV_profile.html">get_FV_profile</a></span><span class="op">(</span>
   MSS <span class="op">=</span> <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,
@@ -1037,7 +1037,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">mixed_model_corrected</span><span class="op">)</span>
 <span class="co">#&gt; Nonlinear mixed-effects model fit by maximum likelihood</span>
 <span class="co">#&gt;   Model: corrected_time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS *      TAU) - 1))) + distance/MSS + TAU </span>
-<span class="co">#&gt;  Data: train </span>
+<span class="co">#&gt;   Data: train </span>
 <span class="co">#&gt;     AIC   BIC logLik</span>
 <span class="co">#&gt;   -96.9 -88.5   54.5</span>
 <span class="co">#&gt; </span>
@@ -1050,7 +1050,7 @@
 <span class="co">#&gt; TAU      0.2779 0.924</span>
 <span class="co">#&gt; Residual 0.0152      </span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt; Fixed effects: MSS + TAU ~ 1 </span>
+<span class="co">#&gt; Fixed effects:  MSS + TAU ~ 1 </span>
 <span class="co">#&gt;     Value Std.Error DF t-value p-value</span>
 <span class="co">#&gt; MSS  8.47     0.616 24   13.76       0</span>
 <span class="co">#&gt; TAU  1.15     0.129 24    8.93       0</span>
@@ -1129,7 +1129,7 @@
 </tr>
 </tbody>
 </table>
-<p>And <code>time_correction</code> can also be used in <code>predict_</code> and <code>find_</code> family of functions:</p>
+<p>And <code>time_correction</code> can also be used in <code>predict_XXX()</code> and <code>find_XXX()</code> family of functions:</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">velocity_over_distance_corrected</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/merge.html">merge</a></span><span class="op">(</span>
     <span class="va">mixed_model_corrected</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span>,
@@ -1150,7 +1150,7 @@
   <span class="fu">xlab</span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ylab</span><span class="op">(</span><span class="st">"Predicted velocity (m/s)"</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>Instead of providing for <code>time_correction</code>, this parameter can be estimated using <code><a href="reference/model_split_times.html">shorts::model_using_splits_with_time_correction</a></code> and <code><a href="reference/mixed_model_split_times.html">shorts::mixed_model_using_splits_with_time_correction</a></code>:</p>
+<p>Instead of providing for <code>time_correction</code>, this parameter can be estimated using <code><a href="reference/model_split_times.html">shorts::model_using_splits_with_time_correction()</a></code> and <code><a href="reference/mixed_model_split_times.html">shorts::mixed_model_using_splits_with_time_correction()</a></code>:</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kimberley_profile_with_time_correction</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_split_times.html">model_using_splits_with_time_correction</a></span><span class="op">(</span>
   distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,
@@ -1271,7 +1271,7 @@
 <div id="leave-one-out-cross-validation-loocv" class="section level3">
 <h3 class="hasAnchor">
 <a href="#leave-one-out-cross-validation-loocv" class="anchor"></a>Leave-One-Out Cross-Validation (LOOCV)</h3>
-<p><code>...model_using_splits..</code> family of functions come with LOOCV feature that is performed by setting the function parameter <code>LOOCV = TRUE</code>. This feature is very useful for checking model parameters robustness and model predictions on unseen data. LOOCV involve iterative model building and testing by removing observation one by one and making predictions for them. Let’s use Kimberley again, but this time perform LOOCV:</p>
+<p><code>...model_using_splits..()</code> family of functions come with LOOCV feature that is performed by setting the function parameter <code>LOOCV = TRUE</code>. This feature is very useful for checking model parameters robustness and model predictions on unseen data. LOOCV involve iterative model building and testing by removing observation one by one and making predictions for them. Let’s use Kimberley again, but this time perform LOOCV:</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">kimberley_profile_LOOCV</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_split_times.html">model_using_splits</a></span><span class="op">(</span>
   distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,
@@ -1371,7 +1371,7 @@
 <a href="#publications" class="anchor"></a>Publications</h2>
 <p>Here are the submitted publications using the package:</p>
 <ol>
-<li><p>Jovanović, M., Vescovi, J.D. (2020). <strong>shorts: An R Package for Modeling Short Sprints</strong>. Submitted to <em>Journal of Statistical Software</em></p></li>
+<li><p>Jovanović, M., Vescovi, J.D. (2020). <strong>shorts: An R Package for Modeling Short Sprints</strong>. Submitted to <em>Journal of Statistical Software</em>. Preprint available at <strong>SportRXive</strong>: <a href="http://osf.io/4jw62/" class="uri">http://osf.io/4jw62/</a></p></li>
 <li><p>Vescovi, J.D., Jovanović, M. (2020). <strong>Sprint mechanical characteristics of female soccer players: A novel approach for correction of timing gate starts</strong>. Submitted to <em>Frontiers in Sports and Active Living</em></p></li>
 </ol>
 </div>

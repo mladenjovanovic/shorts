@@ -57,7 +57,7 @@ data("split_times", "radar_gun_data")
 
 ### Profiling using split times 
 
-To model sprint performance using split times, distance will be used as predictor and time as target. Since `split_times` contains data for multiple athletes, let's extract only one athlete and model it using `shorts::model_using_splits` function. 
+To model sprint performance using split times, distance will be used as predictor and time as target. Since `split_times` contains data for multiple athletes, let's extract only one athlete and model it using `shorts::model_using_splits()` function. 
 
 ```{r}
 kimberley_data <- filter(split_times, athlete == "Kimberley")
@@ -65,7 +65,7 @@ kimberley_data <- filter(split_times, athlete == "Kimberley")
 kable(kimberley_data)
 ```
 
-`shorts::model_using_splits` returns an object with `parameters`, `model_fit`, `model` returned from `stats::nls` function and `data` used to estimate parameters. Parameters estimated using mono-exponential equation are *maximal sprinting speed* (MSS), and *relative acceleration* (TAU). Additional parameters computed from MSS and TAU are *maximal acceleration* (MAC) and *maximal relative power* (PMAX) (which is calculated as MAC*MSS/4). 
+`shorts::model_using_splits()` returns an object with `parameters`, `model_fit`, `model` returned from `stats::nls()` function and `data` used to estimate parameters. Parameters estimated using mono-exponential equation are *maximal sprinting speed* (MSS), and *relative acceleration* (TAU). Additional parameters computed from MSS and TAU are *maximal acceleration* (MAC) and *maximal relative power* (PMAX) (which is calculated as MAC*MSS/4). 
 
 ```{r}
 kimberley_profile <- shorts::model_using_splits(
@@ -79,20 +79,20 @@ summary(kimberley_profile)
 coef(kimberley_profile)
 ```
 
-To return the predicted outcome (in this case time variable), use `predict` function: 
+To return the predicted outcome (in this case time variable), use `predict()` function: 
 
 ```{r}
 predict(kimberley_profile)
 ```
 
-To create a simple plot, use S3 `plot` method:
+To create a simple plot, use S3 `plot()` method:
 
 ```{r}
 plot(kimberley_profile) +
   theme_bw()
 ```
 
-If you are interested in calculating average split velocity, use `shorts::format_splits`
+If you are interested in calculating average split velocity, use `shorts::format_splits()`
 
 ```{r}
 kable(shorts::format_splits(
@@ -100,7 +100,7 @@ kable(shorts::format_splits(
   time = kimberley_data$time))
 ```
 
-Let's plot observed vs fitted split times. For this we can use `data` returned from `shorts::model_using_splits` since it contains `pred_time` column.
+Let's plot observed vs fitted split times. For this we can use `data` returned from `shorts::model_using_splits()` since it contains `pred_time` column.
 
 ```{r}
 ggplot(kimberley_profile$data, aes(x = distance)) +
@@ -111,7 +111,7 @@ ggplot(kimberley_profile$data, aes(x = distance)) +
   ylab("Time (s)")
 ```
 
-To plot predicted velocity, acceleration, air resistance, force, and power over distance, use `shorts:predict_`. Please note that to calculate force, air resistance, and power, we need Kimberley's bodymass and height (as well as other characteristics such as air pressure, temperature and wind - see `get_air_resistance` function).
+To plot predicted velocity, acceleration, air resistance, force, and power over distance, use `shorts:predict_XXX()`. Please note that to calculate force, air resistance, and power, we need Kimberley's bodymass and height (as well as other characteristics such as air pressure, temperature and wind - see `get_air_resistance()` function).
 
 ```{r}
 kimberley_bodymass <- 60 # in kilograms
@@ -168,7 +168,7 @@ ggplot(kimberley_pred, aes(x = distance, y = value)) +
   ylab(NULL)
 ```
 
-To do prediction simpler, use `shorts::predict_kinematics` function. This will provide kinetics and kinematics for 0-6s sprint using 100Hz. 
+To do prediction simpler, use `shorts::predict_kinematics()` function. This will provide kinetics and kinematics for 0-6s sprint using 100Hz. 
 
 ```{r}
 predicted_kinematics <- predict_kinematics(
@@ -179,13 +179,13 @@ predicted_kinematics <- predict_kinematics(
 kable(head(predicted_kinematics))
 ```
 
-To get model residuals, use `residuals` function:
+To get model residuals, use `residuals()` function:
 
 ```{r}
 residuals(kimberley_profile)
 ```
 
-Package `shorts` comes with `find_` family of functions that allow finding peak power and it's location, as well as *critical distance* over which velocity, acceleration, or power drops below certain threshold:
+Package `shorts` comes with `find_XXX()` family of functions that allow finding peak power and it's location, as well as *critical distance* over which velocity, acceleration, or power drops below certain threshold:
 
 ```{r}
 # Peak power and location
@@ -218,7 +218,7 @@ shorts::find_velocity_critical_distance(
 
 #### Mixed-effect models
 
-Each individual can be modeled separately, or we can perform *non-linear mixed model* using `nlme` function from *nlme* package (Pinheiro *et al.*, 2019). This is done using `shorts::mixed_model_using_splits`:
+Each individual can be modeled separately, or we can perform *non-linear mixed model* using `nlme()` function from *nlme* package (Pinheiro *et al.*, 2019). This is done using `shorts::mixed_model_using_splits()`:
 
 ```{r}
 mixed_model <- shorts::mixed_model_using_splits(
@@ -240,7 +240,7 @@ plot(mixed_model) +
 kable(mixed_model$parameters$random)
 ```
 
-`shorts::mixed_model_using_splits` return the similar object, but `parameters` contain two elements: `fixed` and `random`. 
+`shorts::mixed_model_using_splits()` return the similar object, but `parameters` contain two elements: `fixed` and `random`. 
 
 Let's plot predicted velocity over distance for athletes in the `split_times` data set:
 
@@ -280,7 +280,7 @@ mixed_model
 
 ### Profiling using radar gun data
 
-The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using `shorts::model_using_radar` function. Let's do analysis for Jim:
+The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using `shorts::model_using_radar()` function. Let's do analysis for Jim:
 
 ```{r}
 jim_data <- filter(radar_gun_data, athlete == "Jim")
@@ -298,7 +298,7 @@ plot(jim_profile) +
   theme_bw()
 ```
 
-The object returned from `shorts::model_using_radar` is same as object returned from `shorts::model_using_splits`. Let's plot Jim's measured velocity and predicted velocity: 
+The object returned from `shorts::model_using_radar()` is same as object returned from `shorts::model_using_splits()`. Let's plot Jim's measured velocity and predicted velocity: 
 
 ```{r}
 ggplot(jim_profile$data, aes(x = time)) +
@@ -309,7 +309,7 @@ ggplot(jim_profile$data, aes(x = time)) +
   ylab("Velocity (m/s)")
 ```
 
-Radar gun data can be modeled individually or using *non-linear mixed model* implemented in `shorts::mixed_model_using_radar`:
+Radar gun data can be modeled individually or using *non-linear mixed model* implemented in `shorts::mixed_model_using_radar()`:
 
 ```{r}
 mixed_model <- shorts::mixed_model_using_radar(
@@ -343,7 +343,7 @@ ggplot(model_predictions, aes(x = time, y = acceleration, color = athlete)) +
 
 ### Force-Velocity Profiling
 
-To estimate Force-Velocity profile using approach by Samozino *et al.* (2016), use `get_FV_profile`:
+To estimate Force-Velocity profile using approach by Samozino *et al.* (2016), use `shorts::get_FV_profile()`:
 
 ```{r}
 kimberley_fv <- shorts::get_FV_profile(
@@ -390,7 +390,7 @@ plot(mixed_model_corrected) +
 kable(mixed_model_corrected$parameters$random)
 ```
 
-And `time_correction` can also be used in `predict_` and `find_` family of functions:
+And `time_correction` can also be used in `predict_XXX()` and `find_XXX()` family of functions:
 
 ```{r}
 velocity_over_distance_corrected <- merge(
@@ -413,7 +413,7 @@ ggplot(velocity_over_distance_corrected, aes(x = distance, y = pred_velocity, co
   ylab("Predicted velocity (m/s)")
 ```
 
-Instead of providing for `time_correction`, this parameter can be estimated using `shorts::model_using_splits_with_time_correction` and `shorts::mixed_model_using_splits_with_time_correction`:
+Instead of providing for `time_correction`, this parameter can be estimated using `shorts::model_using_splits_with_time_correction()` and `shorts::mixed_model_using_splits_with_time_correction()`:
 
 ```{r}
 kimberley_profile_with_time_correction <- shorts::model_using_splits_with_time_correction(
@@ -445,7 +445,7 @@ For more details, please refer to `sprint-corrections` [vignette](https://mladen
 
 ### Leave-One-Out Cross-Validation (LOOCV)
 
-`...model_using_splits..` family of functions come with LOOCV feature that is performed by setting the function parameter `LOOCV = TRUE`. This feature is very useful for checking model parameters robustness and model predictions on unseen data. LOOCV involve iterative model building and testing by removing observation one by one and making predictions for them. Let's use Kimberley again, but this time perform LOOCV:
+`...model_using_splits..()` family of functions come with LOOCV feature that is performed by setting the function parameter `LOOCV = TRUE`. This feature is very useful for checking model parameters robustness and model predictions on unseen data. LOOCV involve iterative model building and testing by removing observation one by one and making predictions for them. Let's use Kimberley again, but this time perform LOOCV:
 
 ```{r}
 kimberley_profile_LOOCV <- shorts::model_using_splits(
@@ -524,7 +524,7 @@ ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
 
 Here are the submitted publications using the \code{shorts} package:
 
-1. Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for Modeling Short Sprints**. Submitted to *Journal of Statistical Software*
+1. Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for Modeling Short Sprints**. Submitted to *Journal of Statistical Software*. Preprint available at **SportRXive**: http://osf.io/4jw62/
 
 2. Vescovi, J.D., Jovanović, M. (2020). **Sprint mechanical characteristics of female soccer players: A novel approach for correction of timing gate starts**. Submitted to *Frontiers in Sports and Active Living*
 
