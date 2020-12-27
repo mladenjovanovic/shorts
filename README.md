@@ -983,7 +983,7 @@ Here are the submitted publications using the  package:
 
 1.  Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for
     Modeling Short Sprints**. Submitted to *Journal of Statistical
-    Software*. Preprint available at **SportRXive**:
+    Software*. Preprint available at **SportRxiv**:
     <http://osf.io/4jw62/>
 
 2.  Vescovi, J.D., Jovanović, M. (2020). **Sprint mechanical

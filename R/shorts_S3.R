@@ -293,7 +293,7 @@ plot.shorts_fv_profile <- function(x, type = "velocity", ...) {
   # +++++++++++++++++++++++++++++++++++++++++++
 
   if(!any(type %in% c("velocity", "time"))) {
-    stop("Please use either 'force' and 'velocity' type plot.", call. = FALSE)
+    stop("Please use either 'time' or 'velocity' type plot.", call. = FALSE)
   }
 
   plot_data <- x$data
