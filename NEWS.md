@@ -1,6 +1,8 @@
 # shorts 1.1.4.9000 (Development version)
 
 * Fixed wrong error message from the `plot.shorts_fv_profile()` function
+* Minor model print aesthetic changes. 
+
 
 # shorts 1.1.4
 

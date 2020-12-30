@@ -164,7 +164,7 @@ print.shorts_mixed_model <- function(x, ...) {
   print(unlist(x$parameters$fixed))
 
   cat("\nEstimated random model parameters\n")
-  cat("----------------------------------\n")
+  cat("---------------------------------\n")
   print(x$parameters$random)
 
   cat("\nModel fit estimators\n")
@@ -261,7 +261,7 @@ residuals.shorts_mixed_model <- function(object, ...) {
 #' @export
 print.shorts_fv_profile <- function(x, ...) {
   cat("Estimated Force-Velocity Profile\n")
-  cat("--------------------------\n")
+  cat("--------------------------------\n")
   print(unlist(x[-13]))
 }
 
