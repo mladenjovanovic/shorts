@@ -4,6 +4,7 @@
 \alias{model_split_times}
 \alias{model_using_splits}
 \alias{model_using_splits_with_time_correction}
+\alias{model_using_splits_with_distance_correction}
 \alias{model_using_splits_with_corrections}
 \title{Models Using Split Times}
 \usage{
@@ -18,6 +19,15 @@ model_using_splits(
 )
 
 model_using_splits_with_time_correction(
+  distance,
+  time,
+  weights = 1,
+  LOOCV = FALSE,
+  na.rm = FALSE,
+  ...
+)
+
+model_using_splits_with_distance_correction(
   distance,
   time,
   weights = 1,
@@ -71,10 +81,11 @@ These functions model the sprint split times using mono-exponential equation, wh
  parameters. Time correction using heuristic rule of thumbs (e.g., adding 0.3s to split times) can be
  implemented using \code{time_correction} function parameter. Function
  \code{\link{model_using_splits_with_time_correction}}, besides estimating \code{MSS} and \code{TAU},
- estimates additional parameter \code{time_correction}.  Function \code{\link{model_using_splits_with_corrections}},
- besides estimating \code{MSS}, \code{TAU} and \code{time_correction}, estimates additional parameter
- \code{distance_correction}. For more information about these function please refer to accompanying vignettes in
- this package.
+ estimates additional parameter \code{time_correction}.  Function \code{\link{model_using_splits_with_distance_correction}},
+ besides estimating \code{MSS} and \code{TAU}, estimates additional parameter \code{distance_correction}.
+ Function \code{\link{model_using_splits_with_corrections}}, besides estimating \code{MSS}, \code{TAU} and
+ \code{time_correction}, estimates additional parameter \code{distance_correction}.
+ For more information about these functions please refer to accompanying vignettes in this package.
 }
 \examples{
 split_times <- data.frame(
@@ -111,6 +122,16 @@ model_with_time_correction_estimation <- with(
 print(model_with_time_correction_estimation)
 coef(model_with_time_correction_estimation)
 plot(model_with_time_correction_estimation)
+
+# Model with distance_correction estimation
+model_with_distance_correction_estimation <- with(
+  split_times,
+  model_using_splits_with_distance_correction(distance, time)
+)
+
+print(model_with_distance_correction_estimation)
+coef(model_with_distance_correction_estimation)
+plot(model_with_distance_correction_estimation)
 
 # Model with time and distance correction estimation
 model_with_time_distance_correction_estimation <- with(

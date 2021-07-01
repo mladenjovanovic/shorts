@@ -28,7 +28,6 @@ radar_gun_data <- radar_gun_data %>%
   mutate(
     velocity = shorts::predict_velocity_at_time(time, MSS, TAU)
   ) %>%
-
   # Select columns
   select(athlete, bodyweight, time, velocity) %>%
   # Add error

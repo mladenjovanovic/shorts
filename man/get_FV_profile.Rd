@@ -59,7 +59,8 @@ fv_profile <- get_FV_profile(
   MSS = m1$parameters$MSS,
   TAU = m1$parameters$TAU,
   bodyheight = 1.72,
-  bodymass = 120)
+  bodymass = 120
+)
 
 print(fv_profile)
 plot(fv_profile)

@@ -14,6 +14,7 @@ vescovi <- vescovi %>%
     `10m-5m split` = `10m` - `5m`,
     `20m-10m split` = `20m` - `10m`,
     `30m-20m split` = `30m` - `20m`,
-    `35m-30m split` = `35m` - `30m`)
+    `35m-30m split` = `35m` - `30m`
+  )
 
 usethis::use_data(vescovi, overwrite = TRUE)

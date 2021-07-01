@@ -44,7 +44,8 @@
 #'   radar_gun_data,
 #'   "time",
 #'   "velocity",
-#'   "athlete")
+#'   "athlete"
+#' )
 #'
 #' print(mixed_model_correction)
 #' coef(mixed_model_correction)
@@ -66,8 +67,6 @@ mixed_model_using_radar <- function(data,
                                     # weights = rep(1, nrow(data)),
                                     na.rm = FALSE,
                                     ...) {
-
-
   run_model <- function(train, test, ...) {
 
     # Create mixed model
@@ -267,16 +266,14 @@ mixed_model_using_radar <- function(data,
 #' @rdname mixed_model_radar
 #' @export
 mixed_model_using_radar_with_time_correction <- function(data,
-                                    time,
-                                    velocity,
-                                    athlete,
-                                    random = MSS + TAU ~ 1,
-                                    LOOCV = FALSE,
-                                    # weights = rep(1, nrow(data)),
-                                    na.rm = FALSE,
-                                    ...) {
-
-
+                                                         time,
+                                                         velocity,
+                                                         athlete,
+                                                         random = MSS + TAU ~ 1,
+                                                         LOOCV = FALSE,
+                                                         # weights = rep(1, nrow(data)),
+                                                         na.rm = FALSE,
+                                                         ...) {
   run_model <- function(train, test, ...) {
     # Create mixed model
     mixed_model <- nlme::nlme(

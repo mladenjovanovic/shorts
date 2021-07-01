@@ -35,7 +35,8 @@
 #'   MSS = m1$parameters$MSS,
 #'   TAU = m1$parameters$TAU,
 #'   bodyheight = 1.72,
-#'   bodymass = 120)
+#'   bodymass = 120
+#' )
 #'
 #' print(fv_profile)
 #' plot(fv_profile)
@@ -99,23 +100,23 @@ get_FV_profile <- function(MSS,
   vel_over_cutoff <- df[df$time > RFmax_cutoff, ]$velocity
   RF_over_cutoff <- df[df$time > RFmax_cutoff, ]$RF
 
-  Drf_model <- stats::lm(RF_over_cutoff~vel_over_cutoff)
+  Drf_model <- stats::lm(RF_over_cutoff ~ vel_over_cutoff)
 
   Drf <- stats::coef(Drf_model)[[2]]
 
   # FV profile
   fv_profile <- stats::lm(
-    df$horizontal_force~df$velocity
+    df$horizontal_force ~ df$velocity
   )
 
   F0 <- stats::coef(fv_profile)[[1]]
   F0_rel <- F0 / bodymass
 
-  Slope <-  stats::coef(fv_profile)[[2]] / bodymass
+  Slope <- stats::coef(fv_profile)[[2]] / bodymass
   V0 <- -F0_rel / Slope
 
   Pmax <- F0 * V0 / 4
-  Pmax_relative = Pmax / bodymass
+  Pmax_relative <- Pmax / bodymass
 
   # Return list
   new_fv_profile(
@@ -133,5 +134,4 @@ get_FV_profile <- function(MSS,
     RSE_Drf = summary(Drf_model)$sigma,
     data = df
   )
-
 }

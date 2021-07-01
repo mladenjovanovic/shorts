@@ -41,7 +41,7 @@ get_air_resistance(
   barometric_pressure = 760,
   air_temperature = 16,
   wind_velocity = -0.5
- )
+)
 }
 \references{
 Arsac LM, Locatelli E. 2002. Modeling the energetics of 100-m running by using speed curves of
