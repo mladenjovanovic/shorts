@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -134,12 +134,17 @@
       <small>Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="shorts-1149000-development-version" class="section level1">
-<h1 class="page-header" data-toc-text="1.1.4.9000">
-<a href="#shorts-1149000-development-version" class="anchor"></a>shorts 1.1.4.9000 (Development version)<small> Unreleased </small>
+    <div id="shorts-115" class="section level1">
+<h1 class="page-header" data-toc-text="1.1.5">
+<a href="#shorts-115" class="anchor"></a>shorts 1.1.5<small> Unreleased </small>
 </h1>
 <ul>
 <li>Fixed wrong error message from the <code><a href="../reference/plot.shorts_fv_profile.html">plot.shorts_fv_profile()</a></code> function</li>
+<li>Minor model print aesthetic changes</li>
+<li>Fixed calculation of the residuals, which is now correctly calculated using observed - predicted. This calculation is implemented in the <code><a href="https://rdrr.io/r/stats/residuals.html">residuals()</a></code> S3 method, as well as with internal function <code>shorts_model_fit()</code> that provides model fit estimates (i.e. RMSE, MAE, MAPE)</li>
+<li>Fixed calculation of the residuals in the vignette</li>
+<li>Added <code><a href="../reference/model_split_times.html">model_using_splits_with_distance_correction()</a></code> function that implements novel model definition to estimate flying start distance</li>
+<li>Added <code><a href="../reference/mixed_model_split_times.html">mixed_model_using_splits_with_distance_correction()</a></code> function that implements novel model definition to estimate flying start distance</li>
 </ul>
 </div>
     <div id="shorts-114" class="section level1">

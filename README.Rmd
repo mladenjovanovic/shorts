@@ -522,11 +522,9 @@ ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
 
 ## Publications
 
-Here are the submitted publications using the \code{shorts} package:
+1. Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for Modeling Short Sprints**. Preprint available at **SportRxiv**: http://osf.io/4jw62/
 
-1. Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for Modeling Short Sprints**. Submitted to *Journal of Statistical Software*. Preprint available at **SportRxiv**: http://osf.io/4jw62/
-
-2. Vescovi, J.D., Jovanović, M. (2020). **Sprint mechanical characteristics of female soccer players: A novel approach for correction of timing gate starts**. Submitted to *Frontiers in Sports and Active Living*
+1. Vescovi, JD and Jovanović, M. **Sprint Mechanical Characteristics of Female Soccer Players: A Retrospective Pilot Study to Examine a Novel Approach for Correction of Timing Gate Starts.** *Front Sports Act Living 3: 629694, 2021.* DOI: 10.3389/fspor.2021.629694
 
 ## Citation
 

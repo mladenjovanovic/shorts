@@ -53,7 +53,9 @@
  parameters. Time correction using heuristic rule of thumbs (e.g., adding 0.3s to split times) can be
  implemented using time_correction function parameter. Function
  mixed_model_using_splits_with_time_correction, besides estimating MSS and TAU,
- estimates additional parameter time_correction.  Function mixed_model_using_splits_with_corrections,
+ estimates additional parameter time_correction.  Function
+ mixed_model_using_splits_with_distance_correction, besides estimating MSS and TAU,
+ estimates additional parameter distance_correction. Function mixed_model_using_splits_with_corrections,
  besides estimating MSS, TAU and time_correction, estimates additional parameter
  distance_correction. For more information about these function please refer to accompanying vignettes in
  this package." />
@@ -89,7 +91,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -152,7 +154,9 @@
  parameters. Time correction using heuristic rule of thumbs (e.g., adding 0.3s to split times) can be
  implemented using <code>time_correction</code> function parameter. Function
  <code>mixed_model_using_splits_with_time_correction</code>, besides estimating <code>MSS</code> and <code>TAU</code>,
- estimates additional parameter <code>time_correction</code>.  Function <code>mixed_model_using_splits_with_corrections</code>,
+ estimates additional parameter <code>time_correction</code>.  Function
+ <code>mixed_model_using_splits_with_distance_correction</code>, besides estimating <code>MSS</code> and <code>TAU</code>,
+ estimates additional parameter <code>distance_correction</code>. Function <code>mixed_model_using_splits_with_corrections</code>,
  besides estimating <code>MSS</code>, <code>TAU</code> and <code>time_correction</code>, estimates additional parameter
  <code>distance_correction</code>. For more information about these function please refer to accompanying vignettes in
  this package.</p>
@@ -171,6 +175,17 @@
 <span class='op'>)</span>
 
 <span class='fu'>mixed_model_using_splits_with_time_correction</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>distance</span>,
+  <span class='va'>time</span>,
+  <span class='va'>athlete</span>,
+  random <span class='op'>=</span> <span class='va'>MSS</span> <span class='op'>+</span> <span class='va'>TAU</span> <span class='op'>~</span> <span class='fl'>1</span>,
+  LOOCV <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
+
+<span class='fu'>mixed_model_using_splits_with_distance_correction</span><span class='op'>(</span>
   <span class='va'>data</span>,
   <span class='va'>distance</span>,
   <span class='va'>time</span>,
@@ -273,7 +288,7 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 #&gt;           0.0000000           0.0000000 
 #&gt; 
 #&gt; Estimated random model parameters
-#&gt; ----------------------------------
+#&gt; ---------------------------------
 #&gt;     athlete      MSS       TAU      MAC     PMAX time_correction
 #&gt; 1     James 9.691736 0.8469741 11.44278 27.72510               0
 #&gt; 2       Jim 7.833622 0.5048535 15.51663 30.38785               0
@@ -290,7 +305,7 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 #&gt; Model fit estimators
 #&gt; --------------------
 #&gt;         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
-#&gt;  0.02600213  0.99982036 -0.02934519  0.04964582  0.04964582  0.02139178 
+#&gt;  0.02600213  0.99982036 -0.04964582  0.02934519  0.04964582  0.02139178 
 #&gt;         MAE        MAPE 
 #&gt;  0.01722581  0.90185579 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $fixed
@@ -330,7 +345,7 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 #&gt;           0.1989677           0.0000000 
 #&gt; 
 #&gt; Estimated random model parameters
-#&gt; ----------------------------------
+#&gt; ---------------------------------
 #&gt;     athlete       MSS       TAU       MAC     PMAX time_correction
 #&gt; 1     James 10.186327 1.2429367  8.195370 20.87018       0.1989677
 #&gt; 2       Jim  7.946099 0.7643674 10.395655 20.65123       0.1989677
@@ -347,7 +362,7 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 #&gt; Model fit estimators
 #&gt; --------------------
 #&gt;          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE 
-#&gt;  0.005976815  0.999990286 -0.016508275  0.009370607  0.016508275  0.004882226 
+#&gt;  0.005976815  0.999990286 -0.009370607  0.016508275  0.016508275  0.004882226 
 #&gt;          MAE         MAPE 
 #&gt;  0.003481096  0.186135567 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $fixed
@@ -371,6 +386,63 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 #&gt; 5                   0
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
 </div><div class='img'><img src='mixed_model_split_times-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>mixed_model</span> <span class='op'>&lt;-</span> <span class='fu'>mixed_model_using_splits_with_distance_correction</span><span class='op'>(</span>
+  data <span class='op'>=</span> <span class='va'>split_times</span>,
+  distance <span class='op'>=</span> <span class='st'>"distance"</span>,
+  time <span class='op'>=</span> <span class='st'>"time"</span>,
+  athlete <span class='op'>=</span> <span class='st'>"athlete"</span>
+<span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Estimated fixed model parameters
+#&gt; --------------------------------
+#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;           8.3161923           0.9905692           8.3953670          17.4543715 
+#&gt;     time_correction distance_correction 
+#&gt;           0.0000000           0.2337824 
+#&gt; 
+#&gt; Estimated random model parameters
+#&gt; ---------------------------------
+#&gt;     athlete       MSS       TAU       MAC     PMAX time_correction
+#&gt; 1     James 10.213988 1.2847994  7.949870 20.29997               0
+#&gt; 2       Jim  7.929871 0.7473764 10.610277 21.03453               0
+#&gt; 3      John  8.016723 1.0963626  7.312109 14.65479               0
+#&gt; 4 Kimberley  8.936153 1.2171896  7.341628 16.40148               0
+#&gt; 5  Samantha  6.484227 0.6071182 10.680338 17.31343               0
+#&gt;   distance_correction
+#&gt; 1           0.2337824
+#&gt; 2           0.2337824
+#&gt; 3           0.2337824
+#&gt; 4           0.2337824
+#&gt; 5           0.2337824
+#&gt; 
+#&gt; Model fit estimators
+#&gt; --------------------
+#&gt;          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE 
+#&gt;  0.007052010  0.999986477 -0.015694822  0.016548045  0.016548045  0.005761560 
+#&gt;          MAE         MAPE 
+#&gt;  0.004262583  0.234304379 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; $fixed
+#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;           8.3161923           0.9905692           8.3953670          17.4543715 
+#&gt;     time_correction distance_correction 
+#&gt;           0.0000000           0.2337824 
+#&gt; 
+#&gt; $random
+#&gt;     athlete       MSS       TAU       MAC     PMAX time_correction
+#&gt; 1     James 10.213988 1.2847994  7.949870 20.29997               0
+#&gt; 2       Jim  7.929871 0.7473764 10.610277 21.03453               0
+#&gt; 3      John  8.016723 1.0963626  7.312109 14.65479               0
+#&gt; 4 Kimberley  8.936153 1.2171896  7.341628 16.40148               0
+#&gt; 5  Samantha  6.484227 0.6071182 10.680338 17.31343               0
+#&gt;   distance_correction
+#&gt; 1           0.2337824
+#&gt; 2           0.2337824
+#&gt; 3           0.2337824
+#&gt; 4           0.2337824
+#&gt; 5           0.2337824
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
+</div><div class='img'><img src='mixed_model_split_times-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='va'>mixed_model</span> <span class='op'>&lt;-</span> <span class='fu'>mixed_model_using_splits_with_corrections</span><span class='op'>(</span>
   data <span class='op'>=</span> <span class='va'>split_times</span>,
   distance <span class='op'>=</span> <span class='st'>"distance"</span>,
@@ -387,7 +459,7 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 #&gt;          0.19182206         -0.03160813 
 #&gt; 
 #&gt; Estimated random model parameters
-#&gt; ----------------------------------
+#&gt; ---------------------------------
 #&gt;     athlete       MSS       TAU       MAC     PMAX time_correction
 #&gt; 1     James 10.181185 1.2365903  8.233273 20.95612       0.1918221
 #&gt; 2       Jim  7.945162 0.7606548 10.445161 20.74713       0.1918221
@@ -404,7 +476,7 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 #&gt; Model fit estimators
 #&gt; --------------------
 #&gt;          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE 
-#&gt;  0.005978968  0.999990279 -0.016518623  0.009421823  0.016518623  0.004883964 
+#&gt;  0.005978968  0.999990279 -0.009421823  0.016518623  0.016518623  0.004883964 
 #&gt;          MAE         MAPE 
 #&gt;  0.003494858  0.186774770 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $fixed
@@ -427,7 +499,7 @@ done by adding <code>time_correction</code> to <code>time</code>. Default is 0. 
 #&gt; 4         -0.03160813
 #&gt; 5         -0.03160813
 #&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>mixed_model</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='mixed_model_split_times-3.png' alt='' width='700' height='433' /></div></pre>
+</div><div class='output co'>#&gt; <span class='warning'>Warning: Removed 3 row(s) containing missing values (geom_path).</span></div><div class='img'><img src='mixed_model_split_times-4.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -46,7 +46,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -120,7 +120,7 @@
 <p><code>shorts</code> comes with two sample data sets: <code>split_times</code> and <code>radar_gun_data</code> with N=5 athletes. Let’s load them both:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://mladenjovanovic.github.io/shorts/">shorts</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">require</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/">knitr</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"split_times"</span>, <span class="st">"radar_gun_data"</span><span class="op">)</span></code></pre></div>
@@ -235,14 +235,14 @@
   time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="3%">
+<col width="4%">
 <col width="16%">
-<col width="16%">
+<col width="15%">
 <col width="11%">
 <col width="13%">
 <col width="13%">
 <col width="8%">
-<col width="16%">
+<col width="15%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">split</th>
@@ -391,18 +391,18 @@
 <span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">predicted_kinematics</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <colgroup>
-<col width="1%">
-<col width="3%">
-<col width="3%">
+<col width="2%">
+<col width="4%">
+<col width="4%">
 <col width="5%">
-<col width="3%">
-<col width="10%">
+<col width="4%">
+<col width="9%">
 <col width="6%">
 <col width="7%">
-<col width="12%">
+<col width="11%">
 <col width="6%">
 <col width="7%">
-<col width="12%">
+<col width="11%">
 <col width="2%">
 <col width="6%">
 <col width="2%">
@@ -665,8 +665,7 @@
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">athlete</th>
@@ -898,8 +897,7 @@
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">athlete</th>
@@ -1069,8 +1067,7 @@
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model_corrected</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model_corrected</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">athlete</th>
@@ -1206,8 +1203,7 @@
   <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model_with_time_correction</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="va">mixed_model_with_time_correction</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">random</span><span class="op">)</span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
 <th align="left">athlete</th>
@@ -1369,10 +1365,9 @@
 <div id="publications" class="section level2">
 <h2 class="hasAnchor">
 <a href="#publications" class="anchor"></a>Publications</h2>
-<p>Here are the submitted publications using the package:</p>
 <ol>
-<li><p>Jovanović, M., Vescovi, J.D. (2020). <strong>shorts: An R Package for Modeling Short Sprints</strong>. Submitted to <em>Journal of Statistical Software</em>. Preprint available at <strong>SportRxiv</strong>: <a href="http://osf.io/4jw62/" class="uri">http://osf.io/4jw62/</a></p></li>
-<li><p>Vescovi, J.D., Jovanović, M. (2020). <strong>Sprint mechanical characteristics of female soccer players: A novel approach for correction of timing gate starts</strong>. Submitted to <em>Frontiers in Sports and Active Living</em></p></li>
+<li><p>Jovanović, M., Vescovi, J.D. (2020). <strong>shorts: An R Package for Modeling Short Sprints</strong>. Preprint available at <strong>SportRxiv</strong>: <a href="http://osf.io/4jw62/" class="uri">http://osf.io/4jw62/</a></p></li>
+<li><p>Vescovi, JD and Jovanović, M. <strong>Sprint Mechanical Characteristics of Female Soccer Players: A Retrospective Pilot Study to Examine a Novel Approach for Correction of Timing Gate Starts.</strong> <em>Front Sports Act Living 3: 629694, 2021.</em> DOI: 10.3389/fspor.2021.629694</p></li>
 </ol>
 </div>
 <div id="citation" class="section level2">

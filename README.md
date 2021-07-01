@@ -10,7 +10,7 @@ status](https://www.r-pkg.org/badges/version/shorts)](https://cran.r-project.org
 [![DOI](https://zenodo.org/badge/254907272.svg)](https://zenodo.org/badge/latestdoi/254907272)
 <!-- badges: end -->
 
-This package creates short sprint (\<6sec) profiles using the split
+This package creates short sprint (&lt;6sec) profiles using the split
 times, or the radar gun data. Mono-exponential equation is used to
 estimate maximal sprinting speed (MSS), relative acceleration (TAU), and
 other parameters. These parameters can be used to predict kinematic and
@@ -54,7 +54,7 @@ kable(kimberley_data)
 ```
 
 | athlete   | bodyweight | distance |  time |
-| :-------- | ---------: | -------: | ----: |
+|:----------|-----------:|---------:|------:|
 | Kimberley |         55 |        5 | 1.158 |
 | Kimberley |         55 |       10 | 1.893 |
 | Kimberley |         55 |       15 | 2.541 |
@@ -139,7 +139,7 @@ kable(shorts::format_splits(
 ```
 
 | split | split\_distance\_start | split\_distance\_stop | split\_distance | split\_time\_start | split\_time\_stop | split\_time | split\_mean\_velocity |
-| ----: | ---------------------: | --------------------: | --------------: | -----------------: | ----------------: | ----------: | --------------------: |
+|------:|-----------------------:|----------------------:|----------------:|-------------------:|------------------:|------------:|----------------------:|
 |     1 |                      0 |                     5 |               5 |                  0 |             1.158 |       1.158 |            4.317789…. |
 |     2 |                      5 |                    10 |               5 |              1.158 |             1.893 |       0.735 |            6.802721…. |
 |     3 |                     10 |                    15 |               5 |              1.893 |             2.541 |       0.648 |            7.716049…. |
@@ -238,7 +238,7 @@ kable(head(predicted_kinematics))
 ```
 
 | time | distance | velocity | acceleration | bodymass | net\_horizontal\_force | air\_resistance | horizontal\_force | horizontal\_force\_relative | vertical\_force | resultant\_force | resultant\_force\_relative | power | relative\_power |    RF | force\_angle |
-| ---: | -------: | -------: | -----------: | -------: | ---------------------: | --------------: | ----------------: | --------------------------: | --------------: | ---------------: | -------------------------: | ----: | --------------: | ----: | -----------: |
+|-----:|---------:|---------:|-------------:|---------:|-----------------------:|----------------:|------------------:|----------------------------:|----------------:|-----------------:|---------------------------:|------:|----------------:|------:|-------------:|
 | 0.00 |    0.000 |    0.000 |        10.59 |       60 |                    635 |           0.000 |               635 |                       10.59 |             589 |              866 |                       14.4 |     0 |            0.00 | 0.734 |         42.8 |
 | 0.01 |    0.001 |    0.105 |        10.46 |       60 |                    628 |           0.003 |               628 |                       10.46 |             589 |              860 |                       14.3 |    66 |            1.10 | 0.729 |         43.2 |
 | 0.02 |    0.002 |    0.209 |        10.33 |       60 |                    620 |           0.011 |               620 |                       10.33 |             589 |              855 |                       14.2 |   130 |            2.16 | 0.725 |         43.5 |
@@ -388,12 +388,11 @@ plot(mixed_model) +
 <img src="man/figures/README-unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
 
 ``` r
-
 kable(mixed_model$parameters$random)
 ```
 
 | athlete   |  MSS |   TAU |  MAC | PMAX | time\_correction | distance\_correction |
-| :-------- | ---: | ----: | ---: | ---: | ---------------: | -------------------: |
+|:----------|-----:|------:|-----:|-----:|-----------------:|---------------------:|
 | James     | 9.69 | 0.847 | 11.4 | 27.7 |                0 |                    0 |
 | Jim       | 7.83 | 0.505 | 15.5 | 30.4 |                0 |                    0 |
 | John      | 7.78 | 0.727 | 10.7 | 20.8 |                0 |                    0 |
@@ -428,9 +427,9 @@ ggplot(velocity_over_distance, aes(x = distance, y = pred_velocity, color = athl
 
 <img src="man/figures/README-unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
-To modify random effects, which are by default `MSS` and `TAU` (`MSS +
-TAU ~ 1`), use the `random` parameter. For example, we can assume same
-`TAU` for all athletes and only use `MSS` as random effect:
+To modify random effects, which are by default `MSS` and `TAU`
+(`MSS + TAU ~ 1`), use the `random` parameter. For example, we can
+assume same `TAU` for all athletes and only use `MSS` as random effect:
 
 ``` r
 mixed_model <- shorts::mixed_model_using_splits(
@@ -599,12 +598,11 @@ plot(mixed_model) +
 <img src="man/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
 
 ``` r
-
 kable(mixed_model$parameters$random)
 ```
 
 | athlete   |   MSS |   TAU |  MAC | PMAX | time\_correction | distance\_correction |
-| :-------- | ----: | ----: | ---: | ---: | ---------------: | -------------------: |
+|:----------|------:|------:|-----:|-----:|-----------------:|---------------------:|
 | James     | 10.00 | 1.111 | 9.00 | 22.5 |                0 |                    0 |
 | Jim       |  8.00 | 0.889 | 9.00 | 18.0 |                0 |                    0 |
 | John      |  8.00 | 1.069 | 7.48 | 15.0 |                0 |                    0 |
@@ -745,12 +743,11 @@ plot(mixed_model_corrected) +
 <img src="man/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 ``` r
-
 kable(mixed_model_corrected$parameters$random)
 ```
 
 | athlete   |   MSS |   TAU |  MAC | PMAX | time\_correction | distance\_correction |
-| :-------- | ----: | ----: | ---: | ---: | ---------------: | -------------------: |
+|:----------|------:|------:|-----:|-----:|-----------------:|---------------------:|
 | James     | 10.55 | 1.495 | 7.05 | 18.6 |              0.3 |                    0 |
 | Jim       |  8.05 | 0.922 | 8.73 | 17.6 |              0.3 |                    0 |
 | John      |  8.13 | 1.230 | 6.61 | 13.4 |              0.3 |                    0 |
@@ -845,12 +842,11 @@ plot(mixed_model_with_time_correction) +
 <img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 ``` r
-
 kable(mixed_model_with_time_correction$parameters$random)
 ```
 
 | athlete   |   MSS |   TAU |   MAC | PMAX | time\_correction | distance\_correction |
-| :-------- | ----: | ----: | ----: | ---: | ---------------: | -------------------: |
+|:----------|------:|------:|------:|-----:|-----------------:|---------------------:|
 | James     | 10.19 | 1.243 |  8.20 | 20.9 |            0.199 |                    0 |
 | Jim       |  7.95 | 0.764 | 10.40 | 20.7 |            0.199 |                    0 |
 | John      |  8.00 | 1.049 |  7.62 | 15.2 |            0.199 |                    0 |
@@ -979,17 +975,14 @@ ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
 
 ## Publications
 
-Here are the submitted publications using the  package:
-
 1.  Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for
-    Modeling Short Sprints**. Submitted to *Journal of Statistical
-    Software*. Preprint available at **SportRxiv**:
+    Modeling Short Sprints**. Preprint available at **SportRxiv**:
     <http://osf.io/4jw62/>
 
-2.  Vescovi, J.D., Jovanović, M. (2020). **Sprint mechanical
-    characteristics of female soccer players: A novel approach for
-    correction of timing gate starts**. Submitted to *Frontiers in
-    Sports and Active Living*
+2.  Vescovi, JD and Jovanović, M. **Sprint Mechanical Characteristics of
+    Female Soccer Players: A Retrospective Pilot Study to Examine a
+    Novel Approach for Correction of Timing Gate Starts.** *Front Sports
+    Act Living 3: 629694, 2021.* DOI: 10.3389/fspor.2021.629694
 
 ## Citation
 

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -86,7 +86,7 @@
 
       
 
-      </header><script src="sprint-corrections_files/header-attrs-2.6/header-attrs.js"></script><script src="sprint-corrections_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="sprint-corrections_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Correction factors in <code>shorts</code> for estimation using split times</h1>
@@ -102,7 +102,7 @@
 <p>To explain the use of <em>correction factors</em> in <code>shorts</code> package functions, let’s consider the following example. Imagine we have an athlete, John, with the following <em>true</em> short sprint characteristics: <em>maximum sprinting speed</em> (MSS) of 8.5<span class="math inline">\(m/s\)</span> and <em>maximum acceleration</em> (MAC) of 7.5 <span class="math inline">\(m/s^2\)</span>. Since TAU (or relative acceleration) is equal to <span class="math inline">\(MSS \;/\; MAC\)</span>, in this case that is 1.133. Let’s generate John’s sprint kinematics during 40m sprint from his <em>known</em> and <em>true</em> characteristics:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://mladenjovanovic.github.io/shorts/">shorts</a></span><span class="op">)</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
+<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org">tidyverse</a></span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">1667</span><span class="op">)</span>
 
@@ -268,7 +268,7 @@
 <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">split_model_fit</span>, <span class="fl">3</span><span class="op">)</span>
 <span class="co">#&gt;        RSE R_squared minErr maxErr maxAbsErr RMSE   MAE  MAPE</span>
 <span class="co">#&gt; John 0.000         1  0.000  0.000     0.000 0.00 0.000 0.000</span>
-<span class="co">#&gt; Jack 0.039         1 -0.037  0.049     0.049 0.03 0.027 1.378</span></code></pre></div>
+<span class="co">#&gt; Jack 0.039         1 -0.049  0.037     0.049 0.03 0.027 1.378</span></code></pre></div>
 <p>As expected, perfect model fit for John (since we generated his performance from the model itself), and some error involved with Jack. Let’s see visually these differences (assuming they both had the same proper start):</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">john_split_kinematics</span><span class="op">$</span><span class="va">predicted_time</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="../reference/predict_kinematics.html">predict_time_at_distance</a></span><span class="op">(</span>
@@ -295,17 +295,17 @@
 
 <span class="va">split_kinematics</span><span class="op">$</span><span class="va">difference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span>
   <span class="va">split_kinematics</span>,
-  <span class="va">predicted_time</span> <span class="op">-</span> <span class="va">time</span>
+  <span class="va">time</span> <span class="op">-</span> <span class="va">predicted_time</span>
 <span class="op">)</span>
 
 <span class="fu">ggplot</span><span class="op">(</span><span class="va">split_kinematics</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">difference</span>, color <span class="op">=</span> <span class="va">name</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Predicted - observed"</span><span class="op">)</span></code></pre></div>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Observed - Predicted"</span><span class="op">)</span></code></pre></div>
 <p><img src="sprint-corrections_files/figure-html/unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>As can be seen from the figure above, at particular distance the <em>residuals</em> (the difference between model prediction and observation) are different. This is because the model is <em>ill defined</em> assuming no <em>cheating</em> for Jack.</p>
-<p>But how do we fix this? There are few options. In ideal scenario, we should know the distance shift (i.e., 0.5m in our case) and time it takes to cover it. This of course depends on the true parameters (given the model) and it is something we cannot know in real life. Other option is to use correction factor, in a simple form of <code>time_correction</code> which we simply add to split times <span class="citation">(Haugen, Tønnessen, and Seiler <a href="#ref-haugenDifferenceStartImpact2012" role="doc-biblioref">2012</a>; Haugen, Breitschädel, and Seiler <a href="#ref-haugenSprintMechanicalVariables2019" role="doc-biblioref">2019</a>)</span>. <code>time_correction</code> is usually around 0.15 - 0.3seconds, but this depends on the type of the start, acceleration abilities of the athletes and so forth. It does represent a good and useful <em>rule of a thumb</em>.</p>
+<p>But how do we fix this? There are few options. In ideal scenario, we should know the distance shift (i.e., 0.5m in our case) and time it takes to cover it. This of course depends on the true parameters (given the model) and it is something we cannot know in real life. Other option is to use correction factor, in a simple form of <code>time_correction</code> which we simply add to split times <span class="citation">(<a href="#ref-haugenDifferenceStartImpact2012" role="doc-biblioref">Thomas A. Haugen, Tønnessen, and Seiler 2012</a>; <a href="#ref-haugenSprintMechanicalVariables2019" role="doc-biblioref">Thomas A. Haugen, Breitschädel, and Seiler 2019</a>)</span>. <code>time_correction</code> is usually around 0.15 - 0.3seconds, but this depends on the type of the start, acceleration abilities of the athletes and so forth. It does represent a good and useful <em>rule of a thumb</em>.</p>
 <p>If you look at Jack split kinematics table, you can notice the time it takes to cover that 0.5m (<code>time_05m</code> in the table). This is similar to <code>time_correction</code>, but it is not the same, since we have deducted known distance of 0.5 as well. Let’s use simple heuristic, of 0.3seconds that needs to be added to out split times. Function <code><a href="../reference/model_split_times.html">shorts::model_using_splits</a></code> allows for using such a correction factor:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">jack_params_with_correction</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span>
@@ -322,7 +322,7 @@
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">jack_params_with_correction</span><span class="op">$</span><span class="va">model_fit</span><span class="op">)</span>
 <span class="co">#&gt;          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE </span>
-<span class="co">#&gt;  0.004669167  0.999995356 -0.006676947  0.003387867  0.006676947  0.003616722 </span>
+<span class="co">#&gt;  0.004669167  0.999995356 -0.003387867  0.006676947  0.006676947  0.003616722 </span>
 <span class="co">#&gt;          MAE         MAPE </span>
 <span class="co">#&gt;  0.003033239  0.179724847</span></code></pre></div>
 <p>Let’s check the prediction residuals now:</p>
@@ -338,7 +338,7 @@
 
 <span class="va">jack_split_kinematics_corrected</span><span class="op">$</span><span class="va">difference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span>
   <span class="va">jack_split_kinematics_corrected</span>,
-  <span class="va">predicted_time</span> <span class="op">-</span> <span class="va">time</span>
+  <span class="va">time</span> <span class="op">-</span> <span class="va">predicted_time</span>
 <span class="op">)</span>
 
 <span class="va">jack_split_kinematics_corrected</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="st">"Jack w/0.3s correction"</span>
@@ -352,7 +352,7 @@
   <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Predicted - observed"</span><span class="op">)</span></code></pre></div>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Observed - Predicted"</span><span class="op">)</span></code></pre></div>
 <p><img src="sprint-corrections_files/figure-html/unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>Not only the estimated parameters (i.e., TAU and MSS) are much closer to true parameters, the model predictions are much better as indicated with the above graph.</p>
 <p>Additionally, we can actually <em>estimate</em> <code>time_correction</code> form the observed split times, together with estimating MSS and TAU parameters (as we have done so far). The engine underneath the <code>shorts</code> package is <code>nls</code> function, that perform non-linear least squares regression. Rather than using <code><a href="../reference/model_split_times.html">shorts::model_using_splits</a></code> function (which estimates two parameters: MSS and TAU), we can use <code><a href="../reference/model_split_times.html">shorts::model_using_splits_with_time_correction</a></code> (which estimates three parameters: MSS, TAU, an time_correction):</p>
@@ -371,7 +371,7 @@
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">jack_param_with_estimated_time_correction</span><span class="op">$</span><span class="va">model_fit</span><span class="op">)</span>
 <span class="co">#&gt;           RSE     R_squared        minErr        maxErr     maxAbsErr </span>
-<span class="co">#&gt;  0.0016131780  0.9999995979 -0.0009223064  0.0016968979  0.0016968979 </span>
+<span class="co">#&gt;  0.0016131780  0.9999995979 -0.0016968979  0.0009223064  0.0016968979 </span>
 <span class="co">#&gt;          RMSE           MAE          MAPE </span>
 <span class="co">#&gt;  0.0010202634  0.0009375994  0.0447416446</span></code></pre></div>
 <p>Let’s check the prediction residuals now:</p>
@@ -387,7 +387,7 @@
 
 <span class="va">jack_split_kinematics_corrected_est</span><span class="op">$</span><span class="va">difference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span>
   <span class="va">jack_split_kinematics_corrected_est</span>,
-  <span class="va">predicted_time</span> <span class="op">-</span> <span class="va">time</span>
+  <span class="va">time</span> <span class="op">-</span> <span class="va">predicted_time</span>
 <span class="op">)</span>
 
 <span class="va">jack_split_kinematics_corrected_est</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="st">"Jack w/est. correction"</span>
@@ -401,7 +401,7 @@
   <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Predicted - observed"</span><span class="op">)</span></code></pre></div>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Observed - Predicted"</span><span class="op">)</span></code></pre></div>
 <p><img src="sprint-corrections_files/figure-html/unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>The model prediction is now <em>almost</em> perfect. To make this model <em>perfect</em>, we would need to estimate <code>distance_correction</code> as well (the one we have used to generate Jack’s data in the first place). This is done with <code><a href="../reference/model_split_times.html">shorts::model_using_splits_with_corrections</a></code> which estimated 4 parameters: MSS, TAU, time_correction and distance_correction:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
@@ -419,7 +419,7 @@
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span><span class="op">(</span><span class="va">jack_param_with_estimated_distance_correction</span><span class="op">$</span><span class="va">model_fit</span><span class="op">)</span>
 <span class="co">#&gt;           RSE     R_squared        minErr        maxErr     maxAbsErr </span>
-<span class="co">#&gt;  2.389470e-05  1.000000e+00 -1.499921e-05  1.635740e-05  1.635740e-05 </span>
+<span class="co">#&gt;  2.389470e-05  1.000000e+00 -1.635740e-05  1.499921e-05  1.635740e-05 </span>
 <span class="co">#&gt;          RMSE           MAE          MAPE </span>
 <span class="co">#&gt;  1.068603e-05  9.030868e-06  2.894859e-04</span></code></pre></div>
 <p>This 4-parameters model was able to fully recovery Jack’s characteristics and predict his split times. Let’s check the residuals:</p>
@@ -436,7 +436,7 @@
 
 <span class="va">jack_split_kinematics_corrected_est_dist</span><span class="op">$</span><span class="va">difference</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/with.html">with</a></span><span class="op">(</span>
   <span class="va">jack_split_kinematics_corrected_est_dist</span>,
-  <span class="va">predicted_time</span> <span class="op">-</span> <span class="va">time</span>
+  <span class="va">time</span> <span class="op">-</span> <span class="va">predicted_time</span>
 <span class="op">)</span>
 
 <span class="va">jack_split_kinematics_corrected_est_dist</span><span class="op">$</span><span class="va">name</span> <span class="op">&lt;-</span> <span class="st">"Jack w/est. distance correction"</span>
@@ -450,7 +450,7 @@
   <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">geom_line</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op">+</span>
-  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Predicted - observed"</span><span class="op">)</span></code></pre></div>
+  <span class="fu">ylab</span><span class="op">(</span><span class="st">"Observed - Predicted"</span><span class="op">)</span></code></pre></div>
 <p><img src="sprint-corrections_files/figure-html/unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>To provide additional example, let’s use the simulated 40m kinematic data from the beginning of this vignette and see how the kinematics differ between the models:</p>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
@@ -840,12 +840,12 @@
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
-<div id="refs" class="references hanging-indent">
-<div id="ref-haugenSprintMechanicalVariables2019">
-<p>Haugen, Thomas A., Felix Breitschädel, and Stephen Seiler. 2019. “Sprint Mechanical Variables in Elite Athletes: Are Force-Velocity Profiles Sport Specific or Individual?” Edited by Leonardo A. Peyré-Tartaruga. <em>PLOS ONE</em> 14 (7): e0215551. <a href="https://doi.org/10.1371/journal.pone.0215551">https://doi.org/10.1371/journal.pone.0215551</a>.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-haugenSprintMechanicalVariables2019" class="csl-entry">
+Haugen, Thomas A., Felix Breitschädel, and Stephen Seiler. 2019. <span>“Sprint Mechanical Variables in Elite Athletes: <span>Are</span> Force-Velocity Profiles Sport Specific or Individual?”</span> Edited by Leonardo A. Peyré-Tartaruga. <em>PLOS ONE</em> 14 (7): e0215551. <a href="https://doi.org/10.1371/journal.pone.0215551">https://doi.org/10.1371/journal.pone.0215551</a>.
 </div>
-<div id="ref-haugenDifferenceStartImpact2012">
-<p>Haugen, Thomas A, Espen Tønnessen, and Stephen K Seiler. 2012. “The Difference Is in the Start: Impact of Timing and Start Procedure on Sprint Running Performance:” <em>Journal of Strength and Conditioning Research</em> 26 (2): 473–79. <a href="https://doi.org/10.1519/JSC.0b013e318226030b">https://doi.org/10.1519/JSC.0b013e318226030b</a>.</p>
+<div id="ref-haugenDifferenceStartImpact2012" class="csl-entry">
+Haugen, Thomas A, Espen Tønnessen, and Stephen K Seiler. 2012. <span>“The <span>Difference Is</span> in the <span>Start</span>: <span>Impact</span> of <span>Timing</span> and <span>Start Procedure</span> on <span>Sprint Running Performance</span>:”</span> <em>Journal of Strength and Conditioning Research</em> 26 (2): 473–79. <a href="https://doi.org/10.1519/JSC.0b013e318226030b">https://doi.org/10.1519/JSC.0b013e318226030b</a>.
 </div>
 </div>
 </div>

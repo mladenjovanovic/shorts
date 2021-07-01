@@ -53,10 +53,11 @@
  parameters. Time correction using heuristic rule of thumbs (e.g., adding 0.3s to split times) can be
  implemented using time_correction function parameter. Function
  model_using_splits_with_time_correction, besides estimating MSS and TAU,
- estimates additional parameter time_correction.  Function model_using_splits_with_corrections,
- besides estimating MSS, TAU and time_correction, estimates additional parameter
- distance_correction. For more information about these function please refer to accompanying vignettes in
- this package." />
+ estimates additional parameter time_correction.  Function model_using_splits_with_distance_correction,
+ besides estimating MSS and TAU, estimates additional parameter distance_correction.
+ Function model_using_splits_with_corrections, besides estimating MSS, TAU and
+ time_correction, estimates additional parameter distance_correction.
+ For more information about these functions please refer to accompanying vignettes in this package." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -89,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.4.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
       </span>
     </div>
 
@@ -152,10 +153,11 @@
  parameters. Time correction using heuristic rule of thumbs (e.g., adding 0.3s to split times) can be
  implemented using <code>time_correction</code> function parameter. Function
  <code>model_using_splits_with_time_correction</code>, besides estimating <code>MSS</code> and <code>TAU</code>,
- estimates additional parameter <code>time_correction</code>.  Function <code>model_using_splits_with_corrections</code>,
- besides estimating <code>MSS</code>, <code>TAU</code> and <code>time_correction</code>, estimates additional parameter
- <code>distance_correction</code>. For more information about these function please refer to accompanying vignettes in
- this package.</p>
+ estimates additional parameter <code>time_correction</code>.  Function <code>model_using_splits_with_distance_correction</code>,
+ besides estimating <code>MSS</code> and <code>TAU</code>, estimates additional parameter <code>distance_correction</code>.
+ Function <code>model_using_splits_with_corrections</code>, besides estimating <code>MSS</code>, <code>TAU</code> and
+ <code>time_correction</code>, estimates additional parameter <code>distance_correction</code>.
+ For more information about these functions please refer to accompanying vignettes in this package.</p>
     </div>
 
     <pre class="usage"><span class='fu'>model_using_splits</span><span class='op'>(</span>
@@ -169,6 +171,15 @@
 <span class='op'>)</span>
 
 <span class='fu'>model_using_splits_with_time_correction</span><span class='op'>(</span>
+  <span class='va'>distance</span>,
+  <span class='va'>time</span>,
+  weights <span class='op'>=</span> <span class='fl'>1</span>,
+  LOOCV <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  na.rm <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
+
+<span class='fu'>model_using_splits_with_distance_correction</span><span class='op'>(</span>
   <span class='va'>distance</span>,
   <span class='va'>time</span>,
   weights <span class='op'>=</span> <span class='fl'>1</span>,
@@ -261,7 +272,7 @@ more weight to observations from shorter distances.</p></td>
 #&gt; Model fit estimators
 #&gt; --------------------
 #&gt;         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
-#&gt;  0.02240014  0.99988183 -0.02066091  0.02133341  0.02133341  0.01735107 
+#&gt;  0.02240014  0.99988183 -0.02133341  0.02066091  0.02133341  0.01735107 
 #&gt;         MAE        MAPE 
 #&gt;  0.01554950  0.60513742 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>simple_model</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
@@ -286,7 +297,7 @@ more weight to observations from shorter distances.</p></td>
 #&gt; Model fit estimators
 #&gt; --------------------
 #&gt;         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
-#&gt;  0.02193501  0.99988942 -0.02860385  0.01613049  0.02860385  0.01699078 
+#&gt;  0.02193501  0.99988942 -0.01613049  0.02860385  0.02860385  0.01699078 
 #&gt;         MAE        MAPE 
 #&gt;  0.01442655  0.78055040 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>model_with_correction</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
@@ -311,7 +322,7 @@ more weight to observations from shorter distances.</p></td>
 #&gt; Model fit estimators
 #&gt; --------------------
 #&gt;          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE 
-#&gt;  0.014535141  0.999965920 -0.013753975  0.010847344  0.013753975  0.009192830 
+#&gt;  0.014535141  0.999965920 -0.010847344  0.013753975  0.013753975  0.009192830 
 #&gt;          MAE         MAPE 
 #&gt;  0.008146573  0.284484426 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>model_with_time_correction_estimation</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
@@ -319,6 +330,31 @@ more weight to observations from shorter distances.</p></td>
 #&gt;     time_correction distance_correction 
 #&gt;           0.1612379           0.0000000 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>model_with_time_correction_estimation</span><span class='op'>)</span>
 </div><div class='img'><img src='model_split_times-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='co'># Model with distance_correction estimation</span>
+<span class='va'>model_with_distance_correction_estimation</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span>
+  <span class='va'>split_times</span>,
+  <span class='fu'>model_using_splits_with_distance_correction</span><span class='op'>(</span><span class='va'>distance</span>, <span class='va'>time</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>model_with_distance_correction_estimation</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Estimated model parameters
+#&gt; --------------------------
+#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;           7.5530550           0.9081689           8.3167956          15.7043035 
+#&gt;     time_correction distance_correction 
+#&gt;           0.0000000           0.1548333 
+#&gt; 
+#&gt; Model fit estimators
+#&gt; --------------------
+#&gt;          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE 
+#&gt;  0.014265767  0.999967173 -0.010521053  0.013608457  0.013608457  0.009022464 
+#&gt;          MAE         MAPE 
+#&gt;  0.007937162  0.280564455 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>model_with_distance_correction_estimation</span><span class='op'>)</span>
+</div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
+#&gt;           7.5530550           0.9081689           8.3167956          15.7043035 
+#&gt;     time_correction distance_correction 
+#&gt;           0.0000000           0.1548333 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>model_with_distance_correction_estimation</span><span class='op'>)</span>
+</div><div class='img'><img src='model_split_times-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Model with time and distance correction estimation</span>
 <span class='va'>model_with_time_distance_correction_estimation</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/with.html'>with</a></span><span class='op'>(</span>
   <span class='va'>split_times</span>,
@@ -336,14 +372,14 @@ more weight to observations from shorter distances.</p></td>
 #&gt; Model fit estimators
 #&gt; --------------------
 #&gt;          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE 
-#&gt;  0.011430609  0.999989462 -0.007871967  0.006166580  0.007871967  0.005111924 
+#&gt;  0.011430609  0.999989462 -0.006166580  0.007871967  0.007871967  0.005111924 
 #&gt;          MAE         MAPE 
 #&gt;  0.004572915  0.141619773 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span><span class='op'>(</span><span class='va'>model_with_time_distance_correction_estimation</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;                 MSS                 TAU                 MAC                PMAX 
 #&gt;            8.070141            2.684240            3.006490            6.065701 
 #&gt;     time_correction distance_correction 
 #&gt;            3.038271           12.015492 </div><div class='input'><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>model_with_time_distance_correction_estimation</span><span class='op'>)</span>
-</div><div class='img'><img src='model_split_times-4.png' alt='' width='700' height='433' /></div></pre>
+</div><div class='img'><img src='model_split_times-5.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
