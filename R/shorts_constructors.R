@@ -56,5 +56,4 @@ new_fv_profile <- function(bodymass,
 
   class(fv_profile) <- "shorts_fv_profile"
   return(fv_profile)
-
 }

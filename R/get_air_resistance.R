@@ -19,7 +19,7 @@
 #'   barometric_pressure = 760,
 #'   air_temperature = 16,
 #'   wind_velocity = -0.5
-#'  )
+#' )
 #' @references
 #'     Arsac LM, Locatelli E. 2002. Modeling the energetics of 100-m running by using speed curves of
 #'         world champions. Journal of Applied Physiology 92:1781–1788.
@@ -39,8 +39,7 @@ get_air_resistance <- function(velocity,
                                barometric_pressure = 760,
                                air_temperature = 25,
                                wind_velocity = 0) {
-
-  air_density <- 1.293 * (barometric_pressure/760) * (273/(273 + air_temperature))
+  air_density <- 1.293 * (barometric_pressure / 760) * (273 / (273 + air_temperature))
   frontal_area <- (0.2025 * (bodyheight^0.725) * (bodymass^0.425)) * 0.266
   drag_coefficient <- 0.9
 
@@ -49,4 +48,3 @@ get_air_resistance <- function(velocity,
   # Return air resistance
   k * (velocity - wind_velocity)^2
 }
-

@@ -175,7 +175,8 @@ predict_relative_power_at_distance <- function(distance, MSS, TAU, time_correcti
     time_correction = time_correction,
     distance_correction = distance_correction,
     bodymass = bodymass,
-    ...) / bodymass
+    ...
+  ) / bodymass
 }
 
 #' @rdname predict_kinematics
@@ -187,7 +188,8 @@ predict_relative_power_at_time <- function(time, MSS, TAU, time_correction = 0, 
     TAU = TAU,
     time_correction = time_correction,
     bodymass = bodymass,
-    ...) / bodymass
+    ...
+  ) / bodymass
 }
 
 #' Predicts sprint kinematics for 0-6sec (100hz) which include distance,
@@ -340,11 +342,13 @@ predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass =
     df$RF <- df$horizontal_force / df$resultant_force
     df$force_angle <- atan(df$vertical_force / df$horizontal_force) * 180 / pi
 
-    df <- df[c("athlete", "time", "distance", "velocity",
-               "acceleration", "bodymass", "net_horizontal_force", "air_resistance",
-               "horizontal_force", "horizontal_force_relative", "vertical_force",
-               "resultant_force", "resultant_force_relative",  "power",
-               "relative_power", "RF", "force_angle")]
+    df <- df[c(
+      "athlete", "time", "distance", "velocity",
+      "acceleration", "bodymass", "net_horizontal_force", "air_resistance",
+      "horizontal_force", "horizontal_force_relative", "vertical_force",
+      "resultant_force", "resultant_force_relative", "power",
+      "relative_power", "RF", "force_angle"
+    )]
   }
 
   return(df)

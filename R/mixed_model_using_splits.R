@@ -495,7 +495,6 @@ mixed_model_using_splits_with_corrections <- function(data,
                                                       # weights = rep(1, nrow(data)),
                                                       na.rm = FALSE,
                                                       ...) {
-
   run_model <- function(train, test, ...) {
     # Create mixed model
     mixed_model <- nlme::nlme(

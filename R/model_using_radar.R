@@ -63,7 +63,6 @@ model_using_radar <- function(time,
                               LOOCV = FALSE,
                               na.rm = FALSE,
                               ...) {
-
   run_model <- function(train, test, ...) {
     # Non-linear model
     speed_mod <- stats::nls(
@@ -211,12 +210,11 @@ model_using_radar <- function(time,
 #' @rdname model_radar
 #' @export
 model_using_radar_with_time_correction <- function(time,
-                              velocity,
-                              weights = 1,
-                              LOOCV = FALSE,
-                              na.rm = FALSE,
-                              ...) {
-
+                                                   velocity,
+                                                   weights = 1,
+                                                   LOOCV = FALSE,
+                                                   na.rm = FALSE,
+                                                   ...) {
   run_model <- function(train, test, ...) {
     # Non-linear model
     speed_mod <- stats::nls(
@@ -357,4 +355,3 @@ model_using_radar_with_time_correction <- function(time,
     LOOCV = LOOCV_data
   ))
 }
-
