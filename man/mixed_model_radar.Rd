@@ -82,7 +82,8 @@ mixed_model_correction <- mixed_model_using_radar_with_time_correction(
   radar_gun_data,
   "time",
   "velocity",
-  "athlete")
+  "athlete"
+)
 
 print(mixed_model_correction)
 coef(mixed_model_correction)
