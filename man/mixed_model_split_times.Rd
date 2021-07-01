@@ -4,6 +4,7 @@
 \alias{mixed_model_split_times}
 \alias{mixed_model_using_splits}
 \alias{mixed_model_using_splits_with_time_correction}
+\alias{mixed_model_using_splits_with_distance_correction}
 \alias{mixed_model_using_splits_with_corrections}
 \title{Mixed Models Using Split Times}
 \usage{
@@ -20,6 +21,17 @@ mixed_model_using_splits(
 )
 
 mixed_model_using_splits_with_time_correction(
+  data,
+  distance,
+  time,
+  athlete,
+  random = MSS + TAU ~ 1,
+  LOOCV = FALSE,
+  na.rm = FALSE,
+  ...
+)
+
+mixed_model_using_splits_with_distance_correction(
   data,
   distance,
   time,
@@ -81,7 +93,9 @@ These functions model the sprint split times using mono-exponential equation, wh
  parameters. Time correction using heuristic rule of thumbs (e.g., adding 0.3s to split times) can be
  implemented using \code{time_correction} function parameter. Function
  \code{\link{mixed_model_using_splits_with_time_correction}}, besides estimating \code{MSS} and \code{TAU},
- estimates additional parameter \code{time_correction}.  Function \code{\link{mixed_model_using_splits_with_corrections}},
+ estimates additional parameter \code{time_correction}.  Function
+ \code{\link{mixed_model_using_splits_with_distance_correction}}, besides estimating \code{MSS} and \code{TAU},
+ estimates additional parameter \code{distance_correction}. Function \code{\link{mixed_model_using_splits_with_corrections}},
  besides estimating \code{MSS}, \code{TAU} and \code{time_correction}, estimates additional parameter
  \code{distance_correction}. For more information about these function please refer to accompanying vignettes in
  this package.
@@ -101,6 +115,17 @@ coef(mixed_model)
 plot(mixed_model)
 
 mixed_model <- mixed_model_using_splits_with_time_correction(
+  data = split_times,
+  distance = "distance",
+  time = "time",
+  athlete = "athlete"
+)
+
+print(mixed_model)
+coef(mixed_model)
+plot(mixed_model)
+
+mixed_model <- mixed_model_using_splits_with_distance_correction(
   data = split_times,
   distance = "distance",
   time = "time",
