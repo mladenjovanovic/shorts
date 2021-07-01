@@ -1,5 +1,5 @@
 shorts_model_fit <- function(model = NULL, observed, predicted, na.rm = FALSE) {
-  resid <- predicted - observed
+  resid <- observed - predicted
 
   # This is needed for the LOOCV option which doesn't return model
   # thus, RSE cannot be computed

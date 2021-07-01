@@ -220,7 +220,7 @@ summary.shorts_mixed_model <- function(object, ...) {
 #' residuals(simple_model)
 #' @export
 residuals.shorts_model <- function(object, ...) {
-  object$data[[4]] - object$data[[2]]
+  object$data[[2]] - object$data[[4]]
 }
 
 
@@ -240,7 +240,7 @@ residuals.shorts_model <- function(object, ...) {
 #' residuals(mixed_model)
 #' @export
 residuals.shorts_mixed_model <- function(object, ...) {
-  object$data[[4]] - object$data[[3]]
+  object$data[[3]] - object$data[[4]]
 }
 
 #' S3 method for printing \code{shorts_fv_profile} object
