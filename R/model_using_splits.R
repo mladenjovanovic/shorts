@@ -6,10 +6,11 @@
 #'  parameters. Time correction using heuristic rule of thumbs (e.g., adding 0.3s to split times) can be
 #'  implemented using \code{time_correction} function parameter. Function
 #'  \code{\link{model_using_splits_with_time_correction}}, besides estimating \code{MSS} and \code{TAU},
-#'  estimates additional parameter \code{time_correction}.  Function \code{\link{model_using_splits_with_corrections}},
-#'  besides estimating \code{MSS}, \code{TAU} and \code{time_correction}, estimates additional parameter
-#'  \code{distance_correction}. For more information about these function please refer to accompanying vignettes in
-#'  this package.
+#'  estimates additional parameter \code{time_correction}.  Function \code{\link{model_using_splits_with_distance_correction}},
+#'  besides estimating \code{MSS} and \code{TAU}, estimates additional parameter \code{distance_correction}.
+#'  Function \code{\link{model_using_splits_with_corrections}}, besides estimating \code{MSS}, \code{TAU} and
+#'  \code{time_correction}, estimates additional parameter \code{distance_correction}.
+#'  For more information about these functions please refer to accompanying vignettes in this package.
 #'
 #' @param distance,time Numeric vector. Indicates the position of the timing gates and time measured
 #' @param time_correction Numeric vector. Used to correct for different starting techniques. This correction is
@@ -70,6 +71,16 @@
 #' print(model_with_time_correction_estimation)
 #' coef(model_with_time_correction_estimation)
 #' plot(model_with_time_correction_estimation)
+#'
+#' # Model with distance_correction estimation
+#' model_with_distance_correction_estimation <- with(
+#'   split_times,
+#'   model_using_splits_with_distance_correction(distance, time)
+#' )
+#'
+#' print(model_with_distance_correction_estimation)
+#' coef(model_with_distance_correction_estimation)
+#' plot(model_with_distance_correction_estimation)
 #'
 #' # Model with time and distance correction estimation
 #' model_with_time_distance_correction_estimation <- with(
@@ -397,13 +408,172 @@ model_using_splits_with_time_correction <- function(distance,
 # =====================================================================================================================================
 #' @rdname model_split_times
 #' @export
+model_using_splits_with_distance_correction <- function(distance,
+                                                        time,
+                                                        weights = 1,
+                                                        LOOCV = FALSE,
+                                                        na.rm = FALSE,
+                                                        ...) {
+  run_model <- function(train, test, ...) {
+
+    # Non-linear model
+    speed_mod <- stats::nls(
+      time ~ (TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) +
+                (distance + distance_correction) / MSS + TAU) -
+        (TAU * I(LambertW::W(-exp(1)^(-distance_correction / (MSS * TAU) - 1))) +
+           distance_correction / MSS + TAU),
+      data = train,
+      start = list(MSS = 7, TAU = 0.8, distance_correction = 0),
+      weights = train$weights,
+      ...
+    )
+
+    # Maximal Sprinting Speed
+    MSS <- stats::coef(speed_mod)[[1]]
+    TAU <- stats::coef(speed_mod)[[2]]
+    distance_correction <- stats::coef(speed_mod)[[3]]
+
+    # Maximal acceleration
+    MAC <- MSS / TAU
+
+    # Maximal Power (relative)
+    PMAX <- (MSS * MAC) / 4
+
+    # Model fit
+    pred_time <- (TAU * I(LambertW::W(-exp(1)^(-(test$distance + distance_correction) / (MSS * TAU) - 1))) +
+                    (test$distance + distance_correction) / MSS + TAU) -
+      (TAU * I(LambertW::W(-exp(1)^(-distance_correction / (MSS * TAU) - 1))) +
+         distance_correction / MSS + TAU)
+
+    return(list(
+      model = speed_mod,
+      MSS = MSS,
+      TAU = TAU,
+      MAC = MAC,
+      PMAX = PMAX,
+      distance_correction = distance_correction,
+      pred_time = pred_time
+    ))
+  }
+
+  # =========================
+  # Put data into data frame
+  df <- data.frame(
+    distance = distance,
+    time = time,
+    weights = weights
+  )
+
+  # Remove NAs
+  if (na.rm) {
+    df <- stats::na.omit(df)
+  }
+
+
+  # Run model
+  training_model <- run_model(
+    train = df,
+    test = df,
+    ...
+  )
+
+  training_model_fit <- shorts_model_fit(
+    model = training_model$model,
+    observed = df$time,
+    predicted = training_model$pred_time,
+    na.rm = na.rm
+  )
+
+  # LOOCV
+  LOOCV_data <- NULL
+
+  if (LOOCV) {
+    cv_folds <- data.frame(index = seq_len(nrow(df)), df)
+    cv_folds <- split(cv_folds, cv_folds$index)
+
+    testing <- lapply(cv_folds, function(fold) {
+      train_data <- df[-fold$index, ]
+      test_data <- df[fold$index, ]
+
+      model <- run_model(
+        train = train_data,
+        test = test_data,
+        ...
+      )
+
+      return(model)
+    })
+
+    # Extract predicted time
+    testing_pred_time <- sapply(testing, function(data) data$pred_time)
+
+    testing_model_fit <- shorts_model_fit(
+      observed = df$time,
+      predicted = testing_pred_time,
+      na.rm = na.rm
+    )
+    # Extract model parameters
+    testing_parameters <- as.data.frame(
+      t(sapply(testing, function(data) {
+        c(data$MSS, data$TAU, data$MAC, data$PMAX, data$distance_correction)
+      }))
+    )
+
+    colnames(testing_parameters) <- c("MSS", "TAU", "MAC", "PMAX", "distance_correction")
+    testing_parameters$time_correction <- 0
+
+    # Modify df
+    testing_df <- data.frame(
+      distance = distance,
+      time = time,
+      weights = weights,
+      pred_time = testing_pred_time
+    )
+
+    # Save everything in the object
+    LOOCV_data <- list(
+      parameters = testing_parameters,
+      model_fit = testing_model_fit,
+      data = testing_df
+    )
+  }
+
+
+  # Add predicted time to df
+  df <- data.frame(
+    distance = distance,
+    time = time,
+    weights = weights,
+    pred_time = training_model$pred_time
+  )
+
+  # Return object
+  return(new_shorts_model(
+    parameters = list(
+      MSS = training_model$MSS,
+      TAU = training_model$TAU,
+      MAC = training_model$MAC,
+      PMAX = training_model$PMAX,
+      time_correction = 0,
+      distance_correction = training_model$distance_correction
+    ),
+    model_fit = training_model_fit,
+    model = training_model$model,
+    data = df,
+    LOOCV = LOOCV_data
+  ))
+}
+
+
+# =====================================================================================================================================
+#' @rdname model_split_times
+#' @export
 model_using_splits_with_corrections <- function(distance,
                                                 time,
                                                 weights = 1,
                                                 LOOCV = FALSE,
                                                 na.rm = FALSE,
                                                 ...) {
-
   run_model <- function(train, test, ...) {
 
     # Non-linear model

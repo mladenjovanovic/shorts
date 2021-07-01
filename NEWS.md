@@ -3,6 +3,7 @@
 * Fixed wrong error message from the `plot.shorts_fv_profile()` function
 * Minor model print aesthetic changes
 * Fixed calculation of the residuals, which is now correctly calculated using observed - predicted. This calculation is implemented in the `residuals()` S3 method, as well as with internal function `shorts_model_fit()` that provides model fit estimates (i.e. RMSE, MAE, MAPE)
+* Added `model_using_splits_with_distance_correction()` function that implement novel model definition to estimate flying start distance
 
 # shorts 1.1.4
 
