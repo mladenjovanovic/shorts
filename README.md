@@ -976,13 +976,14 @@ ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
 ## Publications
 
 1.  Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for
-    Modeling Short Sprints**. Preprint available at **SportRxiv**:
-    <http://osf.io/4jw62/>
+    Modeling Short Sprints**. Preprint available at *SportRxiv*.
+    <https://doi.org/10.31236/osf.io/4jw62>
 
 2.  Vescovi, JD and Jovanović, M. **Sprint Mechanical Characteristics of
     Female Soccer Players: A Retrospective Pilot Study to Examine a
     Novel Approach for Correction of Timing Gate Starts.** *Front Sports
-    Act Living 3: 629694, 2021.* DOI: 10.3389/fspor.2021.629694
+    Act Living 3: 629694, 2021.*
+    <https://doi.org/10.3389/fspor.2021.629694>
 
 ## Citation
 
