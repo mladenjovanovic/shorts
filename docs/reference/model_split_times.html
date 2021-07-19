@@ -57,7 +57,7 @@
  besides estimating MSS and TAU, estimates additional parameter distance_correction.
  Function model_using_splits_with_corrections, besides estimating MSS, TAU and
  time_correction, estimates additional parameter distance_correction.
- For more information about these functions please refer to accompanying vignettes in this package." />
+ For more information about these functions please refer to Jovanović, M., Vescovi, J.D. (2020)." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -90,7 +90,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.6</span>
       </span>
     </div>
 
@@ -157,7 +157,7 @@
  besides estimating <code>MSS</code> and <code>TAU</code>, estimates additional parameter <code>distance_correction</code>.
  Function <code>model_using_splits_with_corrections</code>, besides estimating <code>MSS</code>, <code>TAU</code> and
  <code>time_correction</code>, estimates additional parameter <code>distance_correction</code>.
- For more information about these functions please refer to accompanying vignettes in this package.</p>
+ For more information about these functions please refer to Jovanović, M., Vescovi, J.D. (2020).</p>
     </div>
 
     <pre class="usage"><span class='fu'>model_using_splits</span><span class='op'>(</span>
@@ -243,11 +243,20 @@ more weight to observations from shorter distances.</p></td>
         
 </dl>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>IMPORTANT: For the <code>model_using_splits_with_distance_correction</code> function the <code>predict_XXX_at_distance</code>
+    family of functions doesn't work correctly if <code>distance_correction</code> is used as parameter (i.e.,
+    different than zero). This is because the model definition is completely different, and predicting on
+    the same distance scale is not possible. Please refer to Jovanović, M., Vescovi, J.D. (2020) for more
+    information</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
         DOI: 10.1519/JSC.0b013e318226030b.</p>
+<p>Jovanović, M., Vescovi, J.D. (2020). shorts: An R Package for Modeling Short Sprints. Preprint
+        available at SportRxiv. https://doi.org/10.31236/osf.io/4jw62</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>split_times</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>

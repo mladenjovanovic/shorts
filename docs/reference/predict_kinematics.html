@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.6</span>
       </span>
     </div>
 
@@ -279,11 +279,20 @@
 
     <p>Numeric vector</p>
 <p>Data frame with kinetic and kinematic variables</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>IMPORTANT: For the <code><a href='model_split_times.html'>model_using_splits_with_distance_correction</a></code> function the <code>predict_XXX_at_distance</code>
+    family of functions doesn't work correctly if <code>distance_correction</code> is used as parameter (i.e.,
+    different than zero). This is because the model definition is completely different, and predicting on
+    the same distance scale is not possible. Please refer to Jovanović, M., Vescovi, J.D. (2020) for more
+    information</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
         DOI: 10.1519/JSC.0b013e318226030b.</p>
+<p>Jovanović, M., Vescovi, J.D. (2020). shorts: An R Package for Modeling Short Sprints. Preprint
+        available at SportRxiv. https://doi.org/10.31236/osf.io/4jw62</p>
 <p>Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
         Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
        Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.</p>

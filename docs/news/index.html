@@ -79,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.6</span>
       </span>
     </div>
 
@@ -134,9 +134,20 @@
       <small>Source: <a href='https://github.com/mladenjovanovic/shorts/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="shorts-116" class="section level1">
+<h1 class="page-header" data-toc-text="1.1.6">
+<a href="#shorts-116" class="anchor"></a>shorts 1.1.6<small> Unreleased </small>
+</h1>
+<ul>
+<li>Updated documentation regarding the below mentioned potential issues</li>
+<li>IMPORTANT: For the <code><a href="../reference/model_split_times.html">model_using_splits_with_distance_correction()</a></code> function the <code>predict_XXX_at_distance()</code> family of functions doesn’t work correctly if <code>distance_correction</code> is used as parameter (i.e., different than zero). This is because the model definition is completely different, and predicting on the same distance scale is not possible. Please refer to Jovanović, M., Vescovi, J.D. (2020) for more information.</li>
+<li>Jovanović, M., Vescovi, J.D. (2020). <strong>shorts: An R Package for Modeling Short Sprints</strong>. Preprint available at <em>SportRxiv</em>. <a href="https://doi.org/10.31236/osf.io/4jw62" class="uri">https://doi.org/10.31236/osf.io/4jw62</a>
+</li>
+</ul>
+</div>
     <div id="shorts-115" class="section level1">
 <h1 class="page-header" data-toc-text="1.1.5">
-<a href="#shorts-115" class="anchor"></a>shorts 1.1.5<small> Unreleased </small>
+<a href="#shorts-115" class="anchor"></a>shorts 1.1.5<small> 2021-07-02 </small>
 </h1>
 <ul>
 <li>Fixed wrong error message from the <code><a href="../reference/plot.shorts_fv_profile.html">plot.shorts_fv_profile()</a></code> function</li>

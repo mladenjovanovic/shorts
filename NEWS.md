@@ -1,3 +1,9 @@
+# shorts 1.1.6
+
+* Updated documentation regarding the below mentioned potential issues
+* IMPORTANT: For the `model_using_splits_with_distance_correction()` function the `predict_XXX_at_distance()`  family of functions doesn't work correctly if `distance_correction` is used as parameter (i.e., different than zero). This is because the model definition is completely different, and predicting on the same distance scale is not possible. Please refer to Jovanović, M., Vescovi, J.D. (2020) for more information.
+* Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for Modeling Short Sprints**. Preprint available at *SportRxiv*. https://doi.org/10.31236/osf.io/4jw62
+
 # shorts 1.1.5
 
 * Fixed wrong error message from the `plot.shorts_fv_profile()` function

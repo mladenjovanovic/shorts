@@ -10,7 +10,13 @@
 #'  besides estimating \code{MSS} and \code{TAU}, estimates additional parameter \code{distance_correction}.
 #'  Function \code{\link{model_using_splits_with_corrections}}, besides estimating \code{MSS}, \code{TAU} and
 #'  \code{time_correction}, estimates additional parameter \code{distance_correction}.
-#'  For more information about these functions please refer to accompanying vignettes in this package.
+#'  For more information about these functions please refer to Jovanović, M., Vescovi, J.D. (2020).
+#'
+#' @details IMPORTANT: For the \code{\link{model_using_splits_with_distance_correction}} function the \code{predict_XXX_at_distance}
+#'     family of functions doesn't work correctly if \code{distance_correction} is used as parameter (i.e.,
+#'     different than zero). This is because the model definition is completely different, and predicting on
+#'     the same distance scale is not possible. Please refer to Jovanović, M., Vescovi, J.D. (2020) for more
+#'     information
 #'
 #' @param distance,time Numeric vector. Indicates the position of the timing gates and time measured
 #' @param time_correction Numeric vector. Used to correct for different starting techniques. This correction is
@@ -36,6 +42,9 @@
 #'     Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
 #'         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
 #'         DOI: 10.1519/JSC.0b013e318226030b.
+#'
+#'     Jovanović, M., Vescovi, J.D. (2020). shorts: An R Package for Modeling Short Sprints. Preprint
+#'         available at SportRxiv. https://doi.org/10.31236/osf.io/4jw62
 #' @examples
 #' split_times <- data.frame(
 #'   distance = c(5, 10, 20, 30, 35),

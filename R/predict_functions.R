@@ -1,6 +1,13 @@
 #' Kinematics prediction functions
 #'
 #' Predicts kinematic from known \code{MSS} and \code{TAU} parameters
+#'
+#' @details IMPORTANT: For the \code{\link{model_using_splits_with_distance_correction}} function the \code{predict_XXX_at_distance}
+#'     family of functions doesn't work correctly if \code{distance_correction} is used as parameter (i.e.,
+#'     different than zero). This is because the model definition is completely different, and predicting on
+#'     the same distance scale is not possible. Please refer to Jovanović, M., Vescovi, J.D. (2020) for more
+#'     information
+#'
 #' @param time,distance,velocity Numeric vectors
 #' @param time_correction Numeric vector. Used for correction. Default is 0. See references for more info
 #' @param distance_correction Numeric vector. Used for correction. Default is 0. See vignettes for more info
@@ -13,7 +20,10 @@
 #'         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
 #'         DOI: 10.1519/JSC.0b013e318226030b.
 #'
-#'     Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
+#' Jovanović, M., Vescovi, J.D. (2020). shorts: An R Package for Modeling Short Sprints. Preprint
+#'         available at SportRxiv. https://doi.org/10.31236/osf.io/4jw62
+#'
+#' Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
 #'         Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
 #'        Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.
 #' @examples
