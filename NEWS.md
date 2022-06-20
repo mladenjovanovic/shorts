@@ -1,3 +1,6 @@
+# shorts 1.2
+
+
 # shorts 1.1.6
 
 * Updated documentation regarding the below mentioned potential issues
