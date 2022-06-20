@@ -26,7 +26,7 @@
 #'     more weight to observations from shorter distances.
 #' @param LOOCV Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}
 #' @param na.rm Logical. Default is FALSE
-#' @param ... Forwarded to \code{\link[stats]{nls}} function
+#' @param ... Forwarded to \code{\link[minpack.lm]{nlsLM}} function
 #' @return List object with the following elements:
 #'     \describe{
 #'         \item{parameters}{List with the following estimated parameters:
@@ -34,7 +34,7 @@
 #'             \code{distance_correction}}
 #'         \item{model_fit}{List with the following components:
 #'             \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr}, and \code{RMSE}}
-#'         \item{model}{Model returned by the \code{\link[stats]{nls}} function}
+#'         \item{model}{Model returned by the \code{\link[minpack.lm]{nlsLM}} function}
 #'         \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{distance},
 #'             \code{time}, \code{weights}, and \code{pred_time} columns}
 #'         }
@@ -115,7 +115,7 @@ model_using_splits <- function(distance,
                                ...) {
   run_model <- function(train, test, ...) {
     # Non-linear model
-    speed_mod <- stats::nls(
+    speed_mod <- minpack.lm::nlsLM(
       corrected_time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU,
       data = train,
       start = list(MSS = 7, TAU = 0.8),
@@ -273,7 +273,7 @@ model_using_splits_with_time_correction <- function(distance,
   run_model <- function(train, test, ...) {
 
     # Non-linear model
-    speed_mod <- stats::nls(
+    speed_mod <- minpack.lm::nlsLM(
       time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU - time_correction,
       data = train,
       start = list(MSS = 7, TAU = 0.8, time_correction = 0),
@@ -426,7 +426,7 @@ model_using_splits_with_distance_correction <- function(distance,
   run_model <- function(train, test, ...) {
 
     # Non-linear model
-    speed_mod <- stats::nls(
+    speed_mod <- minpack.lm::nlsLM(
       time ~ (TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) +
                 (distance + distance_correction) / MSS + TAU) -
         (TAU * I(LambertW::W(-exp(1)^(-distance_correction / (MSS * TAU) - 1))) +
@@ -586,7 +586,7 @@ model_using_splits_with_corrections <- function(distance,
   run_model <- function(train, test, ...) {
 
     # Non-linear model
-    speed_mod <- stats::nls(
+    speed_mod <- minpack.lm::nlsLM(
       time ~ TAU * I(LambertW::W(-exp(1)^(-(distance + distance_correction) / (MSS * TAU) - 1))) + (distance + distance_correction) / MSS + TAU - time_correction,
       data = train,
       start = list(MSS = 7, TAU = 0.8, time_correction = 0, distance_correction = 0),
