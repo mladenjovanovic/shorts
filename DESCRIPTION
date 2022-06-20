@@ -10,7 +10,7 @@ Authors@R:
            family = "Vescovi",
            role = c("dtc"),
            email = "vescovij@gmail.com"))
-Version: 1.1.6
+Version: 1.2
 Description: Create short sprint (<6sec) profiles using the split times or the radar gun data.
     Mono-exponential equation is used to estimate maximal sprinting speed (MSS), relative acceleration (TAU),
     and other parameters such us maximal acceleration (MAC) and maximal relative power (PMAX). These parameters 
@@ -25,14 +25,15 @@ BugReports: https://github.com/mladenjovanovic/shorts/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Depends: R (>= 2.10)
 Imports:
     stats,
     LambertW,
     nlme,
     tidyr,
-    ggplot2
+    ggplot2,
+    minpack.lm
 Suggests: 
     knitr,
     rmarkdown,

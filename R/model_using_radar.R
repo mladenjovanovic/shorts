@@ -11,14 +11,14 @@
 #' @param weights Numeric vector. Default is 1
 #' @param LOOCV Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}
 #' @param na.rm Logical. Default is FALSE
-#' @param ... Forwarded to \code{\link[nlme]{nlme}} function
+#' @param ... Forwarded to \code{\link[minpack.lm]{nlsLM}} function
 #' @return List object with the following elements:
 #'     \describe{
 #'         \item{parameters}{List with the following estimated parameters:
 #'             \code{MSS}, \code{TAU}, \code{MAC}, and \code{PMAX}}
 #'         \item{model_fit}{List with the following components:
 #'             \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr}, and \code{RMSE}}
-#'         \item{model}{Model returned by the \code{\link[stats]{nls}} function}
+#'         \item{model}{Model returned by the \code{\link[minpack.lm]{nlsLM}} function}
 #'         \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{time},
 #'            \code{velocity}, \code{weights}, and \code{pred_velocity} columns}
 #'         }
@@ -65,7 +65,7 @@ model_using_radar <- function(time,
                               ...) {
   run_model <- function(train, test, ...) {
     # Non-linear model
-    speed_mod <- stats::nls(
+    speed_mod <- minpack.lm::nlsLM(
       velocity ~ MSS * (1 - exp(1)^(-(corrected_time) / TAU)),
       data = train,
       start = list(MSS = 7, TAU = 0.8),
@@ -217,7 +217,7 @@ model_using_radar_with_time_correction <- function(time,
                                                    ...) {
   run_model <- function(train, test, ...) {
     # Non-linear model
-    speed_mod <- stats::nls(
+    speed_mod <- minpack.lm::nlsLM(
       velocity ~ MSS * (1 - exp(1)^(-(time + time_correction) / TAU)),
       data = train,
       start = list(MSS = 7, TAU = 0.8, time_correction = 0),

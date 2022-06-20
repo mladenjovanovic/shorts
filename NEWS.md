@@ -1,3 +1,7 @@
+# shorts 1.2
+
+* Changed the non-linear regression estimation function from `stats::nls()` to `minpack.lm::nlsLM()` in `model_` functions (all non-mixed-effects estimation function). This is done to avoid "singular gradient" error and inability of the `stats::nls()` to estimate when there are zero residuals. Please make note that now when you use `...` in `model_` function, it will be forwarded to `minpack.lm::nlsLM()`. If you have been using `control = stats::nls.control(warnOnly = TRUE)` to avoid `stats::nls()` to throw error when fitting when there are zero residuals, now you can remove it. If needed use `control = minpack.lm::nls.lm.control()` instead. 
+
 # shorts 1.1.6
 
 * Updated documentation regarding the below mentioned potential issues
