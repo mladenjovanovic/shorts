@@ -59,7 +59,7 @@ more weight to observations from shorter distances.}
 
 \item{na.rm}{Logical. Default is FALSE}
 
-\item{...}{Forwarded to \code{\link[stats]{nls}} function}
+\item{...}{Forwarded to \code{\link[minpack.lm]{nlsLM}} function}
 }
 \value{
 List object with the following elements:
@@ -69,7 +69,7 @@ List object with the following elements:
             \code{distance_correction}}
         \item{model_fit}{List with the following components:
             \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr}, and \code{RMSE}}
-        \item{model}{Model returned by the \code{\link[stats]{nls}} function}
+        \item{model}{Model returned by the \code{\link[minpack.lm]{nlsLM}} function}
         \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{distance},
             \code{time}, \code{weights}, and \code{pred_time} columns}
         }
