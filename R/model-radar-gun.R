@@ -1,0 +1,187 @@
+#' Model Using Instantaneous Velocity or Radar Gun
+#'
+#' This function models the sprint instantaneous velocity using mono-exponential equation that estimates
+#'     maximum sprinting speed (\code{MSS}) and relative acceleration (\code{TAU}). \code{velocity} is used as target or outcome
+#'     variable, and \code{time} as predictor.
+#'
+#' @param time Numeric vector
+#' @param velocity Numeric vector
+#' @param weights Numeric vector. Default is 1
+#' @param CV Should cross-validation be used to estimate model fit? Default is \code{NULL}. Otherwise use integer
+#'     indicating number of folds. See Example for more information
+#' @param control Control object forwarded to \code{\link[minpack.lm]{nlsLM}}. Default is \code{minpack.lm::nls.lm.control(maxiter = 1000)}
+#' @param na.rm Logical. Default is FALSE
+#' @param ... Forwarded to \code{\link[minpack.lm]{nlsLM}} function
+#' @return List object with the following elements:
+#'     \describe{
+#'         \item{parameters}{List with the following estimated parameters:
+#'             \code{MSS}, \code{TAU}, \code{MAC}, \code{PMAX}, and \code{TC}}
+#'         \item{model_fit}{List with the following components:
+#'             \code{RSE}, \code{R_squared}, \code{minErr}, \code{maxErr}, and \code{RMSE}}
+#'         \item{model}{Model returned by the \code{\link[minpack.lm]{nlsLM}} function}
+#'         \item{data}{Data frame used to estimate the sprint parameters, consisting of \code{time},
+#'            \code{velocity}, \code{weights}, and \code{pred_velocity} columns}
+#'         }
+#' @references
+#'     Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
+#'         Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
+#'        Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.
+#'
+#' @examples
+#' instant_velocity <- data.frame(
+#'   time = c(0, 1, 2, 3, 4, 5, 6),
+#'   velocity = c(0.00, 4.99, 6.43, 6.84, 6.95, 6.99, 7.00)
+#' )
+#'
+#' sprint_model <- with(
+#'   instant_velocity,
+#'   model_radar_gun(time, velocity)
+#' )
+#'
+#' print(sprint_model)
+#' coef(sprint_model)
+#' plot(sprint_model)
+#' @export
+model_radar_gun <- function(time,
+                            velocity,
+                            weights = 1,
+                            CV = NULL,
+                            control = minpack.lm::nls.lm.control(maxiter = 1000),
+                            na.rm = FALSE,
+                            ...) {
+  run_model <- function(train, test, ...) {
+    # Non-linear model
+    speed_mod <- minpack.lm::nlsLM(
+      velocity ~ MSS * (1 - exp(1)^(-(time + TC) / TAU)),
+      data = train,
+      start = list(MSS = 7, TAU = 0.8, TC = 0),
+      weights = train$weights,
+      control = control,
+      ...
+    )
+
+    # Maximal Sprinting Speed
+    MSS <- stats::coef(speed_mod)[[1]]
+    TAU <- stats::coef(speed_mod)[[2]]
+    TC <- stats::coef(speed_mod)[[3]]
+
+    # Maximal acceleration
+    MAC <- MSS / TAU
+
+    # Maximal Power (relative)
+    PMAX <- (MSS * MAC) / 4
+
+    # Model fit
+    pred_velocity <- stats::predict(speed_mod, newdata = data.frame(time = test$time))
+
+    return(list(
+      model = speed_mod,
+      coefs = list(
+        MSS = MSS,
+        TAU = TAU,
+        MAC = MAC,
+        PMAX = PMAX,
+        TC = TC
+      ),
+      pred_velocity = pred_velocity
+    ))
+  }
+
+  # ==================================
+  # Put data into data frame
+  df <- data.frame(
+    time = time,
+    velocity = velocity,
+    weights = weights
+  )
+
+  # Remove NAs
+  if (na.rm) {
+    df <- stats::na.omit(df)
+  }
+
+  # Run model
+  training_model <- run_model(
+    train = df,
+    test = df,
+    ...
+  )
+
+  training_model_fit <- shorts_model_fit(
+    model = training_model$model,
+    observed = df$velocity,
+    predicted = training_model$pred_velocity,
+    na.rm = na.rm
+  )
+
+  # Cross validation
+  CV_data <- NULL
+
+  if (!is.null(CV)) {
+    # Shuffle data
+    cv_df <- df[sample(nrow(df)), ]
+
+    cv_folds <- data.frame(
+      fold = cut(seq(1, nrow(cv_df)), breaks = CV, labels = FALSE),
+      index = seq(1, nrow(cv_df))
+    )
+
+    cv_folds <- split(cv_folds, cv_folds$fold)
+
+    testing <- lapply(cv_folds, function(fold) {
+      train_data <- cv_df[-fold$index, ]
+      test_data <- cv_df[fold$index, ]
+
+      model <- run_model(
+        train = train_data,
+        test = test_data,
+        ...
+      )
+
+      return(model)
+    })
+
+    # Extract predicted time
+
+    testing_pred_velocity <- unlist(lapply(testing, function(data) data$pred_velocity))
+
+    testing_model_fit <- shorts_model_fit(
+      observed = cv_df$velocity,
+      predicted = testing_pred_velocity,
+      na.rm = na.rm
+    )
+    # Extract model parameters
+
+    testing_parameters <- purrr::map_dfr(testing, function(x) {
+      x$coefs
+    })
+
+    # Testing df
+    testing_df <- cv_df
+    testing_df$pred_velocity <- testing_pred_velocity
+
+    # Save everything in the object
+    CV_data <- list(
+      parameters = testing_parameters,
+      model_fit = testing_model_fit,
+      data = testing_df
+    )
+  }
+
+  # Add predicted velocity to df
+  df <- data.frame(
+    time = time,
+    velocity = velocity,
+    weights = weights,
+    pred_velocity = training_model$pred_velocity
+  )
+
+  # Return object
+  return(new_shorts_model(
+    data = df,
+    model = training_model$model,
+    parameters = training_model$coefs,
+    model_fit = training_model_fit,
+    CV = CV_data
+  ))
+}

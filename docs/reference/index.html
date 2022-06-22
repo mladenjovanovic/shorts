@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -25,16 +25,6 @@
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/sprint-corrections.html">Correction factors in `shorts` for estimation using split times</a>
-    </li>
-  </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -61,13 +51,13 @@
           <p class="section-desc"></p>
         </th>
       </tr></tbody><tbody><tr><td>
-          <p><code><a href="coef.shorts_mixed_model.html">coef(<i>&lt;shorts_mixed_model&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>S3 method for extracting model parameters from <code>shorts_mixed_model</code> object</p></td>
-      </tr><tr><td>
           <p><code><a href="coef.shorts_model.html">coef(<i>&lt;shorts_model&gt;</i>)</a></code> </p>
         </td>
         <td><p>S3 method for extracting model parameters from <code>shorts_model</code> object</p></td>
+      </tr><tr><td>
+          <p><code><a href="create_timing_gates_splits.html">create_timing_gates_splits()</a></code> </p>
+        </td>
+        <td><p>Create Timing Gates Splits</p></td>
       </tr><tr><td>
           <p><code><a href="find_functions.html">find_max_power_distance()</a></code> <code><a href="find_functions.html">find_max_power_time()</a></code> <code><a href="find_functions.html">find_velocity_critical_distance()</a></code> <code><a href="find_functions.html">find_velocity_critical_time()</a></code> <code><a href="find_functions.html">find_acceleration_critical_distance()</a></code> <code><a href="find_functions.html">find_acceleration_critical_time()</a></code> <code><a href="find_functions.html">find_power_critical_distance()</a></code> <code><a href="find_functions.html">find_power_critical_time()</a></code> </p>
         </td>
@@ -77,10 +67,6 @@
         </td>
         <td><p>Format Split Data</p></td>
       </tr><tr><td>
-          <p><code><a href="get_FV_profile.html">get_FV_profile()</a></code> </p>
-        </td>
-        <td><p>Get Force-Velocity Profile</p></td>
-      </tr><tr><td>
           <p><code><a href="get_air_resistance.html">get_air_resistance()</a></code> </p>
         </td>
         <td><p>Get Air Resistance</p></td>
@@ -89,37 +75,25 @@
         </td>
         <td><p>JB Morin Sample Dataset</p></td>
       </tr><tr><td>
-          <p><code><a href="mixed_model_radar.html">mixed_model_using_radar()</a></code> <code><a href="mixed_model_radar.html">mixed_model_using_radar_with_time_correction()</a></code> </p>
+          <p><code><a href="make_FV_profile.html">make_FV_profile()</a></code> </p>
         </td>
-        <td><p>Mixed Model Using Instantaneous Velocity</p></td>
+        <td><p>Get Force-Velocity Profile</p></td>
       </tr><tr><td>
-          <p><code><a href="mixed_model_split_times.html">mixed_model_using_splits()</a></code> <code><a href="mixed_model_split_times.html">mixed_model_using_splits_with_time_correction()</a></code> <code><a href="mixed_model_split_times.html">mixed_model_using_splits_with_distance_correction()</a></code> <code><a href="mixed_model_split_times.html">mixed_model_using_splits_with_corrections()</a></code> </p>
-        </td>
-        <td><p>Mixed Models Using Split Times</p></td>
-      </tr><tr><td>
-          <p><code><a href="model_radar.html">model_using_radar()</a></code> <code><a href="model_radar.html">model_using_radar_with_time_correction()</a></code> </p>
+          <p><code><a href="model_radar_gun.html">model_radar_gun()</a></code> </p>
         </td>
         <td><p>Model Using Instantaneous Velocity or Radar Gun</p></td>
       </tr><tr><td>
-          <p><code><a href="model_split_times.html">model_using_splits()</a></code> <code><a href="model_split_times.html">model_using_splits_with_time_correction()</a></code> <code><a href="model_split_times.html">model_using_splits_with_distance_correction()</a></code> <code><a href="model_split_times.html">model_using_splits_with_corrections()</a></code> </p>
+          <p><code><a href="model_timing_gates.html">model_timing_gates()</a></code> <code><a href="model_timing_gates.html">model_timing_gates_TC()</a></code> <code><a href="model_timing_gates.html">model_timing_gates_FD()</a></code> <code><a href="model_timing_gates.html">model_timing_gates_FD_TC()</a></code> </p>
         </td>
-        <td><p>Models Using Split Times</p></td>
+        <td><p>Models Using Timing Gates Split Times</p></td>
       </tr><tr><td>
           <p><code><a href="plot.shorts_fv_profile.html">plot(<i>&lt;shorts_fv_profile&gt;</i>)</a></code> </p>
         </td>
         <td><p>S3 method for plotting <code>shorts_fv_profile</code> object</p></td>
       </tr><tr><td>
-          <p><code><a href="plot.shorts_mixed_model.html">plot(<i>&lt;shorts_mixed_model&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>S3 method for plotting <code>shorts_mixed_model</code> object</p></td>
-      </tr><tr><td>
           <p><code><a href="plot.shorts_model.html">plot(<i>&lt;shorts_model&gt;</i>)</a></code> </p>
         </td>
         <td><p>S3 method for plotting <code>shorts_model</code> object</p></td>
-      </tr><tr><td>
-          <p><code><a href="predict.shorts_mixed_model.html">predict(<i>&lt;shorts_mixed_model&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>S3 method for returning predictions of <code>shorts_mixed_model</code></p></td>
       </tr><tr><td>
           <p><code><a href="predict.shorts_model.html">predict(<i>&lt;shorts_model&gt;</i>)</a></code> </p>
         </td>
@@ -133,10 +107,6 @@
         </td>
         <td><p>S3 method for printing <code>shorts_fv_profile</code> object</p></td>
       </tr><tr><td>
-          <p><code><a href="print.shorts_mixed_model.html">print(<i>&lt;shorts_mixed_model&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>S3 method for printing <code>shorts_mixed_model</code> object</p></td>
-      </tr><tr><td>
           <p><code><a href="print.shorts_model.html">print(<i>&lt;shorts_model&gt;</i>)</a></code> </p>
         </td>
         <td><p>S3 method for printing <code>shorts_model</code> object</p></td>
@@ -145,10 +115,6 @@
         </td>
         <td><p>Radar Gun Data</p></td>
       </tr><tr><td>
-          <p><code><a href="residuals.shorts_mixed_model.html">residuals(<i>&lt;shorts_mixed_model&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>S3 method for providing residuals for the <code>shorts_mixed_model</code> object</p></td>
-      </tr><tr><td>
           <p><code><a href="residuals.shorts_model.html">residuals(<i>&lt;shorts_model&gt;</i>)</a></code> </p>
         </td>
         <td><p>S3 method for providing residuals for the <code>shorts_model</code> object</p></td>
@@ -156,10 +122,6 @@
           <p><code><a href="split_times.html">split_times</a></code> </p>
         </td>
         <td><p>Split Testing Data</p></td>
-      </tr><tr><td>
-          <p><code><a href="summary.shorts_mixed_model.html">summary(<i>&lt;shorts_mixed_model&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>S3 method for providing summary for the <code>shorts_mixed_model</code> object</p></td>
       </tr><tr><td>
           <p><code><a href="summary.shorts_model.html">summary(<i>&lt;shorts_model&gt;</i>)</a></code> </p>
         </td>

@@ -10,12 +10,6 @@
     <loc>/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/sprint-corrections.html</loc>
-  </url>
-  <url>
     <loc>/authors.html</loc>
   </url>
   <url>
@@ -25,19 +19,16 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/coef.shorts_mixed_model.html</loc>
+    <loc>/reference/coef.shorts_model.html</loc>
   </url>
   <url>
-    <loc>/reference/coef.shorts_model.html</loc>
+    <loc>/reference/create_timing_gates_splits.html</loc>
   </url>
   <url>
     <loc>/reference/find_functions.html</loc>
   </url>
   <url>
     <loc>/reference/format_splits.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_FV_profile.html</loc>
   </url>
   <url>
     <loc>/reference/get_air_resistance.html</loc>
@@ -49,52 +40,19 @@
     <loc>/reference/jb_morin.html</loc>
   </url>
   <url>
-    <loc>/reference/mixed_model_radar.html</loc>
+    <loc>/reference/make_FV_profile.html</loc>
   </url>
   <url>
-    <loc>/reference/mixed_model_split_times.html</loc>
+    <loc>/reference/model_radar_gun.html</loc>
   </url>
   <url>
-    <loc>/reference/mixed_model_using_instant_velocity.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mixed_model_using_radar.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mixed_model_using_split_times.html</loc>
-  </url>
-  <url>
-    <loc>/reference/model_radar.html</loc>
-  </url>
-  <url>
-    <loc>/reference/model_split_times.html</loc>
-  </url>
-  <url>
-    <loc>/reference/model_using_instant_velocity.html</loc>
-  </url>
-  <url>
-    <loc>/reference/model_using_radar.html</loc>
-  </url>
-  <url>
-    <loc>/reference/model_using_split_times.html</loc>
-  </url>
-  <url>
-    <loc>/reference/model_using_split_times_with_corrections.html</loc>
-  </url>
-  <url>
-    <loc>/reference/model_using_split_times_with_time_correction.html</loc>
+    <loc>/reference/model_timing_gates.html</loc>
   </url>
   <url>
     <loc>/reference/plot.shorts_fv_profile.html</loc>
   </url>
   <url>
-    <loc>/reference/plot.shorts_mixed_model.html</loc>
-  </url>
-  <url>
     <loc>/reference/plot.shorts_model.html</loc>
-  </url>
-  <url>
-    <loc>/reference/predict.shorts_mixed_model.html</loc>
   </url>
   <url>
     <loc>/reference/predict.shorts_model.html</loc>
@@ -106,25 +64,16 @@
     <loc>/reference/print.shorts_fv_profile.html</loc>
   </url>
   <url>
-    <loc>/reference/print.shorts_mixed_model.html</loc>
-  </url>
-  <url>
     <loc>/reference/print.shorts_model.html</loc>
   </url>
   <url>
     <loc>/reference/radar_gun_data.html</loc>
   </url>
   <url>
-    <loc>/reference/residuals.shorts_mixed_model.html</loc>
-  </url>
-  <url>
     <loc>/reference/residuals.shorts_model.html</loc>
   </url>
   <url>
     <loc>/reference/split_times.html</loc>
-  </url>
-  <url>
-    <loc>/reference/summary.shorts_mixed_model.html</loc>
   </url>
   <url>
     <loc>/reference/summary.shorts_model.html</loc>

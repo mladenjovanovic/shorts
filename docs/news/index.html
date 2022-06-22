@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -25,16 +25,6 @@
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/sprint-corrections.html">Correction factors in `shorts` for estimation using split times</a>
-    </li>
-  </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -58,13 +48,23 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="1.2" id="shorts-12">shorts 1.2<a class="anchor" aria-label="anchor" href="#shorts-12"></a></h2>
-<ul><li>Changed the non-linear regression estimation function from <code><a href="https://rdrr.io/r/stats/nls.html" class="external-link">stats::nls()</a></code> to <code><a href="https://rdrr.io/pkg/minpack.lm/man/nlsLM.html" class="external-link">minpack.lm::nlsLM()</a></code> in <code>model_</code> functions (all non-mixed-effects estimation function). This is done to avoid “singular gradient” error and inability of the <code><a href="https://rdrr.io/r/stats/nls.html" class="external-link">stats::nls()</a></code> to estimate when there are zero residuals. Please make note that now when you use <code>...</code> in <code>model_</code> function, it will be forwarded to <code><a href="https://rdrr.io/pkg/minpack.lm/man/nlsLM.html" class="external-link">minpack.lm::nlsLM()</a></code>. If you have been using <code>control = stats::nls.control(warnOnly = TRUE)</code> to avoid <code><a href="https://rdrr.io/r/stats/nls.html" class="external-link">stats::nls()</a></code> to throw error when fitting when there are zero residuals, now you can remove it. If needed use <code>control = minpack.lm::nls.lm.control()</code> instead.</li>
+<h2 class="page-header" data-toc-text="2.0" id="shorts-20">shorts 2.0<a class="anchor" aria-label="anchor" href="#shorts-20"></a></h2>
+<p>This is NEW version of the {shorts} package <strong>INCOMPATIBLE</strong> with the previous due to drastic changes in functions. Here are the changes utilized:</p>
+<ul><li>Removed the mixed-effects function due to their small usage in practice.</li>
+<li>In <code>predict_</code> functions, <code>time_correction</code> and <code>distance_correction</code> are no longer used, since due to novel models of estimation, it is hard to neatly implement them into functions. Now the <code>predict_</code> functions predict on a scale where sprint starts at <code>t=0</code> and <code>d=0</code>, rather than on the original (data) scale. This will also remove the confusion for the user.</li>
+<li>In <code>predict_</code> functions, the user now uses <code>MSS</code> and <code>MAC</code> parameters</li>
+<li>Changed the non-linear regression estimation function from <code><a href="https://rdrr.io/r/stats/nls.html" class="external-link">stats::nls()</a></code> to <code><a href="https://rdrr.io/pkg/minpack.lm/man/nlsLM.html" class="external-link">minpack.lm::nlsLM()</a></code> in <code>model_</code> functions. This is done to avoid “singular gradient” error and inability of the <code><a href="https://rdrr.io/r/stats/nls.html" class="external-link">stats::nls()</a></code> to estimate when there are zero residuals. Please make note that now when you use <code>...</code> in <code>model_</code> function, it will be forwarded to <code><a href="https://rdrr.io/pkg/minpack.lm/man/nlsLM.html" class="external-link">minpack.lm::nlsLM()</a></code>. If you have been using <code>control = stats::nls.control(warnOnly = TRUE)</code> to avoid <code><a href="https://rdrr.io/r/stats/nls.html" class="external-link">stats::nls()</a></code> to throw error when fitting when there are zero residuals, now you can remove it. If needed use <code>control = minpack.lm::nls.lm.control()</code> instead.</li>
+<li>Added <code><a href="../reference/create_timing_gates_splits.html">create_timing_gates_splits()</a></code> function to generate timing gates splits</li>
+<li>For modeling timing gates, the following functions are now available: <code><a href="../reference/model_timing_gates.html">model_timing_gates()</a></code>, <code><a href="../reference/model_timing_gates.html">model_timing_gates_TC()</a></code>, <code><a href="../reference/model_timing_gates.html">model_timing_gates_FD()</a></code>, and <code><a href="../reference/model_timing_gates.html">model_timing_gates_FD_TC()</a></code>. All other functions have been removed</li>
+<li>For modeling radar gun data, there is now only one function <code><a href="../reference/model_radar_gun.html">model_radar_gun()</a></code> which also estimates time correction (<code>TC</code>) parameter.</li>
+<li>Function <code><a href="../reference/model_radar_gun.html">model_radar_gun()</a></code> feature n-folds <em>cross-validation</em>, as opposed to <code><a href="../reference/model_timing_gates.html">model_timing_gates()</a></code> family of functions, which features leave-one-out cross-validation (LOOCV) due to small number of observations. Using the <code>CV</code> parameter, set n-fold cross-validations for the <code><a href="../reference/model_radar_gun.html">model_radar_gun()</a></code> function.</li>
+<li>Renamed the element <code>LOOCV</code> in the <code>shorts_model</code> object to <code>CV</code> to reflect above changes in <code><a href="../reference/model_radar_gun.html">model_radar_gun()</a></code> function</li>
+<li>Removed vignettes. I am working on a better pre-print as well as one peer-reviewed simulation paper and will reference those instead</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.6" id="shorts-116">shorts 1.1.6<small>2021-07-19</small><a class="anchor" aria-label="anchor" href="#shorts-116"></a></h2>
 <ul><li>Updated documentation regarding the below mentioned potential issues</li>
-<li>IMPORTANT: For the <code><a href="../reference/model_split_times.html">model_using_splits_with_distance_correction()</a></code> function the <code>predict_XXX_at_distance()</code> family of functions doesn’t work correctly if <code>distance_correction</code> is used as parameter (i.e., different than zero). This is because the model definition is completely different, and predicting on the same distance scale is not possible. Please refer to Jovanović, M., Vescovi, J.D. (2020) for more information.</li>
+<li>IMPORTANT: For the <code>model_using_splits_with_distance_correction()</code> function the <code>predict_XXX_at_distance()</code> family of functions doesn’t work correctly if <code>distance_correction</code> is used as parameter (i.e., different than zero). This is because the model definition is completely different, and predicting on the same distance scale is not possible. Please refer to Jovanović, M., Vescovi, J.D. (2020) for more information.</li>
 <li>Jovanović, M., Vescovi, J.D. (2020). <strong>shorts: An R Package for Modeling Short Sprints</strong>. Preprint available at <em>SportRxiv</em>. <a href="https://doi.org/10.31236/osf.io/4jw62" class="external-link uri">https://doi.org/10.31236/osf.io/4jw62</a>
 </li>
 </ul></div>
@@ -74,8 +74,8 @@
 <li>Minor model print aesthetic changes</li>
 <li>Fixed calculation of the residuals, which is now correctly calculated using observed - predicted. This calculation is implemented in the <code><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals()</a></code> S3 method, as well as with internal function <code>shorts_model_fit()</code> that provides model fit estimates (i.e. RMSE, MAE, MAPE)</li>
 <li>Fixed calculation of the residuals in the vignette</li>
-<li>Added <code><a href="../reference/model_split_times.html">model_using_splits_with_distance_correction()</a></code> function that implements novel model definition to estimate flying start distance</li>
-<li>Added <code><a href="../reference/mixed_model_split_times.html">mixed_model_using_splits_with_distance_correction()</a></code> function that implements novel model definition to estimate flying start distance</li>
+<li>Added <code>model_using_splits_with_distance_correction()</code> function that implements novel model definition to estimate flying start distance</li>
+<li>Added <code>mixed_model_using_splits_with_distance_correction()</code> function that implements novel model definition to estimate flying start distance</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.1.4" id="shorts-114">shorts 1.1.4<small>2020-11-29</small><a class="anchor" aria-label="anchor" href="#shorts-114"></a></h2>

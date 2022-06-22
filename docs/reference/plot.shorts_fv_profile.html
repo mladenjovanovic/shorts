@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0</span>
       </span>
     </div>
 
@@ -25,16 +25,6 @@
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/sprint-corrections.html">Correction factors in `shorts` for estimation using split times</a>
-    </li>
-  </ul></li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -54,7 +44,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>S3 method for plotting <code>shorts_fv_profile</code> object</h1>
-    <small class="dont-index">Source: <a href="https://github.com/mladenjovanovic/shorts/blob/HEAD/R/shorts_S3.R" class="external-link"><code>R/shorts_S3.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/mladenjovanovic/shorts/blob/HEAD/R/shorts-S3.R" class="external-link"><code>R/shorts-S3.R</code></a></small>
     <div class="hidden name"><code>plot.shorts_fv_profile.Rd</code></div>
     </div>
 
@@ -92,11 +82,11 @@
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"jb_morin"</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_radar.html">model_using_radar_with_time_correction</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">time</span>, velocity <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">velocity</span><span class="op">)</span></span>
+<span class="r-in"><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_radar_gun.html">model_radar_gun</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">time</span>, velocity <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">velocity</span><span class="op">)</span></span>
 <span class="r-in"></span>
-<span class="r-in"><span class="va">fv_profile</span> <span class="op">&lt;-</span> <span class="fu"><a href="get_FV_profile.html">get_FV_profile</a></span><span class="op">(</span></span>
+<span class="r-in"><span class="va">fv_profile</span> <span class="op">&lt;-</span> <span class="fu"><a href="make_FV_profile.html">make_FV_profile</a></span><span class="op">(</span></span>
 <span class="r-in">  MSS <span class="op">=</span> <span class="va">m1</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
-<span class="r-in">  TAU <span class="op">=</span> <span class="va">m1</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span>,</span>
+<span class="r-in">  MAC <span class="op">=</span> <span class="va">m1</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MAC</span>,</span>
 <span class="r-in">  bodyheight <span class="op">=</span> <span class="fl">1.72</span>,</span>
 <span class="r-in">  bodymass <span class="op">=</span> <span class="fl">120</span></span>
 <span class="r-in"><span class="op">)</span></span>

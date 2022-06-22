@@ -1,6 +1,17 @@
-# shorts 1.2
+# shorts 2.0
 
-* Changed the non-linear regression estimation function from `stats::nls()` to `minpack.lm::nlsLM()` in `model_` functions (all non-mixed-effects estimation function). This is done to avoid "singular gradient" error and inability of the `stats::nls()` to estimate when there are zero residuals. Please make note that now when you use `...` in `model_` function, it will be forwarded to `minpack.lm::nlsLM()`. If you have been using `control = stats::nls.control(warnOnly = TRUE)` to avoid `stats::nls()` to throw error when fitting when there are zero residuals, now you can remove it. If needed use `control = minpack.lm::nls.lm.control()` instead. 
+This is NEW version of the {shorts} package **INCOMPATIBLE** with the previous due to drastic changes in functions. Here are the changes utilized:
+
+* Removed the mixed-effects function due to their small usage in practice.
+* In `predict_` functions, `time_correction` and `distance_correction` are no longer used, since due to novel models of estimation, it is hard to neatly implement them into functions. Now the `predict_` functions predict on a scale where sprint starts at `t=0` and `d=0`, rather than on the original (data) scale. This will also remove the confusion for the user.
+ * In `predict_` functions, the user now uses `MSS` and `MAC` parameters
+* Changed the non-linear regression estimation function from `stats::nls()` to `minpack.lm::nlsLM()` in `model_` functions. This is done to avoid "singular gradient" error and inability of the `stats::nls()` to estimate when there are zero residuals. Please make note that now when you use `...` in `model_` function, it will be forwarded to `minpack.lm::nlsLM()`. If you have been using `control = stats::nls.control(warnOnly = TRUE)` to avoid `stats::nls()` to throw error when fitting when there are zero residuals, now you can remove it. If needed use `control = minpack.lm::nls.lm.control()` instead. 
+* Added `create_timing_gates_splits()` function to generate timing gates splits
+* For modeling timing gates, the following functions are now available: `model_timing_gates()`, `model_timing_gates_TC()`, `model_timing_gates_FD()`, and `model_timing_gates_FD_TC()`. All other functions have been removed
+* For modeling radar gun data, there is now only one function `model_radar_gun()` which also estimates time correction (`TC`) parameter.
+* Function `model_radar_gun()` feature n-folds *cross-validation*, as opposed to `model_timing_gates()` family of functions, which features leave-one-out cross-validation (LOOCV) due to small number of observations. Using the `CV` parameter, set n-fold cross-validations for the `model_radar_gun()` function. 
+* Renamed the element `LOOCV` in the `shorts_model` object to `CV` to reflect above changes in `model_radar_gun()` function
+* Removed vignettes. I am working on a better pre-print as well as one peer-reviewed simulation paper and will reference those instead
 
 # shorts 1.1.6
 
