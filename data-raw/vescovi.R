@@ -3,7 +3,7 @@ require(tidyverse)
 require(shorts)
 
 # Load data
-vescovi <- read_csv("vescovi_data.csv")
+vescovi <- read_csv("data-raw/vescovi-data.csv")
 
 # Sort the athletes from fastest 35m to slowest
 vescovi <- vescovi %>%
