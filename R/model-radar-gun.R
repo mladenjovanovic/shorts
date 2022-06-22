@@ -119,11 +119,12 @@ model_radar_gun <- function(time,
 
   if (!is.null(CV)) {
     # Shuffle data
-    cv_df <- df[sample(nrow(df)),]
+    cv_df <- df[sample(nrow(df)), ]
 
     cv_folds <- data.frame(
       fold = cut(seq(1, nrow(cv_df)), breaks = CV, labels = FALSE),
-      index = seq(1, nrow(cv_df)))
+      index = seq(1, nrow(cv_df))
+    )
 
     cv_folds <- split(cv_folds, cv_folds$fold)
 
@@ -159,7 +160,7 @@ model_radar_gun <- function(time,
     testing_df <- cv_df
     testing_df$pred_velocity <- testing_pred_velocity
 
-        # Save everything in the object
+    # Save everything in the object
     CV_data <- list(
       parameters = testing_parameters,
       model_fit = testing_model_fit,
