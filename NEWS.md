@@ -11,7 +11,7 @@ This is NEW version of the {shorts} package **INCOMPATIBLE** with the previous d
 * For modeling radar gun data, there is now only one function `model_radar_gun()` which also estimates time correction (`TC`) parameter.
 * Function `model_radar_gun()` feature n-folds *cross-validation*, as opposed to `model_timing_gates()` family of functions, which features leave-one-out cross-validation (LOOCV) due to small number of observations. Using the `CV` parameter, set n-fold cross-validations for the `model_radar_gun()` function. 
 * Renamed the element `LOOCV` in the `shorts_model` object to `CV` to reflect above changes in `model_radar_gun()` function
-
+* Removed vignettes. I am working on a better pre-print as well as one peer-reviewed simulation paper and will reference those instead
 
 # shorts 1.1.6
 
