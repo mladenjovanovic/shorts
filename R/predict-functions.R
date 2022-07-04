@@ -218,7 +218,7 @@ predict_relative_power_at_time <- function(time, MSS, MAC, bodymass = 75, ...) {
 predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass = 75, ...) {
   df <- NULL
 
-  if (class(object) == "shorts_model") {
+  if (inherits(object, "shorts_model")) {
     df <- data.frame(
       time = seq(0, max_time, length.out = max_time * frequency + 1)
     )
