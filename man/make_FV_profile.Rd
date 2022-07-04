@@ -15,9 +15,7 @@ make_FV_profile(
 )
 }
 \arguments{
-\item{MSS}{Numeric vectors. Model parameters}
-
-\item{MAC}{Numeric vectors. Model parameters}
+\item{MSS, MAC}{Numeric vectors. Model parameters}
 
 \item{bodymass}{Body mass in kg. Used to calculate relative power and forwarded to \code{\link{get_air_resistance}}}
 
