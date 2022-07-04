@@ -53,24 +53,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">make_FV_profile</span><span class="op">(</span>
-  <span class="va">MSS</span>,
-  <span class="va">MAC</span>,
-  bodymass <span class="op">=</span> <span class="fl">75</span>,
-  max_time <span class="op">=</span> <span class="fl">6</span>,
-  frequency <span class="op">=</span> <span class="fl">100</span>,
-  RFmax_cutoff <span class="op">=</span> <span class="fl">0.3</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">make_FV_profile</span><span class="op">(</span></span>
+<span>  <span class="va">MSS</span>,</span>
+<span>  <span class="va">MAC</span>,</span>
+<span>  bodymass <span class="op">=</span> <span class="fl">75</span>,</span>
+<span>  max_time <span class="op">=</span> <span class="fl">6</span>,</span>
+<span>  frequency <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  RFmax_cutoff <span class="op">=</span> <span class="fl">0.3</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>MSS</dt>
-<dd><p>Numeric vectors. Model parameters</p></dd>
-
-
-<dt>MAC</dt>
+    <dl><dt>MSS, MAC</dt>
 <dd><p>Numeric vectors. Model parameters</p></dd>
 
 
@@ -151,29 +147,29 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"jb_morin"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_radar_gun.html">model_radar_gun</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">time</span>, velocity <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">velocity</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">fv_profile</span> <span class="op">&lt;-</span> <span class="fu">make_FV_profile</span><span class="op">(</span></span>
-<span class="r-in">  MSS <span class="op">=</span> <span class="va">m1</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
-<span class="r-in">  MAC <span class="op">=</span> <span class="va">m1</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MAC</span>,</span>
-<span class="r-in">  bodyheight <span class="op">=</span> <span class="fl">1.72</span>,</span>
-<span class="r-in">  bodymass <span class="op">=</span> <span class="fl">120</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fv_profile</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"jb_morin"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_radar_gun.html">model_radar_gun</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">time</span>, velocity <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">velocity</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">fv_profile</span> <span class="op">&lt;-</span> <span class="fu">make_FV_profile</span><span class="op">(</span></span></span>
+<span class="r-in"><span>  MSS <span class="op">=</span> <span class="va">m1</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span></span>
+<span class="r-in"><span>  MAC <span class="op">=</span> <span class="va">m1</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MAC</span>,</span></span>
+<span class="r-in"><span>  bodyheight <span class="op">=</span> <span class="fl">1.72</span>,</span></span>
+<span class="r-in"><span>  bodymass <span class="op">=</span> <span class="fl">120</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">fv_profile</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated Force-Velocity Profile</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>      bodymass            F0        F0_rel            V0          Pmax </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1.200000e+02  8.225498e+02  6.854581e+00  9.505432e+00  1.954673e+03 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1.200000e+02  8.225497e+02  6.854581e+00  9.505433e+00  1.954673e+03 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Pmax_relative      FV_slope  RFmax_cutoff         RFmax           Drf </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1.628894e+01 -7.211225e-01  3.000000e-01  4.909433e-01 -6.629983e-02 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        RSE_FV       RSE_Drf </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1.748288e+00  4.951049e-03 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fv_profile</span><span class="op">)</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  1.748288e+00  4.951048e-03 </span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fv_profile</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="make_FV_profile-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fv_profile</span>, <span class="st">"time"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">fv_profile</span>, <span class="st">"time"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="make_FV_profile-2.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -189,7 +185,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

@@ -74,45 +74,45 @@ model_timing_gates_FD_TC Combines the approach of the model_timing_gates_FD with
 </ul></div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">model_timing_gates</span><span class="op">(</span>
-  <span class="va">distance</span>,
-  <span class="va">time</span>,
-  weights <span class="op">=</span> <span class="fl">1</span>,
-  LOOCV <span class="op">=</span> <span class="cn">FALSE</span>,
-  control <span class="op">=</span> <span class="fu">minpack.lm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minpack.lm/man/nls.lm.control.html" class="external-link">nls.lm.control</a></span><span class="op">(</span>maxiter <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,
-  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">model_timing_gates_TC</span><span class="op">(</span>
-  <span class="va">distance</span>,
-  <span class="va">time</span>,
-  weights <span class="op">=</span> <span class="fl">1</span>,
-  LOOCV <span class="op">=</span> <span class="cn">FALSE</span>,
-  control <span class="op">=</span> <span class="fu">minpack.lm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minpack.lm/man/nls.lm.control.html" class="external-link">nls.lm.control</a></span><span class="op">(</span>maxiter <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,
-  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">model_timing_gates_FD</span><span class="op">(</span>
-  <span class="va">distance</span>,
-  <span class="va">time</span>,
-  weights <span class="op">=</span> <span class="fl">1</span>,
-  LOOCV <span class="op">=</span> <span class="cn">FALSE</span>,
-  control <span class="op">=</span> <span class="fu">minpack.lm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minpack.lm/man/nls.lm.control.html" class="external-link">nls.lm.control</a></span><span class="op">(</span>maxiter <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,
-  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">model_timing_gates_FD_TC</span><span class="op">(</span>
-  <span class="va">distance</span>,
-  <span class="va">time</span>,
-  weights <span class="op">=</span> <span class="fl">1</span>,
-  LOOCV <span class="op">=</span> <span class="cn">FALSE</span>,
-  control <span class="op">=</span> <span class="fu">minpack.lm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minpack.lm/man/nls.lm.control.html" class="external-link">nls.lm.control</a></span><span class="op">(</span>maxiter <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,
-  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">model_timing_gates</span><span class="op">(</span></span>
+<span>  <span class="va">distance</span>,</span>
+<span>  <span class="va">time</span>,</span>
+<span>  weights <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  LOOCV <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu">minpack.lm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minpack.lm/man/nls.lm.control.html" class="external-link">nls.lm.control</a></span><span class="op">(</span>maxiter <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">model_timing_gates_TC</span><span class="op">(</span></span>
+<span>  <span class="va">distance</span>,</span>
+<span>  <span class="va">time</span>,</span>
+<span>  weights <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  LOOCV <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu">minpack.lm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minpack.lm/man/nls.lm.control.html" class="external-link">nls.lm.control</a></span><span class="op">(</span>maxiter <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">model_timing_gates_FD</span><span class="op">(</span></span>
+<span>  <span class="va">distance</span>,</span>
+<span>  <span class="va">time</span>,</span>
+<span>  weights <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  LOOCV <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu">minpack.lm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minpack.lm/man/nls.lm.control.html" class="external-link">nls.lm.control</a></span><span class="op">(</span>maxiter <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">model_timing_gates_FD_TC</span><span class="op">(</span></span>
+<span>  <span class="va">distance</span>,</span>
+<span>  <span class="va">time</span>,</span>
+<span>  weights <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  LOOCV <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  control <span class="op">=</span> <span class="fu">minpack.lm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minpack.lm/man/nls.lm.control.html" class="external-link">nls.lm.control</a></span><span class="op">(</span>maxiter <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,</span>
+<span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -177,19 +177,19 @@ more weight to observations from shorter distances.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">split_distances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">split_times</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_timing_gates_splits.html">create_timing_gates_splits</a></span><span class="op">(</span></span>
-<span class="r-in">  gates <span class="op">=</span> <span class="va">split_distances</span>,</span>
-<span class="r-in">  MSS <span class="op">=</span> <span class="fl">10</span>,</span>
-<span class="r-in">  MAC <span class="op">=</span> <span class="fl">9</span>,</span>
-<span class="r-in">  FD <span class="op">=</span> <span class="fl">0.25</span>,</span>
-<span class="r-in">  TC <span class="op">=</span> <span class="fl">0</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Simple model</span></span>
-<span class="r-in"><span class="va">simple_model</span> <span class="op">&lt;-</span> <span class="fu">model_timing_gates</span><span class="op">(</span><span class="va">split_distances</span>, <span class="va">split_times</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">simple_model</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">split_distances</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span>, <span class="fl">50</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">split_times</span> <span class="op">&lt;-</span> <span class="fu"><a href="create_timing_gates_splits.html">create_timing_gates_splits</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  gates <span class="op">=</span> <span class="va">split_distances</span>,</span></span>
+<span class="r-in"><span>  MSS <span class="op">=</span> <span class="fl">10</span>,</span></span>
+<span class="r-in"><span>  MAC <span class="op">=</span> <span class="fl">9</span>,</span></span>
+<span class="r-in"><span>  FD <span class="op">=</span> <span class="fl">0.25</span>,</span></span>
+<span class="r-in"><span>  TC <span class="op">=</span> <span class="fl">0</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Simple model</span></span></span>
+<span class="r-in"><span><span class="va">simple_model</span> <span class="op">&lt;-</span> <span class="fu">model_timing_gates</span><span class="op">(</span><span class="va">split_distances</span>, <span class="va">split_times</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">simple_model</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated model parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        MSS        TAU        MAC       PMAX </span>
@@ -201,16 +201,16 @@ more weight to observations from shorter distances.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.01881059  0.99990584 -0.02334638  0.01504645  0.02334638  0.01457062 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         MAE        MAPE </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.01325575  0.49110649 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">simple_model</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">simple_model</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        MSS        TAU        MAC       PMAX </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  9.7809914  0.7879759 12.4128052 30.3523852 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">simple_model</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">simple_model</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_timing_gates-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Model with correction of 0.3s</span></span>
-<span class="r-in"><span class="va">model_with_correction</span> <span class="op">&lt;-</span> <span class="fu">model_timing_gates</span><span class="op">(</span><span class="va">split_distances</span>, <span class="va">split_times</span> <span class="op">+</span> <span class="fl">0.3</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model_with_correction</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Model with correction of 0.3s</span></span></span>
+<span class="r-in"><span><span class="va">model_with_correction</span> <span class="op">&lt;-</span> <span class="fu">model_timing_gates</span><span class="op">(</span><span class="va">split_distances</span>, <span class="va">split_times</span> <span class="op">+</span> <span class="fl">0.3</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model_with_correction</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated model parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       MSS       TAU       MAC      PMAX </span>
@@ -222,13 +222,13 @@ more weight to observations from shorter distances.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.010160610  0.999973248 -0.007938397  0.013071935  0.013071935  0.007870375 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          MAE         MAPE </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.007096904  0.234356971 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_correction</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_correction</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_timing_gates-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Model with time_correction estimation</span></span>
-<span class="r-in"><span class="va">model_with_TC</span> <span class="op">&lt;-</span> <span class="fu">model_timing_gates_TC</span><span class="op">(</span><span class="va">split_distances</span>, <span class="va">split_times</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model_with_TC</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Model with time_correction estimation</span></span></span>
+<span class="r-in"><span><span class="va">model_with_TC</span> <span class="op">&lt;-</span> <span class="fu">model_timing_gates_TC</span><span class="op">(</span><span class="va">split_distances</span>, <span class="va">split_times</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model_with_TC</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated model parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        MSS        TAU        MAC       PMAX         TC </span>
@@ -240,13 +240,13 @@ more weight to observations from shorter distances.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.0002214763  0.9999999910 -0.0002176842  0.0001432646  0.0002176842 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          RMSE           MAE          MAPE </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.0001400739  0.0001310987  0.0039156127 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_TC</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_TC</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_timing_gates-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Model with flying distance estimations</span></span>
-<span class="r-in"><span class="va">model_with_FD</span> <span class="op">&lt;-</span> <span class="fu">model_timing_gates_FD</span><span class="op">(</span><span class="va">split_distances</span>, <span class="va">split_times</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model_with_FD</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Model with flying distance estimations</span></span></span>
+<span class="r-in"><span><span class="va">model_with_FD</span> <span class="op">&lt;-</span> <span class="fu">model_timing_gates_FD</span><span class="op">(</span><span class="va">split_distances</span>, <span class="va">split_times</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model_with_FD</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated model parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       MSS       TAU       MAC      PMAX        FD </span>
@@ -258,13 +258,13 @@ more weight to observations from shorter distances.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1.174950e-15  1.000000e+00 -1.332268e-15  0.000000e+00  1.332268e-15 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          RMSE           MAE          MAPE </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  7.431034e-16  5.329071e-16  2.050244e-14 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_FD</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_FD</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_timing_gates-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Model with flying distance estimations and time correction</span></span>
-<span class="r-in"><span class="va">model_with_FD_TC</span> <span class="op">&lt;-</span> <span class="fu">model_timing_gates_FD_TC</span><span class="op">(</span><span class="va">split_distances</span>, <span class="va">split_times</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model_with_FD_TC</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Model with flying distance estimations and time correction</span></span></span>
+<span class="r-in"><span><span class="va">model_with_FD_TC</span> <span class="op">&lt;-</span> <span class="fu">model_timing_gates_FD_TC</span><span class="op">(</span><span class="va">split_distances</span>, <span class="va">split_times</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">model_with_FD_TC</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated model parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         MSS         TAU         MAC        PMAX          FD          TC </span>
@@ -276,7 +276,7 @@ more weight to observations from shorter distances.</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.0002690302  0.9999999934 -0.0001926737  0.0001170644  0.0001926737 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          RMSE           MAE          MAPE </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.0001203140  0.0001112901  0.0032975680 </span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_FD_TC</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_FD_TC</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_timing_gates-5.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -292,7 +292,7 @@ more weight to observations from shorter distances.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>

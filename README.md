@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# shorts <img src="man/figures/logo.png" align="right" width="200" />
+# shorts <img src="man/figures/logo.png" align="right" width="200"/>
 
 <!-- badges: start -->
 
@@ -334,7 +334,7 @@ summary(jim_profile)
 #> 
 #> Residual standard error: 0.0506 on 597 degrees of freedom
 #> 
-#> Number of iterations to convergence: 6 
+#> Number of iterations to convergence: 4 
 #> Achieved convergence tolerance: 1.49e-08
 
 plot(jim_profile) +
@@ -621,20 +621,20 @@ jim_profile_CV
 #> # A tibble: 10 × 5
 #>      MSS   TAU   MAC  PMAX         TC
 #>    <dbl> <dbl> <dbl> <dbl>      <dbl>
-#>  1  8.00 0.889  9.00  18.0  0.0000659
-#>  2  8.00 0.889  9.00  18.0  0.0000610
-#>  3  8.00 0.888  9.00  18.0 -0.0000636
-#>  4  8.00 0.889  9.00  18.0  0.000391 
-#>  5  8.00 0.889  9.00  18.0  0.000102 
-#>  6  8.00 0.888  9.00  18.0  0.0000999
-#>  7  8.00 0.889  9.00  18.0 -0.0000207
-#>  8  8.00 0.888  9.00  18.0  0.0000278
-#>  9  8.00 0.889  9.00  18.0  0.0000324
-#> 10  8.00 0.889  8.99  18.0  0.000403 
+#>  1  8.00 0.889  9.00  18.0  0.0000857
+#>  2  8.00 0.890  8.99  18.0  0.000200 
+#>  3  8.00 0.889  9.00  18.0  0.000182 
+#>  4  8.00 0.888  9.00  18.0  0.0000252
+#>  5  8.00 0.889  9.00  18.0  0.0000248
+#>  6  8.00 0.889  8.99  18.0  0.000244 
+#>  7  8.00 0.889  9.00  18.0  0.000217 
+#>  8  8.00 0.888  9.01  18.0  0.0000380
+#>  9  8.00 0.888  9.00  18.0 -0.000155 
+#> 10  8.00 0.889  8.99  18.0  0.000221 
 #> 
 #> Testing model fit:
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>        NA    0.9992   -0.1649    0.1506    0.1649    0.0507    0.0394       Inf
+#>        NA    0.9992   -0.1652    0.1515    0.1652    0.0507    0.0394       Inf
 ```
 
 ## Publications
