@@ -265,7 +265,7 @@ plot.shorts_model <- function(x, type = NULL, ...) {
   if (model_type == "distance") {
     # This is time-split model
     df <- data.frame(
-      distance = seq(0, max(x$data$distance), length.out = 100)
+      distance = seq(0, max(x$data$distance), length.out = 1000)
     )
 
     df$velocity <- predict_velocity_at_distance(
@@ -283,7 +283,7 @@ plot.shorts_model <- function(x, type = NULL, ...) {
   } else {
     # This is radar model
     df <- data.frame(
-      time = seq(0, max(x$data$time), length.out = 100)
+      time = seq(0, max(x$data$time), length.out = 1000)
     )
 
     df$velocity <- predict_velocity_at_time(
