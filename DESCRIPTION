@@ -38,4 +38,3 @@ Suggests:
     knitr,
     rmarkdown,
     tidyverse
-VignetteBuilder: knitr
