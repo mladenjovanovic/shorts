@@ -8,7 +8,7 @@
 #'         \item{bodymass}{Returned \code{bodymass} used in FV profiling}
 #'         \item{F0}{Horizontal force when velocity=0}
 #'         \item{F0_rel}{\code{F0} divided by \code{bodymass}}
-#'         \item{V0}{Velocity when horizonatl force=0}
+#'         \item{V0}{Velocity when horizontal force=0}
 #'         \item{Pmax}{Maximal horizontal power}
 #'         \item{Pmax_rel}{\code{Pmax} divided by \code{bodymass}}
 #'         \item{FV_slope}{Slope of the FV profile. See References for more info}

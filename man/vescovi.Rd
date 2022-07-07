@@ -54,7 +54,7 @@ This data-set represents sub-set of data from a total of 220 high-level female a
    require familiarization (Moir, Button, Glaister, and Stone 2004).
 }
 \references{
-Moir G, Button C, Glaister M, Stone MH (2004). "Inlfuence of Familiarization on the Reliability
+Moir G, Button C, Glaister M, Stone MH (2004). "Influence of Familiarization on the Reliability
     of Vertical Jump and Acceleration Sprinting Performance in Physically Active Men."
     The Journal of Strength and Conditioning Research, 18(2), 276. ISSN 1064-8011, 1533-4287.
     doi:10.1519/R-13093.1.
