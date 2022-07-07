@@ -1,4 +1,4 @@
-# shorts 2.0
+# shorts 2.0.0
 
 This is NEW version of the {shorts} package **INCOMPATIBLE** with the previous due to drastic changes in functions. Here are the changes utilized:
 
