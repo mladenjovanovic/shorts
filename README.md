@@ -78,13 +78,13 @@ kimberley_profile <- shorts::model_timing_gates(
 kimberley_profile
 #> Estimated model parameters
 #> --------------------------
-#>    MSS    TAU    MAC   PMAX 
-#>  8.591  0.811 10.589 22.743 
+#>   MSS   TAU   MAC  PMAX 
+#>  8.59  0.81 10.59 22.74 
 #> 
 #> Model fit estimators
 #> --------------------
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>    0.0340    0.9997   -0.0529    0.0270    0.0529    0.0278    0.0233    1.1926
+#>     0.034     1.000    -0.053     0.027     0.053     0.028     0.023     1.193
 
 summary(kimberley_profile)
 #> 
@@ -104,8 +104,8 @@ summary(kimberley_profile)
 #> Achieved convergence tolerance: 1.49e-08
 
 coef(kimberley_profile)
-#>    MSS    TAU    MAC   PMAX 
-#>  8.591  0.811 10.589 22.743
+#>   MSS   TAU   MAC  PMAX 
+#>  8.59  0.81 10.59 22.74
 ```
 
 To return the predicted outcome (in this case time variable), use
@@ -113,7 +113,7 @@ To return the predicted outcome (in this case time variable), use
 
 ``` r
 predict(kimberley_profile)
-#> [1] 1.21 1.90 2.52 3.12 4.30 5.47
+#> [1] 1.2 1.9 2.5 3.1 4.3 5.5
 ```
 
 To create a simple plot, use S3 `plot()` method:
@@ -134,14 +134,14 @@ kable(shorts::format_splits(
   time = kimberley_data$time))
 ```
 
-| split | split_distance_start | split_distance_stop | split_distance | split_time_start | split_time_stop | split_time | split_mean_velocity |
-|------:|---------------------:|--------------------:|---------------:|-----------------:|----------------:|-----------:|--------------------:|
-|     1 |                    0 |                   5 |              5 |                0 |           1.158 |      1.158 |          4.317789…. |
-|     2 |                    5 |                  10 |              5 |            1.158 |           1.893 |      0.735 |          6.802721…. |
-|     3 |                   10 |                  15 |              5 |            1.893 |           2.541 |      0.648 |          7.716049…. |
-|     4 |                   15 |                  20 |              5 |            2.541 |           3.149 |      0.608 |          8.223684…. |
-|     5 |                   20 |                  30 |             10 |            3.149 |           4.313 |      1.164 |          8.591065…. |
-|     6 |                   30 |                  40 |             10 |            4.313 |           5.444 |      1.131 |          8.841732…. |
+| split | split_distance_start | split_distance_stop | split_distance | split_time_start | split_time_stop | split_time | split_mean_velocity | split_mean_acceleration |
+|------:|---------------------:|--------------------:|---------------:|-----------------:|----------------:|-----------:|--------------------:|------------------------:|
+|     1 |                    0 |                   5 |              5 |                0 |           1.158 |      1.158 |          4.317789…. |              3.728660…. |
+|     2 |                    5 |                  10 |              5 |            1.158 |           1.893 |      0.735 |          6.802721…. |              3.380859…. |
+|     3 |                   10 |                  15 |              5 |            1.893 |           2.541 |      0.648 |          7.716049…. |              1.409457…. |
+|     4 |                   15 |                  20 |              5 |            2.541 |           3.149 |      0.608 |          8.223684…. |              0.834925…. |
+|     5 |                   20 |                  30 |             10 |            3.149 |           4.313 |      1.164 |          8.591065…. |              0.315619…. |
+|     6 |                   30 |                  40 |             10 |            4.313 |           5.444 |      1.131 |          8.841732…. |              0.221633…. |
 
 Let’s plot observed vs fitted split times. For this we can use `data`
 returned from `shorts::model_timing_gates()` since it contains
@@ -233,20 +233,20 @@ predicted_kinematics <- predict_kinematics(
 kable(head(predicted_kinematics))
 ```
 
-| time | distance | velocity | acceleration | bodymass | net_horizontal_force | air_resistance | horizontal_force | horizontal_force_relative | vertical_force | resultant_force | resultant_force_relative | power | relative_power |    RF | force_angle |
-|-----:|---------:|---------:|-------------:|---------:|---------------------:|---------------:|-----------------:|--------------------------:|---------------:|----------------:|-------------------------:|------:|---------------:|------:|------------:|
-| 0.00 |    0.000 |    0.000 |        10.59 |       60 |                  635 |          0.000 |              635 |                     10.59 |            589 |             866 |                     14.4 |     0 |           0.00 | 0.734 |        42.8 |
-| 0.01 |    0.001 |    0.105 |        10.46 |       60 |                  628 |          0.003 |              628 |                     10.46 |            589 |             860 |                     14.3 |    66 |           1.10 | 0.729 |        43.2 |
-| 0.02 |    0.002 |    0.209 |        10.33 |       60 |                  620 |          0.011 |              620 |                     10.33 |            589 |             855 |                     14.2 |   130 |           2.16 | 0.725 |        43.5 |
-| 0.03 |    0.005 |    0.312 |        10.21 |       60 |                  612 |          0.023 |              612 |                     10.21 |            589 |             849 |                     14.2 |   191 |           3.18 | 0.721 |        43.9 |
-| 0.04 |    0.008 |    0.413 |        10.08 |       60 |                  605 |          0.041 |              605 |                     10.08 |            589 |             844 |                     14.1 |   250 |           4.17 | 0.717 |        44.2 |
-| 0.05 |    0.013 |    0.513 |         9.96 |       60 |                  597 |          0.063 |              597 |                      9.96 |            589 |             839 |                     14.0 |   307 |           5.11 | 0.712 |        44.6 |
+| time | distance | velocity | acceleration | bodymass | net_horizontal_force | air_resistance | horizontal_force | horizontal_force_relative | vertical_force | resultant_force | resultant_force_relative | power | relative_power |   RF | force_angle |
+|-----:|---------:|---------:|-------------:|---------:|---------------------:|---------------:|-----------------:|--------------------------:|---------------:|----------------:|-------------------------:|------:|---------------:|-----:|------------:|
+| 0.00 |     0.00 |     0.00 |           11 |       60 |                  635 |           0.00 |              635 |                        11 |            589 |             866 |                       14 |     0 |            0.0 | 0.73 |          43 |
+| 0.01 |     0.00 |     0.11 |           10 |       60 |                  628 |           0.00 |              628 |                        10 |            589 |             860 |                       14 |    66 |            1.1 | 0.73 |          43 |
+| 0.02 |     0.00 |     0.21 |           10 |       60 |                  620 |           0.01 |              620 |                        10 |            589 |             855 |                       14 |   130 |            2.2 | 0.73 |          44 |
+| 0.03 |     0.00 |     0.31 |           10 |       60 |                  612 |           0.02 |              612 |                        10 |            589 |             849 |                       14 |   191 |            3.2 | 0.72 |          44 |
+| 0.04 |     0.01 |     0.41 |           10 |       60 |                  605 |           0.04 |              605 |                        10 |            589 |             844 |                       14 |   250 |            4.2 | 0.72 |          44 |
+| 0.05 |     0.01 |     0.51 |           10 |       60 |                  597 |           0.06 |              597 |                        10 |            589 |             839 |                       14 |   307 |            5.1 | 0.71 |          45 |
 
 To get model residuals, use `residuals()` function:
 
 ``` r
 residuals(kimberley_profile)
-#> [1] -0.05293 -0.00402  0.01997  0.02699  0.01376 -0.02232
+#> [1] -0.053 -0.004  0.020  0.027  0.014 -0.022
 ```
 
 Package {shorts} comes with `find_XXX()` family of functions that allow
@@ -273,10 +273,10 @@ shorts::find_power_critical_distance(
   percent = 0.5
 )
 #> $lower
-#> [1] 0.0856
+#> [1] 0.086
 #> 
 #> $upper
-#> [1] 8.36
+#> [1] 8.4
 
 # Distance over which acceleration is under 50%
 shorts::find_acceleration_critical_distance(
@@ -284,7 +284,7 @@ shorts::find_acceleration_critical_distance(
   MAC = kimberley_profile$parameters$MAC,
   percent = 0.5
 )
-#> [1] 1.35
+#> [1] 1.3
 
 # Distance over which velocity is over 95%
 shorts::find_velocity_critical_distance(
@@ -292,7 +292,7 @@ shorts::find_velocity_critical_distance(
   MAC = kimberley_profile$parameters$MAC,
   percent = 0.95
 )
-#> [1] 14.3
+#> [1] 14
 ```
 
 ### Profiling using radar gun data
@@ -312,13 +312,13 @@ jim_profile <- shorts::model_radar_gun(
 jim_profile
 #> Estimated model parameters
 #> --------------------------
-#>      MSS      TAU      MAC     PMAX       TC 
-#>  7.99801  0.88880  8.99871 17.99294  0.00011 
+#>     MSS     TAU     MAC    PMAX      TC 
+#> 8.0e+00 8.9e-01 9.0e+00 1.8e+01 1.1e-04 
 #> 
 #> Model fit estimators
 #> --------------------
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>    0.0506    0.9992   -0.1640    0.1511    0.1640    0.0505    0.0393       Inf
+#>     0.051     0.999    -0.164     0.151     0.164     0.051     0.039       Inf
 
 summary(jim_profile)
 #> 
@@ -332,9 +332,9 @@ summary(jim_profile)
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 0.0506 on 597 degrees of freedom
+#> Residual standard error: 0.051 on 597 degrees of freedom
 #> 
-#> Number of iterations to convergence: 4 
+#> Number of iterations to convergence: 6 
 #> Achieved convergence tolerance: 1.49e-08
 
 plot(jim_profile) +
@@ -376,11 +376,11 @@ kimberley_fv
 #> Estimated Force-Velocity Profile
 #> --------------------------------
 #>      bodymass            F0        F0_rel            V0          Pmax 
-#>      6.00e+01      6.30e+02      1.05e+01      8.83e+00      1.39e+03 
+#>       6.0e+01       6.3e+02       1.1e+01       8.8e+00       1.4e+03 
 #> Pmax_relative      FV_slope  RFmax_cutoff         RFmax           Drf 
-#>      2.32e+01     -1.19e+00      3.00e-01      5.99e-01     -1.04e-01 
+#>       2.3e+01      -1.2e+00       3.0e-01       6.0e-01      -1.0e-01 
 #>        RSE_FV       RSE_Drf 
-#>      9.95e-01      9.46e-03
+#>       1.0e+00       9.5e-03
 
 plot(kimberley_fv) +
   theme_bw()
@@ -410,13 +410,13 @@ kimberley_profile_fixed_TC <- shorts::model_timing_gates(
 kimberley_profile_fixed_TC
 #> Estimated model parameters
 #> --------------------------
-#>   MSS   TAU   MAC  PMAX 
-#>  9.13  1.38  6.63 15.12 
+#>  MSS  TAU  MAC PMAX 
+#>  9.1  1.4  6.6 15.1 
 #> 
 #> Model fit estimators
 #> --------------------
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>   0.00997   0.99997  -0.00769   0.01640   0.01640   0.00814   0.00639   0.28570
+#>    0.0100    1.0000   -0.0077    0.0164    0.0164    0.0081    0.0064    0.2857
 
 summary(kimberley_profile_fixed_TC)
 #> 
@@ -430,14 +430,14 @@ summary(kimberley_profile_fixed_TC)
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 0.00997 on 4 degrees of freedom
+#> Residual standard error: 0.01 on 4 degrees of freedom
 #> 
 #> Number of iterations to convergence: 5 
 #> Achieved convergence tolerance: 1.49e-08
 
 coef(kimberley_profile_fixed_TC)
-#>   MSS   TAU   MAC  PMAX 
-#>  9.13  1.38  6.63 15.12
+#>  MSS  TAU  MAC PMAX 
+#>  9.1  1.4  6.6 15.1
 ```
 
 Instead of providing for `TC`, this parameter can be estimated using
@@ -451,13 +451,13 @@ kimberley_profile_TC <- shorts::model_timing_gates_TC(
 kimberley_profile_TC
 #> Estimated model parameters
 #> --------------------------
-#>    MSS    TAU    MAC   PMAX     TC 
-#>  8.975  1.235  7.268 16.307  0.235 
+#>   MSS   TAU   MAC  PMAX    TC 
+#>  8.97  1.23  7.27 16.31  0.23 
 #> 
 #> Model fit estimators
 #> --------------------
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>  0.001129  1.000000 -0.001181  0.001209  0.001209  0.000798  0.000659  0.028235
+#>   0.00113   1.00000  -0.00118   0.00121   0.00121   0.00080   0.00066   0.02824
 ```
 
 Instead of estimating `TC`, {shorts} package features a method of
@@ -471,13 +471,13 @@ kimberley_profile_FD <- shorts::model_timing_gates_FD(
 kimberley_profile_FD
 #> Estimated model parameters
 #> --------------------------
-#>    MSS    TAU    MAC   PMAX     FD 
-#>  9.003  1.288  6.991 15.735  0.302 
+#>  MSS  TAU  MAC PMAX   FD 
+#>  9.0  1.3  7.0 15.7  0.3 
 #> 
 #> Model fit estimators
 #> --------------------
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>  0.000390  1.000000 -0.000404  0.000456  0.000456  0.000276  0.000237  0.007829
+#>   0.00039   1.00000  -0.00040   0.00046   0.00046   0.00028   0.00024   0.00783
 ```
 
 ### Cross-Validation (CV)
@@ -498,13 +498,13 @@ kimberley_profile_LOOCV <- shorts::model_timing_gates(
 kimberley_profile_LOOCV
 #> Estimated model parameters
 #> --------------------------
-#>    MSS    TAU    MAC   PMAX 
-#>  8.591  0.811 10.589 22.743 
+#>   MSS   TAU   MAC  PMAX 
+#>  8.59  0.81 10.59 22.74 
 #> 
 #> Model fit estimators
 #> --------------------
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>    0.0340    0.9997   -0.0529    0.0270    0.0529    0.0278    0.0233    1.1926 
+#>     0.034     1.000    -0.053     0.027     0.053     0.028     0.023     1.193 
 #> 
 #> 
 #> Cross-Validation
@@ -522,7 +522,7 @@ kimberley_profile_LOOCV
 #> 
 #> Testing model fit:
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>        NA    0.9990   -0.0801    0.0344    0.0801    0.0474    0.0392    1.7227
+#>        NA     0.999    -0.080     0.034     0.080     0.047     0.039     1.723
 ```
 
 Box-plot is suitable method for plotting estimated parameters:
@@ -606,13 +606,13 @@ jim_profile_CV <- shorts::model_radar_gun(
 jim_profile_CV
 #> Estimated model parameters
 #> --------------------------
-#>      MSS      TAU      MAC     PMAX       TC 
-#>  7.99801  0.88880  8.99871 17.99294  0.00011 
+#>     MSS     TAU     MAC    PMAX      TC 
+#> 8.0e+00 8.9e-01 9.0e+00 1.8e+01 1.1e-04 
 #> 
 #> Model fit estimators
 #> --------------------
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>    0.0506    0.9992   -0.1640    0.1511    0.1640    0.0505    0.0393       Inf 
+#>     0.051     0.999    -0.164     0.151     0.164     0.051     0.039       Inf 
 #> 
 #> 
 #> Cross-Validation
@@ -621,20 +621,20 @@ jim_profile_CV
 #> # A tibble: 10 × 5
 #>      MSS   TAU   MAC  PMAX         TC
 #>    <dbl> <dbl> <dbl> <dbl>      <dbl>
-#>  1  8.00 0.889  8.99  18.0  0.000230 
-#>  2  8.00 0.889  8.99  18.0  0.000374 
-#>  3  8.00 0.889  9.00  18.0  0.0000424
-#>  4  8.00 0.888  9.01  18.0 -0.000197 
-#>  5  8.00 0.889  9.00  18.0  0.000129 
-#>  6  8.00 0.889  9.00  18.0  0.000113 
-#>  7  8.00 0.889  9.00  18.0  0.000192 
-#>  8  8.00 0.889  9.00  18.0  0.000104 
-#>  9  8.00 0.889  8.99  18.0  0.000271 
-#> 10  8.00 0.888  9.00  18.0 -0.000141 
+#>  1  8.00 0.889  9.00  18.0  0.0000595
+#>  2  8.00 0.888  9.00  18.0 -0.000191 
+#>  3  8.00 0.889  9.00  18.0  0.000101 
+#>  4  8.00 0.888  9.00  18.0  0.0000165
+#>  5  8.00 0.889  9.00  18.0  0.000108 
+#>  6  8.00 0.890  8.99  18.0  0.000272 
+#>  7  8.00 0.889  9.00  18.0  0.000224 
+#>  8  8.00 0.889  9.00  18.0  0.000144 
+#>  9  8.00 0.888  9.01  18.0 -0.000175 
+#> 10  8.00 0.890  8.99  18.0  0.000486 
 #> 
 #> Testing model fit:
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>        NA    0.9992   -0.1638    0.1524    0.1638    0.0506    0.0393       Inf
+#>        NA     0.999    -0.164     0.153     0.164     0.051     0.039       Inf
 ```
 
 ## Publications

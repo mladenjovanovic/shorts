@@ -22,6 +22,7 @@ Data frame with the following columns:
          \item{split_time_stop}{Time at which distance ends}
          \item{split_time}{Split time}
          \item{split_mean_velocity}{Mean velocity over split distance}
+         \item{split_mean_acceleration}{Mean acceleration over split distance}
     }
 }
 \description{
