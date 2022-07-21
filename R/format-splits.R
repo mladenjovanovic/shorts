@@ -14,6 +14,7 @@
 #'          \item{split_time_stop}{Time at which distance ends}
 #'          \item{split_time}{Split time}
 #'          \item{split_mean_velocity}{Mean velocity over split distance}
+#'          \item{split_mean_acceleration}{Mean acceleration over split distance}
 #'     }
 #' @export
 #' @examples
@@ -25,14 +26,14 @@
 format_splits <- function(distance, time) {
   df <- data.frame(distance = distance, time = time)
 
-  # Function for creating laf
-  create_lag <- function(x) {
+  # Function for creating lag
+  create_lag <- function(x, first = 0) {
     x_lag <- x
     for (i in seq(1, length(x) - 1)) {
       x_lag[i + 1] <- x[i]
     }
 
-    x_lag[1] <- 0
+    x_lag[1] <- first
     return(x_lag)
   }
 
@@ -51,8 +52,12 @@ format_splits <- function(distance, time) {
   df$split_time_start <- create_lag(df$time)
   df$split_time_stop <- df$time
   df$split_time <- df$split_time_stop - df$split_time_start
+
   # mean velocity
   df$split_mean_velocity <- df$split_distance / df$split_time
+
+  # mean acceleration
+  df$split_mean_acceleration <- (df$split_mean_velocity - create_lag(df$split_mean_velocity)) / df$split_time
 
   # Split number
   df$split <- seq(1, nrow(df))
@@ -66,7 +71,8 @@ format_splits <- function(distance, time) {
     "split_time_start",
     "split_time_stop",
     "split_time",
-    "split_mean_velocity"
+    "split_mean_velocity",
+    "split_mean_acceleration"
   )]
 
   return(df)
