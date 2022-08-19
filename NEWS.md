@@ -1,6 +1,7 @@
 # shorts 2.0.0.9000
 
 * Added mean acceleration over distance to `format_splits()`
+* Added `model_tether()` function for modeling data output from tether devices, which involve velocity at distance
 
 
 # shorts 2.0.0
