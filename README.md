@@ -358,6 +358,31 @@ ggplot(jim_profile$data, aes(x = time)) +
 
 <img src="man/figures/README-unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
+### Profiling using tether devices
+
+Some tether devices provide data out in a velocity-at-distance format.
+In this case, velocity is the outcome variable and distance is the
+predictor. To estimate sprint profiles from *tether data*, use
+`model_tether()` function:
+
+``` r
+distance <- c(5, 10, 20, 30, 40)
+
+velocity <- predict_velocity_at_distance(distance, MSS = 10, MAC = 8) +
+  rnorm(length(distance), 0, 0.1)
+
+m1 <- model_tether(distance = distance, velocity = velocity)
+
+df <- data.frame(
+  distance = distance,
+  obs_velocity = velocity)
+
+plot(m1) +
+  geom_point(data = df, aes(x = distance, y = obs_velocity))
+```
+
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+
 ### Force-Velocity Profiling
 
 To estimate Force-Velocity profile using approach by Samozino *et al.*
@@ -386,7 +411,7 @@ plot(kimberley_fv) +
   theme_bw()
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Using corrections
 
@@ -538,7 +563,7 @@ ggplot(LOOCV_parameters, aes(y = value)) +
   theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
 ```
 
-<img src="man/figures/README-unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot model LOOCV predictions and training (when using all data
 set) predictions against observed performance:
@@ -559,7 +584,7 @@ ggplot(kimberley_data, aes(x = distance)) +
   ylab("Time (s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot predicted velocity using LOOCV estimate parameters to check
 robustness of the model predictions:
@@ -591,7 +616,7 @@ ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
   ylab("Velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 Cross-validation implemented in `model_radar_gun()` function involves
 using n-folds, set by using `CV=` parameter:
@@ -619,29 +644,29 @@ jim_profile_CV
 #> ------------------------------
 #> Parameters:
 #> # A tibble: 10 × 5
-#>      MSS   TAU   MAC  PMAX         TC
-#>    <dbl> <dbl> <dbl> <dbl>      <dbl>
-#>  1  8.00 0.889  9.00  18.0  0.0000595
-#>  2  8.00 0.888  9.00  18.0 -0.000191 
-#>  3  8.00 0.889  9.00  18.0  0.000101 
-#>  4  8.00 0.888  9.00  18.0  0.0000165
-#>  5  8.00 0.889  9.00  18.0  0.000108 
-#>  6  8.00 0.890  8.99  18.0  0.000272 
-#>  7  8.00 0.889  9.00  18.0  0.000224 
-#>  8  8.00 0.889  9.00  18.0  0.000144 
-#>  9  8.00 0.888  9.01  18.0 -0.000175 
-#> 10  8.00 0.890  8.99  18.0  0.000486 
+#>      MSS   TAU   MAC  PMAX          TC
+#>    <dbl> <dbl> <dbl> <dbl>       <dbl>
+#>  1  8.00 0.889  8.99  18.0  0.000269  
+#>  2  8.00 0.890  8.99  18.0  0.000319  
+#>  3  8.00 0.888  9.01  18.0 -0.00000698
+#>  4  8.00 0.889  9.00  18.0  0.000341  
+#>  5  8.00 0.889  8.99  18.0  0.000171  
+#>  6  8.00 0.888  9.00  18.0 -0.000211  
+#>  7  8.00 0.889  9.00  18.0  0.000173  
+#>  8  8.00 0.889  8.99  18.0  0.000136  
+#>  9  8.00 0.888  9.01  18.0 -0.0000353 
+#> 10  8.00 0.888  9.01  18.0 -0.0000356 
 #> 
 #> Testing model fit:
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>        NA     0.999    -0.164     0.153     0.164     0.051     0.039       Inf
+#>        NA     0.999    -0.164     0.152     0.164     0.051     0.039       Inf
 ```
 
 ## Publications
 
-1.  Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for
-    Modeling Short Sprints**. Preprint available at *SportRxiv*.
-    <https://doi.org/10.31236/osf.io/4jw62>
+1.  Jovanović, M., Vescovi, J.D. (2020). **{shorts}: An R Package for
+    Modeling Short Sprints**. *International Journal of Strength and
+    Conditioning, 2(1).* <https://doi.org/10.47206/ijsc.v2i1.74>
 
 2.  Vescovi, JD and Jovanović, M. **Sprint Mechanical Characteristics of
     Female Soccer Players: A Retrospective Pilot Study to Examine a
@@ -661,8 +686,7 @@ citation("shorts")
 ## References
 
 Please refer to these publications for more information on short sprints
-modeling using mono-exponential equation, as well as on performing mixed
-non-linear models with `nlme` package:
+modeling using mono-exponential equation:
 
 Chelly SM, Denis C. 2001. Leg power and hopping stiffness: relationship
 with sprint running performance: Medicine and Science in Sports and
@@ -684,9 +708,6 @@ Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start:
 Impact of Timing and Start Procedure on Sprint Running Performance:
 Journal of Strength and Conditioning Research 26:473–479. DOI:
 10.1519/JSC.0b013e318226030b.
-
-Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team. 2019. nlme: Linear
-and nonlinear mixed effects models.
 
 Samozino P, Rabita G, Dorel S, Slawinski J, Peyrot N, Saez de Villarreal
 E, Morin J-B. 2016. A simple method for measuring power, force, velocity
