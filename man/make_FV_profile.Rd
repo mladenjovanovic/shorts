@@ -42,11 +42,18 @@ List containing the following elements:
         \item{Drf}{Slope of Force Ratio (RF) and velocity. See References for more info}
         \item{RSE_FV}{Residual standard error of the FV profile.}
         \item{RSE_Drf}{Residual standard error of the RF-velocity profile}
+        \item{F0_poly}{Horizontal force when velocity=0, estimated using the analytics/polynomial method}
+        \item{F0_poly_rel}{\code{F0_poly} divided by \code{bodymass}}
+        \item{V0_poly}{Velocity when horizontal force=0, estimated using the analytics/polynomial method}
+        \item{Pmax_poly}{Maximal horizontal power, estimated using the analytics/polynomial method}
+        \item{Pmax_poly_rel}{\code{Pmax_poly} divided by \code{bodymass}}
+        \item{FV_slope_poly}{Slope of the FV profile, estimated using the analytics/polynomial method. See References for more info}
         \item{data}{Data frame containing simulated data used to estimate parameters}
     }
 }
 \description{
-Provides Force-Velocity (FV) profile suggested by Pierre Samozino and JB-Morin, et al.
+Provides Force-Velocity (FV) profile suggested by Pierre Samozino and JB-Morin, et al. (2016) and
+   Pierre Samozino and Nicolas Peyror, et al (2021).
 }
 \examples{
 data("jb_morin")
@@ -69,4 +76,8 @@ Samozino P, Rabita G, Dorel S, Slawinski J, Peyrot N, Saez de Villarreal E, Mori
     A simple method for measuring power, force, velocity properties, and mechanical effectiveness in
     sprint running: Simple method to compute sprint mechanics. Scandinavian Journal of Medicine & Science
     in Sports 26:648–658. DOI: 10.1111/sms.12490.
+
+    Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P, Vanwanseele B, Morin J. 2022.
+     Optimal mechanical force‐velocity profile for sprint acceleration performance.
+      Scandinavian Journal of Medicine & Science in Sports 32:559–575. DOI: 10.1111/sms.14097.
 }

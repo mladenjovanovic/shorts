@@ -23,6 +23,12 @@ new_fv_profile <- function(bodymass,
                            Drf,
                            RSE_FV,
                            RSE_Drf,
+                           F0_poly,
+                           F0_poly_rel,
+                           V0_poly,
+                           Pmax_poly,
+                           Pmax_poly_rel,
+                           FV_slope_poly,
                            data) {
   fv_profile <- list(
     bodymass = bodymass,
@@ -37,6 +43,12 @@ new_fv_profile <- function(bodymass,
     Drf = Drf,
     RSE_FV = RSE_FV,
     RSE_Drf = RSE_Drf,
+    F0_poly = F0_poly,
+    F0_poly_rel = F0_poly_rel,
+    V0_poly = V0_poly,
+    Pmax_poly = Pmax_poly,
+    Pmax_poly_rel = Pmax_poly_rel,
+    FV_slope_poly = FV_slope_poly,
     data = data
   )
 

@@ -3,6 +3,7 @@
 * Added mean acceleration over distance to `format_splits()`
 * Added `model_tether()` function for modeling data output from tether devices, which involve velocity at distance
 * Change the `Pmax_relative` to `Pmax_rel` in the output of the `make_FV_profile()` function
+* Added analytically/polynomially estimated `F0_poly`, `F0_poly_rel`, `V0_poly`, `Pmax_poly`, `Pmax_poly_rel`, and `FV_slope_poly` to the output of the `make_FV_profile()` function using the method outlined in Pierre Samozino and Nicolas Peyror, et al (2021) <doi: 10.1111/sms.14097>
 
 # shorts 2.0.0
 
