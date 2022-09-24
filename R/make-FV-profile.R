@@ -116,7 +116,7 @@ make_FV_profile <- function(MSS,
   V0 <- -F0_rel / Slope
 
   Pmax <- F0 * V0 / 4
-  Pmax_relative <- Pmax / bodymass
+  Pmax_rel <- Pmax / bodymass
 
   # Return list
   new_fv_profile(
@@ -125,7 +125,7 @@ make_FV_profile <- function(MSS,
     F0_rel = F0_rel,
     V0 = V0,
     Pmax = Pmax,
-    Pmax_relative = Pmax_relative,
+    Pmax_rel = Pmax_rel,
     FV_slope = Slope,
     RFmax_cutoff = RFmax_cutoff,
     RFmax = RFmax,
