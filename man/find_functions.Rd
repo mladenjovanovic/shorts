@@ -10,6 +10,10 @@
 \alias{find_acceleration_critical_time}
 \alias{find_power_critical_distance}
 \alias{find_power_critical_time}
+\alias{find_optimal_FV}
+\alias{find_optimal_MSS_MAC}
+\alias{find_optimal_FV_distance}
+\alias{find_optimal_MSS_MAC_distance}
 \title{Find functions}
 \usage{
 find_max_power_distance(MSS, MAC, ...)
@@ -27,6 +31,28 @@ find_acceleration_critical_time(MSS, MAC, percent = 0.9)
 find_power_critical_distance(MSS, MAC, percent = 0.9, ...)
 
 find_power_critical_time(MSS, MAC, percent = 0.9, ...)
+
+find_optimal_FV(distance, F0, V0, bodymass = 75, ...)
+
+find_optimal_MSS_MAC(distance, MSS, MAC)
+
+find_optimal_FV_distance(
+  F0,
+  V0,
+  bodymass = 75,
+  min = 1,
+  max = 60,
+  metric = "FV_slope_perc",
+  ...
+)
+
+find_optimal_MSS_MAC_distance(
+  MSS,
+  MAC,
+  min = 1,
+  max = 60,
+  metric = "slope_perc"
+)
 }
 \arguments{
 \item{MSS, MAC}{Numeric vectors. Model parameters}
@@ -34,6 +60,16 @@ find_power_critical_time(MSS, MAC, percent = 0.9, ...)
 \item{...}{Forwarded to \code{\link{predict_power_at_distance}} for the purpose of calculation of air resistance}
 
 \item{percent}{Numeric vector. Used to calculate critical distance. Default is 0.9}
+
+\item{distance}{Numeric vector}
+
+\item{F0, V0}{Numeric vectors. FV profile parameters}
+
+\item{bodymass}{Body mass in kg}
+
+\item{min, max}{Range over which to find the distance}
+
+\item{metric}{Metric from \code{\link{find_optimal_MSS_MAC}}. Default is "slope_perc"}
 }
 \value{
 \code{find_max_power_distance} returns list with two elements: \code{max_power}
@@ -41,6 +77,26 @@ find_power_critical_time(MSS, MAC, percent = 0.9, ...)
 
 \code{find_max_power_time} returns list with two elements: \code{max_power} and
     \code{time} at which max power occurs
+
+A data frame with the following elements
+    \describe{
+        \item{F0_optim}{Optimal F0}
+        \item{V0_optim}{Optimal V0}
+        \item{FV_slope_perc}{Percent ratio between slope and optimal slope}
+        \item{probe_IMB}{Percent ratio between improvement in time when V0 vs F0 increase for 5 percent}
+    }
+
+A data frame with the following elements
+    \describe{
+        \item{MSS_optim}{Optimal MSS}
+        \item{MAC_optim}{Optimal MAC}
+        \item{slope_perc}{Percent ratio between slope and optimal slope}
+        \item{probe_IMB}{Percent ratio between improvement in time when MSS vs MAC increase for 5 percent}
+    }
+
+Distance
+
+Distance
 }
 \description{
 Family of functions that serve a purpose of finding maximal value and critical distances and times
@@ -69,6 +125,18 @@ Family of functions that serve a purpose of finding maximal value and critical d
 
 \code{find_power_critical_time} finds critical times at which maximal power over
     \code{percent} is achieved
+
+\code{find_optimal_FV} finds "optimal" \code{F0} and \code{V0} where time at distance is
+    minimized, while keeping the \code{Pmax} the same
+
+\code{find_optimal_MSS_MAC} finds "optimal" \code{MSS} and \code{MAS} where time at distance is
+    minimized, while keeping the \code{Pmax} the same
+
+\code{find_optimal_FV_distance} finds the distance for which the
+    FV profile is optimal
+
+\code{find_optimal_MSS_MAC_distance} finds the distance for which the
+    sprint profile is optimal
 }
 \examples{
 dist <- seq(0, 40, length.out = 1000)
@@ -124,13 +192,47 @@ abline(h = max_pwr$max_power * 0.75, col = "gray")
 pwr_zone <- find_power_critical_distance(MSS = 10, MAC = 9, percent = 0.75)
 abline(v = pwr_zone$lower, col = "blue")
 abline(v = pwr_zone$upper, col = "blue")
+
+# Optimal profiles
+MSS <- 10
+MAC <- 8
+bodymass <- 75
+
+fv <- make_FV_profile(MSS, MAC, bodymass)
+
+dist <- 1:50
+
+opt_slope_perc <- find_optimal_MSS_MAC(
+  distance = dist,
+  MSS,
+  MAC)[["slope_perc"]]
+
+opt_dist <- find_optimal_MSS_MAC_distance(MSS, MAC)
+
+opt_FV_slope_perc <- find_optimal_FV(
+  distance = dist,
+  fv$F0_poly,
+  fv$V0_poly,
+  fv$bodymass)[["FV_slope_perc"]]
+
+opt_FV_dist <- find_optimal_FV_distance(fv$F0_poly, fv$V0_poly, fv$bodymass)
+
+plot(x = dist, y = opt_slope_perc, type = "l")
+lines(x = dist, y = opt_FV_slope_perc, type = "l", col = "blue")
+points(x = opt_dist, y = 100)
+points(x = opt_FV_dist, y = 100, col = "blue")
+abline(h = 100, col = "gray", lty = 2)
 }
 \references{
 Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
         DOI: 10.1519/JSC.0b013e318226030b.
 
-    Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
+Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
         Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
        Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.
+
+Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P, Vanwanseele B, Morin J. 2022.
+     Optimal mechanical force‐velocity profile for sprint acceleration performance.
+      Scandinavian Journal of Medicine & Science in Sports 32:559–575. DOI: 10.1111/sms.14097.
 }

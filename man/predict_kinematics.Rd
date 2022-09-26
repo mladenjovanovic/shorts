@@ -6,6 +6,7 @@
 \alias{predict_distance_at_time}
 \alias{predict_acceleration_at_time}
 \alias{predict_time_at_distance}
+\alias{predict_time_at_distance_FV}
 \alias{predict_velocity_at_distance}
 \alias{predict_acceleration_at_distance}
 \alias{predict_acceleration_at_velocity}
@@ -26,6 +27,8 @@ predict_distance_at_time(time, MSS, MAC)
 predict_acceleration_at_time(time, MSS, MAC)
 
 predict_time_at_distance(distance, MSS, MAC)
+
+predict_time_at_distance_FV(distance, F0, V0, bodymass = 75, ...)
 
 predict_velocity_at_distance(distance, MSS, MAC)
 
@@ -56,9 +59,11 @@ predict_kinematics(object, max_time = 6, frequency = 100, bodymass = 75, ...)
 
 \item{MSS, MAC}{Numeric vectors. Model parameters}
 
-\item{...}{Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance and power}
+\item{F0, V0}{Numeric vectors. FV profile parameters}
 
 \item{bodymass}{Body mass in kg. Used to calculate relative power and forwarded to \code{\link{get_air_resistance}}}
+
+\item{...}{Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance and power}
 
 \item{object}{\code{shorts_model} object}
 

@@ -358,10 +358,35 @@ ggplot(jim_profile$data, aes(x = time)) +
 
 <img src="man/figures/README-unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
+### Profiling using tether devices
+
+Some tether devices provide data out in a velocity-at-distance format.
+In this case, velocity is the outcome variable and distance is the
+predictor. To estimate sprint profiles from *tether data*, use
+`model_tether()` function:
+
+``` r
+distance <- c(5, 10, 20, 30, 40)
+
+velocity <- predict_velocity_at_distance(distance, MSS = 10, MAC = 8) +
+  rnorm(length(distance), 0, 0.1)
+
+m1 <- model_tether(distance = distance, velocity = velocity)
+
+df <- data.frame(
+  distance = distance,
+  obs_velocity = velocity)
+
+plot(m1) +
+  geom_point(data = df, aes(x = distance, y = obs_velocity))
+```
+
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+
 ### Force-Velocity Profiling
 
 To estimate Force-Velocity profile using approach by Samozino *et al.*
-(2016), use `shorts::make_FV_profile()`:
+(2016, 2022) use `shorts::make_FV_profile()`:
 
 ``` r
 kimberley_fv <- shorts::make_FV_profile(
@@ -377,16 +402,18 @@ kimberley_fv
 #> --------------------------------
 #>      bodymass            F0        F0_rel            V0          Pmax 
 #>       6.0e+01       6.3e+02       1.1e+01       8.8e+00       1.4e+03 
-#> Pmax_relative      FV_slope  RFmax_cutoff         RFmax           Drf 
+#>      Pmax_rel      FV_slope  RFmax_cutoff         RFmax           Drf 
 #>       2.3e+01      -1.2e+00       3.0e-01       6.0e-01      -1.0e-01 
-#>        RSE_FV       RSE_Drf 
-#>       1.0e+00       9.5e-03
+#>        RSE_FV       RSE_Drf       F0_poly   F0_poly_rel       V0_poly 
+#>       1.0e+00       9.5e-03       6.4e+02       1.1e+01       8.8e+00 
+#>     Pmax_poly Pmax_poly_rel FV_slope_poly 
+#>       1.4e+03       2.3e+01      -1.2e+00
 
 plot(kimberley_fv) +
   theme_bw()
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Using corrections
 
@@ -538,7 +565,7 @@ ggplot(LOOCV_parameters, aes(y = value)) +
   theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
 ```
 
-<img src="man/figures/README-unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot model LOOCV predictions and training (when using all data
 set) predictions against observed performance:
@@ -559,7 +586,7 @@ ggplot(kimberley_data, aes(x = distance)) +
   ylab("Time (s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot predicted velocity using LOOCV estimate parameters to check
 robustness of the model predictions:
@@ -591,7 +618,7 @@ ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
   ylab("Velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 Cross-validation implemented in `model_radar_gun()` function involves
 using n-folds, set by using `CV=` parameter:
@@ -621,33 +648,83 @@ jim_profile_CV
 #> # A tibble: 10 × 5
 #>      MSS   TAU   MAC  PMAX         TC
 #>    <dbl> <dbl> <dbl> <dbl>      <dbl>
-#>  1  8.00 0.889  9.00  18.0  0.0000595
-#>  2  8.00 0.888  9.00  18.0 -0.000191 
-#>  3  8.00 0.889  9.00  18.0  0.000101 
-#>  4  8.00 0.888  9.00  18.0  0.0000165
-#>  5  8.00 0.889  9.00  18.0  0.000108 
-#>  6  8.00 0.890  8.99  18.0  0.000272 
-#>  7  8.00 0.889  9.00  18.0  0.000224 
-#>  8  8.00 0.889  9.00  18.0  0.000144 
-#>  9  8.00 0.888  9.01  18.0 -0.000175 
-#> 10  8.00 0.890  8.99  18.0  0.000486 
+#>  1  8.00 0.888  9.01  18.0 -0.0000815
+#>  2  8.00 0.888  9.01  18.0  0.000292 
+#>  3  8.00 0.888  9.00  18.0 -0.000215 
+#>  4  8.00 0.889  9.00  18.0  0.000104 
+#>  5  8.00 0.889  9.00  18.0  0.000107 
+#>  6  8.00 0.889  9.00  18.0  0.000118 
+#>  7  8.00 0.889  9.00  18.0  0.0000335
+#>  8  8.00 0.889  8.99  18.0  0.000266 
+#>  9  8.00 0.889  9.00  18.0  0.000162 
+#> 10  8.00 0.890  8.99  18.0  0.000354 
 #> 
 #> Testing model fit:
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>        NA     0.999    -0.164     0.153     0.164     0.051     0.039       Inf
+#>        NA     0.999    -0.166     0.151     0.166     0.051     0.039       Inf
 ```
+
+### Optimization
+
+Using the method outlined in Samozino *et al* (2022), one can find the
+optimal profiles, as well as the profile imbalance (compared to the
+optimal), for both sprint profiles (i.e., MSS and MAC) and
+Force-Velocity (FV).
+
+``` r
+MSS <- 10
+MAC <- 8
+bodymass <- 75
+
+fv <- make_FV_profile(MSS, MAC, bodymass)
+
+opt_df <- tibble(
+  dist = 1:50) %>%
+  mutate(
+    `Sprint Profile` = find_optimal_MSS_MAC(
+      distance = dist,
+      MSS,
+      MAC)[["slope_perc"]],
+    `FV Profile` = find_optimal_FV(
+      distance = dist,
+      fv$F0_poly,
+      fv$V0_poly,
+      bodymass)[["FV_slope_perc"]]
+  ) %>%
+  pivot_longer(-dist, names_to = "profile")
+
+opt_dist <- tibble(
+  `Sprint Profile` = find_optimal_MSS_MAC_distance(MSS, MAC),
+  `FV Profile` = find_optimal_FV_distance(fv$F0_poly, fv$V0_poly)
+) %>%
+  pivot_longer(cols = 1:2, names_to = "profile")
+
+ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
+  theme_bw() +
+  geom_hline(yintercept = 100, linetype = "dashed", alpha = 0.6) +
+  geom_line() +
+  geom_point(data = opt_dist, aes(x = value, y = 100), size = 2) +
+  xlab("Distance (m)") +
+  ylab("Profile imbalance")
+```
+
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Publications
 
-1.  Jovanović, M., Vescovi, J.D. (2020). **shorts: An R Package for
-    Modeling Short Sprints**. Preprint available at *SportRxiv*.
-    <https://doi.org/10.31236/osf.io/4jw62>
+1.  Jovanović, M., Vescovi, J.D. (2020). **{shorts}: An R Package for
+    Modeling Short Sprints**. *International Journal of Strength and
+    Conditioning, 2(1).* <https://doi.org/10.47206/ijsc.v2i1.74>
 
-2.  Vescovi, JD and Jovanović, M. **Sprint Mechanical Characteristics of
-    Female Soccer Players: A Retrospective Pilot Study to Examine a
-    Novel Approach for Correction of Timing Gate Starts.** *Front Sports
-    Act Living 3: 629694, 2021.*
+2.  Vescovi, JD and Jovanović, M. (2021). **Sprint Mechanical
+    Characteristics of Female Soccer Players: A Retrospective Pilot
+    Study to Examine a Novel Approach for Correction of Timing Gate
+    Starts.** *Front Sports Act Living 3: 629694, 2021.*
     <https://doi.org/10.3389/fspor.2021.629694>
+
+3.  Jovanovic M. (2022). **Bias in estimated short sprint profiles using
+    timing gates due to the flying start: Simulation study and proposed
+    solutions**. *SportRxiv* <https://doi.org/10.51224/SRXIV.179>
 
 ## Citation
 
@@ -661,8 +738,7 @@ citation("shorts")
 ## References
 
 Please refer to these publications for more information on short sprints
-modeling using mono-exponential equation, as well as on performing mixed
-non-linear models with `nlme` package:
+modeling using mono-exponential equation:
 
 Chelly SM, Denis C. 2001. Leg power and hopping stiffness: relationship
 with sprint running performance: Medicine and Science in Sports and
@@ -685,9 +761,6 @@ Impact of Timing and Start Procedure on Sprint Running Performance:
 Journal of Strength and Conditioning Research 26:473–479. DOI:
 10.1519/JSC.0b013e318226030b.
 
-Pinheiro J, Bates D, DebRoy S, Sarkar D, R Core Team. 2019. nlme: Linear
-and nonlinear mixed effects models.
-
 Samozino P, Rabita G, Dorel S, Slawinski J, Peyrot N, Saez de Villarreal
 E, Morin J-B. 2016. A simple method for measuring power, force, velocity
 properties, and mechanical effectiveness in sprint running: Simple
@@ -699,3 +772,8 @@ Power Capabilities and Mechanical Effectiveness During Sprint Running.
 In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
 Cham: Springer International Publishing, 237–267. DOI:
 10.1007/978-3-319-05633-3_11.
+
+Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P,
+Vanwanseele B, Morin J. 2022. Optimal mechanical force‐velocity profile
+for sprint acceleration performance.Scandinavian Journal of Medicine &
+Science in Sports 32:559–575. DOI: 10.1111/sms.14097.
