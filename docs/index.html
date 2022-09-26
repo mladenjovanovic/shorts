@@ -85,7 +85,6 @@
 </h1></div>
 <!-- badges: start -->
 
-<!-- badges: end -->
 <p>This package creates short sprint (&lt;6sec) profiles using the split times, or the radar gun data. Mono-exponential equation is used to estimate maximal sprinting speed (MSS), relative acceleration (TAU), and other parameters. These parameters can be used to predict kinematic and kinetics variables and to compare individuals.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -215,15 +214,15 @@
 <span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
+<col width="4%">
+<col width="13%">
+<col width="13%">
+<col width="10%">
 <col width="11%">
-<col width="11%">
-<col width="11%">
-<col width="11%">
-<col width="11%">
-<col width="11%">
-<col width="11%">
-<col width="11%">
-<col width="11%">
+<col width="10%">
+<col width="7%">
+<col width="13%">
+<col width="15%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">split</th>
@@ -379,22 +378,22 @@
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">predicted_kinematics</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <colgroup>
+<col width="2%">
+<col width="4%">
+<col width="4%">
+<col width="5%">
+<col width="4%">
+<col width="9%">
 <col width="6%">
+<col width="7%">
+<col width="11%">
 <col width="6%">
+<col width="7%">
+<col width="11%">
+<col width="2%">
 <col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
-<col width="6%">
+<col width="2%">
+<col width="5%">
 </colgroup>
 <thead><tr class="header">
 <th align="right">time</th>
@@ -646,7 +645,7 @@
 <div class="section level3">
 <h3 id="force-velocity-profiling">Force-Velocity Profiling<a class="anchor" aria-label="anchor" href="#force-velocity-profiling"></a>
 </h3>
-<p>To estimate Force-Velocity profile using approach by Samozino <em>et al.</em> (2016), use <code><a href="reference/make_FV_profile.html">shorts::make_FV_profile()</a></code>:</p>
+<p>To estimate Force-Velocity profile using approach by Samozino <em>et al.</em> (2016, 2022) use <code><a href="reference/make_FV_profile.html">shorts::make_FV_profile()</a></code>:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_fv</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/make_FV_profile.html">make_FV_profile</a></span><span class="op">(</span></span>
 <span>  MSS <span class="op">=</span> <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
@@ -661,10 +660,12 @@
 <span><span class="co">#&gt; --------------------------------</span></span>
 <span><span class="co">#&gt;      bodymass            F0        F0_rel            V0          Pmax </span></span>
 <span><span class="co">#&gt;       6.0e+01       6.3e+02       1.1e+01       8.8e+00       1.4e+03 </span></span>
-<span><span class="co">#&gt; Pmax_relative      FV_slope  RFmax_cutoff         RFmax           Drf </span></span>
+<span><span class="co">#&gt;      Pmax_rel      FV_slope  RFmax_cutoff         RFmax           Drf </span></span>
 <span><span class="co">#&gt;       2.3e+01      -1.2e+00       3.0e-01       6.0e-01      -1.0e-01 </span></span>
-<span><span class="co">#&gt;        RSE_FV       RSE_Drf </span></span>
-<span><span class="co">#&gt;       1.0e+00       9.5e-03</span></span>
+<span><span class="co">#&gt;        RSE_FV       RSE_Drf       F0_poly   F0_poly_rel       V0_poly </span></span>
+<span><span class="co">#&gt;       1.0e+00       9.5e-03       6.4e+02       1.1e+01       8.8e+00 </span></span>
+<span><span class="co">#&gt;     Pmax_poly Pmax_poly_rel FV_slope_poly </span></span>
+<span><span class="co">#&gt;       1.4e+03       2.3e+01      -1.2e+00</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">kimberley_fv</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
@@ -860,22 +861,63 @@
 <span><span class="co">#&gt; ------------------------------</span></span>
 <span><span class="co">#&gt; Parameters:</span></span>
 <span><span class="co">#&gt; # A tibble: 10 × 5</span></span>
-<span><span class="co">#&gt;      MSS   TAU   MAC  PMAX          TC</span></span>
-<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1  8.00 0.889  8.99  18.0  0.000269  </span></span>
-<span><span class="co">#&gt;  2  8.00 0.890  8.99  18.0  0.000319  </span></span>
-<span><span class="co">#&gt;  3  8.00 0.888  9.01  18.0 -0.00000698</span></span>
-<span><span class="co">#&gt;  4  8.00 0.889  9.00  18.0  0.000341  </span></span>
-<span><span class="co">#&gt;  5  8.00 0.889  8.99  18.0  0.000171  </span></span>
-<span><span class="co">#&gt;  6  8.00 0.888  9.00  18.0 -0.000211  </span></span>
-<span><span class="co">#&gt;  7  8.00 0.889  9.00  18.0  0.000173  </span></span>
-<span><span class="co">#&gt;  8  8.00 0.889  8.99  18.0  0.000136  </span></span>
-<span><span class="co">#&gt;  9  8.00 0.888  9.01  18.0 -0.0000353 </span></span>
-<span><span class="co">#&gt; 10  8.00 0.888  9.01  18.0 -0.0000356 </span></span>
+<span><span class="co">#&gt;      MSS   TAU   MAC  PMAX         TC</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1  8.00 0.888  9.01  18.0 -0.0000815</span></span>
+<span><span class="co">#&gt;  2  8.00 0.888  9.01  18.0  0.000292 </span></span>
+<span><span class="co">#&gt;  3  8.00 0.888  9.00  18.0 -0.000215 </span></span>
+<span><span class="co">#&gt;  4  8.00 0.889  9.00  18.0  0.000104 </span></span>
+<span><span class="co">#&gt;  5  8.00 0.889  9.00  18.0  0.000107 </span></span>
+<span><span class="co">#&gt;  6  8.00 0.889  9.00  18.0  0.000118 </span></span>
+<span><span class="co">#&gt;  7  8.00 0.889  9.00  18.0  0.0000335</span></span>
+<span><span class="co">#&gt;  8  8.00 0.889  8.99  18.0  0.000266 </span></span>
+<span><span class="co">#&gt;  9  8.00 0.889  9.00  18.0  0.000162 </span></span>
+<span><span class="co">#&gt; 10  8.00 0.890  8.99  18.0  0.000354 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Testing model fit:</span></span>
 <span><span class="co">#&gt;       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE </span></span>
-<span><span class="co">#&gt;        NA     0.999    -0.164     0.152     0.164     0.051     0.039       Inf</span></span></code></pre></div>
+<span><span class="co">#&gt;        NA     0.999    -0.166     0.151     0.166     0.051     0.039       Inf</span></span></code></pre></div>
+</div>
+<div class="section level3">
+<h3 id="optimization">Optimization<a class="anchor" aria-label="anchor" href="#optimization"></a>
+</h3>
+<p>Using the method outlined in Samozino <em>et al</em> (2022), one can find the optimal profiles, as well as the profile imbalance (compared to the optimal), for both sprint profiles (i.e., MSS and MAC) and Force-Velocity (FV).</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">MSS</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
+<span><span class="va">MAC</span> <span class="op">&lt;-</span> <span class="fl">8</span></span>
+<span><span class="va">bodymass</span> <span class="op">&lt;-</span> <span class="fl">75</span></span>
+<span></span>
+<span><span class="va">fv</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/make_FV_profile.html">make_FV_profile</a></span><span class="op">(</span><span class="va">MSS</span>, <span class="va">MAC</span>, <span class="va">bodymass</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">opt_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>  dist <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
+<span>    `Sprint Profile` <span class="op">=</span> <span class="fu"><a href="reference/find_functions.html">find_optimal_MSS_MAC</a></span><span class="op">(</span></span>
+<span>      distance <span class="op">=</span> <span class="va">dist</span>,</span>
+<span>      <span class="va">MSS</span>,</span>
+<span>      <span class="va">MAC</span><span class="op">)</span><span class="op">[[</span><span class="st">"slope_perc"</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    `FV Profile` <span class="op">=</span> <span class="fu"><a href="reference/find_functions.html">find_optimal_FV</a></span><span class="op">(</span></span>
+<span>      distance <span class="op">=</span> <span class="va">dist</span>,</span>
+<span>      <span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>,</span>
+<span>      <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span>,</span>
+<span>      <span class="va">bodymass</span><span class="op">)</span><span class="op">[[</span><span class="st">"FV_slope_perc"</span><span class="op">]</span><span class="op">]</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="va">dist</span>, names_to <span class="op">=</span> <span class="st">"profile"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">opt_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
+<span>  `Sprint Profile` <span class="op">=</span> <span class="fu"><a href="reference/find_functions.html">find_optimal_MSS_MAC_distance</a></span><span class="op">(</span><span class="va">MSS</span>, <span class="va">MAC</span><span class="op">)</span>,</span>
+<span>  `FV Profile` <span class="op">=</span> <span class="fu"><a href="reference/find_functions.html">find_optimal_FV_distance</a></span><span class="op">(</span><span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>, <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">2</span>, names_to <span class="op">=</span> <span class="st">"profile"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">opt_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">dist</span>, y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">profile</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">100</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span>, alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">opt_dist</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">value</span>, y <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Profile imbalance"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -883,14 +925,15 @@
 </h2>
 <ol style="list-style-type: decimal">
 <li><p>Jovanović, M., Vescovi, J.D. (2020). <strong>{shorts}: An R Package for Modeling Short Sprints</strong>. <em>International Journal of Strength and Conditioning, 2(1).</em> <a href="https://doi.org/10.47206/ijsc.v2i1.74" class="external-link uri">https://doi.org/10.47206/ijsc.v2i1.74</a></p></li>
-<li><p>Vescovi, JD and Jovanović, M. <strong>Sprint Mechanical Characteristics of Female Soccer Players: A Retrospective Pilot Study to Examine a Novel Approach for Correction of Timing Gate Starts.</strong> <em>Front Sports Act Living 3: 629694, 2021.</em> <a href="https://doi.org/10.3389/fspor.2021.629694" class="external-link uri">https://doi.org/10.3389/fspor.2021.629694</a></p></li>
+<li><p>Vescovi, JD and Jovanović, M. (2021). <strong>Sprint Mechanical Characteristics of Female Soccer Players: A Retrospective Pilot Study to Examine a Novel Approach for Correction of Timing Gate Starts.</strong> <em>Front Sports Act Living 3: 629694, 2021.</em> <a href="https://doi.org/10.3389/fspor.2021.629694" class="external-link uri">https://doi.org/10.3389/fspor.2021.629694</a></p></li>
+<li><p>Jovanovic M. (2022). <strong>Bias in estimated short sprint profiles using timing gates due to the flying start: Simulation study and proposed solutions</strong>. <em>SportRxiv</em> <a href="https://doi.org/10.51224/SRXIV.179" class="external-link uri">https://doi.org/10.51224/SRXIV.179</a></p></li>
 </ol>
 </div>
 <div class="section level2">
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>To cite {shorts}, please use the following command to get the BibTex entry:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"shorts"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -904,6 +947,7 @@
 <p>Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479. DOI: 10.1519/JSC.0b013e318226030b.</p>
 <p>Samozino P, Rabita G, Dorel S, Slawinski J, Peyrot N, Saez de Villarreal E, Morin J-B. 2016. A simple method for measuring power, force, velocity properties, and mechanical effectiveness in sprint running: Simple method to compute sprint mechanics. Scandinavian Journal of Medicine &amp; Science in Sports 26:648–658. DOI: 10.1111/sms.12490.</p>
 <p>Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing. Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.</p>
+<p>Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P, Vanwanseele B, Morin J. 2022. Optimal mechanical force‐velocity profile for sprint acceleration performance.Scandinavian Journal of Medicine &amp; Science in Sports 32:559–575. DOI: 10.1111/sms.14097.</p>
 </div>
 </div>
   </div>

@@ -61,6 +61,8 @@
 <span></span>
 <span><span class="fu">predict_time_at_distance</span><span class="op">(</span><span class="va">distance</span>, <span class="va">MSS</span>, <span class="va">MAC</span><span class="op">)</span></span>
 <span></span>
+<span><span class="fu">predict_time_at_distance_FV</span><span class="op">(</span><span class="va">distance</span>, <span class="va">F0</span>, <span class="va">V0</span>, bodymass <span class="op">=</span> <span class="fl">75</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu">predict_velocity_at_distance</span><span class="op">(</span><span class="va">distance</span>, <span class="va">MSS</span>, <span class="va">MAC</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">predict_acceleration_at_distance</span><span class="op">(</span><span class="va">distance</span>, <span class="va">MSS</span>, <span class="va">MAC</span><span class="op">)</span></span>
@@ -96,12 +98,16 @@
 <dd><p>Numeric vectors. Model parameters</p></dd>
 
 
-<dt>...</dt>
-<dd><p>Forwarded to <code><a href="get_air_resistance.html">get_air_resistance</a></code> for the purpose of calculation of air resistance and power</p></dd>
+<dt>F0, V0</dt>
+<dd><p>Numeric vectors. FV profile parameters</p></dd>
 
 
 <dt>bodymass</dt>
 <dd><p>Body mass in kg. Used to calculate relative power and forwarded to <code><a href="get_air_resistance.html">get_air_resistance</a></code></p></dd>
+
+
+<dt>...</dt>
+<dd><p>Forwarded to <code><a href="get_air_resistance.html">get_air_resistance</a></code> for the purpose of calculation of air resistance and power</p></dd>
 
 
 <dt>object</dt>
@@ -178,16 +184,16 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 9  5.3333333        35.573182         7.980170           0.02230877</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 10 6.0000000        40.897215         7.990633           0.01053792</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    time_at_distance velocity_at_distance acceleration_at_distance</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1                 0                    0                        9</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2      0.666666....         4.221067....             4.251298....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3      1.333333....         6.214958....             2.008171....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4                 2         7.156806....             0.948593....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5      2.666666....         7.601703....             0.448083....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6      3.333333....         7.811858....             0.211659....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7                 4         7.911128....             0.099980....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8      4.666666....         7.958019....             0.047227....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9      5.333333....         7.980169....             0.022308....</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10                6         7.990632....             0.010537....</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         0.0000000             0.000000               9.00000000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2         0.6666667             4.221068               4.25129897</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3         1.3333333             6.214959               2.00817144</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4         2.0000000             7.156806               0.94859302</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5         2.6666667             7.601703               0.44808362</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6         3.3333333             7.811858               0.21165971</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7         4.0000000             7.911128               0.09998097</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8         4.6666667             7.958020               0.04722767</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9         5.3333333             7.980170               0.02230877</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10        6.0000000             7.990633               0.01053792</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    acceleration_at_velocity power_at_time</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1                9.00000000        0.0000</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2                4.25129897     1818.3818</span>
