@@ -52,6 +52,10 @@
 <ul><li>Added mean acceleration over distance to <code><a href="../reference/format_splits.html">format_splits()</a></code>
 </li>
 <li>Added <code><a href="../reference/model_tether.html">model_tether()</a></code> function for modeling data output from tether devices, which involve velocity at distance</li>
+<li>Change the <code>Pmax_relative</code> to <code>Pmax_rel</code> in the output of the <code><a href="../reference/make_FV_profile.html">make_FV_profile()</a></code> function</li>
+<li>Added analytically/polynomially estimated <code>F0_poly</code>, <code>F0_poly_rel</code>, <code>V0_poly</code>, <code>Pmax_poly</code>, <code>Pmax_poly_rel</code>, and <code>FV_slope_poly</code> to the output of the <code><a href="../reference/make_FV_profile.html">make_FV_profile()</a></code> function using the method outlined in Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
+<li>Added <code><a href="../reference/predict_kinematics.html">predict_time_at_distance_FV()</a></code> which uses FV profile’s <code>F0</code> and <code>V0</code> to predict time at distance. For more info see Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
+<li>Added optimization functions: <code><a href="../reference/find_functions.html">find_optimal_MSS_MAC()</a></code>, <code><a href="../reference/find_functions.html">find_optimal_MSS_MAC_distance()</a></code>, <code><a href="../reference/find_functions.html">find_optimal_FV()</a></code>, <code><a href="../reference/find_functions.html">find_optimal_FV_distance()</a></code>. For more info on the FV optimizatio see Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.0.0" id="shorts-200">shorts 2.0.0<small>2022-07-07</small><a class="anchor" aria-label="anchor" href="#shorts-200"></a></h2>
