@@ -648,20 +648,20 @@ jim_profile_CV
 #> # A tibble: 10 × 5
 #>      MSS   TAU   MAC  PMAX         TC
 #>    <dbl> <dbl> <dbl> <dbl>      <dbl>
-#>  1  8.00 0.888  9.01  18.0 -0.000245 
-#>  2  8.00 0.889  8.99  18.0  0.000135 
-#>  3  8.00 0.889  9.00  18.0 -0.0000221
-#>  4  8.00 0.889  8.99  18.0  0.0000959
-#>  5  8.00 0.890  8.99  18.0  0.000584 
-#>  6  8.00 0.889  9.00  18.0  0.000184 
-#>  7  7.99 0.887  9.01  18.0 -0.000123 
-#>  8  8.00 0.890  8.99  18.0  0.000657 
-#>  9  8.00 0.888  9.00  18.0 -0.0000439
-#> 10  8.00 0.888  9.00  18.0 -0.000111 
+#>  1  8.00 0.888  9.01  18.0 -0.0000815
+#>  2  8.00 0.888  9.01  18.0  0.000292 
+#>  3  8.00 0.888  9.00  18.0 -0.000215 
+#>  4  8.00 0.889  9.00  18.0  0.000104 
+#>  5  8.00 0.889  9.00  18.0  0.000107 
+#>  6  8.00 0.889  9.00  18.0  0.000118 
+#>  7  8.00 0.889  9.00  18.0  0.0000335
+#>  8  8.00 0.889  8.99  18.0  0.000266 
+#>  9  8.00 0.889  9.00  18.0  0.000162 
+#> 10  8.00 0.890  8.99  18.0  0.000354 
 #> 
 #> Testing model fit:
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>        NA     0.999    -0.166     0.152     0.166     0.051     0.040       Inf
+#>        NA     0.999    -0.166     0.151     0.166     0.051     0.039       Inf
 ```
 
 ### Optimization
@@ -716,11 +716,15 @@ ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
     Modeling Short Sprints**. *International Journal of Strength and
     Conditioning, 2(1).* <https://doi.org/10.47206/ijsc.v2i1.74>
 
-2.  Vescovi, JD and Jovanović, M. **Sprint Mechanical Characteristics of
-    Female Soccer Players: A Retrospective Pilot Study to Examine a
-    Novel Approach for Correction of Timing Gate Starts.** *Front Sports
-    Act Living 3: 629694, 2021.*
+2.  Vescovi, JD and Jovanović, M. (2021). **Sprint Mechanical
+    Characteristics of Female Soccer Players: A Retrospective Pilot
+    Study to Examine a Novel Approach for Correction of Timing Gate
+    Starts.** *Front Sports Act Living 3: 629694, 2021.*
     <https://doi.org/10.3389/fspor.2021.629694>
+
+3.  Jovanovic M. (2022). **Bias in estimated short sprint profiles using
+    timing gates due to the flying start: Simulation study and proposed
+    solutions**. *SportRxiv* <https://doi.org/10.51224/SRXIV.179>
 
 ## Citation
 

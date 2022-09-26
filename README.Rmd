@@ -456,7 +456,10 @@ ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
 
 1. Jovanović, M., Vescovi, J.D. (2020). **{shorts}: An R Package for Modeling Short Sprints**. *International Journal of Strength and Conditioning, 2(1).* https://doi.org/10.47206/ijsc.v2i1.74
 
-1. Vescovi, JD and Jovanović, M. **Sprint Mechanical Characteristics of Female Soccer Players: A Retrospective Pilot Study to Examine a Novel Approach for Correction of Timing Gate Starts.** *Front Sports Act Living 3: 629694, 2021.* https://doi.org/10.3389/fspor.2021.629694
+2. Vescovi, JD and Jovanović, M. (2021). **Sprint Mechanical Characteristics of Female Soccer Players: A Retrospective Pilot Study to Examine a Novel Approach for Correction of Timing Gate Starts.** *Front Sports Act Living 3: 629694, 2021.* https://doi.org/10.3389/fspor.2021.629694
+
+3. Jovanovic M. (2022). **Bias in estimated short sprint profiles using timing gates due to the flying start: Simulation study and proposed solutions**. *SportRxiv* https://doi.org/10.51224/SRXIV.179
+
 
 ## Citation
 
