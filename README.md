@@ -386,7 +386,7 @@ plot(m1) +
 ### Force-Velocity Profiling
 
 To estimate Force-Velocity profile using approach by Samozino *et al.*
-(2016), use `shorts::make_FV_profile()`:
+(2016, 2022) use `shorts::make_FV_profile()`:
 
 ``` r
 kimberley_fv <- shorts::make_FV_profile(
@@ -402,10 +402,12 @@ kimberley_fv
 #> --------------------------------
 #>      bodymass            F0        F0_rel            V0          Pmax 
 #>       6.0e+01       6.3e+02       1.1e+01       8.8e+00       1.4e+03 
-#> Pmax_relative      FV_slope  RFmax_cutoff         RFmax           Drf 
+#>      Pmax_rel      FV_slope  RFmax_cutoff         RFmax           Drf 
 #>       2.3e+01      -1.2e+00       3.0e-01       6.0e-01      -1.0e-01 
-#>        RSE_FV       RSE_Drf 
-#>       1.0e+00       9.5e-03
+#>        RSE_FV       RSE_Drf       F0_poly   F0_poly_rel       V0_poly 
+#>       1.0e+00       9.5e-03       6.4e+02       1.1e+01       8.8e+00 
+#>     Pmax_poly Pmax_poly_rel FV_slope_poly 
+#>       1.4e+03       2.3e+01      -1.2e+00
 
 plot(kimberley_fv) +
   theme_bw()
@@ -644,23 +646,69 @@ jim_profile_CV
 #> ------------------------------
 #> Parameters:
 #> # A tibble: 10 × 5
-#>      MSS   TAU   MAC  PMAX          TC
-#>    <dbl> <dbl> <dbl> <dbl>       <dbl>
-#>  1  8.00 0.889  8.99  18.0  0.000269  
-#>  2  8.00 0.890  8.99  18.0  0.000319  
-#>  3  8.00 0.888  9.01  18.0 -0.00000698
-#>  4  8.00 0.889  9.00  18.0  0.000341  
-#>  5  8.00 0.889  8.99  18.0  0.000171  
-#>  6  8.00 0.888  9.00  18.0 -0.000211  
-#>  7  8.00 0.889  9.00  18.0  0.000173  
-#>  8  8.00 0.889  8.99  18.0  0.000136  
-#>  9  8.00 0.888  9.01  18.0 -0.0000353 
-#> 10  8.00 0.888  9.01  18.0 -0.0000356 
+#>      MSS   TAU   MAC  PMAX         TC
+#>    <dbl> <dbl> <dbl> <dbl>      <dbl>
+#>  1  8.00 0.888  9.01  18.0 -0.000245 
+#>  2  8.00 0.889  8.99  18.0  0.000135 
+#>  3  8.00 0.889  9.00  18.0 -0.0000221
+#>  4  8.00 0.889  8.99  18.0  0.0000959
+#>  5  8.00 0.890  8.99  18.0  0.000584 
+#>  6  8.00 0.889  9.00  18.0  0.000184 
+#>  7  7.99 0.887  9.01  18.0 -0.000123 
+#>  8  8.00 0.890  8.99  18.0  0.000657 
+#>  9  8.00 0.888  9.00  18.0 -0.0000439
+#> 10  8.00 0.888  9.00  18.0 -0.000111 
 #> 
 #> Testing model fit:
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>        NA     0.999    -0.164     0.152     0.164     0.051     0.039       Inf
+#>        NA     0.999    -0.166     0.152     0.166     0.051     0.040       Inf
 ```
+
+### Optimization
+
+Using the method outlined in Samozino *et al* (2022), one can find the
+optimal profiles, as well as the profile imbalance (compared to the
+optimal), for both sprint profiles (i.e., MSS and MAC) and
+Force-Velocity (FV).
+
+``` r
+MSS <- 10
+MAC <- 8
+bodymass <- 75
+
+fv <- make_FV_profile(MSS, MAC, bodymass)
+
+opt_df <- tibble(
+  dist = 1:50) %>%
+  mutate(
+    `Sprint Profile` = find_optimal_MSS_MAC(
+      distance = dist,
+      MSS,
+      MAC)[["slope_perc"]],
+    `FV Profile` = find_optimal_FV(
+      distance = dist,
+      fv$F0_poly,
+      fv$V0_poly,
+      bodymass)[["FV_slope_perc"]]
+  ) %>%
+  pivot_longer(-dist, names_to = "profile")
+
+opt_dist <- tibble(
+  `Sprint Profile` = find_optimal_MSS_MAC_distance(MSS, MAC),
+  `FV Profile` = find_optimal_FV_distance(fv$F0_poly, fv$V0_poly)
+) %>%
+  pivot_longer(cols = 1:2, names_to = "profile")
+
+ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
+  theme_bw() +
+  geom_hline(yintercept = 100, linetype = "dashed", alpha = 0.6) +
+  geom_line() +
+  geom_point(data = opt_dist, aes(x = value, y = 100), size = 2) +
+  xlab("Distance (m)") +
+  ylab("Profile imbalance")
+```
+
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Publications
 
@@ -720,3 +768,8 @@ Power Capabilities and Mechanical Effectiveness During Sprint Running.
 In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
 Cham: Springer International Publishing, 237–267. DOI:
 10.1007/978-3-319-05633-3_11.
+
+Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P,
+Vanwanseele B, Morin J. 2022. Optimal mechanical force‐velocity profile
+for sprint acceleration performance.Scandinavian Journal of Medicine &
+Science in Sports 32:559–575. DOI: 10.1111/sms.14097.

@@ -270,7 +270,7 @@ plot(m1) +
 
 ### Force-Velocity Profiling
 
-To estimate Force-Velocity profile using approach by Samozino *et al.* (2016), use `shorts::make_FV_profile()`:
+To estimate Force-Velocity profile using approach by Samozino *et al.* (2016, 2022) use `shorts::make_FV_profile()`:
 
 ```{r}
 kimberley_fv <- shorts::make_FV_profile(
@@ -410,6 +410,48 @@ jim_profile_CV <- shorts::model_radar_gun(
 jim_profile_CV
 ```
 
+### Optimization
+
+Using the method outlined in Samozino *et al* (2022), one can find the optimal profiles, as well as the profile imbalance (compared to the optimal), for both sprint profiles (i.e., MSS and MAC) and Force-Velocity (FV).
+
+```{r}
+MSS <- 10
+MAC <- 8
+bodymass <- 75
+
+fv <- make_FV_profile(MSS, MAC, bodymass)
+
+opt_df <- tibble(
+  dist = 1:50) %>%
+  mutate(
+    `Sprint Profile` = find_optimal_MSS_MAC(
+      distance = dist,
+      MSS,
+      MAC)[["slope_perc"]],
+    `FV Profile` = find_optimal_FV(
+      distance = dist,
+      fv$F0_poly,
+      fv$V0_poly,
+      bodymass)[["FV_slope_perc"]]
+  ) %>%
+  pivot_longer(-dist, names_to = "profile")
+
+opt_dist <- tibble(
+  `Sprint Profile` = find_optimal_MSS_MAC_distance(MSS, MAC),
+  `FV Profile` = find_optimal_FV_distance(fv$F0_poly, fv$V0_poly)
+) %>%
+  pivot_longer(cols = 1:2, names_to = "profile")
+
+ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
+  theme_bw() +
+  geom_hline(yintercept = 100, linetype = "dashed", alpha = 0.6) +
+  geom_line() +
+  geom_point(data = opt_dist, aes(x = value, y = 100), size = 2) +
+  xlab("Distance (m)") +
+  ylab("Profile imbalance")
+
+```
+
 ## Publications
 
 1. Jovanović, M., Vescovi, J.D. (2020). **{shorts}: An R Package for Modeling Short Sprints**. *International Journal of Strength and Conditioning, 2(1).* https://doi.org/10.47206/ijsc.v2i1.74
@@ -446,3 +488,6 @@ Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact
 Samozino P, Rabita G, Dorel S, Slawinski J, Peyrot N, Saez de Villarreal E, Morin J-B. 2016. A simple method for measuring power, force, velocity properties, and mechanical effectiveness in sprint running: Simple method to compute sprint mechanics. Scandinavian Journal of Medicine & Science in Sports 26:648–658. DOI: 10.1111/sms.12490.
 
 Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing. Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.
+
+Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P, Vanwanseele B, Morin J. 2022. Optimal mechanical force‐velocity profile for sprint acceleration performance.Scandinavian Journal of Medicine & Science in Sports 32:559–575. DOI: 10.1111/sms.14097.
+
