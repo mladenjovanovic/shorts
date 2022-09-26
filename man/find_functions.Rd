@@ -228,7 +228,11 @@ Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact
         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
         DOI: 10.1519/JSC.0b013e318226030b.
 
-    Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
+Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
         Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
        Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.
+
+Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P, Vanwanseele B, Morin J. 2022.
+     Optimal mechanical force‐velocity profile for sprint acceleration performance.
+      Scandinavian Journal of Medicine & Science in Sports 32:559–575. DOI: 10.1111/sms.14097.
 }
