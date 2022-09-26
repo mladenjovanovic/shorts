@@ -76,7 +76,7 @@ predict_acceleration_at_time <- function(time, MSS, MAC) {
 #' @export
 predict_time_at_distance <- function(distance, MSS, MAC) {
   TAU <- MSS / MAC
-  TAU * I(LambertW::W(-exp(1)^(-(distance) / (MSS * TAU) - 1))) + (distance) / MSS + TAU
+  TAU * LambertW::W(-exp(1)^(-(distance) / (MSS * TAU) - 1)) + (distance) / MSS + TAU
 }
 
 #' @rdname predict_kinematics
