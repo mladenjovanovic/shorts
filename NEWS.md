@@ -1,9 +1,10 @@
-# shorts 2.1.1
+# shorts 2.2.0
 
 * Expanded the results output of the `find_optimal_MSS_MAC()` and `find_optimal_FV()` functions. Some of the columns are renamed to better clarity
 * Added internal function `convert_FV()` to convert from FV profile to sprint profile. This is used to calculate Peak Power (`Ppeak`) metric and its location
 * Added `min_func` parameter to `find_optimal_MSS_MAC_distance()` and `find_optimal_FV_distance()`. This allows to optimize by using any other metric
 * Added `find_optimal_FV_peak()` function, which optimize the profile while keeping the Peak Power the same. Accompanying `find_optimal_FV_peak_distance()` is also added
+* Added extra reference to DESCRIPTION
 
 # shorts 2.1.0
 
