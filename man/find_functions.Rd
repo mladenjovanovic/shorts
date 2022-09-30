@@ -14,6 +14,8 @@
 \alias{find_optimal_MSS_MAC}
 \alias{find_optimal_FV_distance}
 \alias{find_optimal_MSS_MAC_distance}
+\alias{find_optimal_FV_peak}
+\alias{find_optimal_FV_peak_distance}
 \title{Find functions}
 \usage{
 find_max_power_distance(MSS, MAC, ...)
@@ -42,7 +44,8 @@ find_optimal_FV_distance(
   bodymass = 75,
   min = 1,
   max = 60,
-  metric = "FV_slope_perc",
+  metric = "slope_perc",
+  min_func = function(metric) (100 - metric)^2,
   ...
 )
 
@@ -51,7 +54,21 @@ find_optimal_MSS_MAC_distance(
   MAC,
   min = 1,
   max = 60,
-  metric = "slope_perc"
+  metric = "slope_perc",
+  min_func = function(metric) (100 - metric)^2
+)
+
+find_optimal_FV_peak(distance, F0, V0, bodymass = 75, ...)
+
+find_optimal_FV_peak_distance(
+  F0,
+  V0,
+  bodymass = 75,
+  min = 1,
+  max = 60,
+  metric = "slope_perc",
+  min_func = function(metric) (100 - metric)^2,
+  ...
 )
 }
 \arguments{
@@ -69,7 +86,10 @@ find_optimal_MSS_MAC_distance(
 
 \item{min, max}{Range over which to find the distance}
 
-\item{metric}{Metric from \code{\link{find_optimal_MSS_MAC}}. Default is "slope_perc"}
+\item{metric}{Metric from \code{\link{find_optimal_FV_peak}}. Default is "slope_perc"}
+
+\item{min_func}{Function to be minimized. \code{metric} is forwarded as argument.
+Used if other metric is used for optimization (e.g., "time_gain")}
 }
 \value{
 \code{find_max_power_distance} returns list with two elements: \code{max_power}
@@ -78,23 +98,109 @@ find_optimal_MSS_MAC_distance(
 \code{find_max_power_time} returns list with two elements: \code{max_power} and
     \code{time} at which max power occurs
 
-A data frame with the following elements
+A data frame with the following columns
     \describe{
+        \item{F0}{Original F0}
+        \item{V0}{Original F0}
+        \item{bodymass}{Bodymass}
+        \item{Pmax}{Maximal power estimated using F0 * V0 / 4}
+        \item{Pmax_rel}{Relative maximal power}
+        \item{slope}{FV profile slope}
+        \item{distance}{Distance}
+        \item{time}{Time to cover distance}
+        \item{Ppeak}{Peak power estimated quantitatively}
+        \item{Ppeak_rel}{Relative peak power}
+        \item{Ppeak_dist}{Distance at which peak power is manifested}
+        \item{Ppeak_time}{Time at which peak power is manifested}
         \item{F0_optim}{Optimal F0}
+        \item{F0_coef}{Ratio between F0_optim an F0}
         \item{V0_optim}{Optimal V0}
-        \item{FV_slope_perc}{Percent ratio between slope and optimal slope}
-        \item{probe_IMB}{Percent ratio between improvement in time when V0 vs F0 increase for 5 percent}
-    }
-
-A data frame with the following elements
-    \describe{
-        \item{MSS_optim}{Optimal MSS}
-        \item{MAC_optim}{Optimal MAC}
+        \item{V0_coef}{Ratio between V0_optim an V0}
+        \item{Pmax_optim}{Optimal maximal power estimated F0_optim * V0_optim / 4}
+        \item{Pmax_rel_optim}{Optimal relative maximal power}
+        \item{slope_optim}{Optimal FV profile slope}
         \item{slope_perc}{Percent ratio between slope and optimal slope}
-        \item{probe_IMB}{Percent ratio between improvement in time when MSS vs MAC increase for 5 percent}
-    }
+        \item{time_optim}{Time to cover distance when profile is optimal}
+        \item{time_gain}{Difference in time to cover distance between time_optimal and time}
+        \item{Ppeak_optim}{Optimal peak power estimated quantitatively}
+        \item{Ppeak_rel_optim}{Optimal relative peak power}
+        \item{Ppeak_dist_optim}{Distance at which optimal peak power is manifested}
+        \item{Ppeak_time_optim}{Time at which optimal peak power is manifested}
+        \item{probe_F0}{Probing F0}
+        \item{probe_F0_time}{Time to cover distance when using probe_F0}
+        \item{probe_F0_time_gain}{Time difference}
+        \item{probe_V0}{Probing V0}
+        \item{probe_V0_time}{Time to cover distance when using probe_V0}
+        \item{probe_V0_time_gain}{Time difference}
+        \item{probe_time_gain_perc}{Percent ratio between probe_V0_time_gain and probe_F0_time_gain}
+   }
+
+A data frame with the following columns
+    \describe{
+        \item{MSS}{Original MSS}
+        \item{MAC}{Original MAC}
+        \item{Pmax_rel}{Relative maximal power estimated using MSS * MAC / 4}
+        \item{slope}{Sprint profile slope}
+        \item{distance}{Distance}
+        \item{time}{Time to cover distance}
+        \item{MSS_optim}{Optimal MSS}
+        \item{MSS_coef}{Ratio between MSS_optim an MSS}
+        \item{MAC_optim}{Optimal MAC}
+        \item{MAC_coef}{Ratio between MAC_optim an MAC}
+        \item{Pmax_rel_optim}{Optimal relative maximal power estimated using MSS_optim * MAC_optim / 4}
+        \item{slope_optim}{Optimal sprint profile slope}
+        \item{slope_perc}{Percent ratio between slope and optimal slope}
+        \item{time_optim}{Time to cover distance when profile is optimal}
+        \item{time_gain}{Difference in time to cover distance between time_optimal and time}
+        \item{probe_MSS}{Probing MSS}
+        \item{probe_MSS_time}{Time to cover distance when using probe_MSS}
+        \item{probe_MSS_time_gain}{Time difference}
+        \item{probe_MAC}{Probing MAC}
+        \item{probe_MAC_time}{Time to cover distance when using probe_MAC}
+        \item{probe_MAC_time_gain}{Time difference}
+        \item{probe_time_gain_perc}{Percent ratio between probe_MSS_time_gain and probe_MAC_time_gain}
+   }
 
 Distance
+
+Distance
+
+A data frame with the following columns
+    \describe{
+        \item{F0}{Original F0}
+        \item{V0}{Original F0}
+        \item{bodymass}{Bodymass}
+        \item{Pmax}{Maximal power estimated using F0 * V0 / 4}
+        \item{Pmax_rel}{Relative maximal power}
+        \item{slope}{FV profile slope}
+        \item{distance}{Distance}
+        \item{time}{Time to cover distance}
+        \item{Ppeak}{Peak power estimated quantitatively}
+        \item{Ppeak_rel}{Relative peak power}
+        \item{Ppeak_dist}{Distance at which peak power is manifested}
+        \item{Ppeak_time}{Time at which peak power is manifested}
+        \item{F0_optim}{Optimal F0}
+        \item{F0_coef}{Ratio between F0_optim an F0}
+        \item{V0_optim}{Optimal V0}
+        \item{V0_coef}{Ratio between V0_optim an V0}
+        \item{Pmax_optim}{Optimal maximal power estimated F0_optim * V0_optim / 4}
+        \item{Pmax_rel_optim}{Optimal relative maximal power}
+        \item{slope_optim}{Optimal FV profile slope}
+        \item{slope_perc}{Percent ratio between slope and optimal slope}
+        \item{time_optim}{Time to cover distance when profile is optimal}
+        \item{time_gain}{Difference in time to cover distance between time_optimal and time}
+        \item{Ppeak_optim}{Optimal peak power estimated quantitatively}
+        \item{Ppeak_rel_optim}{Optimal relative peak power}
+        \item{Ppeak_dist_optim}{Distance at which optimal peak power is manifested}
+        \item{Ppeak_time_optim}{Time at which optimal peak power is manifested}
+        \item{probe_F0}{Probing F0}
+        \item{probe_F0_time}{Time to cover distance when using probe_F0}
+        \item{probe_F0_time_gain}{Time difference}
+        \item{probe_V0}{Probing V0}
+        \item{probe_V0_time}{Time to cover distance when using probe_V0}
+        \item{probe_V0_time_gain}{Time difference}
+        \item{probe_time_gain_perc}{Percent ratio between probe_V0_time_gain and probe_F0_time_gain}
+   }
 
 Distance
 }
@@ -137,6 +243,12 @@ Family of functions that serve a purpose of finding maximal value and critical d
 
 \code{find_optimal_MSS_MAC_distance} finds the distance for which the
     sprint profile is optimal
+
+\code{find_optimal_FV_peak} finds "optimal" \code{F0} and \code{V0} where time at distance is
+    minimized, while keeping the \code{Ppeak} the same
+
+\code{find_optimal_FV_peak_distance} finds the distance for which the
+    FV profile is optimal
 }
 \examples{
 dist <- seq(0, 40, length.out = 1000)
@@ -200,12 +312,13 @@ bodymass <- 75
 
 fv <- make_FV_profile(MSS, MAC, bodymass)
 
-dist <- 1:50
+dist <- seq(5, 50, by = 5)
 
 opt_slope_perc <- find_optimal_MSS_MAC(
   distance = dist,
   MSS,
-  MAC)[["slope_perc"]]
+  MAC
+)[["slope_perc"]]
 
 opt_dist <- find_optimal_MSS_MAC_distance(MSS, MAC)
 
@@ -213,14 +326,26 @@ opt_FV_slope_perc <- find_optimal_FV(
   distance = dist,
   fv$F0_poly,
   fv$V0_poly,
-  fv$bodymass)[["FV_slope_perc"]]
+  fv$bodymass
+)[["slope_perc"]]
 
 opt_FV_dist <- find_optimal_FV_distance(fv$F0_poly, fv$V0_poly, fv$bodymass)
 
+opt_FV_peak_slope_perc <- find_optimal_FV_peak(
+  distance = dist,
+  fv$F0_poly,
+  fv$V0_poly,
+  fv$bodymass
+)[["slope_perc"]]
+
+opt_FV_peak_dist <- find_optimal_FV_peak_distance(fv$F0_poly, fv$V0_poly, fv$bodymass)
+
 plot(x = dist, y = opt_slope_perc, type = "l")
 lines(x = dist, y = opt_FV_slope_perc, type = "l", col = "blue")
+lines(x = dist, y = opt_FV_peak_slope_perc, type = "l", col = "red")
 points(x = opt_dist, y = 100)
 points(x = opt_FV_dist, y = 100, col = "blue")
+points(x = opt_FV_peak_dist, y = 100, col = "red")
 abline(h = 100, col = "gray", lty = 2)
 }
 \references{
