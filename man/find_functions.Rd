@@ -358,6 +358,6 @@ Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabi
        Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.
 
 Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P, Vanwanseele B, Morin J. 2022.
-     Optimal mechanical force‐velocity profile for sprint acceleration performance.
+     Optimal mechanical force-velocity profile for sprint acceleration performance.
       Scandinavian Journal of Medicine & Science in Sports 32:559–575. DOI: 10.1111/sms.14097.
 }
