@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.2.0</span>
       </span>
     </div>
 
@@ -48,7 +48,15 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="2.1.0" id="shorts-210">shorts 2.1.0<a class="anchor" aria-label="anchor" href="#shorts-210"></a></h2>
+<h2 class="page-header" data-toc-text="2.2.0" id="shorts-220">shorts 2.2.0<a class="anchor" aria-label="anchor" href="#shorts-220"></a></h2>
+<ul><li>Expanded the results output of the <code><a href="../reference/find_functions.html">find_optimal_MSS_MAC()</a></code> and <code><a href="../reference/find_functions.html">find_optimal_FV()</a></code> functions. Some of the columns are renamed to better clarity</li>
+<li>Added internal function <code>convert_FV()</code> to convert from FV profile to sprint profile. This is used to calculate Peak Power (<code>Ppeak</code>) metric and its location</li>
+<li>Added <code>min_func</code> parameter to <code><a href="../reference/find_functions.html">find_optimal_MSS_MAC_distance()</a></code> and <code><a href="../reference/find_functions.html">find_optimal_FV_distance()</a></code>. This allows to optimize by using any other metric</li>
+<li>Added <code><a href="../reference/find_functions.html">find_optimal_FV_peak()</a></code> function, which optimize the profile while keeping the Peak Power the same. Accompanying <code><a href="../reference/find_functions.html">find_optimal_FV_peak_distance()</a></code> is also added</li>
+<li>Added extra reference to DESCRIPTION</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="2.1.0" id="shorts-210">shorts 2.1.0<small>2022-09-26</small><a class="anchor" aria-label="anchor" href="#shorts-210"></a></h2>
 <ul><li>Added mean acceleration over distance to <code><a href="../reference/format_splits.html">format_splits()</a></code>
 </li>
 <li>Added <code><a href="../reference/model_tether.html">model_tether()</a></code> function for modeling data output from tether devices, which involve velocity at distance</li>
