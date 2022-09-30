@@ -91,7 +91,8 @@
 #'   MAC
 #' )[["slope_perc"]]
 #'
-#' opt_dist <- find_optimal_MSS_MAC_distance(MSS, MAC)
+#' # Due to speed issues, uncomment this
+#' # opt_dist <- find_optimal_MSS_MAC_distance(MSS, MAC)
 #'
 #' opt_FV_slope_perc <- find_optimal_FV(
 #'   distance = dist,
@@ -100,7 +101,7 @@
 #'   fv$bodymass
 #' )[["slope_perc"]]
 #'
-#' opt_FV_dist <- find_optimal_FV_distance(fv$F0_poly, fv$V0_poly, fv$bodymass)
+#' # opt_FV_dist <- find_optimal_FV_distance(fv$F0_poly, fv$V0_poly, fv$bodymass)
 #'
 #' opt_FV_peak_slope_perc <- find_optimal_FV_peak(
 #'   distance = dist,
@@ -109,14 +110,14 @@
 #'   fv$bodymass
 #' )[["slope_perc"]]
 #'
-#' opt_FV_peak_dist <- find_optimal_FV_peak_distance(fv$F0_poly, fv$V0_poly, fv$bodymass)
+#' # opt_FV_peak_dist <- find_optimal_FV_peak_distance(fv$F0_poly, fv$V0_poly, fv$bodymass)
 #'
 #' plot(x = dist, y = opt_slope_perc, type = "l")
 #' lines(x = dist, y = opt_FV_slope_perc, type = "l", col = "blue")
 #' lines(x = dist, y = opt_FV_peak_slope_perc, type = "l", col = "red")
-#' points(x = opt_dist, y = 100)
-#' points(x = opt_FV_dist, y = 100, col = "blue")
-#' points(x = opt_FV_peak_dist, y = 100, col = "red")
+#' # points(x = opt_dist, y = 100)
+#' # points(x = opt_FV_dist, y = 100, col = "blue")
+#' # points(x = opt_FV_peak_dist, y = 100, col = "red")
 #' abline(h = 100, col = "gray", lty = 2)
 #' @name find_functions
 NULL
