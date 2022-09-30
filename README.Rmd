@@ -422,7 +422,7 @@ bodymass <- 75
 fv <- make_FV_profile(MSS, MAC, bodymass)
 
 opt_df <- tibble(
-  dist = 1:50) %>%
+  dist = seq(5, 50, by = 5)) %>%
   mutate(
     `Sprint Profile` = find_optimal_MSS_MAC(
       distance = dist,
@@ -432,15 +432,21 @@ opt_df <- tibble(
       distance = dist,
       fv$F0_poly,
       fv$V0_poly,
-      bodymass)[["FV_slope_perc"]]
+      bodymass)[["slope_perc"]],
+    `FV Profile (PeakPower)` = find_optimal_FV_peak(
+      distance = dist,
+      fv$F0_poly,
+      fv$V0_poly,
+      bodymass)[["slope_perc"]]
   ) %>%
   pivot_longer(-dist, names_to = "profile")
 
 opt_dist <- tibble(
   `Sprint Profile` = find_optimal_MSS_MAC_distance(MSS, MAC),
-  `FV Profile` = find_optimal_FV_distance(fv$F0_poly, fv$V0_poly)
+  `FV Profile` = find_optimal_FV_distance(fv$F0_poly, fv$V0_poly),
+  `FV Profile (PeakPower)` = find_optimal_FV_peak_distance(fv$F0_poly, fv$V0_poly)
 ) %>%
-  pivot_longer(cols = 1:2, names_to = "profile")
+  pivot_longer(cols = 1:3, names_to = "profile")
 
 ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
   theme_bw() +
@@ -449,7 +455,6 @@ ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
   geom_point(data = opt_dist, aes(x = value, y = 100), size = 2) +
   xlab("Distance (m)") +
   ylab("Profile imbalance")
-
 ```
 
 ## Publications

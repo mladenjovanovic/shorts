@@ -648,20 +648,20 @@ jim_profile_CV
 #> # A tibble: 10 × 5
 #>      MSS   TAU   MAC  PMAX         TC
 #>    <dbl> <dbl> <dbl> <dbl>      <dbl>
-#>  1  8.00 0.888  9.01  18.0 -0.0000815
-#>  2  8.00 0.888  9.01  18.0  0.000292 
-#>  3  8.00 0.888  9.00  18.0 -0.000215 
-#>  4  8.00 0.889  9.00  18.0  0.000104 
-#>  5  8.00 0.889  9.00  18.0  0.000107 
-#>  6  8.00 0.889  9.00  18.0  0.000118 
-#>  7  8.00 0.889  9.00  18.0  0.0000335
-#>  8  8.00 0.889  8.99  18.0  0.000266 
-#>  9  8.00 0.889  9.00  18.0  0.000162 
-#> 10  8.00 0.890  8.99  18.0  0.000354 
+#>  1  8.00 0.890  8.99  18.0  0.000186 
+#>  2  8.00 0.889  9.00  18.0  0.000163 
+#>  3  8.00 0.889  9.00  18.0  0.000208 
+#>  4  8.00 0.889  9.00  18.0  0.000112 
+#>  5  8.00 0.889  9.00  18.0  0.000149 
+#>  6  8.00 0.889  9.00  18.0  0.000183 
+#>  7  8.00 0.887  9.01  18.0 -0.000166 
+#>  8  8.00 0.890  8.99  18.0  0.000185 
+#>  9  8.00 0.889  9.00  18.0  0.0000561
+#> 10  8.00 0.889  9.00  18.0  0.0000236
 #> 
 #> Testing model fit:
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>        NA     0.999    -0.166     0.151     0.166     0.051     0.039       Inf
+#>        NA     0.999    -0.164     0.152     0.164     0.051     0.039       Inf
 ```
 
 ### Optimization
@@ -679,7 +679,7 @@ bodymass <- 75
 fv <- make_FV_profile(MSS, MAC, bodymass)
 
 opt_df <- tibble(
-  dist = 1:50) %>%
+  dist = seq(5, 50, by = 5)) %>%
   mutate(
     `Sprint Profile` = find_optimal_MSS_MAC(
       distance = dist,
@@ -689,15 +689,21 @@ opt_df <- tibble(
       distance = dist,
       fv$F0_poly,
       fv$V0_poly,
-      bodymass)[["FV_slope_perc"]]
+      bodymass)[["slope_perc"]],
+    `FV Profile (PeakPower)` = find_optimal_FV_peak(
+      distance = dist,
+      fv$F0_poly,
+      fv$V0_poly,
+      bodymass)[["slope_perc"]]
   ) %>%
   pivot_longer(-dist, names_to = "profile")
 
 opt_dist <- tibble(
   `Sprint Profile` = find_optimal_MSS_MAC_distance(MSS, MAC),
-  `FV Profile` = find_optimal_FV_distance(fv$F0_poly, fv$V0_poly)
+  `FV Profile` = find_optimal_FV_distance(fv$F0_poly, fv$V0_poly),
+  `FV Profile (PeakPower)` = find_optimal_FV_peak_distance(fv$F0_poly, fv$V0_poly)
 ) %>%
-  pivot_longer(cols = 1:2, names_to = "profile")
+  pivot_longer(cols = 1:3, names_to = "profile")
 
 ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
   theme_bw() +
