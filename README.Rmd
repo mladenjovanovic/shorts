@@ -70,7 +70,8 @@ kable(kimberley_data)
 ```{r}
 kimberley_profile <- shorts::model_timing_gates(
   distance = kimberley_data$distance,
-  time = kimberley_data$time)  
+  time = kimberley_data$time
+)
 
 kimberley_profile
 
@@ -97,7 +98,8 @@ If you are interested in calculating average split velocity, use `shorts::format
 ```{r}
 kable(shorts::format_splits(
   distance = kimberley_data$distance,
-  time = kimberley_data$time))
+  time = kimberley_data$time
+))
 ```
 
 Let's plot observed vs fitted split times. For this we can use `data` returned from `shorts::model_timing_gates()` since it contains `pred_time` column.
@@ -119,42 +121,47 @@ kimberley_bodyheight <- 1.7 # in meters
 
 kimberley_pred <- tibble(
   distance = seq(0, 40, length.out = 1000),
-  
+
   # Velocity
   pred_velocity = shorts::predict_velocity_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
-    kimberley_profile$parameters$TAU),
-  
+    kimberley_profile$parameters$TAU
+  ),
+
   # Acceleration
   pred_acceleration = shorts::predict_acceleration_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
-    kimberley_profile$parameters$TAU),
-  
+    kimberley_profile$parameters$TAU
+  ),
+
   # Air resistance
   pred_air_resistance = shorts::predict_air_resistance_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
     kimberley_profile$parameters$TAU,
     bodymass = kimberley_bodymass,
-    bodyheight = kimberley_bodyheight),
-  
+    bodyheight = kimberley_bodyheight
+  ),
+
   # Force
   pred_force = shorts::predict_force_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
     kimberley_profile$parameters$TAU,
     bodymass = kimberley_bodymass,
-    bodyheight = kimberley_bodyheight),
-  
+    bodyheight = kimberley_bodyheight
+  ),
+
   # Power
   pred_power = shorts::predict_power_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
     kimberley_profile$parameters$TAU,
     bodymass = kimberley_bodymass,
-    bodyheight = kimberley_bodyheight),
+    bodyheight = kimberley_bodyheight
+  ),
 )
 
 # Convert to long
@@ -163,7 +170,7 @@ kimberley_pred <- gather(kimberley_pred, "metric", "value", -distance)
 ggplot(kimberley_pred, aes(x = distance, y = value)) +
   theme_bw() +
   geom_line() +
-  facet_wrap(~metric, scales = "free_y") + 
+  facet_wrap(~metric, scales = "free_y") +
   xlab("Distance (m)") +
   ylab(NULL)
 ```
@@ -174,7 +181,8 @@ To do prediction simpler, use `shorts::predict_kinematics()` function. This will
 predicted_kinematics <- predict_kinematics(
   kimberley_profile,
   bodymass = kimberley_bodymass,
-  bodyheight = kimberley_bodyheight)
+  bodyheight = kimberley_bodyheight
+)
 
 kable(head(predicted_kinematics))
 ```
@@ -262,7 +270,8 @@ m1 <- model_tether(distance = distance, velocity = velocity)
 
 df <- data.frame(
   distance = distance,
-  obs_velocity = velocity)
+  obs_velocity = velocity
+)
 
 plot(m1) +
   geom_point(data = df, aes(x = distance, y = obs_velocity))
@@ -296,7 +305,8 @@ Here I will provide quick summary. Often, this bias in estimates is dealt with b
 ```{r}
 kimberley_profile_fixed_TC <- shorts::model_timing_gates(
   distance = kimberley_data$distance,
-  time = kimberley_data$time + 0.3)  
+  time = kimberley_data$time + 0.3
+)
 
 kimberley_profile_fixed_TC
 
@@ -310,7 +320,8 @@ Instead of providing for `TC`, this parameter can be estimated using `shorts::mo
 ```{r}
 kimberley_profile_TC <- shorts::model_timing_gates_TC(
   distance = kimberley_data$distance,
-  time = kimberley_data$time)  
+  time = kimberley_data$time
+)
 
 kimberley_profile_TC
 ```
@@ -320,7 +331,8 @@ Instead of estimating `TC`, {shorts} package features a method of estimating fly
 ```{r}
 kimberley_profile_FD <- shorts::model_timing_gates_FD(
   distance = kimberley_data$distance,
-  time = kimberley_data$time)  
+  time = kimberley_data$time
+)
 
 kimberley_profile_FD
 ```
@@ -333,7 +345,8 @@ kimberley_profile_FD
 kimberley_profile_LOOCV <- shorts::model_timing_gates(
   distance = kimberley_data$distance,
   time = kimberley_data$time,
-  LOOCV = TRUE)  
+  LOOCV = TRUE
+)
 
 kimberley_profile_LOOCV
 ```
@@ -383,11 +396,13 @@ plot_data <- expand_grid(
     LOOCV_velocity = predict_velocity_at_time(
       time = time,
       MSS = MSS,
-      MAC = MAC),
+      MAC = MAC
+    ),
     velocity = predict_velocity_at_time(
       time = time,
       MSS = kimberley_profile_LOOCV$parameters$MSS,
-      MAC = kimberley_profile_LOOCV$parameters$MAC)
+      MAC = kimberley_profile_LOOCV$parameters$MAC
+    )
   )
 
 ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
@@ -412,7 +427,7 @@ jim_profile_CV
 
 ### Optimization
 
-Using the method outlined in Samozino *et al* (2022), one can find the optimal profiles, as well as the profile imbalance (compared to the optimal), for both sprint profiles (i.e., MSS and MAC) and Force-Velocity (FV).
+Using the method outlined in Samozino *et al* (2022), one can find the optimal profiles, as well as the profile imbalance (compared to the optimal), for both sprint profiles (i.e., MSS and MAC) and Force-Velocity (FV). In addition to this, one can *probe* the profiles (i.e., increase V0/F0 or MSS/MAC for say 2.5% to check which improvement yield more improvement in sprint time). The following graph depicts estimate profile imbalances. Note that >100% is velocity deficit (i.e., increasing *velocity*; MSS or V0; will yield more improvement in sprint times), while <100% is *force* deficit. 
 
 ```{r}
 MSS <- 10
@@ -422,31 +437,73 @@ bodymass <- 75
 fv <- make_FV_profile(MSS, MAC, bodymass)
 
 opt_df <- tibble(
-  dist = seq(5, 50, by = 5)) %>%
+  dist = seq(5, 50, by = 5)
+) %>%
   mutate(
-    `Sprint Profile` = find_optimal_MSS_MAC(
+    `Sprint Profile` = optimal_MSS_MAC(
       distance = dist,
       MSS,
-      MAC)[["slope_perc"]],
-    `FV Profile` = find_optimal_FV(
+      MAC
+    )[["profile_imb"]],
+    `FV Profile` = optimal_FV(
       distance = dist,
       fv$F0_poly,
       fv$V0_poly,
-      bodymass)[["slope_perc"]],
-    `FV Profile (PeakPower)` = find_optimal_FV_peak(
+      bodymass
+    )[["profile_imb"]],
+    `FV Profile (PeakPower)` = optimal_FV(
       distance = dist,
       fv$F0_poly,
       fv$V0_poly,
-      bodymass)[["slope_perc"]]
+      bodymass,
+      method = "peak"
+    )[["profile_imb"]],
+    `Probe FV` = probe_FV(
+      distance = dist,
+      fv$F0_poly,
+      fv$V0_poly,
+      bodymass
+    )[["profile_imb"]],
+    `Probe MSS/MAC` = probe_MSS_MAC(
+      distance = dist,
+      MSS,
+      MAC
+    )[["profile_imb"]]
   ) %>%
   pivot_longer(-dist, names_to = "profile")
 
 opt_dist <- tibble(
-  `Sprint Profile` = find_optimal_MSS_MAC_distance(MSS, MAC),
-  `FV Profile` = find_optimal_FV_distance(fv$F0_poly, fv$V0_poly),
-  `FV Profile (PeakPower)` = find_optimal_FV_peak_distance(fv$F0_poly, fv$V0_poly)
+  `Sprint Profile` = find_optimal_distance(
+    MSS,
+    MAC,
+    optimal_func = optimal_MSS_MAC
+  ),
+  `FV Profile` = find_optimal_distance(
+    fv$F0_poly,
+    fv$V0_poly,
+    bodymass,
+    optimal_func = optimal_FV
+  ),
+  `FV Profile (PeakPower)` = find_optimal_distance(
+    fv$F0_poly,
+    fv$V0_poly,
+    bodymass,
+    optimal_func = optimal_FV,
+    method = "peak"
+  ),
+  `Probe FV` = find_optimal_distance(
+    fv$F0_poly,
+    fv$V0_poly,
+    bodymass,
+    optimal_func = probe_FV
+  ),
+  `Probe MSS/MAC` = find_optimal_distance(
+    MSS,
+    MAC,
+    optimal_func = probe_MSS_MAC
+  )
 ) %>%
-  pivot_longer(cols = 1:3, names_to = "profile")
+  pivot_longer(cols = 1:5, names_to = "profile")
 
 ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
   theme_bw() +
@@ -498,4 +555,3 @@ Samozino P, Rabita G, Dorel S, Slawinski J, Peyrot N, Saez de Villarreal E, Mori
 Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing. Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.
 
 Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P, Vanwanseele B, Morin J. 2022. Optimal mechanical force‐velocity profile for sprint acceleration performance.Scandinavian Journal of Medicine & Science in Sports 32:559–575. DOI: 10.1111/sms.14097.
-

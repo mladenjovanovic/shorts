@@ -73,7 +73,8 @@ and TAU are *maximal acceleration* (MAC) and *maximal relative power*
 ``` r
 kimberley_profile <- shorts::model_timing_gates(
   distance = kimberley_data$distance,
-  time = kimberley_data$time)  
+  time = kimberley_data$time
+)
 
 kimberley_profile
 #> Estimated model parameters
@@ -131,7 +132,8 @@ If you are interested in calculating average split velocity, use
 ``` r
 kable(shorts::format_splits(
   distance = kimberley_data$distance,
-  time = kimberley_data$time))
+  time = kimberley_data$time
+))
 ```
 
 | split | split_distance_start | split_distance_stop | split_distance | split_time_start | split_time_stop | split_time | split_mean_velocity | split_mean_acceleration |
@@ -170,42 +172,47 @@ kimberley_bodyheight <- 1.7 # in meters
 
 kimberley_pred <- tibble(
   distance = seq(0, 40, length.out = 1000),
-  
+
   # Velocity
   pred_velocity = shorts::predict_velocity_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
-    kimberley_profile$parameters$TAU),
-  
+    kimberley_profile$parameters$TAU
+  ),
+
   # Acceleration
   pred_acceleration = shorts::predict_acceleration_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
-    kimberley_profile$parameters$TAU),
-  
+    kimberley_profile$parameters$TAU
+  ),
+
   # Air resistance
   pred_air_resistance = shorts::predict_air_resistance_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
     kimberley_profile$parameters$TAU,
     bodymass = kimberley_bodymass,
-    bodyheight = kimberley_bodyheight),
-  
+    bodyheight = kimberley_bodyheight
+  ),
+
   # Force
   pred_force = shorts::predict_force_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
     kimberley_profile$parameters$TAU,
     bodymass = kimberley_bodymass,
-    bodyheight = kimberley_bodyheight),
-  
+    bodyheight = kimberley_bodyheight
+  ),
+
   # Power
   pred_power = shorts::predict_power_at_distance(
     distance,
     kimberley_profile$parameters$MSS,
     kimberley_profile$parameters$TAU,
     bodymass = kimberley_bodymass,
-    bodyheight = kimberley_bodyheight),
+    bodyheight = kimberley_bodyheight
+  ),
 )
 
 # Convert to long
@@ -214,7 +221,7 @@ kimberley_pred <- gather(kimberley_pred, "metric", "value", -distance)
 ggplot(kimberley_pred, aes(x = distance, y = value)) +
   theme_bw() +
   geom_line() +
-  facet_wrap(~metric, scales = "free_y") + 
+  facet_wrap(~metric, scales = "free_y") +
   xlab("Distance (m)") +
   ylab(NULL)
 ```
@@ -228,7 +235,8 @@ This will provide kinetics and kinematics for 0-6s sprint using 100Hz.
 predicted_kinematics <- predict_kinematics(
   kimberley_profile,
   bodymass = kimberley_bodymass,
-  bodyheight = kimberley_bodyheight)
+  bodyheight = kimberley_bodyheight
+)
 
 kable(head(predicted_kinematics))
 ```
@@ -261,10 +269,10 @@ shorts::find_max_power_distance(
   kimberley_profile$parameters$TAU
 )
 #> $max_power
-#> [1] 172
+#> [1] 163
 #> 
 #> $distance
-#> [1] 100
+#> [1] 30
 
 # Distance over which power is over 50%
 shorts::find_power_critical_distance(
@@ -375,7 +383,8 @@ m1 <- model_tether(distance = distance, velocity = velocity)
 
 df <- data.frame(
   distance = distance,
-  obs_velocity = velocity)
+  obs_velocity = velocity
+)
 
 plot(m1) +
   geom_point(data = df, aes(x = distance, y = obs_velocity))
@@ -432,7 +441,8 @@ split:
 ``` r
 kimberley_profile_fixed_TC <- shorts::model_timing_gates(
   distance = kimberley_data$distance,
-  time = kimberley_data$time + 0.3)  
+  time = kimberley_data$time + 0.3
+)
 
 kimberley_profile_fixed_TC
 #> Estimated model parameters
@@ -473,7 +483,8 @@ Instead of providing for `TC`, this parameter can be estimated using
 ``` r
 kimberley_profile_TC <- shorts::model_timing_gates_TC(
   distance = kimberley_data$distance,
-  time = kimberley_data$time)  
+  time = kimberley_data$time
+)
 
 kimberley_profile_TC
 #> Estimated model parameters
@@ -493,7 +504,8 @@ estimating flying start distance (`FD`):
 ``` r
 kimberley_profile_FD <- shorts::model_timing_gates_FD(
   distance = kimberley_data$distance,
-  time = kimberley_data$time)  
+  time = kimberley_data$time
+)
 
 kimberley_profile_FD
 #> Estimated model parameters
@@ -520,7 +532,8 @@ for them. Let’s use Kimberley again, but this time perform LOOCV:
 kimberley_profile_LOOCV <- shorts::model_timing_gates(
   distance = kimberley_data$distance,
   time = kimberley_data$time,
-  LOOCV = TRUE)  
+  LOOCV = TRUE
+)
 
 kimberley_profile_LOOCV
 #> Estimated model parameters
@@ -603,11 +616,13 @@ plot_data <- expand_grid(
     LOOCV_velocity = predict_velocity_at_time(
       time = time,
       MSS = MSS,
-      MAC = MAC),
+      MAC = MAC
+    ),
     velocity = predict_velocity_at_time(
       time = time,
       MSS = kimberley_profile_LOOCV$parameters$MSS,
-      MAC = kimberley_profile_LOOCV$parameters$MAC)
+      MAC = kimberley_profile_LOOCV$parameters$MAC
+    )
   )
 
 ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
@@ -648,20 +663,20 @@ jim_profile_CV
 #> # A tibble: 10 × 5
 #>      MSS   TAU   MAC  PMAX         TC
 #>    <dbl> <dbl> <dbl> <dbl>      <dbl>
-#>  1  8.00 0.890  8.99  18.0  0.000186 
-#>  2  8.00 0.889  9.00  18.0  0.000163 
-#>  3  8.00 0.889  9.00  18.0  0.000208 
-#>  4  8.00 0.889  9.00  18.0  0.000112 
-#>  5  8.00 0.889  9.00  18.0  0.000149 
-#>  6  8.00 0.889  9.00  18.0  0.000183 
-#>  7  8.00 0.887  9.01  18.0 -0.000166 
-#>  8  8.00 0.890  8.99  18.0  0.000185 
-#>  9  8.00 0.889  9.00  18.0  0.0000561
-#> 10  8.00 0.889  9.00  18.0  0.0000236
+#>  1  8.00 0.890  8.99  18.0  0.000295 
+#>  2  8.00 0.890  8.99  18.0  0.000154 
+#>  3  8.00 0.889  9.00  18.0  0.000194 
+#>  4  8.00 0.888  9.00  18.0  0.0000565
+#>  5  8.00 0.889  9.00  18.0  0.000175 
+#>  6  8.00 0.888  9.01  18.0 -0.000121 
+#>  7  8.00 0.889  9.00  18.0  0.000257 
+#>  8  8.00 0.889  9.00  18.0  0.000332 
+#>  9  8.00 0.888  9.00  18.0 -0.0000673
+#> 10  8.00 0.888  9.00  18.0 -0.000213 
 #> 
 #> Testing model fit:
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>        NA     0.999    -0.164     0.152     0.164     0.051     0.039       Inf
+#>        NA     0.999    -0.165     0.152     0.165     0.051     0.039       Inf
 ```
 
 ### Optimization
@@ -669,7 +684,12 @@ jim_profile_CV
 Using the method outlined in Samozino *et al* (2022), one can find the
 optimal profiles, as well as the profile imbalance (compared to the
 optimal), for both sprint profiles (i.e., MSS and MAC) and
-Force-Velocity (FV).
+Force-Velocity (FV). In addition to this, one can *probe* the profiles
+(i.e., increase V0/F0 or MSS/MAC for say 2.5% to check which improvement
+yield more improvement in sprint time). The following graph depicts
+estimate profile imbalances. Note that \>100% is velocity deficit (i.e.,
+increasing *velocity*; MSS or V0; will yield more improvement in sprint
+times), while \<100% is *force* deficit.
 
 ``` r
 MSS <- 10
@@ -679,31 +699,73 @@ bodymass <- 75
 fv <- make_FV_profile(MSS, MAC, bodymass)
 
 opt_df <- tibble(
-  dist = seq(5, 50, by = 5)) %>%
+  dist = seq(5, 50, by = 5)
+) %>%
   mutate(
-    `Sprint Profile` = find_optimal_MSS_MAC(
+    `Sprint Profile` = optimal_MSS_MAC(
       distance = dist,
       MSS,
-      MAC)[["slope_perc"]],
-    `FV Profile` = find_optimal_FV(
+      MAC
+    )[["profile_imb"]],
+    `FV Profile` = optimal_FV(
       distance = dist,
       fv$F0_poly,
       fv$V0_poly,
-      bodymass)[["slope_perc"]],
-    `FV Profile (PeakPower)` = find_optimal_FV_peak(
+      bodymass
+    )[["profile_imb"]],
+    `FV Profile (PeakPower)` = optimal_FV(
       distance = dist,
       fv$F0_poly,
       fv$V0_poly,
-      bodymass)[["slope_perc"]]
+      bodymass,
+      method = "peak"
+    )[["profile_imb"]],
+    `Probe FV` = probe_FV(
+      distance = dist,
+      fv$F0_poly,
+      fv$V0_poly,
+      bodymass
+    )[["profile_imb"]],
+    `Probe MSS/MAC` = probe_MSS_MAC(
+      distance = dist,
+      MSS,
+      MAC
+    )[["profile_imb"]]
   ) %>%
   pivot_longer(-dist, names_to = "profile")
 
 opt_dist <- tibble(
-  `Sprint Profile` = find_optimal_MSS_MAC_distance(MSS, MAC),
-  `FV Profile` = find_optimal_FV_distance(fv$F0_poly, fv$V0_poly),
-  `FV Profile (PeakPower)` = find_optimal_FV_peak_distance(fv$F0_poly, fv$V0_poly)
+  `Sprint Profile` = find_optimal_distance(
+    MSS,
+    MAC,
+    optimal_func = optimal_MSS_MAC
+  ),
+  `FV Profile` = find_optimal_distance(
+    fv$F0_poly,
+    fv$V0_poly,
+    bodymass,
+    optimal_func = optimal_FV
+  ),
+  `FV Profile (PeakPower)` = find_optimal_distance(
+    fv$F0_poly,
+    fv$V0_poly,
+    bodymass,
+    optimal_func = optimal_FV,
+    method = "peak"
+  ),
+  `Probe FV` = find_optimal_distance(
+    fv$F0_poly,
+    fv$V0_poly,
+    bodymass,
+    optimal_func = probe_FV
+  ),
+  `Probe MSS/MAC` = find_optimal_distance(
+    MSS,
+    MAC,
+    optimal_func = probe_MSS_MAC
+  )
 ) %>%
-  pivot_longer(cols = 1:3, names_to = "profile")
+  pivot_longer(cols = 1:5, names_to = "profile")
 
 ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
   theme_bw() +
