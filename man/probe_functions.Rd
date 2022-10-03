@@ -24,7 +24,7 @@ probe_MSS_MAC(distance, MSS, MAC, perc = 2.5)
 \item{MSS, MAC}{Numeric vectors. Model parameters}
 }
 \value{
-A data frame with the following columns
+\code{probe_FV} returns a data frame with the following columns
     \describe{
         \item{F0}{Original F0}
         \item{V0}{Original F0}
@@ -44,7 +44,7 @@ A data frame with the following columns
         \item{profile_imb}{Percent ratio between V0_probe_time_gain and F0_probe_time_gain}
    }
 
-A data frame with the following columns
+\code{probe_MSS_MAC} returns a data frame with the following columns
     \describe{
         \item{MSS}{Original MSS}
         \item{MAC}{Original MAC}

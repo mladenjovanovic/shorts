@@ -93,7 +93,7 @@ probe_FV_scalar <- function(distance, F0, V0, bodymass = 75, perc = 2.5, ...) {
 #' @rdname probe_functions
 #' @description \code{probe_FV} "probes" \code{F0} and \code{V0} and calculates which one
 #'     improves sprint time for a defined \code{distance}
-#' @return A data frame with the following columns
+#' @return \code{probe_FV} returns a data frame with the following columns
 #'     \describe{
 #'         \item{F0}{Original F0}
 #'         \item{V0}{Original F0}
@@ -186,7 +186,7 @@ probe_MSS_MAC_scalar <- function(distance, MSS, MAC, perc = 2.5) {
 #' @rdname probe_functions
 #' @description \code{probe_MSS_MAC} "probes" \code{MSS} and \code{MAC} and calculates which one
 #'     improves sprint time for a defined \code{distance}
-#' @return A data frame with the following columns
+#' @return \code{probe_MSS_MAC} returns a data frame with the following columns
 #'     \describe{
 #'         \item{MSS}{Original MSS}
 #'         \item{MAC}{Original MAC}
