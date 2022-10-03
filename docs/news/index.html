@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.3.0</span>
       </span>
     </div>
 
@@ -49,10 +49,10 @@
 
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.2.0" id="shorts-220">shorts 2.2.0<a class="anchor" aria-label="anchor" href="#shorts-220"></a></h2>
-<ul><li>Expanded the results output of the <code><a href="../reference/find_functions.html">find_optimal_MSS_MAC()</a></code> and <code><a href="../reference/find_functions.html">find_optimal_FV()</a></code> functions. Some of the columns are renamed to better clarity</li>
+<ul><li>Expanded the results output of the <code>find_optimal_MSS_MAC()</code> and <code>find_optimal_FV()</code> functions. Some of the columns are renamed to better clarity</li>
 <li>Added internal function <code>convert_FV()</code> to convert from FV profile to sprint profile. This is used to calculate Peak Power (<code>Ppeak</code>) metric and its location</li>
-<li>Added <code>min_func</code> parameter to <code><a href="../reference/find_functions.html">find_optimal_MSS_MAC_distance()</a></code> and <code><a href="../reference/find_functions.html">find_optimal_FV_distance()</a></code>. This allows to optimize by using any other metric</li>
-<li>Added <code><a href="../reference/find_functions.html">find_optimal_FV_peak()</a></code> function, which optimize the profile while keeping the Peak Power the same. Accompanying <code><a href="../reference/find_functions.html">find_optimal_FV_peak_distance()</a></code> is also added</li>
+<li>Added <code>min_func</code> parameter to <code>find_optimal_MSS_MAC_distance()</code> and <code>find_optimal_FV_distance()</code>. This allows to optimize by using any other metric</li>
+<li>Added <code>find_optimal_FV_peak()</code> function, which optimize the profile while keeping the Peak Power the same. Accompanying <code>find_optimal_FV_peak_distance()</code> is also added</li>
 <li>Added extra reference to DESCRIPTION</li>
 </ul></div>
     <div class="section level2">
@@ -63,7 +63,7 @@
 <li>Change the <code>Pmax_relative</code> to <code>Pmax_rel</code> in the output of the <code><a href="../reference/make_FV_profile.html">make_FV_profile()</a></code> function</li>
 <li>Added analytically/polynomially estimated <code>F0_poly</code>, <code>F0_poly_rel</code>, <code>V0_poly</code>, <code>Pmax_poly</code>, <code>Pmax_poly_rel</code>, and <code>FV_slope_poly</code> to the output of the <code><a href="../reference/make_FV_profile.html">make_FV_profile()</a></code> function using the method outlined in Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
 <li>Added <code><a href="../reference/predict_kinematics.html">predict_time_at_distance_FV()</a></code> which uses FV profile’s <code>F0</code> and <code>V0</code> to predict time at distance. For more info see Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
-<li>Added optimization functions: <code><a href="../reference/find_functions.html">find_optimal_MSS_MAC()</a></code>, <code><a href="../reference/find_functions.html">find_optimal_MSS_MAC_distance()</a></code>, <code><a href="../reference/find_functions.html">find_optimal_FV()</a></code>, <code><a href="../reference/find_functions.html">find_optimal_FV_distance()</a></code>. For more info on the FV optimization see Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
+<li>Added optimization functions: <code>find_optimal_MSS_MAC()</code>, <code>find_optimal_MSS_MAC_distance()</code>, <code>find_optimal_FV()</code>, <code>find_optimal_FV_distance()</code>. For more info on the FV optimization see Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
 <li>Removed DOI from citation info</li>
 </ul></div>
     <div class="section level2">

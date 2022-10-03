@@ -28,6 +28,9 @@
     <loc>/reference/find_functions.html</loc>
   </url>
   <url>
+    <loc>/reference/find_optimal_distance.html</loc>
+  </url>
+  <url>
     <loc>/reference/format_splits.html</loc>
   </url>
   <url>
@@ -52,6 +55,9 @@
     <loc>/reference/model_timing_gates.html</loc>
   </url>
   <url>
+    <loc>/reference/optimal_functions.html</loc>
+  </url>
+  <url>
     <loc>/reference/plot.shorts_fv_profile.html</loc>
   </url>
   <url>
@@ -68,6 +74,9 @@
   </url>
   <url>
     <loc>/reference/print.shorts_model.html</loc>
+  </url>
+  <url>
+    <loc>/reference/probe_functions.html</loc>
   </url>
   <url>
     <loc>/reference/radar_gun_data.html</loc>

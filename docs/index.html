@@ -48,7 +48,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.3.0</span>
       </span>
     </div>
 
@@ -165,7 +165,8 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_timing_gates.html">model_timing_gates</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
-<span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>  </span>
+<span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">kimberley_profile</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
@@ -211,7 +212,8 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/format_splits.html">format_splits</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
-<span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span></span>
+<span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table style="width:100%;" class="table">
 <colgroup>
 <col width="4%">
@@ -320,42 +322,47 @@
 <span></span>
 <span><span class="va">kimberley_pred</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span>, length.out <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,</span>
-<span>  </span>
+<span></span>
 <span>  <span class="co"># Velocity</span></span>
 <span>  pred_velocity <span class="op">=</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/predict_kinematics.html">predict_velocity_at_distance</a></span><span class="op">(</span></span>
 <span>    <span class="va">distance</span>,</span>
 <span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
-<span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span><span class="op">)</span>,</span>
-<span>  </span>
+<span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span></span>
+<span>  <span class="op">)</span>,</span>
+<span></span>
 <span>  <span class="co"># Acceleration</span></span>
 <span>  pred_acceleration <span class="op">=</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/predict_kinematics.html">predict_acceleration_at_distance</a></span><span class="op">(</span></span>
 <span>    <span class="va">distance</span>,</span>
 <span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
-<span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span><span class="op">)</span>,</span>
-<span>  </span>
+<span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span></span>
+<span>  <span class="op">)</span>,</span>
+<span></span>
 <span>  <span class="co"># Air resistance</span></span>
 <span>  pred_air_resistance <span class="op">=</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/predict_kinematics.html">predict_air_resistance_at_distance</a></span><span class="op">(</span></span>
 <span>    <span class="va">distance</span>,</span>
 <span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
 <span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span>,</span>
 <span>    bodymass <span class="op">=</span> <span class="va">kimberley_bodymass</span>,</span>
-<span>    bodyheight <span class="op">=</span> <span class="va">kimberley_bodyheight</span><span class="op">)</span>,</span>
-<span>  </span>
+<span>    bodyheight <span class="op">=</span> <span class="va">kimberley_bodyheight</span></span>
+<span>  <span class="op">)</span>,</span>
+<span></span>
 <span>  <span class="co"># Force</span></span>
 <span>  pred_force <span class="op">=</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/predict_kinematics.html">predict_force_at_distance</a></span><span class="op">(</span></span>
 <span>    <span class="va">distance</span>,</span>
 <span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
 <span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span>,</span>
 <span>    bodymass <span class="op">=</span> <span class="va">kimberley_bodymass</span>,</span>
-<span>    bodyheight <span class="op">=</span> <span class="va">kimberley_bodyheight</span><span class="op">)</span>,</span>
-<span>  </span>
+<span>    bodyheight <span class="op">=</span> <span class="va">kimberley_bodyheight</span></span>
+<span>  <span class="op">)</span>,</span>
+<span></span>
 <span>  <span class="co"># Power</span></span>
 <span>  pred_power <span class="op">=</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/predict_kinematics.html">predict_power_at_distance</a></span><span class="op">(</span></span>
 <span>    <span class="va">distance</span>,</span>
 <span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
 <span>    <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span>,</span>
 <span>    bodymass <span class="op">=</span> <span class="va">kimberley_bodymass</span>,</span>
-<span>    bodyheight <span class="op">=</span> <span class="va">kimberley_bodyheight</span><span class="op">)</span>,</span>
+<span>    bodyheight <span class="op">=</span> <span class="va">kimberley_bodyheight</span></span>
+<span>  <span class="op">)</span>,</span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Convert to long</span></span>
@@ -364,7 +371,7 @@
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">kimberley_pred</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">value</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">metric</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">metric</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;"></p>
@@ -373,7 +380,8 @@
 <code class="sourceCode R"><span><span class="va">predicted_kinematics</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_kinematics.html">predict_kinematics</a></span><span class="op">(</span></span>
 <span>  <span class="va">kimberley_profile</span>,</span>
 <span>  bodymass <span class="op">=</span> <span class="va">kimberley_bodymass</span>,</span>
-<span>  bodyheight <span class="op">=</span> <span class="va">kimberley_bodyheight</span><span class="op">)</span></span>
+<span>  bodyheight <span class="op">=</span> <span class="va">kimberley_bodyheight</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">predicted_kinematics</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
@@ -536,10 +544,10 @@
 <span>  <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">TAU</span></span>
 <span><span class="op">)</span></span>
 <span><span class="co">#&gt; $max_power</span></span>
-<span><span class="co">#&gt; [1] 172</span></span>
+<span><span class="co">#&gt; [1] 163</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; $distance</span></span>
-<span><span class="co">#&gt; [1] 100</span></span>
+<span><span class="co">#&gt; [1] 30</span></span>
 <span></span>
 <span><span class="co"># Distance over which power is over 50%</span></span>
 <span><span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/find_functions.html">find_power_critical_distance</a></span><span class="op">(</span></span>
@@ -636,7 +644,8 @@
 <span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">distance</span>,</span>
-<span>  obs_velocity <span class="op">=</span> <span class="va">velocity</span><span class="op">)</span></span>
+<span>  obs_velocity <span class="op">=</span> <span class="va">velocity</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">m1</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">distance</span>, y <span class="op">=</span> <span class="va">obs_velocity</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
@@ -679,7 +688,8 @@
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile_fixed_TC</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_timing_gates.html">model_timing_gates</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
-<span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span> <span class="op">+</span> <span class="fl">0.3</span><span class="op">)</span>  </span>
+<span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span> <span class="op">+</span> <span class="fl">0.3</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">kimberley_profile_fixed_TC</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
@@ -716,7 +726,8 @@
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile_TC</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_timing_gates.html">model_timing_gates_TC</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
-<span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>  </span>
+<span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">kimberley_profile_TC</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
@@ -732,7 +743,8 @@
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile_FD</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_timing_gates.html">model_timing_gates_FD</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
-<span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span><span class="op">)</span>  </span>
+<span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">kimberley_profile_FD</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
@@ -753,7 +765,8 @@
 <code class="sourceCode R"><span><span class="va">kimberley_profile_LOOCV</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_timing_gates.html">model_timing_gates</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
 <span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span>,</span>
-<span>  LOOCV <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>  </span>
+<span>  LOOCV <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">kimberley_profile_LOOCV</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
@@ -823,11 +836,13 @@
 <span>    LOOCV_velocity <span class="op">=</span> <span class="fu"><a href="reference/predict_kinematics.html">predict_velocity_at_time</a></span><span class="op">(</span></span>
 <span>      time <span class="op">=</span> <span class="va">time</span>,</span>
 <span>      MSS <span class="op">=</span> <span class="va">MSS</span>,</span>
-<span>      MAC <span class="op">=</span> <span class="va">MAC</span><span class="op">)</span>,</span>
+<span>      MAC <span class="op">=</span> <span class="va">MAC</span></span>
+<span>    <span class="op">)</span>,</span>
 <span>    velocity <span class="op">=</span> <span class="fu"><a href="reference/predict_kinematics.html">predict_velocity_at_time</a></span><span class="op">(</span></span>
 <span>      time <span class="op">=</span> <span class="va">time</span>,</span>
 <span>      MSS <span class="op">=</span> <span class="va">kimberley_profile_LOOCV</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
-<span>      MAC <span class="op">=</span> <span class="va">kimberley_profile_LOOCV</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MAC</span><span class="op">)</span></span>
+<span>      MAC <span class="op">=</span> <span class="va">kimberley_profile_LOOCV</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MAC</span></span>
+<span>    <span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">plot_data</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">LOOCV_velocity</span>, group <span class="op">=</span> <span class="va">LOOCV</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -863,25 +878,25 @@
 <span><span class="co">#&gt; # A tibble: 10 × 5</span></span>
 <span><span class="co">#&gt;      MSS   TAU   MAC  PMAX         TC</span></span>
 <span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1  8.00 0.890  8.99  18.0  0.000186 </span></span>
-<span><span class="co">#&gt;  2  8.00 0.889  9.00  18.0  0.000163 </span></span>
-<span><span class="co">#&gt;  3  8.00 0.889  9.00  18.0  0.000208 </span></span>
-<span><span class="co">#&gt;  4  8.00 0.889  9.00  18.0  0.000112 </span></span>
-<span><span class="co">#&gt;  5  8.00 0.889  9.00  18.0  0.000149 </span></span>
-<span><span class="co">#&gt;  6  8.00 0.889  9.00  18.0  0.000183 </span></span>
-<span><span class="co">#&gt;  7  8.00 0.887  9.01  18.0 -0.000166 </span></span>
-<span><span class="co">#&gt;  8  8.00 0.890  8.99  18.0  0.000185 </span></span>
-<span><span class="co">#&gt;  9  8.00 0.889  9.00  18.0  0.0000561</span></span>
-<span><span class="co">#&gt; 10  8.00 0.889  9.00  18.0  0.0000236</span></span>
+<span><span class="co">#&gt;  1  8.00 0.890  8.99  18.0  0.000295 </span></span>
+<span><span class="co">#&gt;  2  8.00 0.890  8.99  18.0  0.000154 </span></span>
+<span><span class="co">#&gt;  3  8.00 0.889  9.00  18.0  0.000194 </span></span>
+<span><span class="co">#&gt;  4  8.00 0.888  9.00  18.0  0.0000565</span></span>
+<span><span class="co">#&gt;  5  8.00 0.889  9.00  18.0  0.000175 </span></span>
+<span><span class="co">#&gt;  6  8.00 0.888  9.01  18.0 -0.000121 </span></span>
+<span><span class="co">#&gt;  7  8.00 0.889  9.00  18.0  0.000257 </span></span>
+<span><span class="co">#&gt;  8  8.00 0.889  9.00  18.0  0.000332 </span></span>
+<span><span class="co">#&gt;  9  8.00 0.888  9.00  18.0 -0.0000673</span></span>
+<span><span class="co">#&gt; 10  8.00 0.888  9.00  18.0 -0.000213 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Testing model fit:</span></span>
 <span><span class="co">#&gt;       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE </span></span>
-<span><span class="co">#&gt;        NA     0.999    -0.164     0.152     0.164     0.051     0.039       Inf</span></span></code></pre></div>
+<span><span class="co">#&gt;        NA     0.999    -0.165     0.152     0.165     0.051     0.039       Inf</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="optimization">Optimization<a class="anchor" aria-label="anchor" href="#optimization"></a>
 </h3>
-<p>Using the method outlined in Samozino <em>et al</em> (2022), one can find the optimal profiles, as well as the profile imbalance (compared to the optimal), for both sprint profiles (i.e., MSS and MAC) and Force-Velocity (FV).</p>
+<p>Using the method outlined in Samozino <em>et al</em> (2022), one can find the optimal profiles, as well as the profile imbalance (compared to the optimal), for both sprint profiles (i.e., MSS and MAC) and Force-Velocity (FV). In addition to this, one can <em>probe</em> the profiles (i.e., increase V0/F0 or MSS/MAC for say 2.5% to check which improvement yield more improvement in sprint time). The following graph depicts estimate profile imbalances. Note that &gt;100% is velocity deficit (i.e., increasing <em>velocity</em>; MSS or V0; will yield more improvement in sprint times), while &lt;100% is <em>force</em> deficit.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MSS</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span><span class="va">MAC</span> <span class="op">&lt;-</span> <span class="fl">8</span></span>
@@ -890,31 +905,73 @@
 <span><span class="va">fv</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/make_FV_profile.html">make_FV_profile</a></span><span class="op">(</span><span class="va">MSS</span>, <span class="va">MAC</span>, <span class="va">bodymass</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">opt_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span>  dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">50</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">50</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    `Sprint Profile` <span class="op">=</span> <span class="fu"><a href="reference/find_functions.html">find_optimal_MSS_MAC</a></span><span class="op">(</span></span>
+<span>    `Sprint Profile` <span class="op">=</span> <span class="fu"><a href="reference/optimal_functions.html">optimal_MSS_MAC</a></span><span class="op">(</span></span>
 <span>      distance <span class="op">=</span> <span class="va">dist</span>,</span>
 <span>      <span class="va">MSS</span>,</span>
-<span>      <span class="va">MAC</span><span class="op">)</span><span class="op">[[</span><span class="st">"slope_perc"</span><span class="op">]</span><span class="op">]</span>,</span>
-<span>    `FV Profile` <span class="op">=</span> <span class="fu"><a href="reference/find_functions.html">find_optimal_FV</a></span><span class="op">(</span></span>
+<span>      <span class="va">MAC</span></span>
+<span>    <span class="op">)</span><span class="op">[[</span><span class="st">"profile_imb"</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    `FV Profile` <span class="op">=</span> <span class="fu"><a href="reference/optimal_functions.html">optimal_FV</a></span><span class="op">(</span></span>
 <span>      distance <span class="op">=</span> <span class="va">dist</span>,</span>
 <span>      <span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>,</span>
 <span>      <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span>,</span>
-<span>      <span class="va">bodymass</span><span class="op">)</span><span class="op">[[</span><span class="st">"slope_perc"</span><span class="op">]</span><span class="op">]</span>,</span>
-<span>    `FV Profile (PeakPower)` <span class="op">=</span> <span class="fu"><a href="reference/find_functions.html">find_optimal_FV_peak</a></span><span class="op">(</span></span>
+<span>      <span class="va">bodymass</span></span>
+<span>    <span class="op">)</span><span class="op">[[</span><span class="st">"profile_imb"</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    `FV Profile (PeakPower)` <span class="op">=</span> <span class="fu"><a href="reference/optimal_functions.html">optimal_FV</a></span><span class="op">(</span></span>
 <span>      distance <span class="op">=</span> <span class="va">dist</span>,</span>
 <span>      <span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>,</span>
 <span>      <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span>,</span>
-<span>      <span class="va">bodymass</span><span class="op">)</span><span class="op">[[</span><span class="st">"slope_perc"</span><span class="op">]</span><span class="op">]</span></span>
+<span>      <span class="va">bodymass</span>,</span>
+<span>      method <span class="op">=</span> <span class="st">"peak"</span></span>
+<span>    <span class="op">)</span><span class="op">[[</span><span class="st">"profile_imb"</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    `Probe FV` <span class="op">=</span> <span class="fu"><a href="reference/probe_functions.html">probe_FV</a></span><span class="op">(</span></span>
+<span>      distance <span class="op">=</span> <span class="va">dist</span>,</span>
+<span>      <span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>,</span>
+<span>      <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span>,</span>
+<span>      <span class="va">bodymass</span></span>
+<span>    <span class="op">)</span><span class="op">[[</span><span class="st">"profile_imb"</span><span class="op">]</span><span class="op">]</span>,</span>
+<span>    `Probe MSS/MAC` <span class="op">=</span> <span class="fu"><a href="reference/probe_functions.html">probe_MSS_MAC</a></span><span class="op">(</span></span>
+<span>      distance <span class="op">=</span> <span class="va">dist</span>,</span>
+<span>      <span class="va">MSS</span>,</span>
+<span>      <span class="va">MAC</span></span>
+<span>    <span class="op">)</span><span class="op">[[</span><span class="st">"profile_imb"</span><span class="op">]</span><span class="op">]</span></span>
 <span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="va">dist</span>, names_to <span class="op">=</span> <span class="st">"profile"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">opt_dist</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
-<span>  `Sprint Profile` <span class="op">=</span> <span class="fu"><a href="reference/find_functions.html">find_optimal_MSS_MAC_distance</a></span><span class="op">(</span><span class="va">MSS</span>, <span class="va">MAC</span><span class="op">)</span>,</span>
-<span>  `FV Profile` <span class="op">=</span> <span class="fu"><a href="reference/find_functions.html">find_optimal_FV_distance</a></span><span class="op">(</span><span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>, <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span><span class="op">)</span>,</span>
-<span>  `FV Profile (PeakPower)` <span class="op">=</span> <span class="fu"><a href="reference/find_functions.html">find_optimal_FV_peak_distance</a></span><span class="op">(</span><span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>, <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span><span class="op">)</span></span>
+<span>  `Sprint Profile` <span class="op">=</span> <span class="fu"><a href="reference/find_optimal_distance.html">find_optimal_distance</a></span><span class="op">(</span></span>
+<span>    <span class="va">MSS</span>,</span>
+<span>    <span class="va">MAC</span>,</span>
+<span>    optimal_func <span class="op">=</span> <span class="va">optimal_MSS_MAC</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  `FV Profile` <span class="op">=</span> <span class="fu"><a href="reference/find_optimal_distance.html">find_optimal_distance</a></span><span class="op">(</span></span>
+<span>    <span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>,</span>
+<span>    <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span>,</span>
+<span>    <span class="va">bodymass</span>,</span>
+<span>    optimal_func <span class="op">=</span> <span class="va">optimal_FV</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  `FV Profile (PeakPower)` <span class="op">=</span> <span class="fu"><a href="reference/find_optimal_distance.html">find_optimal_distance</a></span><span class="op">(</span></span>
+<span>    <span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>,</span>
+<span>    <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span>,</span>
+<span>    <span class="va">bodymass</span>,</span>
+<span>    optimal_func <span class="op">=</span> <span class="va">optimal_FV</span>,</span>
+<span>    method <span class="op">=</span> <span class="st">"peak"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  `Probe FV` <span class="op">=</span> <span class="fu"><a href="reference/find_optimal_distance.html">find_optimal_distance</a></span><span class="op">(</span></span>
+<span>    <span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>,</span>
+<span>    <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span>,</span>
+<span>    <span class="va">bodymass</span>,</span>
+<span>    optimal_func <span class="op">=</span> <span class="va">probe_FV</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  `Probe MSS/MAC` <span class="op">=</span> <span class="fu"><a href="reference/find_optimal_distance.html">find_optimal_distance</a></span><span class="op">(</span></span>
+<span>    <span class="va">MSS</span>,</span>
+<span>    <span class="va">MAC</span>,</span>
+<span>    optimal_func <span class="op">=</span> <span class="va">probe_MSS_MAC</span></span>
+<span>  <span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">3</span>, names_to <span class="op">=</span> <span class="st">"profile"</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">5</span>, names_to <span class="op">=</span> <span class="st">"profile"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">opt_df</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">dist</span>, y <span class="op">=</span> <span class="va">value</span>, color <span class="op">=</span> <span class="va">profile</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
