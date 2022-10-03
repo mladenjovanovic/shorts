@@ -10,12 +10,6 @@
 \alias{find_acceleration_critical_time}
 \alias{find_power_critical_distance}
 \alias{find_power_critical_time}
-\alias{find_optimal_FV}
-\alias{find_optimal_MSS_MAC}
-\alias{find_optimal_FV_distance}
-\alias{find_optimal_MSS_MAC_distance}
-\alias{find_optimal_FV_peak}
-\alias{find_optimal_FV_peak_distance}
 \title{Find functions}
 \usage{
 find_max_power_distance(MSS, MAC, ...)
@@ -33,43 +27,6 @@ find_acceleration_critical_time(MSS, MAC, percent = 0.9)
 find_power_critical_distance(MSS, MAC, percent = 0.9, ...)
 
 find_power_critical_time(MSS, MAC, percent = 0.9, ...)
-
-find_optimal_FV(distance, F0, V0, bodymass = 75, ...)
-
-find_optimal_MSS_MAC(distance, MSS, MAC)
-
-find_optimal_FV_distance(
-  F0,
-  V0,
-  bodymass = 75,
-  min = 1,
-  max = 60,
-  metric = "slope_perc",
-  min_func = function(metric) (100 - metric)^2,
-  ...
-)
-
-find_optimal_MSS_MAC_distance(
-  MSS,
-  MAC,
-  min = 1,
-  max = 60,
-  metric = "slope_perc",
-  min_func = function(metric) (100 - metric)^2
-)
-
-find_optimal_FV_peak(distance, F0, V0, bodymass = 75, ...)
-
-find_optimal_FV_peak_distance(
-  F0,
-  V0,
-  bodymass = 75,
-  min = 1,
-  max = 60,
-  metric = "slope_perc",
-  min_func = function(metric) (100 - metric)^2,
-  ...
-)
 }
 \arguments{
 \item{MSS, MAC}{Numeric vectors. Model parameters}
@@ -77,19 +34,6 @@ find_optimal_FV_peak_distance(
 \item{...}{Forwarded to \code{\link{predict_power_at_distance}} for the purpose of calculation of air resistance}
 
 \item{percent}{Numeric vector. Used to calculate critical distance. Default is 0.9}
-
-\item{distance}{Numeric vector}
-
-\item{F0, V0}{Numeric vectors. FV profile parameters}
-
-\item{bodymass}{Body mass in kg}
-
-\item{min, max}{Range over which to find the distance}
-
-\item{metric}{Metric from \code{\link{find_optimal_FV_peak}}. Default is "slope_perc"}
-
-\item{min_func}{Function to be minimized. \code{metric} is forwarded as argument.
-Used if other metric is used for optimization (e.g., "time_gain")}
 }
 \value{
 \code{find_max_power_distance} returns list with two elements: \code{max_power}
@@ -97,112 +41,6 @@ Used if other metric is used for optimization (e.g., "time_gain")}
 
 \code{find_max_power_time} returns list with two elements: \code{max_power} and
     \code{time} at which max power occurs
-
-A data frame with the following columns
-    \describe{
-        \item{F0}{Original F0}
-        \item{V0}{Original F0}
-        \item{bodymass}{Bodymass}
-        \item{Pmax}{Maximal power estimated using F0 * V0 / 4}
-        \item{Pmax_rel}{Relative maximal power}
-        \item{slope}{FV profile slope}
-        \item{distance}{Distance}
-        \item{time}{Time to cover distance}
-        \item{Ppeak}{Peak power estimated quantitatively}
-        \item{Ppeak_rel}{Relative peak power}
-        \item{Ppeak_dist}{Distance at which peak power is manifested}
-        \item{Ppeak_time}{Time at which peak power is manifested}
-        \item{F0_optim}{Optimal F0}
-        \item{F0_coef}{Ratio between F0_optim an F0}
-        \item{V0_optim}{Optimal V0}
-        \item{V0_coef}{Ratio between V0_optim an V0}
-        \item{Pmax_optim}{Optimal maximal power estimated F0_optim * V0_optim / 4}
-        \item{Pmax_rel_optim}{Optimal relative maximal power}
-        \item{slope_optim}{Optimal FV profile slope}
-        \item{slope_perc}{Percent ratio between slope and optimal slope}
-        \item{time_optim}{Time to cover distance when profile is optimal}
-        \item{time_gain}{Difference in time to cover distance between time_optimal and time}
-        \item{Ppeak_optim}{Optimal peak power estimated quantitatively}
-        \item{Ppeak_rel_optim}{Optimal relative peak power}
-        \item{Ppeak_dist_optim}{Distance at which optimal peak power is manifested}
-        \item{Ppeak_time_optim}{Time at which optimal peak power is manifested}
-        \item{probe_F0}{Probing F0}
-        \item{probe_F0_time}{Time to cover distance when using probe_F0}
-        \item{probe_F0_time_gain}{Time difference}
-        \item{probe_V0}{Probing V0}
-        \item{probe_V0_time}{Time to cover distance when using probe_V0}
-        \item{probe_V0_time_gain}{Time difference}
-        \item{probe_time_gain_perc}{Percent ratio between probe_V0_time_gain and probe_F0_time_gain}
-   }
-
-A data frame with the following columns
-    \describe{
-        \item{MSS}{Original MSS}
-        \item{MAC}{Original MAC}
-        \item{Pmax_rel}{Relative maximal power estimated using MSS * MAC / 4}
-        \item{slope}{Sprint profile slope}
-        \item{distance}{Distance}
-        \item{time}{Time to cover distance}
-        \item{MSS_optim}{Optimal MSS}
-        \item{MSS_coef}{Ratio between MSS_optim an MSS}
-        \item{MAC_optim}{Optimal MAC}
-        \item{MAC_coef}{Ratio between MAC_optim an MAC}
-        \item{Pmax_rel_optim}{Optimal relative maximal power estimated using MSS_optim * MAC_optim / 4}
-        \item{slope_optim}{Optimal sprint profile slope}
-        \item{slope_perc}{Percent ratio between slope and optimal slope}
-        \item{time_optim}{Time to cover distance when profile is optimal}
-        \item{time_gain}{Difference in time to cover distance between time_optimal and time}
-        \item{probe_MSS}{Probing MSS}
-        \item{probe_MSS_time}{Time to cover distance when using probe_MSS}
-        \item{probe_MSS_time_gain}{Time difference}
-        \item{probe_MAC}{Probing MAC}
-        \item{probe_MAC_time}{Time to cover distance when using probe_MAC}
-        \item{probe_MAC_time_gain}{Time difference}
-        \item{probe_time_gain_perc}{Percent ratio between probe_MSS_time_gain and probe_MAC_time_gain}
-   }
-
-Distance
-
-Distance
-
-A data frame with the following columns
-    \describe{
-        \item{F0}{Original F0}
-        \item{V0}{Original F0}
-        \item{bodymass}{Bodymass}
-        \item{Pmax}{Maximal power estimated using F0 * V0 / 4}
-        \item{Pmax_rel}{Relative maximal power}
-        \item{slope}{FV profile slope}
-        \item{distance}{Distance}
-        \item{time}{Time to cover distance}
-        \item{Ppeak}{Peak power estimated quantitatively}
-        \item{Ppeak_rel}{Relative peak power}
-        \item{Ppeak_dist}{Distance at which peak power is manifested}
-        \item{Ppeak_time}{Time at which peak power is manifested}
-        \item{F0_optim}{Optimal F0}
-        \item{F0_coef}{Ratio between F0_optim an F0}
-        \item{V0_optim}{Optimal V0}
-        \item{V0_coef}{Ratio between V0_optim an V0}
-        \item{Pmax_optim}{Optimal maximal power estimated F0_optim * V0_optim / 4}
-        \item{Pmax_rel_optim}{Optimal relative maximal power}
-        \item{slope_optim}{Optimal FV profile slope}
-        \item{slope_perc}{Percent ratio between slope and optimal slope}
-        \item{time_optim}{Time to cover distance when profile is optimal}
-        \item{time_gain}{Difference in time to cover distance between time_optimal and time}
-        \item{Ppeak_optim}{Optimal peak power estimated quantitatively}
-        \item{Ppeak_rel_optim}{Optimal relative peak power}
-        \item{Ppeak_dist_optim}{Distance at which optimal peak power is manifested}
-        \item{Ppeak_time_optim}{Time at which optimal peak power is manifested}
-        \item{probe_F0}{Probing F0}
-        \item{probe_F0_time}{Time to cover distance when using probe_F0}
-        \item{probe_F0_time_gain}{Time difference}
-        \item{probe_V0}{Probing V0}
-        \item{probe_V0_time}{Time to cover distance when using probe_V0}
-        \item{probe_V0_time_gain}{Time difference}
-        \item{probe_time_gain_perc}{Percent ratio between probe_V0_time_gain and probe_F0_time_gain}
-   }
-
-Distance
 }
 \description{
 Family of functions that serve a purpose of finding maximal value and critical distances and times
@@ -231,24 +69,6 @@ Family of functions that serve a purpose of finding maximal value and critical d
 
 \code{find_power_critical_time} finds critical times at which maximal power over
     \code{percent} is achieved
-
-\code{find_optimal_FV} finds "optimal" \code{F0} and \code{V0} where time at distance is
-    minimized, while keeping the \code{Pmax} the same
-
-\code{find_optimal_MSS_MAC} finds "optimal" \code{MSS} and \code{MAS} where time at distance is
-    minimized, while keeping the \code{Pmax} the same
-
-\code{find_optimal_FV_distance} finds the distance for which the
-    FV profile is optimal
-
-\code{find_optimal_MSS_MAC_distance} finds the distance for which the
-    sprint profile is optimal
-
-\code{find_optimal_FV_peak} finds "optimal" \code{F0} and \code{V0} where time at distance is
-    minimized, while keeping the \code{Ppeak} the same
-
-\code{find_optimal_FV_peak_distance} finds the distance for which the
-    FV profile is optimal
 }
 \examples{
 dist <- seq(0, 40, length.out = 1000)
@@ -305,49 +125,6 @@ pwr_zone <- find_power_critical_distance(MSS = 10, MAC = 9, percent = 0.75)
 abline(v = pwr_zone$lower, col = "blue")
 abline(v = pwr_zone$upper, col = "blue")
 
-# Optimal profiles
-MSS <- 10
-MAC <- 8
-bodymass <- 75
-
-fv <- make_FV_profile(MSS, MAC, bodymass)
-
-dist <- seq(5, 50, by = 5)
-
-opt_slope_perc <- find_optimal_MSS_MAC(
-  distance = dist,
-  MSS,
-  MAC
-)[["slope_perc"]]
-
-# Due to speed issues, uncomment this
-# opt_dist <- find_optimal_MSS_MAC_distance(MSS, MAC)
-
-opt_FV_slope_perc <- find_optimal_FV(
-  distance = dist,
-  fv$F0_poly,
-  fv$V0_poly,
-  fv$bodymass
-)[["slope_perc"]]
-
-# opt_FV_dist <- find_optimal_FV_distance(fv$F0_poly, fv$V0_poly, fv$bodymass)
-
-opt_FV_peak_slope_perc <- find_optimal_FV_peak(
-  distance = dist,
-  fv$F0_poly,
-  fv$V0_poly,
-  fv$bodymass
-)[["slope_perc"]]
-
-# opt_FV_peak_dist <- find_optimal_FV_peak_distance(fv$F0_poly, fv$V0_poly, fv$bodymass)
-
-plot(x = dist, y = opt_slope_perc, type = "l")
-lines(x = dist, y = opt_FV_slope_perc, type = "l", col = "blue")
-lines(x = dist, y = opt_FV_peak_slope_perc, type = "l", col = "red")
-# points(x = opt_dist, y = 100)
-# points(x = opt_FV_dist, y = 100, col = "blue")
-# points(x = opt_FV_peak_dist, y = 100, col = "red")
-abline(h = 100, col = "gray", lty = 2)
 }
 \references{
 Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
@@ -357,8 +134,4 @@ Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact
 Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
         Effectiveness During Sprint Running. In: Morin J-B, Samozino P eds. Biomechanics of Training and Testing.
        Cham: Springer International Publishing, 237–267. DOI: 10.1007/978-3-319-05633-3_11.
-
-Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P, Vanwanseele B, Morin J. 2022.
-     Optimal mechanical force-velocity profile for sprint acceleration performance.
-      Scandinavian Journal of Medicine & Science in Sports 32:559–575. DOI: 10.1111/sms.14097.
 }

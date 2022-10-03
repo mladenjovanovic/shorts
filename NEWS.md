@@ -1,3 +1,11 @@
+# short 2.3.0
+
+* Moved optimal profile functions to "optional-functions.R" file, with accompanying documentation name
+* Renamed the `FV_slope_perc` to `profile_imb` in the output of the `optimal_` functions
+* The functions `find_optimal_FV()` and `find_optimal_FV_peak()` are now wrapped inside the `optimal_FV`, but the method is selected using `method` parameter ("max" for `find_optimal_FV()` and "peak" for `find_optimal_FV_peak()`). Please refer to examples
+* Probing analysis is now removed from `optimal_` functions and moved to `probe_FV()` and `probe_MSS_MAC()` functions. Please refer to examples
+* Finding for the distance where the profile is optimal is now done using the `find_optimal_distance()` function that can take other optimal and probe functions as parameter. Please refer to examples
+
 # shorts 2.2.0
 
 * Expanded the results output of the `find_optimal_MSS_MAC()` and `find_optimal_FV()` functions. Some of the columns are renamed to better clarity
