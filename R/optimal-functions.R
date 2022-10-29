@@ -194,7 +194,7 @@ find_FV_peak_power <- function(F0, V0, bodymass, ...) {
 # Assistant function for find_optimal_FV_peak_scalar()
 find_V0 <- function(F0, Ppeak, bodymass, ...) {
   opt_func <- function(V0) {
-    (Ppeak - find_FV_peak_power(F0, V0, bodymass))
+    (Ppeak - find_FV_peak_power(F0, V0, bodymass, ...))
   }
 
   V0 <- (4 * Ppeak) / F0
