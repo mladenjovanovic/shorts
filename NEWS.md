@@ -5,6 +5,7 @@
 * The functions `find_optimal_FV()` and `find_optimal_FV_peak()` are now wrapped inside the `optimal_FV`, but the method is selected using `method` parameter ("max" for `find_optimal_FV()` and "peak" for `find_optimal_FV_peak()`). Please refer to examples
 * Probing analysis is now removed from `optimal_` functions and moved to `probe_FV()` and `probe_MSS_MAC()` functions. Please refer to examples
 * Finding for the distance where the profile is optimal is now done using the `find_optimal_distance()` function that can take other optimal and probe functions as parameter. Please refer to examples
+* Removed a bug in `find_optimal_FV_peak()` (now implemented in `find_optimal_FV()` function using `method="peak"` parameter) where information needed to calculate air resistance was not forwarded
 
 # shorts 2.2.0
 
