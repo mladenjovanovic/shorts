@@ -19,7 +19,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.3.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.3.0.9000</span>
       </span>
     </div>
 
@@ -62,6 +62,7 @@
 <span>  <span class="va">velocity</span>,</span>
 <span>  weights <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  CV <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  use_observed_MSS <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  control <span class="op">=</span> <span class="fu">minpack.lm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minpack.lm/man/nls.lm.control.html" class="external-link">nls.lm.control</a></span><span class="op">(</span>maxiter <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -85,6 +86,10 @@
 <dt>CV</dt>
 <dd><p>Should cross-validation be used to estimate model fit? Default is <code>NULL</code>. Otherwise use integer
 indicating number of folds. See Example for more information</p></dd>
+
+
+<dt>use_observed_MSS</dt>
+<dd><p>Should <code>MSS</code> be estimated from the observed <code>velocity</code>? Default is <code>FALSE</code></p></dd>
 
 
 <dt>control</dt>
