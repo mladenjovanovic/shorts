@@ -19,6 +19,7 @@ coef.shorts_model <- function(object, ...) {
   return(unlist(object$parameters))
 }
 
+
 #' S3 method for returning predictions of \code{shorts_model}
 #'
 #' @param object \code{shorts_model} object
@@ -35,10 +36,32 @@ coef.shorts_model <- function(object, ...) {
 #'
 #' # Simple model
 #' simple_model <- model_timing_gates(split_distances, split_times)
+#' fitted(simple_model)
+#' @export
+fitted.shorts_model <- function(object, ...) {
+  object$data[[4]]
+}
+
+#' S3 method for making predictions using \code{shorts_model}
+#'
+#' @param object \code{shorts_model} object
+#' @param ... Forwarded to generic \code{predict()} function
+#' @examples
+#' split_distances <- c(10, 20, 30, 40, 50)
+#' split_times <- create_timing_gates_splits(
+#'   gates = split_distances,
+#'   MSS = 10,
+#'   MAC = 9,
+#'   FD = 0.25,
+#'   TC = 0
+#' )
+#'
+#' # Simple model
+#' simple_model <- model_timing_gates(split_distances, split_times)
 #' predict(simple_model)
 #' @export
 predict.shorts_model <- function(object, ...) {
-  object$data[[4]]
+  stats::predict(object$model, ...)
 }
 
 #' S3 method for printing \code{shorts_model} object
