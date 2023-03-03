@@ -17,7 +17,8 @@
 #'   V0 = fv$V0_poly,
 #'   bodymass = fv$bodymass,
 #'   optimal_func = optimal_FV,
-#'   method = "max")
+#'   method = "max"
+#' )
 #'
 #' find_optimal_distance(
 #'   MSS = MSS,

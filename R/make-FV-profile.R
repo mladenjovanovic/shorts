@@ -141,7 +141,7 @@ make_FV_profile <- function(MSS,
   V0_poly <- (1 / (2 * k_rel * tau)) * (1 - sqrt(1 - 4 * k_rel * tau * MSS))
   Pmax_poly <- (F0_poly * V0_poly) / 4
   Pmax_poly_rel <- Pmax_poly / bodymass
-  Slope_poly <- - (F0_poly / bodymass) / V0_poly
+  Slope_poly <- -(F0_poly / bodymass) / V0_poly
 
   # Return list
   new_fv_profile(
