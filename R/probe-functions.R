@@ -114,7 +114,6 @@ probe_FV_scalar <- function(distance, F0, V0, bodymass = 75, perc = 2.5, ...) {
 #'    }
 #' @export
 probe_FV <- function(distance, F0, V0, bodymass = 75, perc = 2.5, ...) {
-
   df <- data.frame(
     distance = distance,
     F0 = F0,

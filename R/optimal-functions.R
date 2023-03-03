@@ -382,7 +382,6 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, ...) {
 #'    }
 #' @export
 optimal_FV <- function(distance, F0, V0, bodymass = 75, method = "max", ...) {
-
   df <- data.frame(
     distance = distance,
     F0 = F0,

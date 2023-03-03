@@ -87,14 +87,14 @@ predict_time_at_distance_FV <- function(distance, F0, V0, bodymass = 75, ...) {
   F0_rel <- F0 / bodymass
   Pmax <- (F0 * V0) / 4
   Pmax_rel <- Pmax / bodymass
-  Slope <- - F0_rel / V0
+  Slope <- -F0_rel / V0
 
   s3 <- 2 * sqrt(-Pmax_rel * Slope)
-  s2 <- Slope - 2 * k_rel  * sqrt(-(Pmax_rel / Slope))
-  s1 <- distance + (s3 / (s2 ^ 2))
+  s2 <- Slope - 2 * k_rel * sqrt(-(Pmax_rel / Slope))
+  s1 <- distance + (s3 / (s2^2))
 
   # Return predicted time
-  -(LambertW::W(-exp(1)^(-(s2^2 * s1) / s3)) / s2) - ((s2 * s1) /  s3)
+  -(LambertW::W(-exp(1)^(-(s2^2 * s1) / s3)) / s2) - ((s2 * s1) / s3)
 }
 
 #' @rdname predict_kinematics
@@ -295,5 +295,3 @@ predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass =
 
   df
 }
-
-

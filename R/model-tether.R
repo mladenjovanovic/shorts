@@ -9,6 +9,7 @@
 #' @param weights Numeric vector. Default is 1
 #' @param CV Should cross-validation be used to estimate model fit? Default is \code{NULL}. Otherwise use integer
 #'     indicating number of folds. See Example for more information
+#' @param use_observed_MSS Should \code{MSS} be estimated from the observed \code{velocity}? Default is \code{FALSE}
 #' @param control Control object forwarded to \code{\link[minpack.lm]{nlsLM}}. Default is \code{minpack.lm::nls.lm.control(maxiter = 1000)}
 #' @param na.rm Logical. Default is FALSE
 #' @param ... Forwarded to \code{\link[minpack.lm]{nlsLM}} function
@@ -37,15 +38,30 @@ model_tether <- function(distance,
                          velocity,
                          weights = 1,
                          CV = NULL,
+                         use_observed_MSS = FALSE,
                          control = minpack.lm::nls.lm.control(maxiter = 1000),
                          na.rm = FALSE,
                          ...) {
-  run_model <- function(train, test, ...) {
+  run_model <- function(train, test, use_observed_MSS, ...) {
+    param_start <- list(MSS = 7, TAU = 0.8)
+    param_lower <- NULL
+    param_upper <- NULL
+
+    if (use_observed_MSS == TRUE) {
+      observed_MSS <- max(velocity)
+
+      param_start <- list(MSS = observed_MSS, TAU = 0.8)
+      param_lower <- c(MSS = observed_MSS, TAU = -Inf)
+      param_upper <- c(MSS = observed_MSS, TAU = Inf)
+    }
+
     # Non-linear model
     speed_mod <- minpack.lm::nlsLM(
       velocity ~ MSS * (1 - exp(1)^(-((TAU * I(LambertW::W(-exp(1)^(-(distance) / (MSS * TAU) - 1))) + (distance) / MSS + TAU) / TAU))),
       data = train,
-      start = list(MSS = 7, TAU = 0.8),
+      start = param_start,
+      lower = param_lower,
+      upper = param_upper,
       weights = train$weights,
       control = control,
       ...
@@ -93,6 +109,7 @@ model_tether <- function(distance,
   training_model <- run_model(
     train = df,
     test = df,
+    use_observed_MSS = use_observed_MSS,
     ...
   )
 
@@ -124,6 +141,7 @@ model_tether <- function(distance,
       model <- run_model(
         train = train_data,
         test = test_data,
+        use_observed_MSS = use_observed_MSS,
         ...
       )
 

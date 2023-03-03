@@ -1,3 +1,8 @@
+# short 2.3.0.9000
+
+* Removed "Suggest" from the package DESCRIPTION file
+* Added `use_observed_MSS` parameter to `model_radar_gun()` and `model_tether()` functions. This allows one to estimate `MSS` parameter from the observed data
+
 # short 2.3.0
 
 * Moved optimal profile functions to "optional-functions.R" file, with accompanying documentation name

@@ -7,7 +7,7 @@ convert_FV <- function(F0, V0, bodymass, ...) {
 
   MAC <- F0_rel
 
-  MSS <- (F0_rel * V0) / (k_rel * V0 ^ 2 + F0_rel)
+  MSS <- (F0_rel * V0) / (k_rel * V0^2 + F0_rel)
 
   list(
     MSS = MSS,
