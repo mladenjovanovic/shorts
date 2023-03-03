@@ -9,6 +9,7 @@ model_radar_gun(
   velocity,
   weights = 1,
   CV = NULL,
+  use_observed_MSS = FALSE,
   control = minpack.lm::nls.lm.control(maxiter = 1000),
   na.rm = FALSE,
   ...
@@ -23,6 +24,8 @@ model_radar_gun(
 
 \item{CV}{Should cross-validation be used to estimate model fit? Default is \code{NULL}. Otherwise use integer
 indicating number of folds. See Example for more information}
+
+\item{use_observed_MSS}{Should \code{MSS} be estimated from the observed \code{velocity}? Default is \code{FALSE}}
 
 \item{control}{Control object forwarded to \code{\link[minpack.lm]{nlsLM}}. Default is \code{minpack.lm::nls.lm.control(maxiter = 1000)}}
 
