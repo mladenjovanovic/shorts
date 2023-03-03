@@ -366,6 +366,46 @@ ggplot(jim_profile$data, aes(x = time)) +
 
 <img src="man/figures/README-unnamed-chunk-13-1.png" width="90%" style="display: block; margin: auto;" />
 
+Rather than estimating MSS, `shorts::model_radar_gun()` function allows
+you to utilize peak velocity observed in the data as MSS. This is done
+by setting the `use_observed_MSS` parameter to `TRUE`:
+
+``` r
+jim_profile <- shorts::model_radar_gun(
+  time = jim_data$time,
+  velocity = jim_data$velocity,
+  use_observed_MSS = TRUE
+)
+
+jim_profile
+#> Estimated model parameters
+#> --------------------------
+#>    MSS    TAU    MAC   PMAX     TC 
+#>  8.095  0.933  8.678 17.563  0.011 
+#> 
+#> Model fit estimators
+#> --------------------
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>     0.080     0.999    -0.229     0.183     0.229     0.080     0.064       Inf
+
+summary(jim_profile)
+#> 
+#> Formula: velocity ~ MSS * (1 - exp(1)^(-(time + TC)/TAU))
+#> 
+#> Parameters:
+#>     Estimate Std. Error t value Pr(>|t|)    
+#> MSS  8.09500    0.00521 1554.10  < 2e-16 ***
+#> TAU  0.93279    0.00361  258.74  < 2e-16 ***
+#> TC   0.01118    0.00203    5.52  5.1e-08 ***
+#> ---
+#> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+#> 
+#> Residual standard error: 0.08 on 597 degrees of freedom
+#> 
+#> Number of iterations to convergence: 5 
+#> Achieved convergence tolerance: 1.49e-08
+```
+
 ### Profiling using tether devices
 
 Some tether devices provide data out in a velocity-at-distance format.
@@ -390,7 +430,10 @@ plot(m1) +
   geom_point(data = df, aes(x = distance, y = obs_velocity))
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+
+Setting `use_observed_MSS` parameter to `TRUE` in the `model_tether()`
+function also allows you to use observed peak velocity as MSS.
 
 ### Force-Velocity Profiling
 
@@ -422,7 +465,7 @@ plot(kimberley_fv) +
   theme_bw()
 ```
 
-<img src="man/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Using corrections
 
@@ -578,7 +621,7 @@ ggplot(LOOCV_parameters, aes(y = value)) +
   theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
 ```
 
-<img src="man/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot model LOOCV predictions and training (when using all data
 set) predictions against observed performance:
@@ -599,7 +642,7 @@ ggplot(kimberley_data, aes(x = distance)) +
   ylab("Time (s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot predicted velocity using LOOCV estimate parameters to check
 robustness of the model predictions:
@@ -633,7 +676,7 @@ ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
   ylab("Velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
 Cross-validation implemented in `model_radar_gun()` function involves
 using n-folds, set by using `CV=` parameter:
@@ -663,20 +706,20 @@ jim_profile_CV
 #> # A tibble: 10 × 5
 #>      MSS   TAU   MAC  PMAX         TC
 #>    <dbl> <dbl> <dbl> <dbl>      <dbl>
-#>  1  8.00 0.889  9.00  18.0 -0.0000351
-#>  2  8.00 0.889  9.00  18.0  0.0000291
-#>  3  8.00 0.889  8.99  18.0  0.000133 
-#>  4  8.00 0.888  9.01  18.0  0.0000355
-#>  5  8.00 0.888  9.01  18.0 -0.000148 
-#>  6  8.00 0.888  9.00  18.0  0.000105 
-#>  7  8.00 0.889  8.99  18.0  0.000298 
-#>  8  8.00 0.890  8.99  18.0  0.000483 
-#>  9  8.00 0.890  8.99  18.0  0.000221 
-#> 10  8.00 0.888  9.00  18.0 -0.0000143
+#>  1  8.00 0.890  8.99  18.0  0.000377 
+#>  2  8.00 0.888  9.01  18.0 -0.000116 
+#>  3  8.00 0.889  9.00  18.0  0.000229 
+#>  4  8.00 0.889  9.00  18.0  0.000317 
+#>  5  8.00 0.889  9.00  18.0 -0.0000382
+#>  6  8.00 0.889  9.00  18.0  0.000114 
+#>  7  8.00 0.888  9.00  18.0  0.0000455
+#>  8  8.00 0.888  9.00  18.0 -0.0000283
+#>  9  8.00 0.890  8.99  18.0  0.000241 
+#> 10  8.00 0.888  9.00  18.0 -0.0000242
 #> 
 #> Testing model fit:
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>        NA     0.999    -0.164     0.153     0.164     0.051     0.040       Inf
+#>        NA     0.999    -0.165     0.153     0.165     0.051     0.039       Inf
 ```
 
 ### Optimization
@@ -776,23 +819,24 @@ ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
   ylab("Profile imbalance")
 ```
 
-<img src="man/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Publications
 
-1.  Jovanović, M., Vescovi, J.D. (2020). **{shorts}: An R Package for
+1.  Jovanović, M., Vescovi, J.D. (2022). **{shorts}: An R Package for
     Modeling Short Sprints**. *International Journal of Strength and
     Conditioning, 2(1).* <https://doi.org/10.47206/ijsc.v2i1.74>
 
-2.  Vescovi, JD and Jovanović, M. (2021). **Sprint Mechanical
+2.  Jovanović M. (2023). **Bias in estimated short sprint profiles using
+    timing gates due to the flying start: simulation study and proposed
+    solutions.** *Computer Methods in Biomechanics and Biomedical
+    Engineering:1–11*. <https://doi.org/10.1080/10255842.2023.2170713>
+
+3.  Vescovi, JD and Jovanović, M. (2021). **Sprint Mechanical
     Characteristics of Female Soccer Players: A Retrospective Pilot
     Study to Examine a Novel Approach for Correction of Timing Gate
     Starts.** *Front Sports Act Living 3: 629694, 2021.*
     <https://doi.org/10.3389/fspor.2021.629694>
-
-3.  Jovanovic M. (2022). **Bias in estimated short sprint profiles using
-    timing gates due to the flying start: Simulation study and proposed
-    solutions**. *SportRxiv* <https://doi.org/10.51224/SRXIV.179>
 
 ## Citation
 

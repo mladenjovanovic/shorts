@@ -2,6 +2,7 @@
 
 * Removed "Suggest" from the package DESCRIPTION file
 * Added `use_observed_MSS` parameter to `model_radar_gun()` and `model_tether()` functions. This allows one to estimate `MSS` parameter from the observed data
+* Updated README.Rmd file with the example on how to use this feature. Also added a reference to a published article that was previously available only as pre-print.
 
 # short 2.3.0
 

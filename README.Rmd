@@ -256,6 +256,20 @@ ggplot(jim_profile$data, aes(x = time)) +
   ylab("Velocity (m/s)")
 ```
 
+Rather than estimating MSS, `shorts::model_radar_gun()` function allows you to utilize peak velocity observed in the data as MSS. This is done by setting the `use_observed_MSS` parameter to `TRUE`:
+
+```{r}
+jim_profile <- shorts::model_radar_gun(
+  time = jim_data$time,
+  velocity = jim_data$velocity,
+  use_observed_MSS = TRUE
+)
+
+jim_profile
+
+summary(jim_profile)
+```
+
 ### Profiling using tether devices
 
 Some tether devices provide data out in a velocity-at-distance format. In this case, velocity is the outcome variable and distance is the predictor. To estimate sprint profiles from *tether data*, use `model_tether()` function:
@@ -276,6 +290,8 @@ df <- data.frame(
 plot(m1) +
   geom_point(data = df, aes(x = distance, y = obs_velocity))
 ```
+
+Setting `use_observed_MSS` parameter to `TRUE` in the `model_tether()` function also allows you to use observed peak velocity as MSS. 
 
 ### Force-Velocity Profiling
 
@@ -516,11 +532,11 @@ ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
 
 ## Publications
 
-1. Jovanović, M., Vescovi, J.D. (2020). **{shorts}: An R Package for Modeling Short Sprints**. *International Journal of Strength and Conditioning, 2(1).* https://doi.org/10.47206/ijsc.v2i1.74
+1. Jovanović, M., Vescovi, J.D. (2022). **{shorts}: An R Package for Modeling Short Sprints**. *International Journal of Strength and Conditioning, 2(1).* https://doi.org/10.47206/ijsc.v2i1.74
 
-2. Vescovi, JD and Jovanović, M. (2021). **Sprint Mechanical Characteristics of Female Soccer Players: A Retrospective Pilot Study to Examine a Novel Approach for Correction of Timing Gate Starts.** *Front Sports Act Living 3: 629694, 2021.* https://doi.org/10.3389/fspor.2021.629694
+2. Jovanović M. (2023). **Bias in estimated short sprint profiles using timing gates due to the flying start: simulation study and proposed solutions.** *Computer Methods in Biomechanics and Biomedical Engineering:1–11*. https://doi.org/10.1080/10255842.2023.2170713
 
-3. Jovanovic M. (2022). **Bias in estimated short sprint profiles using timing gates due to the flying start: Simulation study and proposed solutions**. *SportRxiv* https://doi.org/10.51224/SRXIV.179
+3. Vescovi, JD and Jovanović, M. (2021). **Sprint Mechanical Characteristics of Female Soccer Players: A Retrospective Pilot Study to Examine a Novel Approach for Correction of Timing Gate Starts.** *Front Sports Act Living 3: 629694, 2021.* https://doi.org/10.3389/fspor.2021.629694
 
 
 ## Citation
