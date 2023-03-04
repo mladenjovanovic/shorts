@@ -98,6 +98,7 @@ model_timing_gates_FD_TC Combines the approach of the model_timing_gates_FD with
 <span>  <span class="va">distance</span>,</span>
 <span>  <span class="va">time</span>,</span>
 <span>  weights <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  FD <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  LOOCV <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  control <span class="op">=</span> <span class="fu">minpack.lm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minpack.lm/man/nls.lm.control.html" class="external-link">nls.lm.control</a></span><span class="op">(</span>maxiter <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -108,6 +109,7 @@ model_timing_gates_FD_TC Combines the approach of the model_timing_gates_FD with
 <span>  <span class="va">distance</span>,</span>
 <span>  <span class="va">time</span>,</span>
 <span>  weights <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  FD <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  LOOCV <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  control <span class="op">=</span> <span class="fu">minpack.lm</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minpack.lm/man/nls.lm.control.html" class="external-link">nls.lm.control</a></span><span class="op">(</span>maxiter <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span>,</span>
 <span>  na.rm <span class="op">=</span> <span class="cn">FALSE</span>,</span>
@@ -141,6 +143,11 @@ more weight to observations from shorter distances.</p></dd>
 
 <dt>...</dt>
 <dd><p>Extra parameters forwarded to <code><a href="https://rdrr.io/pkg/minpack.lm/man/nlsLM.html" class="external-link">nlsLM</a></code> function</p></dd>
+
+
+<dt>FD</dt>
+<dd><p>Use this parameter if you do not want the <code>FD</code> parameter to be estimated, but rather take the
+provided value</p></dd>
 
 </dl></div>
     <div id="value">
