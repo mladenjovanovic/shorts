@@ -1,8 +1,9 @@
 # short 2.3.0.9000
 
 * Removed "Suggest" from the package DESCRIPTION file
-* Added `use_observed_MSS` parameter to `model_radar_gun()` and `model_tether()` functions. This allows one to estimate `MSS` parameter from the observed data
-* Updated README.Rmd file with the example on how to use this feature. Also added a reference to a published article that was previously available only as pre-print.
+* Added `use_observed_MSS` parameter to `model_radar_gun()` and `model_tether()` functions. This allows user to estimate `MSS` parameter from the observed data
+* Add `FD` parameter to `model_timing_gates_FD()` and `model_timing_gates_FD_TC()` functions, which allow user to provide fixed `FD` parameter value. 
+* Updated README.Rmd file with the example on how to use these feature. Also added a reference to a published article that was previously available only as pre-print.
 * Changed generic `predict()` function not to return fitted values, but to use generic predict method on the object. This allows user to use `newdata` parameter. Added `fitted()` method to return fitted values instead
 
 # short 2.3.0

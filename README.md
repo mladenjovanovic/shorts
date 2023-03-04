@@ -562,6 +562,28 @@ kimberley_profile_FD
 #>   0.00039   1.00000  -0.00040   0.00046   0.00046   0.00028   0.00024   0.00783
 ```
 
+If you want to use fixed `FD` parameter (e.g., when you know what is the
+flying distance), in a similar vein of using fixed `TC` correction, use:
+
+``` r
+kimberley_profile_fixed_FD <- shorts::model_timing_gates_FD(
+  distance = kimberley_data$distance,
+  time = kimberley_data$time, 
+  FD = 0.5
+)
+
+kimberley_profile_fixed_FD
+#> Estimated model parameters
+#> --------------------------
+#>  MSS  TAU  MAC PMAX   FD 
+#>  9.2  1.5  6.2 14.3  0.5 
+#> 
+#> Model fit estimators
+#> --------------------
+#>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
+#>    0.0112    1.0000   -0.0079    0.0155    0.0155    0.0079    0.0067    0.3499
+```
+
 ### Cross-Validation (CV)
 
 `model_timing_gates_()` family of functions come with LOOCV feature that
@@ -621,7 +643,7 @@ ggplot(LOOCV_parameters, aes(y = value)) +
   theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
 ```
 
-<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot model LOOCV predictions and training (when using all data
 set) predictions against observed performance:
@@ -642,7 +664,7 @@ ggplot(kimberley_data, aes(x = distance)) +
   ylab("Time (s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
 
 Let’s plot predicted velocity using LOOCV estimate parameters to check
 robustness of the model predictions:
@@ -676,7 +698,7 @@ ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
   ylab("Velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-23-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 Cross-validation implemented in `model_radar_gun()` function involves
 using n-folds, set by using `CV=` parameter:
@@ -706,20 +728,20 @@ jim_profile_CV
 #> # A tibble: 10 × 5
 #>      MSS   TAU   MAC  PMAX         TC
 #>    <dbl> <dbl> <dbl> <dbl>      <dbl>
-#>  1  8.00 0.890  8.99  18.0  0.000377 
-#>  2  8.00 0.888  9.01  18.0 -0.000116 
-#>  3  8.00 0.889  9.00  18.0  0.000229 
-#>  4  8.00 0.889  9.00  18.0  0.000317 
-#>  5  8.00 0.889  9.00  18.0 -0.0000382
-#>  6  8.00 0.889  9.00  18.0  0.000114 
-#>  7  8.00 0.888  9.00  18.0  0.0000455
-#>  8  8.00 0.888  9.00  18.0 -0.0000283
-#>  9  8.00 0.890  8.99  18.0  0.000241 
-#> 10  8.00 0.888  9.00  18.0 -0.0000242
+#>  1  8.00 0.888  9.00  18.0 -0.0000335
+#>  2  8.00 0.888  9.01  18.0 -0.000271 
+#>  3  8.00 0.889  8.99  18.0  0.000272 
+#>  4  8.00 0.888  9.01  18.0 -0.000115 
+#>  5  8.00 0.889  9.00  18.0  0.000375 
+#>  6  8.00 0.889  9.00  18.0  0.000301 
+#>  7  8.00 0.889  9.00  18.0  0.0000320
+#>  8  8.00 0.890  8.99  18.0  0.000194 
+#>  9  8.00 0.888  9.00  18.0 -0.000125 
+#> 10  8.00 0.890  8.99  18.0  0.000488 
 #> 
 #> Testing model fit:
 #>       RSE R_squared    minErr    maxErr maxAbsErr      RMSE       MAE      MAPE 
-#>        NA     0.999    -0.165     0.153     0.165     0.051     0.039       Inf
+#>        NA     0.999    -0.165     0.152     0.165     0.051     0.039       Inf
 ```
 
 ### Optimization
@@ -819,7 +841,7 @@ ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
   ylab("Profile imbalance")
 ```
 
-<img src="man/figures/README-unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-26-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Publications
 

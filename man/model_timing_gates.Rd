@@ -31,6 +31,7 @@ model_timing_gates_FD(
   distance,
   time,
   weights = 1,
+  FD = NULL,
   LOOCV = FALSE,
   control = minpack.lm::nls.lm.control(maxiter = 1000),
   na.rm = FALSE,
@@ -41,6 +42,7 @@ model_timing_gates_FD_TC(
   distance,
   time,
   weights = 1,
+  FD = NULL,
   LOOCV = FALSE,
   control = minpack.lm::nls.lm.control(maxiter = 1000),
   na.rm = FALSE,
@@ -61,6 +63,9 @@ more weight to observations from shorter distances.}
 \item{na.rm}{Logical. Default is FALSE}
 
 \item{...}{Extra parameters forwarded to \code{\link[minpack.lm]{nlsLM}} function}
+
+\item{FD}{Use this parameter if you do not want the \code{FD} parameter to be estimated, but rather take the
+provided value}
 }
 \value{
 List object with the following elements:

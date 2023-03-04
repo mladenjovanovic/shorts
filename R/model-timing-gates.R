@@ -18,6 +18,8 @@
 #' @param weights Numeric vector. Default is vector of 1.
 #'     This is used to give more weight to particular observations. For example, use \code{1\\distance} to give
 #'     more weight to observations from shorter distances.
+#' @param FD Use this parameter if you do not want the \code{FD} parameter to be estimated, but rather take the
+#'     provided value
 #' @param LOOCV Should Leave-one-out cross-validation be used to estimate model fit? Default is \code{FALSE}
 #' @param control Control object forwarded to \code{\link[minpack.lm]{nlsLM}}. Default is \code{minpack.lm::nls.lm.control(maxiter = 1000)}
 #' @param na.rm Logical. Default is FALSE
@@ -319,6 +321,7 @@ model_timing_gates_TC <- function(distance,
 model_timing_gates_FD <- function(distance,
                                   time,
                                   weights = 1,
+                                  FD = NULL,
                                   LOOCV = FALSE,
                                   control = minpack.lm::nls.lm.control(maxiter = 1000),
                                   na.rm = FALSE,
@@ -326,13 +329,25 @@ model_timing_gates_FD <- function(distance,
 
   # Estimation function
   model_func <- function(train, test, ...) {
+    param_start <- list(MSS = 7, TAU = 0.8, FD = 0)
+    param_lower <- NULL
+    param_upper <- NULL
+
+    # If FD is provided, use that
+    if (is.null(FD) == FALSE) {
+      param_start <- list(MSS = 7, TAU = 0.8, FD = FD)
+      param_lower <- c(MSS = -Inf, TAU = -Inf, FD = FD)
+      param_upper <- c(MSS = Inf, TAU = Inf, FD = FD)
+    }
 
     # Non-linear model
     speed_mod <- minpack.lm::nlsLM(
       time ~ (TAU * I(LambertW::W(-exp(1)^(-(distance + FD) / (MSS * TAU) - 1))) + (distance + FD) / MSS + TAU) -
         (TAU * I(LambertW::W(-exp(1)^(-FD / (MSS * TAU) - 1))) + FD / MSS + TAU),
       data = train,
-      start = list(MSS = 7, TAU = 0.8, FD = 0),
+      start = param_start,
+      lower = param_lower,
+      upper = param_upper,
       weights = train$weights,
       ...
     )
@@ -383,6 +398,7 @@ model_timing_gates_FD <- function(distance,
 model_timing_gates_FD_TC <- function(distance,
                                      time,
                                      weights = 1,
+                                     FD = NULL,
                                      LOOCV = FALSE,
                                      control = minpack.lm::nls.lm.control(maxiter = 1000),
                                      na.rm = FALSE,
@@ -390,13 +406,24 @@ model_timing_gates_FD_TC <- function(distance,
 
   # Estimation function
   model_func <- function(train, test, ...) {
+    param_start <- list(MSS = 7, TAU = 0.8, FD = 0, TC = 0)
+    param_lower <- NULL
+    param_upper <- NULL
 
+    # If FD is provided, use that
+    if (is.null(FD) == FALSE) {
+      param_start <- list(MSS = 7, TAU = 0.8, FD = FD, TC = 0)
+      param_lower <- c(MSS = -Inf, TAU = -Inf, FD = FD, TC = -Inf)
+      param_upper <- c(MSS = Inf, TAU = Inf, FD = FD, TC = Inf)
+    }
     # Non-linear model
     speed_mod <- minpack.lm::nlsLM(
       time ~ (TAU * I(LambertW::W(-exp(1)^(-(distance + FD) / (MSS * TAU) - 1))) + (distance + FD) / MSS + TAU) -
         (TAU * I(LambertW::W(-exp(1)^(-FD / (MSS * TAU) - 1))) + FD / MSS + TAU) - TC,
       data = train,
-      start = list(MSS = 7, TAU = 0.8, FD = 0, TC = 0),
+      start = param_start,
+      lower = param_lower,
+      upper = param_upper,
       weights = train$weights,
       ...
     )
