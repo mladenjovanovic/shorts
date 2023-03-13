@@ -48,6 +48,23 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="2.4.0" id="shorts-240">shorts 2.4.0<a class="anchor" aria-label="anchor" href="#shorts-240"></a></h2>
+<ul><li>Removed “Suggest” from the package DESCRIPTION file</li>
+<li>Added <code>use_observed_MSS</code> parameter to <code><a href="../reference/model_radar_gun.html">model_radar_gun()</a></code> and <code><a href="../reference/model_tether.html">model_tether()</a></code> functions. This allows user to estimate <code>MSS</code> parameter from the observed data</li>
+<li>Add <code>FD</code> parameter to <code><a href="../reference/model_timing_gates.html">model_timing_gates_FD()</a></code> and <code><a href="../reference/model_timing_gates.html">model_timing_gates_FD_TC()</a></code> functions, which allow user to provide fixed <code>FD</code> parameter value.</li>
+<li>Updated README.Rmd file with the example on how to use these feature. Also added a reference to a published article that was previously available only as pre-print.</li>
+<li>Changed generic <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> function not to return fitted values, but to use generic predict method on the object. This allows user to use <code>newdata</code> parameter. Added <code><a href="https://rdrr.io/r/stats/fitted.values.html" class="external-link">fitted()</a></code> method to return fitted values instead</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="2.3.0" id="shorts-230">shorts 2.3.0<small>2022-10-29</small><a class="anchor" aria-label="anchor" href="#shorts-230"></a></h2>
+<ul><li>Moved optimal profile functions to “optional-functions.R” file, with accompanying documentation name</li>
+<li>Renamed the <code>FV_slope_perc</code> to <code>profile_imb</code> in the output of the <code>optimal_</code> functions</li>
+<li>The functions <code>find_optimal_FV()</code> and <code>find_optimal_FV_peak()</code> are now wrapped inside the <code>optimal_FV</code>, but the method is selected using <code>method</code> parameter (“max” for <code>find_optimal_FV()</code> and “peak” for <code>find_optimal_FV_peak()</code>). Please refer to examples</li>
+<li>Probing analysis is now removed from <code>optimal_</code> functions and moved to <code><a href="../reference/probe_functions.html">probe_FV()</a></code> and <code><a href="../reference/probe_functions.html">probe_MSS_MAC()</a></code> functions. Please refer to examples</li>
+<li>Finding for the distance where the profile is optimal is now done using the <code><a href="../reference/find_optimal_distance.html">find_optimal_distance()</a></code> function that can take other optimal and probe functions as parameter. Please refer to examples</li>
+<li>Removed a bug in <code>find_optimal_FV_peak()</code> (now implemented in <code>find_optimal_FV()</code> function using <code>method="peak"</code> parameter) where information needed to calculate air resistance was not forwarded</li>
+</ul></div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="2.2.0" id="shorts-220">shorts 2.2.0<a class="anchor" aria-label="anchor" href="#shorts-220"></a></h2>
 <ul><li>Expanded the results output of the <code>find_optimal_MSS_MAC()</code> and <code>find_optimal_FV()</code> functions. Some of the columns are renamed to better clarity</li>
 <li>Added internal function <code>convert_FV()</code> to convert from FV profile to sprint profile. This is used to calculate Peak Power (<code>Ppeak</code>) metric and its location</li>
@@ -194,7 +211,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
