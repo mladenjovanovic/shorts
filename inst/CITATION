@@ -1,15 +1,18 @@
-citHeader("To cite 'shorts' in publications use:")
-
-citEntry(entry = "Manual",
-  title        = "{shorts}: Short Sprints",
-  author       = personList(as.person("Mladen Jovanović")),
-  note         = "R package version 2.4.0",
-  year         = "2022",
-  url          = "https://CRAN.R-project.org/package=shorts",
-
-  textVersion  =
-  paste("Mladen Jovanović (2022).",
-        "shorts: Short Sprints.",
-        "R package version 2.4.0.",
-        "url: https://CRAN.R-project.org/package=shorts.")
-)
+bibentry(
+     bibtype = "Manual",
+     title = "{shorts}: Short Sprints",
+     author = c(
+       person(given = "Mladen",
+           family = "Jovanović",
+           role = c("aut", "cre"),
+           email = "coach.mladen.jovanovic@gmail.com"),
+      person(given = c("Jason", "D."),
+           family = "Vescovi",
+           role = c("dtc"),
+           email = "vescovij@gmail.com")
+     ),
+     year = "2023",
+     note = "R package version 2.4.0",
+     url = "https://CRAN.R-project.org/package=shorts",
+     key = "shorts-package"
+   )
