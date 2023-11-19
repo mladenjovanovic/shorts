@@ -1,3 +1,9 @@
+# shorts 2.4.0.9000
+
+* Added `inertia` (mass; in kg) and `resistance` (force; in Newtons) to `predict_force_`, `predict_power_`, `predict_relative_power_`, as well as `predict_kinematics()` functions. This increases the ability of the {shorts} package to deal with external resistance, like weight vest, sled, and tether devices.
+* Modified `predict_kinematics()` function to include `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters, as well as to allow the user to either provide the `shorts_model` object, or provide `MSS` and `MAC` parameters. Additional parameter `add_inertia_to_vertical` to allow user to decided whether inertia should be added to `bodymass` when calculating vertical force. 
+* Added `predict_force_at_velocity()` function
+
 # shorts 2.4.0
 
 * Removed "Suggest" from the package DESCRIPTION file
