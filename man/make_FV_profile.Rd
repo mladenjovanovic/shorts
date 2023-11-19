@@ -64,7 +64,8 @@ fv_profile <- make_FV_profile(
   MSS = m1$parameters$MSS,
   MAC = m1$parameters$MAC,
   bodyheight = 1.72,
-  bodymass = 120
+  bodymass = 120,
+
 )
 
 print(fv_profile)
