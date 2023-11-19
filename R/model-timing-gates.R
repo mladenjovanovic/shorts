@@ -39,8 +39,15 @@
 #'         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
 #'         DOI: 10.1519/JSC.0b013e318226030b.
 #'
-#'     Jovanović, M., Vescovi, J.D. (2020). shorts: An R Package for Modeling Short Sprints. Preprint
-#'         available at SportRxiv. https://doi.org/10.31236/osf.io/4jw62
+#'     Jovanović, M., & Vescovi, J. 2022. {shorts}: An R Package for Modeling Short Sprints.
+#'         International Journal of Strength and Conditioning, 2(1).
+#'         https://doi.org/10.47206/ijsc.v2i1.74
+#'
+#'     Jovanović, M. 2023. Bias in estimated short sprint profiles using timing gates due to
+#'         the flying start: Simulation study and proposed solutions.
+#'         Computer Methods in Biomechanics and Biomedical Engineering, 1–11.
+#'          https://doi.org/10.1080/10255842.2023.2170713
+#'
 #' @examples
 #' split_distances <- c(10, 20, 30, 40, 50)
 #' split_times <- create_timing_gates_splits(
@@ -420,6 +427,7 @@ model_timing_gates_FD_TC <- function(distance,
     speed_mod <- minpack.lm::nlsLM(
       time ~ (TAU * I(LambertW::W(-exp(1)^(-(distance + FD) / (MSS * TAU) - 1))) + (distance + FD) / MSS + TAU) -
         (TAU * I(LambertW::W(-exp(1)^(-FD / (MSS * TAU) - 1))) + FD / MSS + TAU) - TC,
+
       data = train,
       start = param_start,
       lower = param_lower,

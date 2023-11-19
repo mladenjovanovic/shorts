@@ -140,6 +140,12 @@ Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact
         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
         DOI: 10.1519/JSC.0b013e318226030b.
 
-    Jovanović, M., Vescovi, J.D. (2020). shorts: An R Package for Modeling Short Sprints. Preprint
-        available at SportRxiv. https://doi.org/10.31236/osf.io/4jw62
+    Jovanović, M., & Vescovi, J. 2022. {shorts}: An R Package for Modeling Short Sprints.
+        International Journal of Strength and Conditioning, 2(1).
+        https://doi.org/10.47206/ijsc.v2i1.74
+
+    Jovanović, M. 2023. Bias in estimated short sprint profiles using timing gates due to
+        the flying start: Simulation study and proposed solutions.
+        Computer Methods in Biomechanics and Biomedical Engineering, 1–11.
+         https://doi.org/10.1080/10255842.2023.2170713
 }
