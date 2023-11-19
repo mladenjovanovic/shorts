@@ -105,7 +105,7 @@ acceleration <- predict_acceleration_at_distance(
 )
 
 # Use ... to forward parameters to the shorts::get_air_resistance
-pwr <- predict_relative_power_at_distance(
+pwr <- predict_power_at_distance(
   distance = dist,
   MSS = 10,
   MAC = 9
@@ -123,7 +123,7 @@ abline(v = find_velocity_critical_distance(MSS = 10, MAC = 9), col = "red")
 
 # Find critical distance when 20\% of MAC is reached
 plot(x = dist, y = acceleration, type = "l")
-abline(h = (10 / 0.9) * 0.2, col = "gray")
+abline(h = 9 * 0.2, col = "gray")
 abline(v = find_acceleration_critical_distance(MSS = 10, MAC = 9, percent = 0.2), col = "red")
 
 # Find peak power and location of peak power
