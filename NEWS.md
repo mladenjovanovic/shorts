@@ -4,6 +4,7 @@
 * Modified `predict_kinematics()` function to include `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters, as well as to allow the user to either provide the `shorts_model` object, or provide `MSS` and `MAC` parameters. Additional parameter `add_inertia_to_vertical` to allow user to decided whether inertia should be added to `bodymass` when calculating vertical force. 
 * Added `predict_force_at_velocity()` function
 * Modified `find_max_power_` and `find_power_critial_` function to add support for the `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters
+* Simplified `make_FV_profile()` function and added support for the `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters. Removed the S3 print and plot methods, as well as the class type involving this function
 
 # shorts 2.4.0
 
