@@ -12,9 +12,9 @@
 \alias{find_power_critical_time}
 \title{Find functions}
 \usage{
-find_max_power_distance(MSS, MAC, ...)
+find_max_power_distance(MSS, MAC, inertia = 0, resistance = 0, ...)
 
-find_max_power_time(MSS, MAC, ...)
+find_max_power_time(MSS, MAC, inertia = 0, resistance = 0, ...)
 
 find_velocity_critical_distance(MSS, MAC, percent = 0.9)
 
@@ -24,14 +24,33 @@ find_acceleration_critical_distance(MSS, MAC, percent = 0.9)
 
 find_acceleration_critical_time(MSS, MAC, percent = 0.9)
 
-find_power_critical_distance(MSS, MAC, percent = 0.9, ...)
+find_power_critical_distance(
+  MSS,
+  MAC,
+  inertia = 0,
+  resistance = 0,
+  percent = 0.9,
+  ...
+)
 
-find_power_critical_time(MSS, MAC, percent = 0.9, ...)
+find_power_critical_time(
+  MSS,
+  MAC,
+  inertia = 0,
+  resistance = 0,
+  percent = 0.9,
+  ...
+)
 }
 \arguments{
 \item{MSS, MAC}{Numeric vectors. Model parameters}
 
-\item{...}{Forwarded to \code{\link{predict_power_at_distance}} for the purpose of calculation of air resistance}
+\item{inertia}{External inertia in kg (for example a weight vest, or a sled).
+Not included in the air resistance calculation}
+
+\item{resistance}{External horizontal resistance in Newtons (for example tether device or a sled friction resistance)}
+
+\item{...}{Forwarded to \code{predict_power} functions for the purpose of calculation of air resistance}
 
 \item{percent}{Numeric vector. Used to calculate critical distance. Default is 0.9}
 }

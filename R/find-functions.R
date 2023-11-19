@@ -5,7 +5,10 @@
 #'
 #' @param MSS,MAC Numeric vectors. Model parameters
 #' @param percent Numeric vector. Used to calculate critical distance. Default is 0.9
-#' @param ... Forwarded to \code{\link{predict_power_at_distance}} for the purpose of calculation of air resistance
+#' @param inertia External inertia in kg (for example a weight vest, or a sled).
+#'         Not included in the air resistance calculation
+#' @param resistance External horizontal resistance in Newtons (for example tether device or a sled friction resistance)
+#' @param ... Forwarded to \code{predict_power} functions for the purpose of calculation of air resistance
 #' @references
 #' Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
 #'         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
@@ -78,13 +81,15 @@ NULL
 #' @return \code{find_max_power_distance} returns list with two elements: \code{max_power}
 #'    and \code{distance} at which max power occurs
 #' @export
-find_max_power_distance <- function(MSS, MAC, ...) {
+find_max_power_distance <- function(MSS, MAC, inertia = 0, resistance = 0, ...) {
   max_power <- stats::optimize(
     function(x) {
       predict_power_at_distance(
         distance = x,
         MSS = MSS,
         MAC = MAC,
+        inertia = inertia,
+        resistance = resistance,
         ...
       )
     },
@@ -104,13 +109,15 @@ find_max_power_distance <- function(MSS, MAC, ...) {
 #' @return \code{find_max_power_time} returns list with two elements: \code{max_power} and
 #'     \code{time} at which max power occurs
 #' @export
-find_max_power_time <- function(MSS, MAC, ...) {
+find_max_power_time <- function(MSS, MAC, inertia = 0, resistance = 0, ...) {
   max_power <- stats::optimize(
     function(x) {
       predict_power_at_time(
         time = x,
         MSS = MSS,
         MAC = MAC,
+        inertia = inertia,
+        resistance = resistance,
         ...
       )
     },
@@ -215,7 +222,7 @@ find_acceleration_critical_time <- function(MSS, MAC, percent = 0.9) {
 #' @description \code{find_power_critical_distance} finds critical distances at which maximal power over
 #'     \code{percent} is achieved
 #' @export
-find_power_critical_distance <- function(MSS, MAC, percent = 0.9, ...) {
+find_power_critical_distance <- function(MSS, MAC, inertia = 0, resistance = 0, percent = 0.9, ...) {
   max_power <- find_max_power_distance(MSS, MAC, ...)
 
   critical_distance_lower <- stats::optimize(
@@ -224,6 +231,8 @@ find_power_critical_distance <- function(MSS, MAC, percent = 0.9, ...) {
         distance = x,
         MSS = MSS,
         MAC = MAC,
+        inertia = inertia,
+        resistance = resistance,
         ...
       )
 
@@ -238,6 +247,8 @@ find_power_critical_distance <- function(MSS, MAC, percent = 0.9, ...) {
         distance = x,
         MSS = MSS,
         MAC = MAC,
+        inertia = inertia,
+        resistance = resistance,
         ...
       )
 
@@ -257,7 +268,7 @@ find_power_critical_distance <- function(MSS, MAC, percent = 0.9, ...) {
 #' @description \code{find_power_critical_time} finds critical times at which maximal power over
 #'     \code{percent} is achieved
 #' @export
-find_power_critical_time <- function(MSS, MAC, percent = 0.9, ...) {
+find_power_critical_time <- function(MSS, MAC, inertia = 0, resistance = 0, percent = 0.9, ...) {
   max_power <- find_max_power_time(MSS, MAC, ...)
 
   critical_time_lower <- stats::optimize(
@@ -266,6 +277,8 @@ find_power_critical_time <- function(MSS, MAC, percent = 0.9, ...) {
         time = x,
         MSS = MSS,
         MAC = MAC,
+        inertia = inertia,
+        resistance = resistance,
         ...
       )
 
