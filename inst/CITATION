@@ -12,7 +12,7 @@ bibentry(
            email = "vescovij@gmail.com")
      ),
      year = "2023",
-     note = "R package version 2.4.0",
+     note = "R package version 2.5.0",
      url = "https://CRAN.R-project.org/package=shorts",
      key = "shorts-package"
    )

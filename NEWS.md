@@ -1,3 +1,17 @@
+# shorts 2.5.0
+
+* Added `inertia` (mass; in kg) and `resistance` (force; in Newtons) to `predict_force_`, `predict_power_`, `predict_relative_power_`, as well as `predict_kinematics()` functions. This increases the ability of the {shorts} package to deal with external resistance, like weight vest, sled, and tether devices.
+* Modified `predict_kinematics()` function to include `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters, as well as to allow the user to either provide the `shorts_model` object, or provide `MSS` and `MAC` parameters. Additional parameter `add_inertia_to_vertical` to allow user to decided whether inertia should be added to `bodymass` when calculating vertical force. 
+* Added `predict_force_at_velocity()` function
+* Modified `find_max_power_` and `find_power_critial_` function to add support for the `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters
+* Simplified `make_FV_profile()` function and added support for the `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters. Removed the S3 print and plot methods, as well as the class type involving this function
+* Made internal `convert_FV()` function available for the users and added support for the `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters
+* Updated `predict_time_at_distance_FV()` function to use simpler `convert_FV()` function
+* Renamed `find_max_power` functions to `find_peak_power` to avoid confusion between `Pmax` and `Ppeak`
+* Implemented `inertia` (mass; in kg) and `resistance` (force; in Newtons) to `optimal_FV()` function
+* Implemented `inertia` (mass; in kg) and `resistance` (force; in Newtons) to `probe_FV()` function
+* I added the `model_tether_DC()` function with an additional `distance correction` (DC) parameter estimate. DC parameter serves as an intercept when distance doesn't start at zero
+
 # shorts 2.4.0
 
 * Removed "Suggest" from the package DESCRIPTION file

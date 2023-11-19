@@ -2,11 +2,14 @@
 #'
 #' Family of functions that serve a purpose of probing sprint or force-velocity profile. This is done
 #'     by increasing individual sprint parameter for a percentage and calculating which parameter
-#'     imptovement yield biggest deduction in sprint tim
+#'     improvement yield biggest deduction in sprint tim
 #'
 #' @param MSS,MAC Numeric vectors. Model parameters
 #' @param F0,V0 Numeric vectors. FV profile parameters
 #' @param bodymass Body mass in kg
+#' @param inertia External inertia in kg (for example a weight vest, or a sled).
+#'         Not included in the air resistance calculation
+#' @param resistance External horizontal resistance in Newtons (for example tether device or a sled friction resistance)
 #' @param distance Numeric vector
 #' @param perc Numeric vector. Probing percentage. Default is 2.5 percent
 #' @param ... Forwarded to \code{\link{predict_power_at_distance}} for the purpose of calculation of air resistance
@@ -27,8 +30,8 @@
 #'
 #' probe_FV_profile <- probe_FV(
 #'   distance = dist,
-#'   fv$F0_poly,
-#'   fv$V0_poly,
+#'   fv$F0,
+#'   fv$V0,
 #'   fv$bodymass
 #' )[["profile_imb"]]
 #'
@@ -38,12 +41,14 @@
 #' @name probe_functions
 NULL
 
-probe_FV_scalar <- function(distance, F0, V0, bodymass = 75, perc = 2.5, ...) {
+probe_FV_scalar <- function(distance, F0, V0, bodymass = 75, inertia = 0, resistance = 0, perc = 2.5, ...) {
   t_orig <- predict_time_at_distance_FV(
     distance = distance,
     F0 = F0,
     V0 = V0,
     bodymass = bodymass,
+    inertia = inertia,
+    resistance = resistance,
     ...
   )
 
@@ -52,6 +57,8 @@ probe_FV_scalar <- function(distance, F0, V0, bodymass = 75, perc = 2.5, ...) {
     F0 = F0 * (1 + perc / 100),
     V0 = V0,
     bodymass = bodymass,
+    inertia = inertia,
+    resistance = resistance,
     ...
   )
 
@@ -60,6 +67,8 @@ probe_FV_scalar <- function(distance, F0, V0, bodymass = 75, perc = 2.5, ...) {
     F0 = F0,
     V0 = V0 * (1 + perc / 100),
     bodymass = bodymass,
+    inertia = inertia,
+    resistance = resistance,
     ...
   )
 
@@ -71,6 +80,8 @@ probe_FV_scalar <- function(distance, F0, V0, bodymass = 75, perc = 2.5, ...) {
     F0 = F0,
     V0 = V0,
     bodymass = bodymass,
+    inertia = inertia,
+    resistance = resistance,
     Pmax = F0 * V0 / 4,
     Pmax_rel = (F0 * V0 / 4) / bodymass,
     slope = FV_slope,
@@ -98,6 +109,8 @@ probe_FV_scalar <- function(distance, F0, V0, bodymass = 75, perc = 2.5, ...) {
 #'         \item{F0}{Original F0}
 #'         \item{V0}{Original F0}
 #'         \item{bodymass}{Bodymass}
+#'         \item{inertia}{Inertia}
+#'         \item{resistance}{Resistance}
 #'         \item{Pmax}{Maximal power estimated using F0 * V0 / 4}
 #'         \item{Pmax_rel}{Relative maximal power}
 #'         \item{slope}{FV profile slope}
@@ -113,12 +126,14 @@ probe_FV_scalar <- function(distance, F0, V0, bodymass = 75, perc = 2.5, ...) {
 #'         \item{profile_imb}{Percent ratio between V0_probe_time_gain and F0_probe_time_gain}
 #'    }
 #' @export
-probe_FV <- function(distance, F0, V0, bodymass = 75, perc = 2.5, ...) {
+probe_FV <- function(distance, F0, V0, bodymass = 75, inertia = 0, resistance = 0, perc = 2.5, ...) {
   df <- data.frame(
     distance = distance,
     F0 = F0,
     V0 = V0,
     bodymass = bodymass,
+    inertia = inertia,
+    resistance = resistance,
     perc = perc,
     ...
   )

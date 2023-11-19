@@ -4,26 +4,17 @@
 \alias{make_FV_profile}
 \title{Get Force-Velocity Profile}
 \usage{
-make_FV_profile(
-  MSS,
-  MAC,
-  bodymass = 75,
-  max_time = 6,
-  frequency = 100,
-  RFmax_cutoff = 0.3,
-  ...
-)
+make_FV_profile(MSS, MAC, bodymass = 75, inertia = 0, resistance = 0, ...)
 }
 \arguments{
 \item{MSS, MAC}{Numeric vectors. Model parameters}
 
 \item{bodymass}{Body mass in kg. Used to calculate relative power and forwarded to \code{\link{get_air_resistance}}}
 
-\item{max_time}{Predict from 0 to \code{max_time}. Default is 6seconds}
+\item{inertia}{External inertia in kg (for example a weight vest, or a sled).
+Not included in the air resistance calculation}
 
-\item{frequency}{Number of samples within one second. Default is 100Hz}
-
-\item{RFmax_cutoff}{Time cut-off used to estimate \code{RFmax} and \code{Drf}. Default is 0.3s}
+\item{resistance}{External horizontal resistance in Newtons (for example tether device or a sled friction resistance)}
 
 \item{...}{Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance and power}
 }
@@ -37,22 +28,10 @@ List containing the following elements:
         \item{Pmax}{Maximal horizontal power}
         \item{Pmax_rel}{\code{Pmax} divided by \code{bodymass}}
         \item{FV_slope}{Slope of the FV profile. See References for more info}
-        \item{RFmax}{Maximal force ratio after 0.3sec. See References for more info}
-        \item{RFmax_cutoff}{Time cut-off used to estimate RFmax}
-        \item{Drf}{Slope of Force Ratio (RF) and velocity. See References for more info}
-        \item{RSE_FV}{Residual standard error of the FV profile.}
-        \item{RSE_Drf}{Residual standard error of the RF-velocity profile}
-        \item{F0_poly}{Horizontal force when velocity=0, estimated using the analytics/polynomial method}
-        \item{F0_poly_rel}{\code{F0_poly} divided by \code{bodymass}}
-        \item{V0_poly}{Velocity when horizontal force=0, estimated using the analytics/polynomial method}
-        \item{Pmax_poly}{Maximal horizontal power, estimated using the analytics/polynomial method}
-        \item{Pmax_poly_rel}{\code{Pmax_poly} divided by \code{bodymass}}
-        \item{FV_slope_poly}{Slope of the FV profile, estimated using the analytics/polynomial method. See References for more info}
-        \item{data}{Data frame containing simulated data used to estimate parameters}
     }
 }
 \description{
-Provides Force-Velocity (FV) profile suggested by Pierre Samozino and JB-Morin, et al. (2016) and
+Provides Force-Velocity (FV) profile modified using ideas by Pierre Samozino and JB-Morin, et al. (2016) and
    Pierre Samozino and Nicolas Peyror, et al (2021).
 }
 \examples{
@@ -64,12 +43,11 @@ fv_profile <- make_FV_profile(
   MSS = m1$parameters$MSS,
   MAC = m1$parameters$MAC,
   bodyheight = 1.72,
-  bodymass = 120
+  bodymass = 120,
+
 )
 
-print(fv_profile)
-plot(fv_profile)
-plot(fv_profile, "time")
+fv_profile
 }
 \references{
 Samozino P, Rabita G, Dorel S, Slawinski J, Peyrot N, Saez de Villarreal E, Morin J-B. 2016.

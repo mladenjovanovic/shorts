@@ -7,6 +7,9 @@
 #' @param MSS,MAC Numeric vectors. Model parameters
 #' @param F0,V0 Numeric vectors. FV profile parameters
 #' @param bodymass Body mass in kg. Used to calculate relative power and forwarded to \code{\link{get_air_resistance}}
+#' @param inertia External inertia in kg (for example a weight vest, or a sled).
+#'         Not included in the air resistance calculation
+#' @param resistance External horizontal resistance in Newtons (for example tether device or a sled friction resistance)
 #' @param ... Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance and power
 #' @return Numeric vector
 #' @references
@@ -81,20 +84,25 @@ predict_time_at_distance <- function(distance, MSS, MAC) {
 
 #' @rdname predict_kinematics
 #' @export
-predict_time_at_distance_FV <- function(distance, F0, V0, bodymass = 75, ...) {
-  k_rel <- get_air_resistance(velocity = 1, bodymass = bodymass, ...) / bodymass
+predict_time_at_distance_FV <- function(distance,
+                                        F0,
+                                        V0,
+                                        bodymass = 75,
+                                        inertia = 0,
+                                        resistance = 0,
+                                        ...) {
+  # Convert FVP back to AVP
+  AVP <- convert_FV(
+    F0 = F0,
+    V0 = V0,
+    bodymass = bodymass,
+    inertia = inertia,
+    resistance = resistance,
+    ...
+  )
 
-  F0_rel <- F0 / bodymass
-  Pmax <- (F0 * V0) / 4
-  Pmax_rel <- Pmax / bodymass
-  Slope <- -F0_rel / V0
-
-  s3 <- 2 * sqrt(-Pmax_rel * Slope)
-  s2 <- Slope - 2 * k_rel * sqrt(-(Pmax_rel / Slope))
-  s1 <- distance + (s3 / (s2^2))
-
-  # Return predicted time
-  -(LambertW::W(-exp(1)^(-(s2^2 * s1) / s3)) / s2) - ((s2 * s1) / s3)
+  # Get time at distance
+  predict_time_at_distance(distance, MSS = AVP$MSS, MAC = AVP$MAC)
 }
 
 #' @rdname predict_kinematics
@@ -147,65 +155,81 @@ predict_air_resistance_at_distance <- function(distance, MSS, MAC, ...) {
 
 #' @rdname predict_kinematics
 #' @export
-predict_force_at_time <- function(time, MSS, MAC, bodymass = 75, ...) {
+predict_force_at_velocity <- function(velocity, MSS, MAC, bodymass = 75, inertia = 0, resistance = 0, ...) {
+  slope <- MAC / MSS
+
+  F_air <- get_air_resistance(velocity = velocity, bodymass = bodymass, ...)
+  F_acc <- (MAC - velocity * slope) * (bodymass + inertia)
+
+  # Return total
+  F_acc + F_air + resistance
+}
+
+#' @rdname predict_kinematics
+#' @export
+predict_force_at_time <- function(time, MSS, MAC, bodymass = 75, inertia = 0, resistance = 0, ...) {
   acc <- predict_acceleration_at_time(time, MSS, MAC)
   vel <- predict_velocity_at_time(time, MSS, MAC)
   air_res <- get_air_resistance(velocity = vel, bodymass = bodymass, ...)
 
-  bodymass * acc + air_res
+  (bodymass + inertia) * acc + air_res + resistance
 }
 
 #' @rdname predict_kinematics
 #' @export
-predict_force_at_distance <- function(distance, MSS, MAC, bodymass = 75, ...) {
+predict_force_at_distance <- function(distance, MSS, MAC, bodymass = 75, inertia = 0, resistance = 0, ...) {
   acc <- predict_acceleration_at_distance(distance, MSS, MAC)
   vel <- predict_velocity_at_distance(distance, MSS, MAC)
   air_res <- get_air_resistance(velocity = vel, bodymass = bodymass, ...)
 
-  bodymass * acc + air_res
+  (bodymass + inertia) * acc + air_res + resistance
 }
 
 #' @rdname predict_kinematics
 #' @export
-predict_power_at_distance <- function(distance, MSS, MAC, bodymass = 75, ...) {
+predict_power_at_distance <- function(distance, MSS, MAC, bodymass = 75, inertia = 0, resistance = 0, ...) {
   acc <- predict_acceleration_at_distance(distance, MSS, MAC)
   vel <- predict_velocity_at_distance(distance, MSS, MAC)
   air_res <- get_air_resistance(velocity = vel, bodymass = bodymass, ...)
 
-  (bodymass * acc + air_res) * vel
+  ((bodymass + inertia) * acc + air_res + resistance) * vel
 }
 
 
 #' @rdname predict_kinematics
 #' @export
-predict_power_at_time <- function(time, MSS, MAC, bodymass = 75, ...) {
+predict_power_at_time <- function(time, MSS, MAC, bodymass = 75, inertia = 0, resistance = 0, ...) {
   acc <- predict_acceleration_at_time(time, MSS, MAC)
   vel <- predict_velocity_at_time(time, MSS, MAC)
   air_res <- get_air_resistance(velocity = vel, bodymass = bodymass, ...)
 
-  (bodymass * acc + air_res) * vel
+  ((bodymass + inertia) * acc + air_res + resistance) * vel
 }
 
 #' @rdname predict_kinematics
 #' @export
-predict_relative_power_at_distance <- function(distance, MSS, MAC, bodymass = 75, ...) {
+predict_relative_power_at_distance <- function(distance, MSS, MAC, bodymass = 75, inertia = 0, resistance = 0, ...) {
   predict_power_at_distance(
     distance = distance,
     MSS = MSS,
     MAC = MAC,
     bodymass = bodymass,
+    inertia = inertia,
+    resistance = resistance,
     ...
   ) / bodymass
 }
 
 #' @rdname predict_kinematics
 #' @export
-predict_relative_power_at_time <- function(time, MSS, MAC, bodymass = 75, ...) {
+predict_relative_power_at_time <- function(time, MSS, MAC, bodymass = 75, inertia = 0, resistance = 0, ...) {
   predict_power_at_time(
     time = time,
     MSS = MSS,
     MAC = MAC,
     bodymass = bodymass,
+    inertia = inertia,
+    resistance = resistance,
     ...
   ) / bodymass
 }
@@ -214,9 +238,13 @@ predict_relative_power_at_time <- function(time, MSS, MAC, bodymass = 75, ...) {
 #'     velocity, acceleration, and relative power.
 #'
 #' @rdname predict_kinematics
-#' @param object \code{shorts_model} object
+#' @param object If \code{shorts_model} object is provided, estimated parameters
+#'     will be used. Otherwise provide \code{MSS} and \code{MAC} parameters
 #' @param max_time Predict from 0 to \code{max_time}. Default is 6seconds
 #' @param frequency Number of samples within one second. Default is 100Hz
+#' @param add_inertia_to_vertical Should inertia be added to \code{bodymass} when
+#'     calculating vertical force? Use \code{TRUE} (Default) when using weight vest, and
+#'     \code{FALSE} when dragging sled
 #' @return Data frame with kinetic and kinematic variables
 #' @export
 #' @examples
@@ -234,64 +262,85 @@ predict_relative_power_at_time <- function(time, MSS, MAC, bodymass = 75, ...) {
 #' )
 #'
 #' predict_kinematics(simple_model)
-predict_kinematics <- function(object, max_time = 6, frequency = 100, bodymass = 75, ...) {
-  df <- NULL
-
-  if (inherits(object, "shorts_model")) {
-    df <- data.frame(
-      time = seq(0, max_time, length.out = max_time * frequency + 1)
-    )
-
-    df$distance <- predict_distance_at_time(
-      time = df$time,
-      MSS = object$parameters$MSS,
-      MAC = object$parameters$MAC
-    )
-
-    df$velocity <- predict_velocity_at_time(
-      time = df$time,
-      MSS = object$parameters$MSS,
-      MAC = object$parameters$MAC
-    )
-
-    df$acceleration <- predict_acceleration_at_time(
-      time = df$time,
-      MSS = object$parameters$MSS,
-      MAC = object$parameters$MAC
-    )
-
-    df$bodymass <- bodymass
-
-    df$net_horizontal_force <- df$bodymass * df$acceleration
-
-    df$air_resistance <- predict_air_resistance_at_time(
-      time = df$time,
-      MSS = object$parameters$MSS,
-      MAC = object$parameters$MAC,
-      bodymass = bodymass,
-      ...
-    )
-
-    df$horizontal_force <- predict_force_at_time(
-      time = df$time,
-      MSS = object$parameters$MSS,
-      MAC = object$parameters$MAC,
-      bodymass = bodymass,
-      ...
-    )
-
-    df$horizontal_force_relative <- df$horizontal_force / bodymass
-    df$vertical_force <- (bodymass * 9.81)
-
-    df$resultant_force <- sqrt(df$horizontal_force^2 + df$vertical_force^2)
-    df$resultant_force_relative <- df$resultant_force / bodymass
-    df$power <- df$horizontal_force * df$velocity
-    df$relative_power <- df$horizontal_force_relative * df$velocity
-    df$RF <- df$horizontal_force / df$resultant_force
-    df$force_angle <- atan(df$vertical_force / df$horizontal_force) * 180 / pi
-  } else {
-    stop("Please use `shorts_model` object. Unable to proceed.", call. = FALSE)
+predict_kinematics <- function(object = NULL,
+                               MSS,
+                               MAC,
+                               max_time = 6,
+                               frequency = 100,
+                               bodymass = 75,
+                               inertia = 0,
+                               resistance = 0,
+                               add_inertia_to_vertical = TRUE,
+                               ...) {
+  if (!is.null(object)) {
+    if (inherits(object, "shorts_model")) {
+      MSS <- object$parameters$MSS
+      MAC <- object$parameters$MAC
+    } else {
+      stop("Please use `shorts_model` object. Unable to proceed.", call. = FALSE)
+    }
   }
+
+  df <- data.frame(
+    time = seq(0, max_time, length.out = max_time * frequency + 1)
+  )
+
+  df$distance <- predict_distance_at_time(
+    time = df$time,
+    MSS = MSS,
+    MAC = MAC
+  )
+
+  df$velocity <- predict_velocity_at_time(
+    time = df$time,
+    MSS = MSS,
+    MAC = MAC
+  )
+
+  df$acceleration <- predict_acceleration_at_time(
+    time = df$time,
+    MSS = MSS,
+    MAC = MAC
+  )
+
+  df$bodymass <- bodymass
+  df$inertia <- inertia
+  df$resistance <- resistance
+
+  df$net_horizontal_force <- df$bodymass * df$acceleration
+
+  df$air_resistance <- predict_air_resistance_at_time(
+    time = df$time,
+    MSS = MSS,
+    MAC = MAC,
+    bodymass = bodymass,
+    ...
+  )
+
+  df$horizontal_force <- predict_force_at_time(
+    time = df$time,
+    MSS = MSS,
+    MAC = MAC,
+    bodymass = bodymass,
+    inertia = inertia,
+    resistance = resistance,
+    ...
+  )
+
+  df$horizontal_force_relative <- df$horizontal_force / bodymass
+
+  if (add_inertia_to_vertical == TRUE) {
+    df$vertical_force <- ((bodymass + inertia) * 9.81)
+  } else {
+    df$vertical_force <- (bodymass * 9.81)
+  }
+
+  df$resultant_force <- sqrt(df$horizontal_force^2 + df$vertical_force^2)
+  df$resultant_force_relative <- df$resultant_force / bodymass
+  df$power <- df$horizontal_force * df$velocity
+  df$relative_power <- df$horizontal_force_relative * df$velocity
+  df$RF <- df$horizontal_force / df$resultant_force
+  df$force_angle <- atan(df$vertical_force / df$horizontal_force) * 180 / pi
 
   df
 }

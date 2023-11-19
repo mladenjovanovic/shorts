@@ -12,6 +12,7 @@
 \alias{predict_acceleration_at_velocity}
 \alias{predict_air_resistance_at_time}
 \alias{predict_air_resistance_at_distance}
+\alias{predict_force_at_velocity}
 \alias{predict_force_at_time}
 \alias{predict_force_at_distance}
 \alias{predict_power_at_distance}
@@ -28,7 +29,15 @@ predict_acceleration_at_time(time, MSS, MAC)
 
 predict_time_at_distance(distance, MSS, MAC)
 
-predict_time_at_distance_FV(distance, F0, V0, bodymass = 75, ...)
+predict_time_at_distance_FV(
+  distance,
+  F0,
+  V0,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  ...
+)
 
 predict_velocity_at_distance(distance, MSS, MAC)
 
@@ -40,19 +49,88 @@ predict_air_resistance_at_time(time, MSS, MAC, ...)
 
 predict_air_resistance_at_distance(distance, MSS, MAC, ...)
 
-predict_force_at_time(time, MSS, MAC, bodymass = 75, ...)
+predict_force_at_velocity(
+  velocity,
+  MSS,
+  MAC,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  ...
+)
 
-predict_force_at_distance(distance, MSS, MAC, bodymass = 75, ...)
+predict_force_at_time(
+  time,
+  MSS,
+  MAC,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  ...
+)
 
-predict_power_at_distance(distance, MSS, MAC, bodymass = 75, ...)
+predict_force_at_distance(
+  distance,
+  MSS,
+  MAC,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  ...
+)
 
-predict_power_at_time(time, MSS, MAC, bodymass = 75, ...)
+predict_power_at_distance(
+  distance,
+  MSS,
+  MAC,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  ...
+)
 
-predict_relative_power_at_distance(distance, MSS, MAC, bodymass = 75, ...)
+predict_power_at_time(
+  time,
+  MSS,
+  MAC,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  ...
+)
 
-predict_relative_power_at_time(time, MSS, MAC, bodymass = 75, ...)
+predict_relative_power_at_distance(
+  distance,
+  MSS,
+  MAC,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  ...
+)
 
-predict_kinematics(object, max_time = 6, frequency = 100, bodymass = 75, ...)
+predict_relative_power_at_time(
+  time,
+  MSS,
+  MAC,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  ...
+)
+
+predict_kinematics(
+  object = NULL,
+  MSS,
+  MAC,
+  max_time = 6,
+  frequency = 100,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  add_inertia_to_vertical = TRUE,
+  ...
+)
 }
 \arguments{
 \item{time, distance, velocity}{Numeric vectors}
@@ -63,13 +141,23 @@ predict_kinematics(object, max_time = 6, frequency = 100, bodymass = 75, ...)
 
 \item{bodymass}{Body mass in kg. Used to calculate relative power and forwarded to \code{\link{get_air_resistance}}}
 
+\item{inertia}{External inertia in kg (for example a weight vest, or a sled).
+Not included in the air resistance calculation}
+
+\item{resistance}{External horizontal resistance in Newtons (for example tether device or a sled friction resistance)}
+
 \item{...}{Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance and power}
 
-\item{object}{\code{shorts_model} object}
+\item{object}{If \code{shorts_model} object is provided, estimated parameters
+will be used. Otherwise provide \code{MSS} and \code{MAC} parameters}
 
 \item{max_time}{Predict from 0 to \code{max_time}. Default is 6seconds}
 
 \item{frequency}{Number of samples within one second. Default is 100Hz}
+
+\item{add_inertia_to_vertical}{Should inertia be added to \code{bodymass} when
+calculating vertical force? Use \code{TRUE} (Default) when using weight vest, and
+\code{FALSE} when dragging sled}
 }
 \value{
 Numeric vector

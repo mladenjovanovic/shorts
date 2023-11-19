@@ -6,7 +6,16 @@
 \alias{optimal_MSS_MAC}
 \title{Optimal profile functions}
 \usage{
-optimal_FV(distance, F0, V0, bodymass = 75, method = "max", ...)
+optimal_FV(
+  distance,
+  F0,
+  V0,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  method = "max",
+  ...
+)
 
 optimal_MSS_MAC(distance, MSS, MAC)
 }
@@ -17,9 +26,14 @@ optimal_MSS_MAC(distance, MSS, MAC)
 
 \item{bodymass}{Body mass in kg}
 
+\item{inertia}{External inertia in kg (for example a weight vest, or a sled).
+Not included in the air resistance calculation}
+
+\item{resistance}{External horizontal resistance in Newtons (for example tether device or a sled friction resistance)}
+
 \item{method}{Method to be utilized. Options are "peak" and "max" (default)}
 
-\item{...}{Forwarded to \code{\link{predict_power_at_distance}} for the purpose of calculation of air resistance}
+\item{...}{Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance}
 
 \item{MSS, MAC}{Numeric vectors. Model parameters}
 }
@@ -29,6 +43,8 @@ optimal_MSS_MAC(distance, MSS, MAC)
         \item{F0}{Original F0}
         \item{V0}{Original F0}
         \item{bodymass}{Bodymass}
+        \item{inertia}{Inertia}
+        \item{resistance}{Resistance}
         \item{Pmax}{Maximal power estimated using F0 * V0 / 4}
         \item{Pmax_rel}{Relative maximal power}
         \item{slope}{FV profile slope}
@@ -99,15 +115,15 @@ opt_MSS_MAC_profile <- optimal_MSS_MAC(
 
 opt_FV_profile <- optimal_FV(
   distance = dist,
-  fv$F0_poly,
-  fv$V0_poly,
+  fv$F0,
+  fv$V0,
   fv$bodymass
 )[["profile_imb"]]
 
 opt_FV_profile_peak <- optimal_FV(
   distance = dist,
-  fv$F0_poly,
-  fv$V0_poly,
+  fv$F0,
+  fv$V0,
   fv$bodymass,
   method = "peak"
 )[["profile_imb"]]

@@ -29,7 +29,7 @@ model_timing_gates_FD_TC Combines the approach of the model_timing_gates_FD with
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.5.0</span>
       </span>
     </div>
 
@@ -178,8 +178,13 @@ provided value</p></dd>
     <p>Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
         DOI: 10.1519/JSC.0b013e318226030b.</p>
-<p>Jovanović, M., Vescovi, J.D. (2020). shorts: An R Package for Modeling Short Sprints. Preprint
-        available at SportRxiv. https://doi.org/10.31236/osf.io/4jw62</p>
+<p>Jovanović, M., &amp; Vescovi, J. 2022. shorts: An R Package for Modeling Short Sprints.
+        International Journal of Strength and Conditioning, 2(1).
+        https://doi.org/10.47206/ijsc.v2i1.74</p>
+<p>Jovanović, M. 2023. Bias in estimated short sprint profiles using timing gates due to
+        the flying start: Simulation study and proposed solutions.
+        Computer Methods in Biomechanics and Biomedical Engineering, 1–11.
+         https://doi.org/10.1080/10255842.2023.2170713</p>
     </div>
 
     <div id="ref-examples">
@@ -226,7 +231,7 @@ provided value</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model fit estimators</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.010160610  0.999973248 -0.007938397  0.013071935  0.013071935  0.007870375 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.010160610  0.999973248 -0.007938397  0.013071936  0.013071936  0.007870375 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          MAE         MAPE </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.007096904  0.234356971 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_correction</span><span class="op">)</span></span></span>
@@ -246,7 +251,7 @@ provided value</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           RSE     R_squared        minErr        maxErr     maxAbsErr </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0.0002214763  0.9999999910 -0.0002176842  0.0001432646  0.0002176842 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          RMSE           MAE          MAPE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.0001400739  0.0001310987  0.0039156127 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.0001400739  0.0001310987  0.0039156120 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_TC</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_timing_gates-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -261,10 +266,10 @@ provided value</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model fit estimators</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>           RSE     R_squared        minErr        maxErr     maxAbsErr </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  1.174950e-15  1.000000e+00 -1.332268e-15  0.000000e+00  1.332268e-15 </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>          RMSE           MAE          MAPE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  7.431034e-16  5.329071e-16  2.050244e-14 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          RSE    R_squared       minErr       maxErr    maxAbsErr         RMSE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8.308148e-16 1.000000e+00 0.000000e+00 8.881784e-16 8.881784e-16 5.254534e-16 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>          MAE         MAPE </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4.440892e-16 1.431552e-14 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_FD</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_timing_gates-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
@@ -275,14 +280,14 @@ provided value</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated model parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         MSS         TAU         MAC        PMAX          FD          TC </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  9.99465517  1.09286152  9.14539944 22.85127844  0.03518113  0.11860204 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  9.99493920  1.09383281  9.13753833 22.83228500  0.04662929  0.10686248 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model fit estimators</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>           RSE     R_squared        minErr        maxErr     maxAbsErr </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.0002690302  0.9999999934 -0.0001926737  0.0001170644  0.0001926737 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.0002547011  0.9999999941 -0.0001834837  0.0001096190  0.0001834837 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          RMSE           MAE          MAPE </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  0.0001203140  0.0001112901  0.0032975680 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>  0.0001139058  0.0001050714  0.0031081089 </span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">model_with_FD_TC</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="model_timing_gates-5.png" alt="" width="700" height="433"></span>
 </code></pre></div>

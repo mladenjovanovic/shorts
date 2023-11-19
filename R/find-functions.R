@@ -5,7 +5,10 @@
 #'
 #' @param MSS,MAC Numeric vectors. Model parameters
 #' @param percent Numeric vector. Used to calculate critical distance. Default is 0.9
-#' @param ... Forwarded to \code{\link{predict_power_at_distance}} for the purpose of calculation of air resistance
+#' @param inertia External inertia in kg (for example a weight vest, or a sled).
+#'         Not included in the air resistance calculation
+#' @param resistance External horizontal resistance in Newtons (for example tether device or a sled friction resistance)
+#' @param ... Forwarded to \code{predict_power} functions for the purpose of calculation of air resistance
 #' @references
 #' Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
 #'         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
@@ -30,7 +33,7 @@
 #' )
 #'
 #' # Use ... to forward parameters to the shorts::get_air_resistance
-#' pwr <- predict_relative_power_at_distance(
+#' pwr <- predict_power_at_distance(
 #'   distance = dist,
 #'   MSS = 10,
 #'   MAC = 9
@@ -48,23 +51,23 @@
 #'
 #' # Find critical distance when 20% of MAC is reached
 #' plot(x = dist, y = acceleration, type = "l")
-#' abline(h = (10 / 0.9) * 0.2, col = "gray")
+#' abline(h = 9 * 0.2, col = "gray")
 #' abline(v = find_acceleration_critical_distance(MSS = 10, MAC = 9, percent = 0.2), col = "red")
 #'
-#' # Find max power and location of max power
+#' # Find peak power and location of peak power
 #' plot(x = dist, y = pwr, type = "l")
 #'
-#' max_pwr <- find_max_power_distance(
+#' peak_pwr <- find_peak_power_distance(
 #'   MSS = 10,
 #'   MAC = 9
 #'   # Use ... to forward parameters to the shorts::get_air_resistance
 #' )
-#' abline(h = max_pwr$max_power, col = "gray")
-#' abline(v = max_pwr$distance, col = "red")
+#' abline(h = peak_pwr$peak_power, col = "gray")
+#' abline(v = peak_pwr$distance, col = "red")
 #'
 #' # Find distance in which relative power stays over 75% of PMAX'
 #' plot(x = dist, y = pwr, type = "l")
-#' abline(h = max_pwr$max_power * 0.75, col = "gray")
+#' abline(h = peak_pwr$peak_power * 0.75, col = "gray")
 #' pwr_zone <- find_power_critical_distance(MSS = 10, MAC = 9, percent = 0.75)
 #' abline(v = pwr_zone$lower, col = "blue")
 #' abline(v = pwr_zone$upper, col = "blue")
@@ -73,18 +76,20 @@
 NULL
 
 #' @rdname find_functions
-#' @description \code{find_max_power_distance} finds maximum power and \code{distance} at
-#'    which max power occurs
-#' @return \code{find_max_power_distance} returns list with two elements: \code{max_power}
-#'    and \code{distance} at which max power occurs
+#' @description \code{find_peak_power_distance} finds peak power and \code{distance} at
+#'    which peak power occurs
+#' @return \code{find_peak_power_distance} returns list with two elements: \code{peak_power}
+#'    and \code{distance} at which peak power occurs
 #' @export
-find_max_power_distance <- function(MSS, MAC, ...) {
-  max_power <- stats::optimize(
+find_peak_power_distance <- function(MSS, MAC, inertia = 0, resistance = 0, ...) {
+  peak_power <- stats::optimize(
     function(x) {
       predict_power_at_distance(
         distance = x,
         MSS = MSS,
         MAC = MAC,
+        inertia = inertia,
+        resistance = resistance,
         ...
       )
     },
@@ -93,24 +98,26 @@ find_max_power_distance <- function(MSS, MAC, ...) {
   )
 
   return(list(
-    max_power = max_power$objective,
-    distance = max_power$maximum
+    peak_power = peak_power$objective,
+    distance = peak_power$maximum
   ))
 }
 
 #' @rdname find_functions
-#' @description \code{find_max_power_time} finds maximum power and \code{time} at which
-#'     max power occurs
-#' @return \code{find_max_power_time} returns list with two elements: \code{max_power} and
-#'     \code{time} at which max power occurs
+#' @description \code{find_peak_power_time} finds peak power and \code{time} at which
+#'     peak power occurs
+#' @return \code{find_peak_power_time} returns list with two elements: \code{peak_power} and
+#'     \code{time} at which peak power occurs
 #' @export
-find_max_power_time <- function(MSS, MAC, ...) {
-  max_power <- stats::optimize(
+find_peak_power_time <- function(MSS, MAC, inertia = 0, resistance = 0, ...) {
+  peak_power <- stats::optimize(
     function(x) {
       predict_power_at_time(
         time = x,
         MSS = MSS,
         MAC = MAC,
+        inertia = inertia,
+        resistance = resistance,
         ...
       )
     },
@@ -119,8 +126,8 @@ find_max_power_time <- function(MSS, MAC, ...) {
   )
 
   return(list(
-    max_power = max_power$objective,
-    time = max_power$maximum
+    peak_power = peak_power$objective,
+    time = peak_power$maximum
   ))
 }
 
@@ -212,11 +219,11 @@ find_acceleration_critical_time <- function(MSS, MAC, percent = 0.9) {
 
 
 #' @rdname find_functions
-#' @description \code{find_power_critical_distance} finds critical distances at which maximal power over
+#' @description \code{find_power_critical_distance} finds critical distances at which peak power over
 #'     \code{percent} is achieved
 #' @export
-find_power_critical_distance <- function(MSS, MAC, percent = 0.9, ...) {
-  max_power <- find_max_power_distance(MSS, MAC, ...)
+find_power_critical_distance <- function(MSS, MAC, inertia = 0, resistance = 0, percent = 0.9, ...) {
+  peak_power <- find_peak_power_distance(MSS, MAC, ...)
 
   critical_distance_lower <- stats::optimize(
     function(x) {
@@ -224,12 +231,14 @@ find_power_critical_distance <- function(MSS, MAC, percent = 0.9, ...) {
         distance = x,
         MSS = MSS,
         MAC = MAC,
+        inertia = inertia,
+        resistance = resistance,
         ...
       )
 
-      abs((pwr / max_power$max_power) - percent)
+      abs((pwr / peak_power$peak_power) - percent)
     },
-    interval = c(0, max_power$distance)
+    interval = c(0, peak_power$distance)
   )
 
   critical_distance_upper <- stats::optimize(
@@ -238,12 +247,14 @@ find_power_critical_distance <- function(MSS, MAC, percent = 0.9, ...) {
         distance = x,
         MSS = MSS,
         MAC = MAC,
+        inertia = inertia,
+        resistance = resistance,
         ...
       )
 
-      abs((pwr / max_power$max_power) - percent)
+      abs((pwr / peak_power$peak_power) - percent)
     },
-    interval = c(max_power$distance, 100)
+    interval = c(peak_power$distance, 100)
   )
 
   return(list(
@@ -254,11 +265,11 @@ find_power_critical_distance <- function(MSS, MAC, percent = 0.9, ...) {
 
 
 #' @rdname find_functions
-#' @description \code{find_power_critical_time} finds critical times at which maximal power over
+#' @description \code{find_power_critical_time} finds critical times at which peak power over
 #'     \code{percent} is achieved
 #' @export
-find_power_critical_time <- function(MSS, MAC, percent = 0.9, ...) {
-  max_power <- find_max_power_time(MSS, MAC, ...)
+find_power_critical_time <- function(MSS, MAC, inertia = 0, resistance = 0, percent = 0.9, ...) {
+  peak_power <- find_peak_power_time(MSS, MAC, ...)
 
   critical_time_lower <- stats::optimize(
     function(x) {
@@ -266,12 +277,14 @@ find_power_critical_time <- function(MSS, MAC, percent = 0.9, ...) {
         time = x,
         MSS = MSS,
         MAC = MAC,
+        inertia = inertia,
+        resistance = resistance,
         ...
       )
 
-      abs((pwr / max_power$max_power) - percent)
+      abs((pwr / peak_power$peak_power) - percent)
     },
-    interval = c(0, max_power$time)
+    interval = c(0, peak_power$time)
   )
 
   critical_time_upper <- stats::optimize(
@@ -283,9 +296,9 @@ find_power_critical_time <- function(MSS, MAC, percent = 0.9, ...) {
         ...
       )
 
-      abs((pwr / max_power$max_power) - percent)
+      abs((pwr / peak_power$peak_power) - percent)
     },
-    interval = c(max_power$time, 10)
+    interval = c(peak_power$time, 10)
   )
 
   return(list(

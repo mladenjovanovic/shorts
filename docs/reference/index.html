@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.5.0</span>
       </span>
     </div>
 
@@ -55,11 +55,15 @@
         </td>
         <td><p>S3 method for extracting model parameters from <code>shorts_model</code> object</p></td>
       </tr><tr><td>
+          <p><code><a href="convert_FV.html">convert_FV()</a></code> </p>
+        </td>
+        <td><p>Convert Force-Velocity profile back to Acceleration-Velocity profile</p></td>
+      </tr><tr><td>
           <p><code><a href="create_timing_gates_splits.html">create_timing_gates_splits()</a></code> </p>
         </td>
         <td><p>Create Timing Gates Splits</p></td>
       </tr><tr><td>
-          <p><code><a href="find_functions.html">find_max_power_distance()</a></code> <code><a href="find_functions.html">find_max_power_time()</a></code> <code><a href="find_functions.html">find_velocity_critical_distance()</a></code> <code><a href="find_functions.html">find_velocity_critical_time()</a></code> <code><a href="find_functions.html">find_acceleration_critical_distance()</a></code> <code><a href="find_functions.html">find_acceleration_critical_time()</a></code> <code><a href="find_functions.html">find_power_critical_distance()</a></code> <code><a href="find_functions.html">find_power_critical_time()</a></code> </p>
+          <p><code><a href="find_functions.html">find_peak_power_distance()</a></code> <code><a href="find_functions.html">find_peak_power_time()</a></code> <code><a href="find_functions.html">find_velocity_critical_distance()</a></code> <code><a href="find_functions.html">find_velocity_critical_time()</a></code> <code><a href="find_functions.html">find_acceleration_critical_distance()</a></code> <code><a href="find_functions.html">find_acceleration_critical_time()</a></code> <code><a href="find_functions.html">find_power_critical_distance()</a></code> <code><a href="find_functions.html">find_power_critical_time()</a></code> </p>
         </td>
         <td><p>Find functions</p></td>
       </tr><tr><td>
@@ -96,6 +100,10 @@
         </td>
         <td><p>Model Using Instantaneous Tether device</p></td>
       </tr><tr><td>
+          <p><code><a href="model_tether_DC.html">model_tether_DC()</a></code> </p>
+        </td>
+        <td><p>Model Using Instantaneous Tether device and Distance Correction</p></td>
+      </tr><tr><td>
           <p><code><a href="model_timing_gates.html">model_timing_gates()</a></code> <code><a href="model_timing_gates.html">model_timing_gates_TC()</a></code> <code><a href="model_timing_gates.html">model_timing_gates_FD()</a></code> <code><a href="model_timing_gates.html">model_timing_gates_FD_TC()</a></code> </p>
         </td>
         <td><p>Models Using Timing Gates Split Times</p></td>
@@ -103,10 +111,6 @@
           <p><code><a href="optimal_functions.html">optimal_FV()</a></code> <code><a href="optimal_functions.html">optimal_MSS_MAC()</a></code> </p>
         </td>
         <td><p>Optimal profile functions</p></td>
-      </tr><tr><td>
-          <p><code><a href="plot.shorts_fv_profile.html">plot(<i>&lt;shorts_fv_profile&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>S3 method for plotting <code>shorts_fv_profile</code> object</p></td>
       </tr><tr><td>
           <p><code><a href="plot.shorts_model.html">plot(<i>&lt;shorts_model&gt;</i>)</a></code> </p>
         </td>
@@ -116,13 +120,9 @@
         </td>
         <td><p>S3 method for making predictions using <code>shorts_model</code></p></td>
       </tr><tr><td>
-          <p><code><a href="predict_kinematics.html">predict_velocity_at_time()</a></code> <code><a href="predict_kinematics.html">predict_distance_at_time()</a></code> <code><a href="predict_kinematics.html">predict_acceleration_at_time()</a></code> <code><a href="predict_kinematics.html">predict_time_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_time_at_distance_FV()</a></code> <code><a href="predict_kinematics.html">predict_velocity_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_acceleration_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_acceleration_at_velocity()</a></code> <code><a href="predict_kinematics.html">predict_air_resistance_at_time()</a></code> <code><a href="predict_kinematics.html">predict_air_resistance_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_force_at_time()</a></code> <code><a href="predict_kinematics.html">predict_force_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_power_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_power_at_time()</a></code> <code><a href="predict_kinematics.html">predict_relative_power_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_relative_power_at_time()</a></code> <code><a href="predict_kinematics.html">predict_kinematics()</a></code> </p>
+          <p><code><a href="predict_kinematics.html">predict_velocity_at_time()</a></code> <code><a href="predict_kinematics.html">predict_distance_at_time()</a></code> <code><a href="predict_kinematics.html">predict_acceleration_at_time()</a></code> <code><a href="predict_kinematics.html">predict_time_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_time_at_distance_FV()</a></code> <code><a href="predict_kinematics.html">predict_velocity_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_acceleration_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_acceleration_at_velocity()</a></code> <code><a href="predict_kinematics.html">predict_air_resistance_at_time()</a></code> <code><a href="predict_kinematics.html">predict_air_resistance_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_force_at_velocity()</a></code> <code><a href="predict_kinematics.html">predict_force_at_time()</a></code> <code><a href="predict_kinematics.html">predict_force_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_power_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_power_at_time()</a></code> <code><a href="predict_kinematics.html">predict_relative_power_at_distance()</a></code> <code><a href="predict_kinematics.html">predict_relative_power_at_time()</a></code> <code><a href="predict_kinematics.html">predict_kinematics()</a></code> </p>
         </td>
         <td><p>Kinematics prediction functions</p></td>
-      </tr><tr><td>
-          <p><code><a href="print.shorts_fv_profile.html">print(<i>&lt;shorts_fv_profile&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>S3 method for printing <code>shorts_fv_profile</code> object</p></td>
       </tr><tr><td>
           <p><code><a href="print.shorts_model.html">print(<i>&lt;shorts_model&gt;</i>)</a></code> </p>
         </td>

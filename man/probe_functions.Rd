@@ -6,7 +6,16 @@
 \alias{probe_MSS_MAC}
 \title{Probe profile functions}
 \usage{
-probe_FV(distance, F0, V0, bodymass = 75, perc = 2.5, ...)
+probe_FV(
+  distance,
+  F0,
+  V0,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  perc = 2.5,
+  ...
+)
 
 probe_MSS_MAC(distance, MSS, MAC, perc = 2.5)
 }
@@ -16,6 +25,11 @@ probe_MSS_MAC(distance, MSS, MAC, perc = 2.5)
 \item{F0, V0}{Numeric vectors. FV profile parameters}
 
 \item{bodymass}{Body mass in kg}
+
+\item{inertia}{External inertia in kg (for example a weight vest, or a sled).
+Not included in the air resistance calculation}
+
+\item{resistance}{External horizontal resistance in Newtons (for example tether device or a sled friction resistance)}
 
 \item{perc}{Numeric vector. Probing percentage. Default is 2.5 percent}
 
@@ -29,6 +43,8 @@ probe_MSS_MAC(distance, MSS, MAC, perc = 2.5)
         \item{F0}{Original F0}
         \item{V0}{Original F0}
         \item{bodymass}{Bodymass}
+        \item{inertia}{Inertia}
+        \item{resistance}{Resistance}
         \item{Pmax}{Maximal power estimated using F0 * V0 / 4}
         \item{Pmax_rel}{Relative maximal power}
         \item{slope}{FV profile slope}
@@ -65,7 +81,7 @@ probe_MSS_MAC(distance, MSS, MAC, perc = 2.5)
 \description{
 Family of functions that serve a purpose of probing sprint or force-velocity profile. This is done
     by increasing individual sprint parameter for a percentage and calculating which parameter
-    imptovement yield biggest deduction in sprint tim
+    improvement yield biggest deduction in sprint tim
 
 \code{probe_FV} "probes" \code{F0} and \code{V0} and calculates which one
     improves sprint time for a defined \code{distance}
@@ -90,8 +106,8 @@ probe_MSS_MAC_profile <- probe_MSS_MAC(
 
 probe_FV_profile <- probe_FV(
   distance = dist,
-  fv$F0_poly,
-  fv$V0_poly,
+  fv$F0,
+  fv$V0,
   fv$bodymass
 )[["profile_imb"]]
 
