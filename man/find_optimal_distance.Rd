@@ -29,8 +29,8 @@ bodymass <- 75
 fv <- make_FV_profile(MSS, MAC, bodymass)
 
 find_optimal_distance(
-  F0 = fv$F0_poly,
-  V0 = fv$V0_poly,
+  F0 = fv$F0,
+  V0 = fv$V0,
   bodymass = fv$bodymass,
   optimal_func = optimal_FV,
   method = "max"

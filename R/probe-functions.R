@@ -27,8 +27,8 @@
 #'
 #' probe_FV_profile <- probe_FV(
 #'   distance = dist,
-#'   fv$F0_poly,
-#'   fv$V0_poly,
+#'   fv$F0,
+#'   fv$V0,
 #'   fv$bodymass
 #' )[["profile_imb"]]
 #'

@@ -99,15 +99,15 @@ opt_MSS_MAC_profile <- optimal_MSS_MAC(
 
 opt_FV_profile <- optimal_FV(
   distance = dist,
-  fv$F0_poly,
-  fv$V0_poly,
+  fv$F0,
+  fv$V0,
   fv$bodymass
 )[["profile_imb"]]
 
 opt_FV_profile_peak <- optimal_FV(
   distance = dist,
-  fv$F0_poly,
-  fv$V0_poly,
+  fv$F0,
+  fv$V0,
   fv$bodymass,
   method = "peak"
 )[["profile_imb"]]
