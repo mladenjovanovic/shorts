@@ -10,6 +10,7 @@
 * Renamed `find_max_power` functions to `find_peak_power` to avoid confusion between `Pmax` and `Ppeak`
 * Implemented `inertia` (mass; in kg) and `resistance` (force; in Newtons) to `optimal_FV()` function
 * Implemented `inertia` (mass; in kg) and `resistance` (force; in Newtons) to `probe_FV()` function
+* I added the `model_tether_DC()` function with an additional `distance correction` (DC) parameter estimate. DC parameter serves as an intercept when distance doesn't start at zero
 
 # shorts 2.4.0
 
