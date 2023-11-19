@@ -6,7 +6,16 @@
 \alias{probe_MSS_MAC}
 \title{Probe profile functions}
 \usage{
-probe_FV(distance, F0, V0, bodymass = 75, perc = 2.5, ...)
+probe_FV(
+  distance,
+  F0,
+  V0,
+  bodymass = 75,
+  inertia = 0,
+  resistance = 0,
+  perc = 2.5,
+  ...
+)
 
 probe_MSS_MAC(distance, MSS, MAC, perc = 2.5)
 }
@@ -16,6 +25,11 @@ probe_MSS_MAC(distance, MSS, MAC, perc = 2.5)
 \item{F0, V0}{Numeric vectors. FV profile parameters}
 
 \item{bodymass}{Body mass in kg}
+
+\item{inertia}{External inertia in kg (for example a weight vest, or a sled).
+Not included in the air resistance calculation}
+
+\item{resistance}{External horizontal resistance in Newtons (for example tether device or a sled friction resistance)}
 
 \item{perc}{Numeric vector. Probing percentage. Default is 2.5 percent}
 
@@ -29,6 +43,8 @@ probe_MSS_MAC(distance, MSS, MAC, perc = 2.5)
         \item{F0}{Original F0}
         \item{V0}{Original F0}
         \item{bodymass}{Bodymass}
+        \item{inertia}{Inertia}
+        \item{resistance}{Resistance}
         \item{Pmax}{Maximal power estimated using F0 * V0 / 4}
         \item{Pmax_rel}{Relative maximal power}
         \item{slope}{FV profile slope}

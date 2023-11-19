@@ -9,6 +9,7 @@
 * Updated `predict_time_at_distance_FV()` function to use simpler `convert_FV()` function
 * Renamed `find_max_power` functions to `find_peak_power` to avoid confusion between `Pmax` and `Ppeak`
 * Implemented `inertia` (mass; in kg) and `resistance` (force; in Newtons) to `optimal_FV()` function
+* Implemented `inertia` (mass; in kg) and `resistance` (force; in Newtons) to `probe_FV()` function
 
 # shorts 2.4.0
 
