@@ -7,6 +7,7 @@
 * Simplified `make_FV_profile()` function and added support for the `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters. Removed the S3 print and plot methods, as well as the class type involving this function
 * Made internal `convert_FV()` function available for the users and added support for the `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters
 * Updated `predict_time_at_distance_FV()` function to use simpler `convert_FV()` function
+* Renamed `find_max_power` functions to `find_peak_power` to avoid confusion between `Pmax` and `Ppeak`
 
 # shorts 2.4.0
 

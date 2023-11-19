@@ -113,14 +113,14 @@ find_optimal_FV_scalar <- function(distance, F0, V0, bodymass = 75, ...) {
   MSS_conv <- converted$MSS
   MAC_conv <- converted$MAC
 
-  Ppeak_dist <- find_max_power_distance(
+  Ppeak_dist <- find_peak_power_distance(
     MSS = MSS_conv,
     MAC = MAC_conv,
     bodymass = bodymass,
     ...
   )
 
-  Ppeak_time <- find_max_power_time(
+  Ppeak_time <- find_peak_power_time(
     MSS = MSS_conv,
     MAC = MAC_conv,
     bodymass = bodymass,
@@ -132,14 +132,14 @@ find_optimal_FV_scalar <- function(distance, F0, V0, bodymass = 75, ...) {
   MSS_conv_optim <- converted_optim$MSS
   MAC_conv_optim <- converted_optim$MAC
 
-  Ppeak_dist_optim <- find_max_power_distance(
+  Ppeak_dist_optim <- find_peak_power_distance(
     MSS = MSS_conv_optim,
     MAC = MAC_conv_optim,
     bodymass = bodymass,
     ...
   )
 
-  Ppeak_time_optim <- find_max_power_time(
+  Ppeak_time_optim <- find_peak_power_time(
     MSS = MSS_conv_optim,
     MAC = MAC_conv_optim,
     bodymass = bodymass,
@@ -156,8 +156,8 @@ find_optimal_FV_scalar <- function(distance, F0, V0, bodymass = 75, ...) {
     slope = FV_slope,
     distance = distance,
     time = t_orig,
-    Ppeak = Ppeak_dist$max_power,
-    Ppeak_rel = Ppeak_dist$max_power / bodymass,
+    Ppeak = Ppeak_dist$peak_power,
+    Ppeak_rel = Ppeak_dist$peak_power / bodymass,
     Ppeak_dist = Ppeak_dist$distance,
     Ppeak_time = Ppeak_time$time,
     F0_optim = F0_optim,
@@ -170,8 +170,8 @@ find_optimal_FV_scalar <- function(distance, F0, V0, bodymass = 75, ...) {
     profile_imb = profile_imb,
     time_optim = results$value,
     time_gain = results$value - t_orig,
-    Ppeak_optim = Ppeak_dist_optim$max_power,
-    Ppeak_rel_optim = Ppeak_dist_optim$max_power / bodymass,
+    Ppeak_optim = Ppeak_dist_optim$peak_power,
+    Ppeak_rel_optim = Ppeak_dist_optim$peak_power / bodymass,
     Ppeak_dist_optim = Ppeak_dist_optim$distance,
     Ppeak_time_optim = Ppeak_time_optim$time
   )
@@ -183,12 +183,12 @@ find_FV_peak_power <- function(F0, V0, bodymass, ...) {
   MSS_conv <- converted$MSS
   MAC_conv <- converted$MAC
 
-  find_max_power_distance(
+  find_peak_power_distance(
     MSS = MSS_conv,
     MAC = MAC_conv,
     bodymass = bodymass,
     ...
-  )$max_power
+  )$peak_power
 }
 
 # Assistant function for find_optimal_FV_peak_scalar()
@@ -281,14 +281,14 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, ...) {
   MSS_conv <- converted$MSS
   MAC_conv <- converted$MAC
 
-  Ppeak_dist <- find_max_power_distance(
+  Ppeak_dist <- find_peak_power_distance(
     MSS = MSS_conv,
     MAC = MAC_conv,
     bodymass = bodymass,
     ...
   )
 
-  Ppeak_time <- find_max_power_time(
+  Ppeak_time <- find_peak_power_time(
     MSS = MSS_conv,
     MAC = MAC_conv,
     bodymass = bodymass,
@@ -300,14 +300,14 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, ...) {
   MSS_conv_optim <- converted_optim$MSS
   MAC_conv_optim <- converted_optim$MAC
 
-  Ppeak_dist_optim <- find_max_power_distance(
+  Ppeak_dist_optim <- find_peak_power_distance(
     MSS = MSS_conv_optim,
     MAC = MAC_conv_optim,
     bodymass = bodymass,
     ...
   )
 
-  Ppeak_time_optim <- find_max_power_time(
+  Ppeak_time_optim <- find_peak_power_time(
     MSS = MSS_conv_optim,
     MAC = MAC_conv_optim,
     bodymass = bodymass,
@@ -324,8 +324,8 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, ...) {
     slope = FV_slope,
     distance = distance,
     time = t_orig,
-    Ppeak = Ppeak_dist$max_power,
-    Ppeak_rel = Ppeak_dist$max_power / bodymass,
+    Ppeak = Ppeak_dist$peak_power,
+    Ppeak_rel = Ppeak_dist$peak_power / bodymass,
     Ppeak_dist = Ppeak_dist$distance,
     Ppeak_time = Ppeak_time$time,
     F0_optim = F0_optim,
@@ -338,8 +338,8 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, ...) {
     profile_imb = profile_imb,
     time_optim = results$value,
     time_gain = results$value - t_orig,
-    Ppeak_optim = Ppeak_dist_optim$max_power,
-    Ppeak_rel_optim = Ppeak_dist_optim$max_power / bodymass,
+    Ppeak_optim = Ppeak_dist_optim$peak_power,
+    Ppeak_rel_optim = Ppeak_dist_optim$peak_power / bodymass,
     Ppeak_dist_optim = Ppeak_dist_optim$distance,
     Ppeak_time_optim = Ppeak_time_optim$time
   )
