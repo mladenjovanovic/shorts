@@ -5,6 +5,7 @@
 * Added `predict_force_at_velocity()` function
 * Modified `find_max_power_` and `find_power_critial_` function to add support for the `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters
 * Simplified `make_FV_profile()` function and added support for the `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters. Removed the S3 print and plot methods, as well as the class type involving this function
+* Made internal `convert_FV()` function available for the users and added support for the `inertia` (mass; in kg) and `resistance` (force; in Newtons) parameters 
 
 # shorts 2.4.0
 
