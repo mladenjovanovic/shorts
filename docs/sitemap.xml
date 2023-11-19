@@ -22,6 +22,9 @@
     <loc>/reference/coef.shorts_model.html</loc>
   </url>
   <url>
+    <loc>/reference/convert_FV.html</loc>
+  </url>
+  <url>
     <loc>/reference/create_timing_gates_splits.html</loc>
   </url>
   <url>
@@ -53,6 +56,9 @@
   </url>
   <url>
     <loc>/reference/model_tether.html</loc>
+  </url>
+  <url>
+    <loc>/reference/model_tether_DC.html</loc>
   </url>
   <url>
     <loc>/reference/model_timing_gates.html</loc>

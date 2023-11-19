@@ -21,7 +21,7 @@ optimal_MSS_MAC finds "optimal" MSS and MAS where time at distance is
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.4.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.5.0</span>
       </span>
     </div>
 
@@ -61,7 +61,16 @@ optimal_MSS_MAC finds "optimal" MSS and MAS where time at distance is
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">optimal_FV</span><span class="op">(</span><span class="va">distance</span>, <span class="va">F0</span>, <span class="va">V0</span>, bodymass <span class="op">=</span> <span class="fl">75</span>, method <span class="op">=</span> <span class="st">"max"</span>, <span class="va">...</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">optimal_FV</span><span class="op">(</span></span>
+<span>  <span class="va">distance</span>,</span>
+<span>  <span class="va">F0</span>,</span>
+<span>  <span class="va">V0</span>,</span>
+<span>  bodymass <span class="op">=</span> <span class="fl">75</span>,</span>
+<span>  inertia <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  resistance <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  method <span class="op">=</span> <span class="st">"max"</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">optimal_MSS_MAC</span><span class="op">(</span><span class="va">distance</span>, <span class="va">MSS</span>, <span class="va">MAC</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -80,12 +89,21 @@ optimal_MSS_MAC finds "optimal" MSS and MAS where time at distance is
 <dd><p>Body mass in kg</p></dd>
 
 
+<dt>inertia</dt>
+<dd><p>External inertia in kg (for example a weight vest, or a sled).
+Not included in the air resistance calculation</p></dd>
+
+
+<dt>resistance</dt>
+<dd><p>External horizontal resistance in Newtons (for example tether device or a sled friction resistance)</p></dd>
+
+
 <dt>method</dt>
 <dd><p>Method to be utilized. Options are "peak" and "max" (default)</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Forwarded to <code><a href="predict_kinematics.html">predict_power_at_distance</a></code> for the purpose of calculation of air resistance</p></dd>
+<dd><p>Forwarded to <code><a href="get_air_resistance.html">get_air_resistance</a></code> for the purpose of calculation of air resistance</p></dd>
 
 
 <dt>MSS, MAC</dt>
@@ -106,6 +124,12 @@ optimal_MSS_MAC finds "optimal" MSS and MAS where time at distance is
 
         <dt>bodymass</dt>
 <dd><p>Bodymass</p></dd>
+
+        <dt>inertia</dt>
+<dd><p>Inertia</p></dd>
+
+        <dt>resistance</dt>
+<dd><p>Resistance</p></dd>
 
         <dt>Pmax</dt>
 <dd><p>Maximal power estimated using F0 * V0 / 4</p></dd>
@@ -251,15 +275,15 @@ optimal_MSS_MAC finds "optimal" MSS and MAS where time at distance is
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">opt_FV_profile</span> <span class="op">&lt;-</span> <span class="fu">optimal_FV</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="va">dist</span>,</span></span>
-<span class="r-in"><span>  <span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>,</span></span>
-<span class="r-in"><span>  <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span>,</span></span>
+<span class="r-in"><span>  <span class="va">fv</span><span class="op">$</span><span class="va">F0</span>,</span></span>
+<span class="r-in"><span>  <span class="va">fv</span><span class="op">$</span><span class="va">V0</span>,</span></span>
 <span class="r-in"><span>  <span class="va">fv</span><span class="op">$</span><span class="va">bodymass</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">[[</span><span class="st">"profile_imb"</span><span class="op">]</span><span class="op">]</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">opt_FV_profile_peak</span> <span class="op">&lt;-</span> <span class="fu">optimal_FV</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  distance <span class="op">=</span> <span class="va">dist</span>,</span></span>
-<span class="r-in"><span>  <span class="va">fv</span><span class="op">$</span><span class="va">F0_poly</span>,</span></span>
-<span class="r-in"><span>  <span class="va">fv</span><span class="op">$</span><span class="va">V0_poly</span>,</span></span>
+<span class="r-in"><span>  <span class="va">fv</span><span class="op">$</span><span class="va">F0</span>,</span></span>
+<span class="r-in"><span>  <span class="va">fv</span><span class="op">$</span><span class="va">V0</span>,</span></span>
 <span class="r-in"><span>  <span class="va">fv</span><span class="op">$</span><span class="va">bodymass</span>,</span></span>
 <span class="r-in"><span>  method <span class="op">=</span> <span class="st">"peak"</span></span></span>
 <span class="r-in"><span><span class="op">)</span><span class="op">[[</span><span class="st">"profile_imb"</span><span class="op">]</span><span class="op">]</span></span></span>
