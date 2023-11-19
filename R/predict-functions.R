@@ -84,20 +84,25 @@ predict_time_at_distance <- function(distance, MSS, MAC) {
 
 #' @rdname predict_kinematics
 #' @export
-predict_time_at_distance_FV <- function(distance, F0, V0, bodymass = 75, ...) {
-  k_rel <- get_air_resistance(velocity = 1, bodymass = bodymass, ...) / bodymass
+predict_time_at_distance_FV <- function(distance,
+                                        F0,
+                                        V0,
+                                        bodymass = 75,
+                                        inertia = 0,
+                                        resistance = 0,
+                                        ...) {
+  # Convert FVP back to AVP
+  AVP <- convert_FV(
+    F0 = F0,
+    V0 = V0,
+    bodymass = bodymass,
+    inertia = inertia,
+    resistance = resistance,
+    ...
+  )
 
-  F0_rel <- F0 / bodymass
-  Pmax <- (F0 * V0) / 4
-  Pmax_rel <- Pmax / bodymass
-  Slope <- -F0_rel / V0
-
-  s3 <- 2 * sqrt(-Pmax_rel * Slope)
-  s2 <- Slope - 2 * k_rel * sqrt(-(Pmax_rel / Slope))
-  s1 <- distance + (s3 / (s2^2))
-
-  # Return predicted time
-  -(LambertW::W(-exp(1)^(-(s2^2 * s1) / s3)) / s2) - ((s2 * s1) / s3)
+  # Get time at distance
+  predict_time_at_distance(distance, MSS = AVP$MSS, MAC = AVP$MAC)
 }
 
 #' @rdname predict_kinematics
