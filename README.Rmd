@@ -17,10 +17,6 @@ knitr::opts_chunk$set(
   message = FALSE,
   dpi = 150
 )
-
-# Set rounding
-op <- options()
-options(digits = 2)
 ```
 
 # shorts <img src="man/figures/logo.png" align="right" width="200"/>
@@ -45,7 +41,7 @@ devtools::install_github("mladenjovanovic/shorts")
 
 ## Examples
 
-{shorts} comes with two sample data sets: `split_times` and `radar_gun_data` with N=5 athletes. Let's load them both:
+**{shorts}** comes with two sample data sets: `split_times` and `radar_gun_data` with N=5 athletes. Let's load them both:
 
 ```{r example}
 require(shorts)
@@ -193,20 +189,24 @@ To get model residuals, use `residuals()` function:
 residuals(kimberley_profile)
 ```
 
-Package {shorts} comes with `find_XXX()` family of functions that allow finding peak power and it's location, as well as *critical distance* over which velocity, acceleration, or power drops below certain threshold:
+Package **{shorts}** comes with `find_XXX()` family of functions that allow finding peak power and it's location, as well as *critical distance* over which velocity, acceleration, or power drops below certain threshold:
 
 ```{r}
 # Peak power and location
-shorts::find_max_power_distance(
-  kimberley_profile$parameters$MSS,
-  kimberley_profile$parameters$TAU
+shorts::find_peak_power_distance(
+  MSS = kimberley_profile$parameters$MSS,
+  MAC = kimberley_profile$parameters$MAC, 
+  bodymass = kimberley_bodymass,
+  bodyheight = kimberley_bodyheight
 )
 
-# Distance over which power is over 50%
+# Distance over which power is over 80%
 shorts::find_power_critical_distance(
   MSS = kimberley_profile$parameters$MSS,
-  MAC = kimberley_profile$parameters$MAC,
-  percent = 0.5
+  MAC = kimberley_profile$parameters$MAC, 
+  bodymass = kimberley_bodymass,
+  bodyheight = kimberley_bodyheight,
+  percent = 0.8
 )
 
 # Distance over which acceleration is under 50%
@@ -272,13 +272,12 @@ summary(jim_profile)
 
 ### Profiling using tether devices
 
-Some tether devices provide data out in a velocity-at-distance format. In this case, velocity is the outcome variable and distance is the predictor. To estimate sprint profiles from *tether data*, use `model_tether()` function:
+Some tether devices provide data out in a velocity-at-distance format. In this case, velocity is the outcome variable and distance is the predictor. To estimate sprint profiles from *tether data*, use `shorts::model_tether()` function:
 
 ```{r}
 distance <- c(5, 10, 20, 30, 40)
 
-velocity <- predict_velocity_at_distance(distance, MSS = 10, MAC = 8) +
-  rnorm(length(distance), 0, 0.1)
+velocity <- predict_velocity_at_distance(distance, MSS = 10, MAC = 8)
 
 m1 <- model_tether(distance = distance, velocity = velocity)
 
@@ -291,11 +290,22 @@ plot(m1) +
   geom_point(data = df, aes(x = distance, y = obs_velocity))
 ```
 
-Setting `use_observed_MSS` parameter to `TRUE` in the `model_tether()` function also allows you to use observed peak velocity as MSS. 
+Setting `use_observed_MSS` parameter to `TRUE` in the `shorts::model_tether()` function also allows you to use observed peak velocity as MSS. 
+
+In the case when distance is not centered at zero, use `shorts::model_tether_DC()` which also estimated the *distance correction* (DC) parameter, serving as model intercept:
+
+```{r}
+distance <- c(5, 10, 20, 30, 40)
+
+velocity <- predict_velocity_at_distance(distance - 0.5, MSS = 10, MAC = 8)
+
+m1 <- model_tether_DC(distance = distance, velocity = velocity)
+m1
+```
 
 ### Force-Velocity Profiling
 
-To estimate Force-Velocity profile using approach by Samozino *et al.* (2016, 2022) use `shorts::make_FV_profile()`:
+To estimate *Force-Velocity Profile* (FVP) using approach by Samozino *et al.* (2016, 2022) use `shorts::make_FV_profile()`:
 
 ```{r}
 kimberley_fv <- shorts::make_FV_profile(
@@ -307,10 +317,105 @@ kimberley_fv <- shorts::make_FV_profile(
 )
 
 kimberley_fv
-
-plot(kimberley_fv) +
-  theme_bw()
 ```
+
+To convert back to *Acceleration-Velocity Profile* (AVP), use:
+
+```{r}
+kimberley_avp <- shorts::convert_FV(
+  F0 = kimberley_fv$F0,
+  V0 = kimberley_fv$V0,
+  bodymass = kimberley_bodymass,
+  bodyheight = kimberley_bodyheight
+)
+
+kimberley_avp
+```
+
+### Using external load
+
+**{shorts}** package also allows utilizing external load in estimating FVP, as well as using FVP parameters to predict kinematic and kinetic variables. External load is represented either with additional **inertia** (i.e., weight vest), horizontal **resistance** (i.e., tether device that create additional resistance or help, or a hill sprinting), or both (i.e., a sled, which have both inertia and resistance due to friction forces). 
+
+Let's see how theoretical model, assuming FVP is *determinant of performance* (which I do not agree with, BTW), predicts changes in sprint characteristics (i.e., MSS and MAC) under different external load conditions and magnitudes using Kimberley's estimated FVP:
+
+```{r}
+loads_df <- rbind(
+  tibble(type = "Weight vest", magnitude = seq(0, 20, length.out = 100), inertia = magnitude, resistance = 0),
+  tibble(type = "Tether", magnitude = seq(-50, 200, length.out = 100), inertia = 0, resistance = magnitude),
+  tibble(type = "Sled", magnitude = seq(0, 40, length.out = 100), inertia = magnitude, resistance = magnitude * 9.81 * 0.4)
+) %>%
+  mutate(
+    data.frame(shorts::convert_FV(
+      F0 = kimberley_fv$F0,
+      V0 = kimberley_fv$V0,
+      bodymass = kimberley_bodymass,
+      bodyheight = kimberley_bodyheight,
+      inertia = inertia,
+      resistance = resistance
+    ))
+  ) 
+
+loads_df %>%
+  pivot_longer(cols = c(MSS, MAC), names_to = "parameter") %>%
+  ggplot(aes(x = magnitude, y = value, color = parameter)) +
+  theme_bw() + 
+  geom_vline(xintercept = 0, linetype = "dotted") +
+  geom_line() +
+  facet_wrap(~type, scales = "free_x") +
+  ylab(NULL)
+```
+
+Following figure depicts the effect on split times under different load types and magnitudes, assuming FVP to be determinant of performance (i.e., causal mechanism):
+
+```{r}
+dist_df <- expand_grid(
+  loads_df,
+  distance = c(5, 10, 20, 30, 40)
+) %>%
+  mutate(
+    time = predict_time_at_distance(distance, MSS, MAC),
+    distance = factor(
+      paste0(distance, "m"), levels = c("5m", "10m", "20m", "30m", "40m"))
+  ) 
+
+dist_df %>%
+  ggplot(aes(x = magnitude, y = time, color = distance)) +
+  theme_bw() + 
+  geom_vline(xintercept = 0, linetype = "dotted") +
+  geom_line() +
+  facet_wrap(~type, scales = "free_x") +
+  ylab("Time (s)")
+```
+
+One can use external resistance when predicting force or power:
+
+```{r}
+shorts::predict_force_at_time(
+  time = 0.5,
+  MSS = 9,
+  MAC = 7,
+  bodymass = 75,
+  inertia = 20,
+  resistance = 50)
+
+shorts::predict_power_at_time(
+  time = 0.5,
+  MSS = 9,
+  MAC = 7,
+  bodymass = 75,
+  inertia = 20,
+  resistance = 50)
+
+shorts::predict_time_at_distance_FV(
+  distance = 10,
+  F0 = 750,
+  V0 = 8,
+  bodymass = 75,
+  inertia = 20,
+  resistance = 50)
+```
+
+External resistances can also be utilized in the [Optimization] functions, covered later. 
 
 ### Using corrections
 
@@ -342,7 +447,7 @@ kimberley_profile_TC <- shorts::model_timing_gates_TC(
 kimberley_profile_TC
 ```
 
-Instead of estimating `TC`, {shorts} package features a method of estimating flying start distance (`FD`):
+Instead of estimating `TC`, **{shorts}** package features a method of estimating flying start distance (`FD`):
 
 ```{r}
 kimberley_profile_FD <- shorts::model_timing_gates_FD(
@@ -358,7 +463,7 @@ If you want to use fixed `FD` parameter (e.g., when you know what is the flying 
 ```{r}
 kimberley_profile_fixed_FD <- shorts::model_timing_gates_FD(
   distance = kimberley_data$distance,
-  time = kimberley_data$time, 
+  time = kimberley_data$time,
   FD = 0.5
 )
 
@@ -475,21 +580,21 @@ opt_df <- tibble(
     )[["profile_imb"]],
     `FV Profile` = optimal_FV(
       distance = dist,
-      fv$F0_poly,
-      fv$V0_poly,
+      fv$F0,
+      fv$V0,
       bodymass
     )[["profile_imb"]],
     `FV Profile (PeakPower)` = optimal_FV(
       distance = dist,
-      fv$F0_poly,
-      fv$V0_poly,
+      fv$F0,
+      fv$V0,
       bodymass,
       method = "peak"
     )[["profile_imb"]],
     `Probe FV` = probe_FV(
       distance = dist,
-      fv$F0_poly,
-      fv$V0_poly,
+      fv$F0,
+      fv$V0,
       bodymass
     )[["profile_imb"]],
     `Probe MSS/MAC` = probe_MSS_MAC(
@@ -507,21 +612,21 @@ opt_dist <- tibble(
     optimal_func = optimal_MSS_MAC
   ),
   `FV Profile` = find_optimal_distance(
-    fv$F0_poly,
-    fv$V0_poly,
+    fv$F0,
+    fv$V0,
     bodymass,
     optimal_func = optimal_FV
   ),
   `FV Profile (PeakPower)` = find_optimal_distance(
-    fv$F0_poly,
-    fv$V0_poly,
+    fv$F0,
+    fv$V0,
     bodymass,
     optimal_func = optimal_FV,
     method = "peak"
   ),
   `Probe FV` = find_optimal_distance(
-    fv$F0_poly,
-    fv$V0_poly,
+    fv$F0,
+    fv$V0,
     bodymass,
     optimal_func = probe_FV
   ),
@@ -553,15 +658,10 @@ ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
 
 ## Citation
 
-To cite {shorts}, please use the following command to get the BibTex entry:
+To cite **{shorts}**, please use the following command to get the BibTex entry:
 
 ```{r eval=FALSE}
 citation("shorts")
-```
-
-```{r include=FALSE}
-# Return original options
-options(op)
 ```
 
 ## References
