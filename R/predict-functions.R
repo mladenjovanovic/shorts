@@ -153,7 +153,7 @@ predict_air_resistance_at_distance <- function(distance, MSS, MAC, ...) {
 predict_force_at_velocity <- function(velocity, MSS, MAC, bodymass = 75, inertia = 0, resistance = 0, ...) {
   slope <- MAC / MSS
 
-  F_air <- air_res <- get_air_resistance(velocity = velocity, bodymass = bodymass, ...)
+  F_air <- get_air_resistance(velocity = velocity, bodymass = bodymass, ...)
   F_acc <- (MAC - velocity * slope) * (bodymass + inertia)
 
   # Return total
