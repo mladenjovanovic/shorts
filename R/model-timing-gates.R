@@ -2,14 +2,14 @@
 #'
 #' These functions model the sprint split times using mono-exponential equation, where \code{time}
 #'     is used as target or outcome variable, and \code{distance} as predictor.
-#'     \itemize{
-#'     \item{\code{\link{model_timing_gates}}}{ Provides the simplest model with estimated \code{MSS}
+#'     \describe{
+#'        \item{\code{\link{model_timing_gates}}}{ Provides the simplest model with estimated \code{MSS}
 #'      and \code{MAC} parameters}
-#'     \item{\code{\link{model_timing_gates_TC}}}{ Besides estimating \code{MSS} and \code{MAC}
+#'        \item{\code{\link{model_timing_gates_TC}}}{ Besides estimating \code{MSS} and \code{MAC}
 #'     parameters, this function estimates additional parameter \code{TC} or time correction}
-#'     \item{\code{\link{model_timing_gates_FD}}}{ In addition to estimating \code{MSS} and
+#'        \item{\code{\link{model_timing_gates_FD}}}{ In addition to estimating \code{MSS} and
 #'      \code{MAC} parameters, this function estimates \code{FD} or flying distance}
-#'     \item{\code{\link{model_timing_gates_FD_TC}}}{ Combines the approach of the \code{\link{model_timing_gates_FD}} with
+#'        \item{\code{\link{model_timing_gates_FD_TC}}}{ Combines the approach of the \code{\link{model_timing_gates_FD}} with
 #'     that one of \code{\link{model_timing_gates_TC}}. In other words, it add extra parameter \code{TC} to be estimated in
 #'     the \code{\link{model_timing_gates_FD}} model}
 #'     }
