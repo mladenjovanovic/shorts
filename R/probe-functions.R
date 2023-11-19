@@ -2,7 +2,7 @@
 #'
 #' Family of functions that serve a purpose of probing sprint or force-velocity profile. This is done
 #'     by increasing individual sprint parameter for a percentage and calculating which parameter
-#'     imptovement yield biggest deduction in sprint tim
+#'     improvement yield biggest deduction in sprint tim
 #'
 #' @param MSS,MAC Numeric vectors. Model parameters
 #' @param F0,V0 Numeric vectors. FV profile parameters
