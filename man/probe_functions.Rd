@@ -65,7 +65,7 @@ probe_MSS_MAC(distance, MSS, MAC, perc = 2.5)
 \description{
 Family of functions that serve a purpose of probing sprint or force-velocity profile. This is done
     by increasing individual sprint parameter for a percentage and calculating which parameter
-    imptovement yield biggest deduction in sprint tim
+    improvement yield biggest deduction in sprint tim
 
 \code{probe_FV} "probes" \code{F0} and \code{V0} and calculates which one
     improves sprint time for a defined \code{distance}
