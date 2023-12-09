@@ -1,5 +1,7 @@
 # shorts 2.5.0.9000
 
+* Fixed the sign error in the `get_air_resistance()` function where both head wind and tail wind returned the same resistance.
+
 # shorts 2.5.0
 
 * Added `inertia` (mass; in kg) and `resistance` (force; in Newtons) to `predict_force_`, `predict_power_`, `predict_relative_power_`, as well as `predict_kinematics()` functions. This increases the ability of the {shorts} package to deal with external resistance, like weight vest, sled, and tether devices.
