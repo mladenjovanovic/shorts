@@ -338,7 +338,7 @@ predict_kinematics <- function(object = NULL,
   df$resultant_force <- sqrt(df$horizontal_force^2 + df$vertical_force^2)
   df$resultant_force_relative <- df$resultant_force / bodymass
   df$power <- df$horizontal_force * df$velocity
-  df$relative_power <- df$horizontal_force_relative * df$velocity
+  df$power_relative <- df$horizontal_force_relative * df$velocity
   df$RF <- df$horizontal_force / df$resultant_force
   df$force_angle <- atan(df$vertical_force / df$horizontal_force) * 180 / pi
 

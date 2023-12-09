@@ -2,6 +2,7 @@
 
 * Fixed the sign error in the `get_air_resistance()` function where both head wind and tail wind returned the same resistance.
 * Fixed the error in `make_FV_profile()` function when estimating force-velocity profile with wind conditions. Renamed the function to `create_FVP()`
+* Renamed the output of `predict_kinematics()` function `relative_power` to `power_relative` to be in alignment with other variables
 
 # shorts 2.5.0
 
