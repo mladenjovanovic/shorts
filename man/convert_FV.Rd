@@ -26,7 +26,7 @@ This function converts back the Force-Velocity (FV) profile to Acceleration-Velo
     profile
 }
 \examples{
-FVP <- make_FV_profile(7, 8.3, inertia = 10, resistance = 50)
+FVP <- create_FVP(7, 8.3, inertia = 10, resistance = 50)
 
 convert_FV(FVP$F0, FVP$V0, inertia = 10, resistance = 50)
 }

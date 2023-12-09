@@ -18,7 +18,7 @@
 #' MAC <- 8
 #' bodymass <- 75
 #'
-#' fv <- make_FV_profile(MSS, MAC, bodymass)
+#' fv <- create_FVP(MSS, MAC, bodymass)
 #'
 #' dist <- seq(5, 40, by = 5)
 #'

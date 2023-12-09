@@ -1,6 +1,7 @@
 # shorts 2.5.0.9000
 
 * Fixed the sign error in the `get_air_resistance()` function where both head wind and tail wind returned the same resistance.
+* Fixed the error in `make_FV_profile()` function when estimating force-velocity profile with wind conditions. Renamed the function to `create_FVP()`
 
 # shorts 2.5.0
 
