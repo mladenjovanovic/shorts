@@ -105,4 +105,23 @@ make_FV_profile(9, 7, wind_velocity = -2)[c("F0", "V0", "V0_test")]
 create_FVP(9, 7, wind_velocity = -2)[c("F0", "V0", "V0_test")]
 
 
+# ================
+# Convert back to MSS
+# A = MAC
+# P = MSS
+# M = bodymass
+# J = inertia
+# R = resistance
+# W = wind_velocity
+# k = k_rel
+# v = V0
 
+#MSS = (A * v * (J + M))/(A * J + A * M + k * M * v^2 - 2 * k * M * v * W + k * M * W^2 + R)
+#MSS = (MAC * V0 * (inertia + bodymass))/(MAC * inertia + MAC * bodymass + k_rel * bodymass * V0^2 - 2 * k_rel * bodymass * V0 * wind_velocity + k_rel * bodymass * wind_velocity^2 + resistance)
+
+FVP <- create_FVP(9, 5, wind_velocity = 10, resistance = 0, inertia = 0)
+
+convert_FVP(F0 = FVP$F0, V0 = FVP$V0, wind_velocity = 10, resistance = 0, inertia = 0)
+
+predict_time_at_distance(20, 9, 5)
+predict_time_at_distance_FV(20, FVP$F0, FVP$V0, wind_velocity = 10)

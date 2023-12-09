@@ -92,7 +92,7 @@ predict_time_at_distance_FV <- function(distance,
                                         resistance = 0,
                                         ...) {
   # Convert FVP back to AVP
-  AVP <- convert_FV(
+  AVP <- convert_FVP(
     F0 = F0,
     V0 = V0,
     bodymass = bodymass,

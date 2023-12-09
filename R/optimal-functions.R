@@ -116,7 +116,7 @@ find_optimal_FV_scalar <- function(distance, F0, V0, bodymass = 75, inertia = 0,
   ##############################################
   # Peak Power
   # Original profile
-  converted <- convert_FV(
+  converted <- convert_FVP(
     F0 = F0,
     V0 = V0,
     bodymass = bodymass,
@@ -146,7 +146,7 @@ find_optimal_FV_scalar <- function(distance, F0, V0, bodymass = 75, inertia = 0,
   )
 
   # Optimal profile
-  converted_optim <- convert_FV(
+  converted_optim <- convert_FVP(
     F0 = F0_optim,
     V0 = V0_optim,
     bodymass = bodymass,
@@ -210,7 +210,7 @@ find_optimal_FV_scalar <- function(distance, F0, V0, bodymass = 75, inertia = 0,
 
 # Assistant function for find_optimal_FV_peak_scalar()
 find_FV_peak_power <- function(F0, V0, bodymass = 75, inertia = 0, resistance = 0, ...) {
-  converted <- convert_FV(
+  converted <- convert_FVP(
     F0 = F0,
     V0 = V0,
     bodymass = bodymass,
@@ -352,7 +352,7 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, inertia
   ##############################################
   # Peak Power
   # Original profile
-  converted <- convert_FV(
+  converted <- convert_FVP(
     F0 = F0,
     V0 = V0,
     bodymass = bodymass,
@@ -382,7 +382,7 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, inertia
   )
 
   # Optimal profile
-  converted_optim <- convert_FV(
+  converted_optim <- convert_FVP(
     F0 = F0_optim,
     V0 = V0_optim,
     bodymass = bodymass,
