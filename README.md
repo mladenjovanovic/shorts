@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file  -->
 
-# shorts <img src="man/figures/logo.png" align="right" width="200"/>
+# shorts <img src="man/figures/logo.png" align="right" width="200" />
 
 <!-- badges: start -->
 
@@ -243,7 +243,7 @@ predicted_kinematics <- predict_kinematics(
 kable(head(predicted_kinematics))
 ```
 
-| time |  distance |  velocity | acceleration | bodymass | inertia | resistance | net_horizontal_force | air_resistance | horizontal_force | horizontal_force_relative | vertical_force | resultant_force | resultant_force_relative |     power | relative_power |        RF | force_angle |
+| time |  distance |  velocity | acceleration | bodymass | inertia | resistance | net_horizontal_force | air_resistance | horizontal_force | horizontal_force_relative | vertical_force | resultant_force | resultant_force_relative |     power | power_relative |        RF | force_angle |
 |-----:|----------:|----------:|-------------:|---------:|--------:|-----------:|---------------------:|---------------:|-----------------:|--------------------------:|---------------:|----------------:|-------------------------:|----------:|---------------:|----------:|------------:|
 | 0.00 | 0.0000000 | 0.0000000 |    10.588982 |       60 |       0 |          0 |             635.3389 |      0.0000000 |         635.3389 |                 10.588982 |          588.6 |        866.0863 |                 14.43477 |   0.00000 |       0.000000 | 0.7335746 |    42.81309 |
 | 0.01 | 0.0005273 | 0.1052399 |    10.459269 |       60 |       0 |          0 |             627.5561 |      0.0026620 |         627.5588 |                 10.459313 |          588.6 |        860.3953 |                 14.33992 |  66.04424 |       1.100737 | 0.7293843 |    43.16520 |
@@ -473,10 +473,10 @@ m1
 ### Force-Velocity Profiling
 
 To estimate *Force-Velocity Profile* (FVP) using approach by Samozino
-*et al.* (2016, 2022) use `shorts::make_FV_profile()`:
+*et al.* (2016, 2022) use `shorts::create_FVP()`:
 
 ``` r
-kimberley_fv <- shorts::make_FV_profile(
+kimberley_fv <- shorts::create_FVP(
   MSS = kimberley_profile$parameters$MSS,
   MAC = kimberley_profile$parameters$MAC,
   # These are needed to estimate air resistance
@@ -510,7 +510,7 @@ kimberley_fv
 To convert back to *Acceleration-Velocity Profile* (AVP), use:
 
 ``` r
-kimberley_avp <- shorts::convert_FV(
+kimberley_avp <- shorts::convert_FVP(
   F0 = kimberley_fv$F0,
   V0 = kimberley_fv$V0,
   bodymass = kimberley_bodymass,
@@ -547,7 +547,7 @@ loads_df <- rbind(
   tibble(type = "Sled", magnitude = seq(0, 40, length.out = 100), inertia = magnitude, resistance = magnitude * 9.81 * 0.4)
 ) %>%
   mutate(
-    data.frame(shorts::convert_FV(
+    data.frame(shorts::convert_FVP(
       F0 = kimberley_fv$F0,
       V0 = kimberley_fv$V0,
       bodymass = kimberley_bodymass,
@@ -904,22 +904,22 @@ jim_profile_CV
 #> # A tibble: 10 × 5
 #>      MSS   TAU   MAC  PMAX         TC
 #>    <dbl> <dbl> <dbl> <dbl>      <dbl>
-#>  1  8.00 0.888  9.00  18.0  0.0000839
-#>  2  8.00 0.889  8.99  18.0  0.000457 
-#>  3  8.00 0.889  9.00  18.0 -0.000151 
-#>  4  8.00 0.889  9.00  18.0 -0.0000337
-#>  5  8.00 0.888  9.00  18.0  0.000124 
-#>  6  8.00 0.889  9.00  18.0  0.000107 
-#>  7  8.00 0.888  9.01  18.0 -0.0000673
-#>  8  8.00 0.889  9.00  18.0  0.0000695
-#>  9  8.00 0.889  8.99  18.0  0.000263 
-#> 10  8.00 0.889  9.00  18.0  0.000259 
+#>  1  8.00 0.889  9.00  18.0 -0.0000149
+#>  2  8.00 0.888  9.00  18.0  0.0000112
+#>  3  8.00 0.888  9.00  18.0 -0.0000651
+#>  4  8.00 0.888  9.01  18.0 -0.000122 
+#>  5  8.00 0.889  9.00  18.0  0.000218 
+#>  6  8.00 0.889  9.00  18.0  0.0000998
+#>  7  8.00 0.888  9.00  18.0  0.0000706
+#>  8  8.00 0.890  8.99  18.0  0.000255 
+#>  9  8.00 0.888  9.00  18.0 -0.000258 
+#> 10  8.00 0.891  8.98  18.0  0.000939 
 #> 
 #> Testing model fit:
 #>         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE 
-#>          NA  0.99923997 -0.16426599  0.15245264  0.16426599  0.05063981 
+#>          NA  0.99923757 -0.16423966  0.15525330  0.16423966  0.05071961 
 #>         MAE        MAPE 
-#>  0.03940131         Inf
+#>  0.03948308         Inf
 ```
 
 ### Optimization
@@ -939,7 +939,7 @@ MSS <- 10
 MAC <- 8
 bodymass <- 75
 
-fv <- make_FV_profile(MSS, MAC, bodymass)
+fv <- create_FVP(MSS, MAC, bodymass)
 
 opt_df <- tibble(
   dist = seq(5, 50, by = 5)

@@ -46,5 +46,5 @@ get_air_resistance <- function(velocity,
   k <- 0.5 * air_density * frontal_area * drag_coefficient
 
   # Return air resistance
-  k * (velocity - wind_velocity)^2
+  k * sign(velocity - wind_velocity) * (velocity - wind_velocity)^2
 }

@@ -1,3 +1,11 @@
+# shorts 2.5.0.9000
+
+* Fixed the sign error in the `get_air_resistance()` function where both head wind and tail wind returned the same resistance.
+* Fixed the error in `make_FV_profile()` function when estimating force-velocity profile with wind conditions. Renamed the function to `create_FVP()`
+* Fixed the error in `convert_FV()` function when converting force-velocity profile back to acceleration-velocity profile with wind conditions. Renamed the function to `convert_FVP()`
+* Renamed the output of `predict_kinematics()` function `relative_power` to `power_relative` to be in alignment with other variables
+* Updated README to cover name changes
+
 # shorts 2.5.0
 
 * Added `inertia` (mass; in kg) and `resistance` (force; in Newtons) to `predict_force_`, `predict_power_`, `predict_relative_power_`, as well as `predict_kinematics()` functions. This increases the ability of the {shorts} package to deal with external resistance, like weight vest, sled, and tether devices.

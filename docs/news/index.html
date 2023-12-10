@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.5.0.9000</span>
       </span>
     </div>
 
@@ -48,14 +48,24 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="2.5.0" id="shorts-250">shorts 2.5.0<a class="anchor" aria-label="anchor" href="#shorts-250"></a></h2>
+<h2 class="page-header" data-toc-text="2.5.0.9000" id="shorts-2509000">shorts 2.5.0.9000<a class="anchor" aria-label="anchor" href="#shorts-2509000"></a></h2>
+<ul><li>Fixed the sign error in the <code><a href="../reference/get_air_resistance.html">get_air_resistance()</a></code> function where both head wind and tail wind returned the same resistance.</li>
+<li>Fixed the error in <code>make_FV_profile()</code> function when estimating force-velocity profile with wind conditions. Renamed the function to <code><a href="../reference/create_FVP.html">create_FVP()</a></code>
+</li>
+<li>Fixed the error in <code>convert_FV()</code> function when converting force-velocity profile back to acceleration-velocity profile with wind conditions. Renamed the function to <code><a href="../reference/convert_FVP.html">convert_FVP()</a></code>
+</li>
+<li>Renamed the output of <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> function <code>relative_power</code> to <code>power_relative</code> to be in alignment with other variables</li>
+<li>Updated README to cover name changes</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="2.5.0" id="shorts-250">shorts 2.5.0<small>2023-11-21</small><a class="anchor" aria-label="anchor" href="#shorts-250"></a></h2>
 <ul><li>Added <code>inertia</code> (mass; in kg) and <code>resistance</code> (force; in Newtons) to <code>predict_force_</code>, <code>predict_power_</code>, <code>predict_relative_power_</code>, as well as <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> functions. This increases the ability of the {shorts} package to deal with external resistance, like weight vest, sled, and tether devices.</li>
 <li>Modified <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> function to include <code>inertia</code> (mass; in kg) and <code>resistance</code> (force; in Newtons) parameters, as well as to allow the user to either provide the <code>shorts_model</code> object, or provide <code>MSS</code> and <code>MAC</code> parameters. Additional parameter <code>add_inertia_to_vertical</code> to allow user to decided whether inertia should be added to <code>bodymass</code> when calculating vertical force.</li>
 <li>Added <code><a href="../reference/predict_kinematics.html">predict_force_at_velocity()</a></code> function</li>
 <li>Modified <code>find_max_power_</code> and <code>find_power_critial_</code> function to add support for the <code>inertia</code> (mass; in kg) and <code>resistance</code> (force; in Newtons) parameters</li>
-<li>Simplified <code><a href="../reference/make_FV_profile.html">make_FV_profile()</a></code> function and added support for the <code>inertia</code> (mass; in kg) and <code>resistance</code> (force; in Newtons) parameters. Removed the S3 print and plot methods, as well as the class type involving this function</li>
-<li>Made internal <code><a href="../reference/convert_FV.html">convert_FV()</a></code> function available for the users and added support for the <code>inertia</code> (mass; in kg) and <code>resistance</code> (force; in Newtons) parameters</li>
-<li>Updated <code><a href="../reference/predict_kinematics.html">predict_time_at_distance_FV()</a></code> function to use simpler <code><a href="../reference/convert_FV.html">convert_FV()</a></code> function</li>
+<li>Simplified <code>make_FV_profile()</code> function and added support for the <code>inertia</code> (mass; in kg) and <code>resistance</code> (force; in Newtons) parameters. Removed the S3 print and plot methods, as well as the class type involving this function</li>
+<li>Made internal <code>convert_FV()</code> function available for the users and added support for the <code>inertia</code> (mass; in kg) and <code>resistance</code> (force; in Newtons) parameters</li>
+<li>Updated <code><a href="../reference/predict_kinematics.html">predict_time_at_distance_FV()</a></code> function to use simpler <code>convert_FV()</code> function</li>
 <li>Renamed <code>find_max_power</code> functions to <code>find_peak_power</code> to avoid confusion between <code>Pmax</code> and <code>Ppeak</code>
 </li>
 <li>Implemented <code>inertia</code> (mass; in kg) and <code>resistance</code> (force; in Newtons) to <code><a href="../reference/optimal_functions.html">optimal_FV()</a></code> function</li>
@@ -82,7 +92,7 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.2.0" id="shorts-220">shorts 2.2.0<a class="anchor" aria-label="anchor" href="#shorts-220"></a></h2>
 <ul><li>Expanded the results output of the <code>find_optimal_MSS_MAC()</code> and <code>find_optimal_FV()</code> functions. Some of the columns are renamed to better clarity</li>
-<li>Added internal function <code><a href="../reference/convert_FV.html">convert_FV()</a></code> to convert from FV profile to sprint profile. This is used to calculate Peak Power (<code>Ppeak</code>) metric and its location</li>
+<li>Added internal function <code>convert_FV()</code> to convert from FV profile to sprint profile. This is used to calculate Peak Power (<code>Ppeak</code>) metric and its location</li>
 <li>Added <code>min_func</code> parameter to <code>find_optimal_MSS_MAC_distance()</code> and <code>find_optimal_FV_distance()</code>. This allows to optimize by using any other metric</li>
 <li>Added <code>find_optimal_FV_peak()</code> function, which optimize the profile while keeping the Peak Power the same. Accompanying <code>find_optimal_FV_peak_distance()</code> is also added</li>
 <li>Added extra reference to DESCRIPTION</li>
@@ -92,8 +102,8 @@
 <ul><li>Added mean acceleration over distance to <code><a href="../reference/format_splits.html">format_splits()</a></code>
 </li>
 <li>Added <code><a href="../reference/model_tether.html">model_tether()</a></code> function for modeling data output from tether devices, which involve velocity at distance</li>
-<li>Change the <code>Pmax_relative</code> to <code>Pmax_rel</code> in the output of the <code><a href="../reference/make_FV_profile.html">make_FV_profile()</a></code> function</li>
-<li>Added analytically/polynomially estimated <code>F0_poly</code>, <code>F0_poly_rel</code>, <code>V0_poly</code>, <code>Pmax_poly</code>, <code>Pmax_poly_rel</code>, and <code>FV_slope_poly</code> to the output of the <code><a href="../reference/make_FV_profile.html">make_FV_profile()</a></code> function using the method outlined in Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
+<li>Change the <code>Pmax_relative</code> to <code>Pmax_rel</code> in the output of the <code>make_FV_profile()</code> function</li>
+<li>Added analytically/polynomially estimated <code>F0_poly</code>, <code>F0_poly_rel</code>, <code>V0_poly</code>, <code>Pmax_poly</code>, <code>Pmax_poly_rel</code>, and <code>FV_slope_poly</code> to the output of the <code>make_FV_profile()</code> function using the method outlined in Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
 <li>Added <code><a href="../reference/predict_kinematics.html">predict_time_at_distance_FV()</a></code> which uses FV profile’s <code>F0</code> and <code>V0</code> to predict time at distance. For more info see Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
 <li>Added optimization functions: <code>find_optimal_MSS_MAC()</code>, <code>find_optimal_MSS_MAC_distance()</code>, <code>find_optimal_FV()</code>, <code>find_optimal_FV_distance()</code>. For more info on the FV optimization see Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
 <li>Removed DOI from citation info</li>

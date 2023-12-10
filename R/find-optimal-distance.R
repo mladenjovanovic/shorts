@@ -10,7 +10,7 @@
 #' MAC <- 8
 #' bodymass <- 75
 #'
-#' fv <- make_FV_profile(MSS, MAC, bodymass)
+#' fv <- create_FVP(MSS, MAC, bodymass)
 #'
 #' find_optimal_distance(
 #'   F0 = fv$F0,

@@ -1,8 +1,9 @@
-#' Get Force-Velocity Profile
+#' Create Force-Velocity Profile
 #'
 #' Provides Force-Velocity (FV) profile modified using ideas by Pierre Samozino and JB-Morin, et al. (2016) and
 #'    Pierre Samozino and Nicolas Peyror, et al (2021).
 #' @inheritParams predict_kinematics
+#' @inheritParams get_air_resistance
 #' @return List containing the following elements:
 #'     \describe{
 #'         \item{bodymass}{Returned \code{bodymass} used in FV profiling}
@@ -30,7 +31,7 @@
 #'
 #' m1 <- model_radar_gun(time = jb_morin$time, velocity = jb_morin$velocity)
 #'
-#' fv_profile <- make_FV_profile(
+#' fv_profile <- create_FVP(
 #'   MSS = m1$parameters$MSS,
 #'   MAC = m1$parameters$MAC,
 #'   bodyheight = 1.72,
@@ -39,25 +40,36 @@
 #' )
 #'
 #' fv_profile
-make_FV_profile <- function(MSS,
-                            MAC,
-                            bodymass = 75,
-                            inertia = 0,
-                            resistance = 0,
-                            ...) {
+create_FVP <- function(MSS,
+                       MAC,
+                       bodymass = 75,
+                       inertia = 0,
+                       resistance = 0,
+                       wind_velocity = 0,
+                       ...) {
 
+  # Find F0, or force when velocity equals 0
+  F0 <- predict_force_at_velocity(
+    velocity = 0,
+    MSS = MSS,
+    MAC = MAC,
+    bodymass = bodymass,
+    inertia = inertia,
+    resistance = resistance,
+    wind_velocity = wind_velocity,
+    ...
+  )
 
-  ###########################
-  # Analytical solution
-  # Get k value for the air resistance
-  k_rel <- get_air_resistance(velocity = 1, bodymass = bodymass, ...) / bodymass
+  # Find V0, or velocity where force equals zero
+  k_rel <- get_air_resistance(
+    velocity = 1,
+    bodymass = bodymass,
+    wind_velocity = 0,
+    ...) / bodymass
 
-  tau <- MSS / MAC
+  V0 <- -(sqrt(4 * k_rel * bodymass * MSS * (-MAC * inertia * MSS - MAC * bodymass * MSS - k_rel * bodymass * MSS * wind_velocity^2 - MSS * resistance) + (MAC * inertia + MAC * bodymass + 2 * k_rel * bodymass * MSS * wind_velocity)^2) - MAC * inertia - MAC * bodymass - 2 * k_rel * bodymass * MSS * wind_velocity)/(2 * k_rel * bodymass * MSS)
 
-  F0 <- MAC * (bodymass + inertia) + resistance
   F0_rel <- F0 / bodymass
-  V0 <- (MAC * (bodymass + inertia) - sqrt(MAC^2 *(bodymass + inertia)^2 - 4 * MAC * k_rel * bodymass * MSS^2 * (bodymass + inertia) - 4 * k_rel * bodymass * resistance * MSS^2)) / (2 * k_rel * bodymass * MSS)
-
   Pmax <- (F0 * V0) / 4
   Pmax_rel <- Pmax / bodymass
   FV_slope <- -(F0 / bodymass) / V0

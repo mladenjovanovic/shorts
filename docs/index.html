@@ -48,7 +48,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.5.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.5.0.9000</span>
       </span>
     </div>
 
@@ -423,7 +423,7 @@
 <th align="right">resultant_force</th>
 <th align="right">resultant_force_relative</th>
 <th align="right">power</th>
-<th align="right">relative_power</th>
+<th align="right">power_relative</th>
 <th align="right">RF</th>
 <th align="right">force_angle</th>
 </tr></thead>
@@ -735,9 +735,9 @@
 <div class="section level3">
 <h3 id="force-velocity-profiling">Force-Velocity Profiling<a class="anchor" aria-label="anchor" href="#force-velocity-profiling"></a>
 </h3>
-<p>To estimate <em>Force-Velocity Profile</em> (FVP) using approach by Samozino <em>et al.</em> (2016, 2022) use <code><a href="reference/make_FV_profile.html">shorts::make_FV_profile()</a></code>:</p>
+<p>To estimate <em>Force-Velocity Profile</em> (FVP) using approach by Samozino <em>et al.</em> (2016, 2022) use <code><a href="reference/create_FVP.html">shorts::create_FVP()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">kimberley_fv</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/make_FV_profile.html">make_FV_profile</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">kimberley_fv</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/create_FVP.html">create_FVP</a></span><span class="op">(</span></span>
 <span>  MSS <span class="op">=</span> <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
 <span>  MAC <span class="op">=</span> <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MAC</span>,</span>
 <span>  <span class="co"># These are needed to estimate air resistance</span></span>
@@ -768,7 +768,7 @@
 <span><span class="co">#&gt; [1] -1.197112</span></span></code></pre></div>
 <p>To convert back to <em>Acceleration-Velocity Profile</em> (AVP), use:</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">kimberley_avp</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/convert_FV.html">convert_FV</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">kimberley_avp</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/convert_FVP.html">convert_FVP</a></span><span class="op">(</span></span>
 <span>  F0 <span class="op">=</span> <span class="va">kimberley_fv</span><span class="op">$</span><span class="va">F0</span>,</span>
 <span>  V0 <span class="op">=</span> <span class="va">kimberley_fv</span><span class="op">$</span><span class="va">V0</span>,</span>
 <span>  bodymass <span class="op">=</span> <span class="va">kimberley_bodymass</span>,</span>
@@ -794,7 +794,7 @@
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Sled"</span>, magnitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">40</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>, inertia <span class="op">=</span> <span class="va">magnitude</span>, resistance <span class="op">=</span> <span class="va">magnitude</span> <span class="op">*</span> <span class="fl">9.81</span> <span class="op">*</span> <span class="fl">0.4</span><span class="op">)</span></span>
 <span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
-<span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/convert_FV.html">convert_FV</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/convert_FVP.html">convert_FVP</a></span><span class="op">(</span></span>
 <span>      F0 <span class="op">=</span> <span class="va">kimberley_fv</span><span class="op">$</span><span class="va">F0</span>,</span>
 <span>      V0 <span class="op">=</span> <span class="va">kimberley_fv</span><span class="op">$</span><span class="va">V0</span>,</span>
 <span>      bodymass <span class="op">=</span> <span class="va">kimberley_bodymass</span>,</span>
@@ -1093,22 +1093,22 @@
 <span><span class="co">#&gt; # A tibble: 10 × 5</span></span>
 <span><span class="co">#&gt;      MSS   TAU   MAC  PMAX         TC</span></span>
 <span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1  8.00 0.888  9.00  18.0  0.0000839</span></span>
-<span><span class="co">#&gt;  2  8.00 0.889  8.99  18.0  0.000457 </span></span>
-<span><span class="co">#&gt;  3  8.00 0.889  9.00  18.0 -0.000151 </span></span>
-<span><span class="co">#&gt;  4  8.00 0.889  9.00  18.0 -0.0000337</span></span>
-<span><span class="co">#&gt;  5  8.00 0.888  9.00  18.0  0.000124 </span></span>
-<span><span class="co">#&gt;  6  8.00 0.889  9.00  18.0  0.000107 </span></span>
-<span><span class="co">#&gt;  7  8.00 0.888  9.01  18.0 -0.0000673</span></span>
-<span><span class="co">#&gt;  8  8.00 0.889  9.00  18.0  0.0000695</span></span>
-<span><span class="co">#&gt;  9  8.00 0.889  8.99  18.0  0.000263 </span></span>
-<span><span class="co">#&gt; 10  8.00 0.889  9.00  18.0  0.000259 </span></span>
+<span><span class="co">#&gt;  1  8.00 0.889  9.00  18.0 -0.0000149</span></span>
+<span><span class="co">#&gt;  2  8.00 0.888  9.00  18.0  0.0000112</span></span>
+<span><span class="co">#&gt;  3  8.00 0.888  9.00  18.0 -0.0000651</span></span>
+<span><span class="co">#&gt;  4  8.00 0.888  9.01  18.0 -0.000122 </span></span>
+<span><span class="co">#&gt;  5  8.00 0.889  9.00  18.0  0.000218 </span></span>
+<span><span class="co">#&gt;  6  8.00 0.889  9.00  18.0  0.0000998</span></span>
+<span><span class="co">#&gt;  7  8.00 0.888  9.00  18.0  0.0000706</span></span>
+<span><span class="co">#&gt;  8  8.00 0.890  8.99  18.0  0.000255 </span></span>
+<span><span class="co">#&gt;  9  8.00 0.888  9.00  18.0 -0.000258 </span></span>
+<span><span class="co">#&gt; 10  8.00 0.891  8.98  18.0  0.000939 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Testing model fit:</span></span>
 <span><span class="co">#&gt;         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE </span></span>
-<span><span class="co">#&gt;          NA  0.99923997 -0.16426599  0.15245264  0.16426599  0.05063981 </span></span>
+<span><span class="co">#&gt;          NA  0.99923757 -0.16423966  0.15525330  0.16423966  0.05071961 </span></span>
 <span><span class="co">#&gt;         MAE        MAPE </span></span>
-<span><span class="co">#&gt;  0.03940131         Inf</span></span></code></pre></div>
+<span><span class="co">#&gt;  0.03948308         Inf</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="optimization">Optimization<a class="anchor" aria-label="anchor" href="#optimization"></a>
@@ -1119,7 +1119,7 @@
 <span><span class="va">MAC</span> <span class="op">&lt;-</span> <span class="fl">8</span></span>
 <span><span class="va">bodymass</span> <span class="op">&lt;-</span> <span class="fl">75</span></span>
 <span></span>
-<span><span class="va">fv</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/make_FV_profile.html">make_FV_profile</a></span><span class="op">(</span><span class="va">MSS</span>, <span class="va">MAC</span>, <span class="va">bodymass</span><span class="op">)</span></span>
+<span><span class="va">fv</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/create_FVP.html">create_FVP</a></span><span class="op">(</span><span class="va">MSS</span>, <span class="va">MAC</span>, <span class="va">bodymass</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">opt_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span></span>
 <span>  dist <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">50</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span>
