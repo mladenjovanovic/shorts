@@ -55,7 +55,9 @@
 <li>Fixed the error in <code>convert_FV()</code> function when converting force-velocity profile back to acceleration-velocity profile with wind conditions. Renamed the function to <code><a href="../reference/convert_FVP.html">convert_FVP()</a></code>
 </li>
 <li>Renamed the output of <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> function <code>relative_power</code> to <code>power_relative</code> to be in alignment with other variables</li>
-<li>Updated README to cover name changes</li>
+<li>Added <code><a href="../reference/predict_kinematics.html">predict_work_till_time()</a></code> and <code><a href="../reference/predict_kinematics.html">predict_work_till_distance()</a></code> to calculate horizontal work performance.</li>
+<li>Added <code>work</code>, <code>average_power</code>, and <code>average_power_relative</code> to the output of <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> function, and removed <code>net_horizontal_force</code> from the output to avoid confusion whether the inertia is included or not.</li>
+<li>Updated README to cover changes</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.5.0" id="shorts-250">shorts 2.5.0<small>2023-11-21</small><a class="anchor" aria-label="anchor" href="#shorts-250"></a></h2>
