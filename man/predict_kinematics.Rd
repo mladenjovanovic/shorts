@@ -19,6 +19,8 @@
 \alias{predict_power_at_time}
 \alias{predict_relative_power_at_distance}
 \alias{predict_relative_power_at_time}
+\alias{predict_work_till_time}
+\alias{predict_work_till_distance}
 \title{Kinematics prediction functions}
 \usage{
 predict_velocity_at_time(time, MSS, MAC)
@@ -119,6 +121,10 @@ predict_relative_power_at_time(
   ...
 )
 
+predict_work_till_time(time, ...)
+
+predict_work_till_distance(distance, ...)
+
 predict_kinematics(
   object = NULL,
   MSS,
@@ -146,7 +152,7 @@ Not included in the air resistance calculation}
 
 \item{resistance}{External horizontal resistance in Newtons (for example tether device or a sled friction resistance)}
 
-\item{...}{Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance and power}
+\item{...}{Forwarded to \code{\link{predict_power_at_distance}}}
 
 \item{object}{If \code{shorts_model} object is provided, estimated parameters
 will be used. Otherwise provide \code{MSS} and \code{MAC} parameters}

@@ -27,7 +27,7 @@ Not included in the air resistance calculation}
 \item{wind_velocity}{In meters per second (m/s). Use negative number as head
 wind, and positive number as back wind}
 
-\item{...}{Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance and power}
+\item{...}{Forwarded to \code{\link{predict_power_at_distance}}}
 }
 \value{
 A list with calculated \code{MSS} and \code{MAC} parameters
