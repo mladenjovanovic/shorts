@@ -305,10 +305,10 @@ m1
 
 ### Force-Velocity Profiling
 
-To estimate *Force-Velocity Profile* (FVP) using approach by Samozino *et al.* (2016, 2022) use `shorts::make_FV_profile()`:
+To estimate *Force-Velocity Profile* (FVP) using approach by Samozino *et al.* (2016, 2022) use `shorts::create_FVP()`:
 
 ```{r}
-kimberley_fv <- shorts::make_FV_profile(
+kimberley_fv <- shorts::create_FVP(
   MSS = kimberley_profile$parameters$MSS,
   MAC = kimberley_profile$parameters$MAC,
   # These are needed to estimate air resistance
@@ -322,7 +322,7 @@ kimberley_fv
 To convert back to *Acceleration-Velocity Profile* (AVP), use:
 
 ```{r}
-kimberley_avp <- shorts::convert_FV(
+kimberley_avp <- shorts::convert_FVP(
   F0 = kimberley_fv$F0,
   V0 = kimberley_fv$V0,
   bodymass = kimberley_bodymass,
@@ -345,7 +345,7 @@ loads_df <- rbind(
   tibble(type = "Sled", magnitude = seq(0, 40, length.out = 100), inertia = magnitude, resistance = magnitude * 9.81 * 0.4)
 ) %>%
   mutate(
-    data.frame(shorts::convert_FV(
+    data.frame(shorts::convert_FVP(
       F0 = kimberley_fv$F0,
       V0 = kimberley_fv$V0,
       bodymass = kimberley_bodymass,
@@ -567,7 +567,7 @@ MSS <- 10
 MAC <- 8
 bodymass <- 75
 
-fv <- make_FV_profile(MSS, MAC, bodymass)
+fv <- create_FVP(MSS, MAC, bodymass)
 
 opt_df <- tibble(
   dist = seq(5, 50, by = 5)

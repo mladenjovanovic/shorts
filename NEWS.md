@@ -4,6 +4,7 @@
 * Fixed the error in `make_FV_profile()` function when estimating force-velocity profile with wind conditions. Renamed the function to `create_FVP()`
 * Fixed the error in `convert_FV()` function when converting force-velocity profile back to acceleration-velocity profile with wind conditions. Renamed the function to `convert_FVP()`
 * Renamed the output of `predict_kinematics()` function `relative_power` to `power_relative` to be in alignment with other variables
+* Updated README to cover name changes
 
 # shorts 2.5.0
 
