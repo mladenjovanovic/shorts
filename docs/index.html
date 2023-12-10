@@ -389,22 +389,24 @@
 <table class="table">
 <colgroup>
 <col width="2%">
+<col width="3%">
+<col width="3%">
 <col width="4%">
+<col width="3%">
+<col width="3%">
 <col width="4%">
 <col width="5%">
-<col width="3%">
-<col width="3%">
-<col width="4%">
-<col width="8%">
-<col width="6%">
-<col width="6%">
-<col width="10%">
-<col width="6%">
 <col width="6%">
 <col width="9%">
-<col width="4%">
-<col width="6%">
-<col width="4%">
+<col width="5%">
+<col width="5%">
+<col width="8%">
+<col width="3%">
+<col width="5%">
+<col width="3%">
+<col width="5%">
+<col width="8%">
+<col width="3%">
 <col width="4%">
 </colgroup>
 <thead><tr class="header">
@@ -415,7 +417,6 @@
 <th align="right">bodymass</th>
 <th align="right">inertia</th>
 <th align="right">resistance</th>
-<th align="right">net_horizontal_force</th>
 <th align="right">air_resistance</th>
 <th align="right">horizontal_force</th>
 <th align="right">horizontal_force_relative</th>
@@ -424,6 +425,9 @@
 <th align="right">resultant_force_relative</th>
 <th align="right">power</th>
 <th align="right">power_relative</th>
+<th align="right">work</th>
+<th align="right">average_power</th>
+<th align="right">average_power_relative</th>
 <th align="right">RF</th>
 <th align="right">force_angle</th>
 </tr></thead>
@@ -436,7 +440,6 @@
 <td align="right">60</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">635.3389</td>
 <td align="right">0.0000000</td>
 <td align="right">635.3389</td>
 <td align="right">10.588982</td>
@@ -445,6 +448,9 @@
 <td align="right">14.43477</td>
 <td align="right">0.00000</td>
 <td align="right">0.000000</td>
+<td align="right">0.0000000</td>
+<td align="right">NaN</td>
+<td align="right">NaN</td>
 <td align="right">0.7335746</td>
 <td align="right">42.81309</td>
 </tr>
@@ -456,7 +462,6 @@
 <td align="right">60</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">627.5561</td>
 <td align="right">0.0026620</td>
 <td align="right">627.5588</td>
 <td align="right">10.459313</td>
@@ -465,6 +470,9 @@
 <td align="right">14.33992</td>
 <td align="right">66.04424</td>
 <td align="right">1.100737</td>
+<td align="right">0.3322639</td>
+<td align="right">33.22639</td>
+<td align="right">0.5537732</td>
 <td align="right">0.7293843</td>
 <td align="right">43.16520</td>
 </tr>
@@ -476,7 +484,6 @@
 <td align="right">60</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">619.8687</td>
 <td align="right">0.0105181</td>
 <td align="right">619.8792</td>
 <td align="right">10.331320</td>
@@ -485,6 +492,9 @@
 <td align="right">14.24683</td>
 <td align="right">129.67295</td>
 <td align="right">2.161216</td>
+<td align="right">1.3128332</td>
+<td align="right">65.64166</td>
+<td align="right">1.0940277</td>
 <td align="right">0.7251660</td>
 <td align="right">43.51734</td>
 </tr>
@@ -496,7 +506,6 @@
 <td align="right">60</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">612.2754</td>
 <td align="right">0.0233774</td>
 <td align="right">612.2988</td>
 <td align="right">10.204980</td>
@@ -505,6 +514,9 @@
 <td align="right">14.15548</td>
 <td align="right">190.95643</td>
 <td align="right">3.182607</td>
+<td align="right">2.9179057</td>
+<td align="right">97.26352</td>
+<td align="right">1.6210587</td>
 <td align="right">0.7209206</td>
 <td align="right">43.86946</td>
 </tr>
@@ -516,7 +528,6 @@
 <td align="right">60</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">604.7751</td>
 <td align="right">0.0410543</td>
 <td align="right">604.8162</td>
 <td align="right">10.080270</td>
@@ -525,6 +536,9 @@
 <td align="right">14.06584</td>
 <td align="right">249.96306</td>
 <td align="right">4.166051</td>
+<td align="right">5.1243725</td>
+<td align="right">128.10931</td>
+<td align="right">2.1351552</td>
 <td align="right">0.7166488</td>
 <td align="right">44.22151</td>
 </tr>
@@ -536,7 +550,6 @@
 <td align="right">60</td>
 <td align="right">0</td>
 <td align="right">0</td>
-<td align="right">597.3668</td>
 <td align="right">0.0633688</td>
 <td align="right">597.4301</td>
 <td align="right">9.957169</td>
@@ -545,6 +558,9 @@
 <td align="right">13.97789</td>
 <td align="right">306.75938</td>
 <td align="right">5.112656</td>
+<td align="right">7.9097994</td>
+<td align="right">158.19599</td>
+<td align="right">2.6365998</td>
 <td align="right">0.7123515</td>
 <td align="right">44.57343</td>
 </tr>
@@ -1091,24 +1107,24 @@
 <span><span class="co">#&gt; ------------------------------</span></span>
 <span><span class="co">#&gt; Parameters:</span></span>
 <span><span class="co">#&gt; # A tibble: 10 × 5</span></span>
-<span><span class="co">#&gt;      MSS   TAU   MAC  PMAX         TC</span></span>
-<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;</span></span>
-<span><span class="co">#&gt;  1  8.00 0.889  9.00  18.0 -0.0000149</span></span>
-<span><span class="co">#&gt;  2  8.00 0.888  9.00  18.0  0.0000112</span></span>
-<span><span class="co">#&gt;  3  8.00 0.888  9.00  18.0 -0.0000651</span></span>
-<span><span class="co">#&gt;  4  8.00 0.888  9.01  18.0 -0.000122 </span></span>
-<span><span class="co">#&gt;  5  8.00 0.889  9.00  18.0  0.000218 </span></span>
-<span><span class="co">#&gt;  6  8.00 0.889  9.00  18.0  0.0000998</span></span>
-<span><span class="co">#&gt;  7  8.00 0.888  9.00  18.0  0.0000706</span></span>
-<span><span class="co">#&gt;  8  8.00 0.890  8.99  18.0  0.000255 </span></span>
-<span><span class="co">#&gt;  9  8.00 0.888  9.00  18.0 -0.000258 </span></span>
-<span><span class="co">#&gt; 10  8.00 0.891  8.98  18.0  0.000939 </span></span>
+<span><span class="co">#&gt;      MSS   TAU   MAC  PMAX           TC</span></span>
+<span><span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;        &lt;dbl&gt;</span></span>
+<span><span class="co">#&gt;  1  8.00 0.888  9.00  18.0 -0.0000612  </span></span>
+<span><span class="co">#&gt;  2  8.00 0.889  9.00  18.0 -0.000000341</span></span>
+<span><span class="co">#&gt;  3  8.00 0.889  8.99  18.0  0.000202   </span></span>
+<span><span class="co">#&gt;  4  8.00 0.889  9.00  18.0  0.000187   </span></span>
+<span><span class="co">#&gt;  5  8.00 0.889  9.00  18.0  0.000250   </span></span>
+<span><span class="co">#&gt;  6  8.00 0.889  8.99  18.0  0.000347   </span></span>
+<span><span class="co">#&gt;  7  8.00 0.888  9.01  18.0 -0.000270   </span></span>
+<span><span class="co">#&gt;  8  8.00 0.890  8.99  18.0  0.000390   </span></span>
+<span><span class="co">#&gt;  9  8.00 0.889  8.99  18.0  0.000170   </span></span>
+<span><span class="co">#&gt; 10  8.00 0.888  9.01  18.0 -0.000128   </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Testing model fit:</span></span>
 <span><span class="co">#&gt;         RSE   R_squared      minErr      maxErr   maxAbsErr        RMSE </span></span>
-<span><span class="co">#&gt;          NA  0.99923757 -0.16423966  0.15525330  0.16423966  0.05071961 </span></span>
+<span><span class="co">#&gt;          NA  0.99923918 -0.16454322  0.15224202  0.16454322  0.05066618 </span></span>
 <span><span class="co">#&gt;         MAE        MAPE </span></span>
-<span><span class="co">#&gt;  0.03948308         Inf</span></span></code></pre></div>
+<span><span class="co">#&gt;  0.03942205         Inf</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="optimization">Optimization<a class="anchor" aria-label="anchor" href="#optimization"></a>
