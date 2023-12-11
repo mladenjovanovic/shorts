@@ -57,6 +57,13 @@
 <li>Renamed the output of <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> function <code>relative_power</code> to <code>power_relative</code> to be in alignment with other variables</li>
 <li>Added <code><a href="../reference/predict_kinematics.html">predict_work_till_time()</a></code> and <code><a href="../reference/predict_kinematics.html">predict_work_till_distance()</a></code> to calculate horizontal work performance.</li>
 <li>Added <code>work</code>, <code>average_power</code>, and <code>average_power_relative</code> to the output of <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> function, and removed <code>net_horizontal_force</code> from the output to avoid confusion whether the inertia is included or not.</li>
+<li>Updated internal <code>shorts_model_fit()</code> function to return model fit metrics in both absolute and percentage forms</li>
+<li>Added internal <code>model_sprint()</code> wrapper function and updated internal <code>new_shorts_model()</code> constructor which provide changes in the model output format (<code>"shorts_model"</code> class)</li>
+<li>Updated S3 print and plot methods for the <code>"shorts_model"</code> class. The plot method now plots residuals against fitted values</li>
+<li>Added <code><a href="../reference/model_functions.html">model_time_velocity()</a></code> and <code><a href="../reference/model_functions.html">model_time_velocity_TC()</a></code> functions. Removed <code>model_radar_gun()</code>
+</li>
+<li>Added <code><a href="../reference/model_functions.html">model_distance_time()</a></code>, <code><a href="../reference/model_functions.html">model_distance_time_TC()</a></code>, <code><a href="../reference/model_functions.html">model_distance_time_FD()</a></code>, and <code><a href="../reference/model_functions.html">model_distance_time_FD_TC()</a></code>, functions, and removed all <code>model_timing_gates</code> functions. Now the <code>TC</code> parameter has positive sign</li>
+<li>Added <code><a href="../reference/model_functions.html">model_distance_velocity()</a></code> and <code><a href="../reference/model_functions.html">model_distance_velocity_DC()</a></code> functions, and removed all <code>model_tether</code> functions</li>
 <li>Updated README to cover changes</li>
 </ul></div>
     <div class="section level2">
@@ -72,13 +79,13 @@
 </li>
 <li>Implemented <code>inertia</code> (mass; in kg) and <code>resistance</code> (force; in Newtons) to <code><a href="../reference/optimal_functions.html">optimal_FV()</a></code> function</li>
 <li>Implemented <code>inertia</code> (mass; in kg) and <code>resistance</code> (force; in Newtons) to <code><a href="../reference/probe_functions.html">probe_FV()</a></code> function</li>
-<li>I added the <code><a href="../reference/model_tether_DC.html">model_tether_DC()</a></code> function with an additional <code>distance correction</code> (DC) parameter estimate. DC parameter serves as an intercept when distance doesn’t start at zero</li>
+<li>I added the <code>model_tether_DC()</code> function with an additional <code>distance correction</code> (DC) parameter estimate. DC parameter serves as an intercept when distance doesn’t start at zero</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="2.4.0" id="shorts-240">shorts 2.4.0<small>2023-03-13</small><a class="anchor" aria-label="anchor" href="#shorts-240"></a></h2>
 <ul><li>Removed “Suggest” from the package DESCRIPTION file</li>
-<li>Added <code>use_observed_MSS</code> parameter to <code><a href="../reference/model_radar_gun.html">model_radar_gun()</a></code> and <code><a href="../reference/model_tether.html">model_tether()</a></code> functions. This allows user to estimate <code>MSS</code> parameter from the observed data</li>
-<li>Add <code>FD</code> parameter to <code><a href="../reference/model_timing_gates.html">model_timing_gates_FD()</a></code> and <code><a href="../reference/model_timing_gates.html">model_timing_gates_FD_TC()</a></code> functions, which allow user to provide fixed <code>FD</code> parameter value.</li>
+<li>Added <code>use_observed_MSS</code> parameter to <code>model_radar_gun()</code> and <code>model_tether()</code> functions. This allows user to estimate <code>MSS</code> parameter from the observed data</li>
+<li>Add <code>FD</code> parameter to <code>model_timing_gates_FD()</code> and <code>model_timing_gates_FD_TC()</code> functions, which allow user to provide fixed <code>FD</code> parameter value.</li>
 <li>Updated README.Rmd file with the example on how to use these feature. Also added a reference to a published article that was previously available only as pre-print.</li>
 <li>Changed generic <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> function not to return fitted values, but to use generic predict method on the object. This allows user to use <code>newdata</code> parameter. Added <code><a href="https://rdrr.io/r/stats/fitted.values.html" class="external-link">fitted()</a></code> method to return fitted values instead</li>
 </ul></div>
@@ -103,7 +110,7 @@
 <h2 class="page-header" data-toc-text="2.1.0" id="shorts-210">shorts 2.1.0<small>2022-09-26</small><a class="anchor" aria-label="anchor" href="#shorts-210"></a></h2>
 <ul><li>Added mean acceleration over distance to <code><a href="../reference/format_splits.html">format_splits()</a></code>
 </li>
-<li>Added <code><a href="../reference/model_tether.html">model_tether()</a></code> function for modeling data output from tether devices, which involve velocity at distance</li>
+<li>Added <code>model_tether()</code> function for modeling data output from tether devices, which involve velocity at distance</li>
 <li>Change the <code>Pmax_relative</code> to <code>Pmax_rel</code> in the output of the <code>make_FV_profile()</code> function</li>
 <li>Added analytically/polynomially estimated <code>F0_poly</code>, <code>F0_poly_rel</code>, <code>V0_poly</code>, <code>Pmax_poly</code>, <code>Pmax_poly_rel</code>, and <code>FV_slope_poly</code> to the output of the <code>make_FV_profile()</code> function using the method outlined in Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
 <li>Added <code><a href="../reference/predict_kinematics.html">predict_time_at_distance_FV()</a></code> which uses FV profile’s <code>F0</code> and <code>V0</code> to predict time at distance. For more info see Pierre Samozino and Nicolas Peyror, et al (2021) &lt;doi: 10.1111/sms.14097&gt;</li>
@@ -118,10 +125,10 @@
 <li>In <code>predict_</code> functions, the user now uses <code>MSS</code> and <code>MAC</code> parameters</li>
 <li>Changed the non-linear regression estimation function from <code><a href="https://rdrr.io/r/stats/nls.html" class="external-link">stats::nls()</a></code> to <code><a href="https://rdrr.io/pkg/minpack.lm/man/nlsLM.html" class="external-link">minpack.lm::nlsLM()</a></code> in <code>model_</code> functions. This is done to avoid “singular gradient” error and inability of the <code><a href="https://rdrr.io/r/stats/nls.html" class="external-link">stats::nls()</a></code> to estimate when there are zero residuals. Please make note that now when you use <code>...</code> in <code>model_</code> function, it will be forwarded to <code><a href="https://rdrr.io/pkg/minpack.lm/man/nlsLM.html" class="external-link">minpack.lm::nlsLM()</a></code>. If you have been using <code>control = stats::nls.control(warnOnly = TRUE)</code> to avoid <code><a href="https://rdrr.io/r/stats/nls.html" class="external-link">stats::nls()</a></code> to throw error when fitting when there are zero residuals, now you can remove it. If needed use <code>control = minpack.lm::nls.lm.control()</code> instead.</li>
 <li>Added <code><a href="../reference/create_timing_gates_splits.html">create_timing_gates_splits()</a></code> function to generate timing gates splits</li>
-<li>For modeling timing gates, the following functions are now available: <code><a href="../reference/model_timing_gates.html">model_timing_gates()</a></code>, <code><a href="../reference/model_timing_gates.html">model_timing_gates_TC()</a></code>, <code><a href="../reference/model_timing_gates.html">model_timing_gates_FD()</a></code>, and <code><a href="../reference/model_timing_gates.html">model_timing_gates_FD_TC()</a></code>. All other functions have been removed</li>
-<li>For modeling radar gun data, there is now only one function <code><a href="../reference/model_radar_gun.html">model_radar_gun()</a></code> which also estimates time correction (<code>TC</code>) parameter.</li>
-<li>Function <code><a href="../reference/model_radar_gun.html">model_radar_gun()</a></code> feature n-folds <em>cross-validation</em>, as opposed to <code><a href="../reference/model_timing_gates.html">model_timing_gates()</a></code> family of functions, which features leave-one-out cross-validation (LOOCV) due to small number of observations. Using the <code>CV</code> parameter, set n-fold cross-validations for the <code><a href="../reference/model_radar_gun.html">model_radar_gun()</a></code> function.</li>
-<li>Renamed the element <code>LOOCV</code> in the <code>shorts_model</code> object to <code>CV</code> to reflect above changes in <code><a href="../reference/model_radar_gun.html">model_radar_gun()</a></code> function</li>
+<li>For modeling timing gates, the following functions are now available: <code>model_timing_gates()</code>, <code>model_timing_gates_TC()</code>, <code>model_timing_gates_FD()</code>, and <code>model_timing_gates_FD_TC()</code>. All other functions have been removed</li>
+<li>For modeling radar gun data, there is now only one function <code>model_radar_gun()</code> which also estimates time correction (<code>TC</code>) parameter.</li>
+<li>Function <code>model_radar_gun()</code> feature n-folds <em>cross-validation</em>, as opposed to <code>model_timing_gates()</code> family of functions, which features leave-one-out cross-validation (LOOCV) due to small number of observations. Using the <code>CV</code> parameter, set n-fold cross-validations for the <code>model_radar_gun()</code> function.</li>
+<li>Renamed the element <code>LOOCV</code> in the <code>shorts_model</code> object to <code>CV</code> to reflect above changes in <code>model_radar_gun()</code> function</li>
 <li>Removed vignettes. I am working on a better pre-print as well as one peer-reviewed simulation paper and will reference those instead</li>
 </ul></div>
     <div class="section level2">
