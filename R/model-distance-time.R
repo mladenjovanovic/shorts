@@ -1,0 +1,425 @@
+#'  @rdname model_functions
+#'  @description \code{model_distance_time} estimates short sprint parameters using distance-time trace
+#'      (e.g., timing gates/photo cells)
+#' @examples
+#' split_distances <- c(10, 20, 30, 40, 50)
+#' split_times <- create_timing_gates_splits(
+#'   gates = split_distances,
+#'   MSS = 10,
+#'   MAC = 9,
+#'   FD = 0,
+#'   TC = 0
+#' )
+#'
+#' # Simple model
+#' simple_model <- model_distance_time(split_distances, split_times)
+#'
+#' print(simple_model)
+#' coef(simple_model)
+#' plot(simple_model)
+#'  @export
+model_distance_time <- function(distance,
+                                time,
+                                weights = 1,
+                                CV = NULL,
+                                na.rm = FALSE,
+                                ...) {
+
+
+  # Estimation function
+  model_func <- function(train, test, ...) {
+    param_start <- list(MSS = 7, TAU = 0.8)
+
+    # Non-linear model
+    model <- minpack.lm::nlsLM(
+      time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU,
+      data = train,
+      start = param_start,
+      weights = train$weight,
+      ...
+    )
+
+    # Maximal Sprinting Speed
+    MSS <- stats::coef(model)[[1]]
+    TAU <- stats::coef(model)[[2]]
+
+    # Maximal acceleration
+    MAC <- MSS / TAU
+
+    # Maximal Power (relative)
+    PMAX <- (MSS * MAC) / 4
+
+    # Model fit
+    pred_time <- stats::predict(model, newdata = data.frame(distance = test$distance))
+    resid_time <- test$time - pred_time
+
+    return(list(
+      data = train,
+      model_info = list(
+        predictor = "distance",
+        target = "time"
+      ),
+      model = model,
+      parameters = list(
+        MSS = MSS,
+        TAU = TAU,
+        MAC = MAC,
+        PMAX = PMAX
+      ),
+      corrections = NULL,
+      predictions = list(
+        .predictor = test$distance,
+        .observed = test$time,
+        .predicted = pred_time,
+        .residual = resid_time
+      )
+    ))
+  }
+
+  model_sprint(
+    df = data.frame(
+      distance = distance,
+      time = time,
+      weight = weights
+    ),
+    CV = CV,
+    na.rm = na.rm,
+    model_func = model_func,
+    ...
+  )
+}
+
+#'  @rdname model_functions
+#'  @description \code{model_distance_time_TC} estimates short sprint parameters using distance-time trace
+#'      (e.g., timing gates/photo cells), with additional time correction parameter \code{TC}
+#' @examples
+#' split_distances <- c(10, 20, 30, 40, 50)
+#' split_times <- create_timing_gates_splits(
+#'   gates = split_distances,
+#'   MSS = 10,
+#'   MAC = 9,
+#'   FD = 0,
+#'   TC = 0.2,
+#'   noise = 0.001
+#' )
+#'
+#' # TC model
+#' TC_model <- model_distance_time_TC(split_distances, split_times)
+#'
+#' print(TC_model)
+#' coef(TC_model)
+#' plot(TC_model)
+#'  @export
+model_distance_time_TC <- function(distance,
+                                   time,
+                                   weights = 1,
+                                   CV = NULL,
+                                   na.rm = FALSE,
+                                   ...) {
+
+
+  # Estimation function
+  model_func <- function(train, test, ...) {
+    param_start <- list(MSS = 7, TAU = 0.8, TC = 0)
+
+    # Non-linear model
+    model <- minpack.lm::nlsLM(
+      time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU + TC,
+      data = train,
+      start = param_start,
+      weights = train$weight,
+      ...
+    )
+
+    # Maximal Sprinting Speed
+    MSS <- stats::coef(model)[[1]]
+    TAU <- stats::coef(model)[[2]]
+
+    # Maximal acceleration
+    MAC <- MSS / TAU
+
+    # Maximal Power (relative)
+    PMAX <- (MSS * MAC) / 4
+
+    # Correction
+    TC <- stats::coef(model)[[3]]
+
+    # Model fit
+    pred_time <- stats::predict(model, newdata = data.frame(distance = test$distance))
+    resid_time <- test$time - pred_time
+
+    return(list(
+      data = train,
+      model_info = list(
+        predictor = "distance",
+        target = "time"
+      ),
+      model = model,
+      parameters = list(
+        MSS = MSS,
+        TAU = TAU,
+        MAC = MAC,
+        PMAX = PMAX
+      ),
+      corrections = list(
+        TC = TC
+      ),
+      predictions = list(
+        .predictor = test$distance,
+        .observed = test$time,
+        .predicted = pred_time,
+        .residual = resid_time
+      )
+    ))
+  }
+
+  model_sprint(
+    df = data.frame(
+      distance = distance,
+      time = time,
+      weight = weights
+    ),
+    CV = CV,
+    na.rm = na.rm,
+    model_func = model_func,
+    ...
+  )
+}
+
+
+#'  @rdname model_functions
+#'  @description \code{model_distance_time_FD} estimates short sprint parameters using distance-time trace
+#'      (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD}
+#' @param FD Use this parameter if you do not want the \code{FD} parameter to be estimated, but rather take the
+#'     provided value
+#' @examples
+#' split_distances <- c(10, 20, 30, 40, 50)
+#' split_times <- create_timing_gates_splits(
+#'   gates = split_distances,
+#'   MSS = 10,
+#'   MAC = 9,
+#'   FD = 0.5,
+#'   TC = 0,
+#'   noise = 0.001
+#' )
+#'
+#' # FD model
+#' FD_model <- model_distance_time_FD(split_distances, split_times)
+#'
+#' print(FD_model)
+#' coef(FD_model)
+#' plot(FD_model)
+#'  @export
+model_distance_time_FD <- function(distance,
+                                   time,
+                                   weights = 1,
+                                   FD = NULL,
+                                   CV = NULL,
+                                   na.rm = FALSE,
+                                   ...) {
+
+
+  # Estimation function
+  model_func <- function(train, test, ...) {
+    param_start <- list(MSS = 7, TAU = 0.8, FD = 0)
+    param_lower <- NULL
+    param_upper <- NULL
+
+    user_FD <- NULL
+
+    # If FD is provided, use that
+    if (is.null(FD) == FALSE) {
+      user_FD <- FD
+      param_start <- list(MSS = 7, TAU = 0.8, FD = FD)
+      param_lower <- c(MSS = -Inf, TAU = -Inf, FD = FD)
+      param_upper <- c(MSS = Inf, TAU = Inf, FD = FD)
+    }
+
+    # Non-linear model
+    model <- minpack.lm::nlsLM(
+      time ~ (TAU * I(LambertW::W(-exp(1)^(-(distance + FD) / (MSS * TAU) - 1))) + (distance + FD) / MSS + TAU) -
+        (TAU * I(LambertW::W(-exp(1)^(-FD / (MSS * TAU) - 1))) + FD / MSS + TAU),
+      data = train,
+      start = param_start,
+      lower = param_lower,
+      upper = param_upper,
+      weights = train$weight,
+      ...
+    )
+
+    # Maximal Sprinting Speed
+    MSS <- stats::coef(model)[[1]]
+    TAU <- stats::coef(model)[[2]]
+
+    # Maximal acceleration
+    MAC <- MSS / TAU
+
+    # Maximal Power (relative)
+    PMAX <- (MSS * MAC) / 4
+
+    # Correction
+    FD <- stats::coef(model)[[3]]
+
+    # Model fit
+    pred_time <- stats::predict(model, newdata = data.frame(distance = test$distance))
+    resid_time <- test$time - pred_time
+
+    return(list(
+      data = train,
+      model_info = list(
+        predictor = "distance",
+        target = "time",
+        user_FD = user_FD
+      ),
+      model = model,
+      parameters = list(
+        MSS = MSS,
+        TAU = TAU,
+        MAC = MAC,
+        PMAX = PMAX
+      ),
+      corrections = list(
+        FD = FD
+      ),
+      predictions = list(
+        .predictor = test$distance,
+        .observed = test$time,
+        .predicted = pred_time,
+        .residual = resid_time
+      )
+    ))
+  }
+
+  model_sprint(
+    df = data.frame(
+      distance = distance,
+      time = time,
+      weight = weights
+    ),
+    CV = CV,
+    na.rm = na.rm,
+    model_func = model_func,
+    ...
+  )
+}
+
+#'  @rdname model_functions
+#'  @description \code{model_distance_time_FD_TC} estimates short sprint parameters using distance-time trace
+#'      (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD} and
+#'      time correction parameter \code{TC}
+#' @param FD Use this parameter if you do not want the \code{FD} parameter to be estimated, but rather take the
+#'     provided value
+#' @examples
+#' split_distances <- c(10, 20, 30, 40, 50)
+#' split_times <- create_timing_gates_splits(
+#'   gates = split_distances,
+#'   MSS = 10,
+#'   MAC = 9,
+#'   FD = 0.5,
+#'   TC = 0.1,
+#'   noise = 0.001
+#' )
+#'
+#' # FD TC model
+#' FD_TC_model <- model_distance_time_FD_TC(split_distances, split_times)
+#'
+#' print(FD_TC_model)
+#' coef(FD_TC_model)
+#' plot(FD_TC_model)
+#'  @export
+model_distance_time_FD_TC <- function(distance,
+                                   time,
+                                   weights = 1,
+                                   FD = NULL,
+                                   CV = NULL,
+                                   na.rm = FALSE,
+                                   ...) {
+
+
+  # Estimation function
+  model_func <- function(train, test, ...) {
+    param_start <- list(MSS = 7, TAU = 0.8, FD = 0, TC = 0)
+    param_lower <- NULL
+    param_upper <- NULL
+
+    user_FD <- NULL
+
+    # If FD is provided, use that
+    if (is.null(FD) == FALSE) {
+      user_FD <- FD
+      param_start <- list(MSS = 7, TAU = 0.8, FD = FD, TC = 0)
+      param_lower <- c(MSS = -Inf, TAU = -Inf, FD = FD, TC = -Inf)
+      param_upper <- c(MSS = Inf, TAU = Inf, FD = FD, TC = Inf)
+    }
+
+    # Non-linear model
+    model <- minpack.lm::nlsLM(
+      time ~ (TAU * I(LambertW::W(-exp(1)^(-(distance + FD) / (MSS * TAU) - 1))) + (distance + FD) / MSS + TAU) -
+        (TAU * I(LambertW::W(-exp(1)^(-FD / (MSS * TAU) - 1))) + FD / MSS + TAU) + TC,
+
+      data = train,
+      start = param_start,
+      lower = param_lower,
+      upper = param_upper,
+      weights = train$weight,
+      ...
+    )
+
+    # Maximal Sprinting Speed
+    MSS <- stats::coef(model)[[1]]
+    TAU <- stats::coef(model)[[2]]
+
+    # Maximal acceleration
+    MAC <- MSS / TAU
+
+    # Maximal Power (relative)
+    PMAX <- (MSS * MAC) / 4
+
+    # Correction
+    FD <- stats::coef(model)[[3]]
+    TC <- stats::coef(model)[[4]]
+
+    # Model fit
+    pred_time <- stats::predict(model, newdata = data.frame(distance = test$distance))
+    resid_time <- test$time - pred_time
+
+    return(list(
+      data = train,
+      model_info = list(
+        predictor = "distance",
+        target = "time",
+        user_FD = user_FD
+      ),
+      model = model,
+      parameters = list(
+        MSS = MSS,
+        TAU = TAU,
+        MAC = MAC,
+        PMAX = PMAX
+      ),
+      corrections = list(
+        FD = FD,
+        TC = TC
+      ),
+      predictions = list(
+        .predictor = test$distance,
+        .observed = test$time,
+        .predicted = pred_time,
+        .residual = resid_time
+      )
+    ))
+  }
+
+  model_sprint(
+    df = data.frame(
+      distance = distance,
+      time = time,
+      weight = weights
+    ),
+    CV = CV,
+    na.rm = na.rm,
+    model_func = model_func,
+    ...
+  )
+}
+
