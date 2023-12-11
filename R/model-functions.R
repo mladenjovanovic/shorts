@@ -20,7 +20,7 @@
 #'         \item{correction}{List with additional model correcitons}
 #'         \item{predictions}{Data frame with \code{.predictor}, \code{.observed},
 #'             \code{.predicted}, and \code{.residual} columns}
-#'         \item{model_fit}{List with multiple model fit estimators}#'
+#'         \item{model_fit}{List with multiple model fit estimators}
 #'         \item{CV}{If cross-validation is performed, this will included the data as above, but
 #'              for each fold}
 #'         }

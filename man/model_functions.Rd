@@ -36,6 +36,9 @@ model_time_velocity_TC(
 \item{CV}{Should cross-validation be used to estimate model fit? Default is \code{NULL}. Otherwise use integer
 indicating number of folds.}
 
+\item{use_observed_MSS}{Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
+is \code{FALSE}}
+
 \item{na.rm}{Logical. Default is FALSE}
 
 \item{...}{Forwarded to \code{\link[minpack.lm]{nlsLM}} function}
@@ -53,7 +56,7 @@ List object with the following elements:
         \item{correction}{List with additional model correcitons}
         \item{predictions}{Data frame with \code{.predictor}, \code{.observed},
             \code{.predicted}, and \code{.residual} columns}
-        \item{model_fit}{List with multiple model fit estimators}#'
+        \item{model_fit}{List with multiple model fit estimators}
         \item{CV}{If cross-validation is performed, this will included the data as above, but
              for each fold}
         }
