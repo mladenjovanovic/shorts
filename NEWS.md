@@ -9,7 +9,7 @@
 * Updated internal `shorts_model_fit()` function to return model fit metrics in both absolute and percentage forms
 * Added internal `model_sprint()` wrapper function and updated internal `new_shorts_model()` constructor which provide changes in the model output format (`"shorts_model"` class)
 * Updated S3 print and plot methods for the `"shorts_model"` class. The plot method now plots residuals against fitted values
-* Added `model_time_velocity()` and `model_time_velocity_TC()` functions. Function `model_radar_gun()` is now alias for `model_time_velocity_TC()`
+* Added `model_time_velocity()` and `model_time_velocity_TC()` functions. Removed `model_radar_gun()`
 * Updated README to cover changes
 
 # shorts 2.5.0

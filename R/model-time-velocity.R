@@ -211,24 +211,3 @@ model_time_velocity_TC <- function(time,
     ...
   )
 }
-
-#' @rdname model_functions
-#' @description \code{model_radar_gun} is alias for \code{\link{model_time_velocity_TC}} function
-#' @param use_observed_MSS Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
-#'     is \code{FALSE}
-#' @export
-#' @examples
-#' instant_velocity <- data.frame(
-#'   time = c(0, 1, 2, 3, 4, 5, 6),
-#'   velocity = c(0.00, 4.99, 6.43, 6.84, 6.95, 6.99, 7.00)
-#' )
-#'
-#' sprint_model <- with(
-#'   instant_velocity,
-#'   model_radar_gun(time, velocity)
-#' )
-#'
-#' print(sprint_model)
-#' coef(sprint_model)
-#' plot(sprint_model)
-model_radar_gun <- model_time_velocity_TC
