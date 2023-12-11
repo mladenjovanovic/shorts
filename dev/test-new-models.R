@@ -1,3 +1,10 @@
+# Tether
+distance <- c(5, 10, 20, 30, 40)
+
+velocity <- predict_velocity_at_distance(distance + 5, MSS = 10, MAC = 8)
+
+m1 <- model_distance_velocity_DC(distance = distance, velocity = velocity)
+
 split_distances <- seq(0, 50)
 split_times <- create_timing_gates_splits(
   gates = split_distances,

@@ -303,7 +303,7 @@ predict_work_till_distance <- function(distance, ...) {
 #' # Simple model
 #' simple_model <- with(
 #'   split_times,
-#'   model_timing_gates(distance, time)
+#'   model_distance_time(distance, time)
 #' )
 #'
 #' predict_kinematics(simple_model)

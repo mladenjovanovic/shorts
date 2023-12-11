@@ -28,7 +28,7 @@ split_times <- data.frame(
 # Simple model with time splits
 simple_model <- with(
   split_times,
-  model_timing_gates(distance, time)
+  model_distance_time(distance, time)
 )
 
 coef(simple_model)
@@ -42,7 +42,7 @@ instant_velocity <- data.frame(
 
 radar_model <- with(
   instant_velocity,
-  model_radar_gun(time, velocity)
+  model_time_velocity(time, velocity)
 )
 
 # sprint_model$parameters

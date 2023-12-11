@@ -12,7 +12,7 @@
 #' )
 #'
 #' # Simple model
-#' simple_model <- model_timing_gates(split_distances, split_times)
+#' simple_model <- model_distance_time(split_distances, split_times)
 #' coef(simple_model)
 #' @export
 coef.shorts_model <- function(object, ...) {
@@ -35,7 +35,7 @@ coef.shorts_model <- function(object, ...) {
 #' )
 #'
 #' # Simple model
-#' simple_model <- model_timing_gates(split_distances, split_times)
+#' simple_model <- model_distance_time(split_distances, split_times)
 #' residuals(simple_model)
 #' @export
 residuals.shorts_model <- function(object, ...) {
@@ -57,7 +57,7 @@ residuals.shorts_model <- function(object, ...) {
 #' )
 #'
 #' # Simple model
-#' simple_model <- model_timing_gates(split_distances, split_times)
+#' simple_model <- model_distance_time(split_distances, split_times)
 #' fitted(simple_model)
 #' @export
 fitted.shorts_model <- function(object, ...) {
@@ -79,7 +79,7 @@ fitted.shorts_model <- function(object, ...) {
 #' )
 #'
 #' # Simple model
-#' simple_model <- model_timing_gates(split_distances, split_times)
+#' simple_model <- model_distance_time(split_distances, split_times)
 #' predict(simple_model)
 #' @export
 predict.shorts_model <- function(object, ...) {
@@ -100,7 +100,7 @@ predict.shorts_model <- function(object, ...) {
 #' )
 #'
 #' # Simple model
-#' simple_model <- model_timing_gates(split_distances, split_times)
+#' simple_model <- model_distance_time(split_distances, split_times)
 #' simple_model
 #' @export
 print.shorts_model <- function(x, ...) {
@@ -144,7 +144,7 @@ print.shorts_model <- function(x, ...) {
 #' )
 #'
 #' # Simple model
-#' simple_model <- model_timing_gates(split_distances, split_times)
+#' simple_model <- model_distance_time(split_distances, split_times)
 #' summary(simple_model)
 #' @export
 summary.shorts_model <- function(object, ...) {
@@ -165,7 +165,7 @@ summary.shorts_model <- function(object, ...) {
 #' # Simple model with time splits
 #' simple_model <- with(
 #'   split_times,
-#'   model_timing_gates(distance, time)
+#'   model_distance_time(distance, time)
 #' )
 #'
 #' coef(simple_model)
@@ -179,7 +179,7 @@ summary.shorts_model <- function(object, ...) {
 #'
 #' radar_model <- with(
 #'   instant_velocity,
-#'   model_radar_gun(time, velocity)
+#'   model_time_velocity(time, velocity)
 #' )
 #'
 #' # sprint_model$parameters
@@ -187,6 +187,10 @@ summary.shorts_model <- function(object, ...) {
 #' plot(radar_model)
 #' @export
 plot.shorts_model <- function(x, type = NULL, ...) {
+  # ----------------
+  Fitted <- NULL
+  Residual <- NULL
+  # ----------------
 
   df <- data.frame(
     Fitted = x$predictions$.predicted,

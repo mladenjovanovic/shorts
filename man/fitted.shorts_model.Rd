@@ -25,6 +25,6 @@ split_times <- create_timing_gates_splits(
 )
 
 # Simple model
-simple_model <- model_timing_gates(split_distances, split_times)
+simple_model <- model_distance_time(split_distances, split_times)
 fitted(simple_model)
 }
