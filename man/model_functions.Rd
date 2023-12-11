@@ -4,6 +4,7 @@
 \alias{model_functions}
 \alias{model_time_velocity}
 \alias{model_time_velocity_TC}
+\alias{model_radar_gun}
 \title{Model functions}
 \usage{
 model_time_velocity(
@@ -17,6 +18,16 @@ model_time_velocity(
 )
 
 model_time_velocity_TC(
+  time,
+  velocity,
+  weights = 1,
+  CV = NULL,
+  use_observed_MSS = FALSE,
+  na.rm = FALSE,
+  ...
+)
+
+model_radar_gun(
   time,
   velocity,
   weights = 1,
@@ -68,6 +79,8 @@ Family of functions that serve a purpose of estimating short sprint parameters
 
 \code{model_time_velocity_TC} estimates short sprint parameters using time-velocity trace,
     with additional parameter \code{TC} serving as intercept
+
+\code{model_radar_gun} is alias for \code{\link{model_time_velocity_TC}} function
 }
 \examples{
 instant_velocity <- data.frame(
@@ -91,6 +104,19 @@ instant_velocity <- data.frame(
 sprint_model <- with(
   instant_velocity,
   model_time_velocity_TC(time, velocity)
+)
+
+print(sprint_model)
+coef(sprint_model)
+plot(sprint_model)
+instant_velocity <- data.frame(
+  time = c(0, 1, 2, 3, 4, 5, 6),
+  velocity = c(0.00, 4.99, 6.43, 6.84, 6.95, 6.99, 7.00)
+)
+
+sprint_model <- with(
+  instant_velocity,
+  model_radar_gun(time, velocity)
 )
 
 print(sprint_model)
