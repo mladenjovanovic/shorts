@@ -15,8 +15,6 @@ shorts_model_fit <- function(observed, predicted, na.rm = FALSE) {
     RMSE = sqrt(mean(resid^2, na.rm = na.rm)),
     RMSE_perc = sqrt(mean(resid_perc^2, na.rm = na.rm)),
     MAE = mean(abs(resid), na.rm = na.rm),
-    MAE_perc = mean(abs(resid_perc), na.rm = na.rm),
-    IQR = stats::IQR(resid, na.rm = na.rm),
-    IQR_perc = stats::IQR(resid_perc, na.rm = na.rm)
+    MAE_perc = mean(abs(resid_perc), na.rm = na.rm)
   )
 }
