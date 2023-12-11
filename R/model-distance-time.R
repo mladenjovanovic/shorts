@@ -1,5 +1,5 @@
-#'  @rdname model_functions
-#'  @description \code{model_distance_time} estimates short sprint parameters using distance-time trace
+#' @rdname model_functions
+#' @description \code{model_distance_time} estimates short sprint parameters using distance-time trace
 #'      (e.g., timing gates/photo cells)
 #' @examples
 #' split_distances <- c(10, 20, 30, 40, 50)
@@ -17,7 +17,7 @@
 #' print(simple_model)
 #' coef(simple_model)
 #' plot(simple_model)
-#'  @export
+#' @export
 model_distance_time <- function(distance,
                                 time,
                                 weights = 1,
@@ -89,8 +89,8 @@ model_distance_time <- function(distance,
   )
 }
 
-#'  @rdname model_functions
-#'  @description \code{model_distance_time_TC} estimates short sprint parameters using distance-time trace
+#' @rdname model_functions
+#' @description \code{model_distance_time_TC} estimates short sprint parameters using distance-time trace
 #'      (e.g., timing gates/photo cells), with additional time correction parameter \code{TC}
 #' @examples
 #' split_distances <- c(10, 20, 30, 40, 50)
@@ -109,7 +109,7 @@ model_distance_time <- function(distance,
 #' print(TC_model)
 #' coef(TC_model)
 #' plot(TC_model)
-#'  @export
+#' @export
 model_distance_time_TC <- function(distance,
                                    time,
                                    weights = 1,
@@ -187,8 +187,8 @@ model_distance_time_TC <- function(distance,
 }
 
 
-#'  @rdname model_functions
-#'  @description \code{model_distance_time_FD} estimates short sprint parameters using distance-time trace
+#' @rdname model_functions
+#' @description \code{model_distance_time_FD} estimates short sprint parameters using distance-time trace
 #'      (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD}
 #' @param FD Use this parameter if you do not want the \code{FD} parameter to be estimated, but rather take the
 #'     provided value
@@ -209,7 +209,7 @@ model_distance_time_TC <- function(distance,
 #' print(FD_model)
 #' coef(FD_model)
 #' plot(FD_model)
-#'  @export
+#' @export
 model_distance_time_FD <- function(distance,
                                    time,
                                    weights = 1,
@@ -303,8 +303,8 @@ model_distance_time_FD <- function(distance,
   )
 }
 
-#'  @rdname model_functions
-#'  @description \code{model_distance_time_FD_TC} estimates short sprint parameters using distance-time trace
+#' @rdname model_functions
+#' @description \code{model_distance_time_FD_TC} estimates short sprint parameters using distance-time trace
 #'      (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD} and
 #'      time correction parameter \code{TC}
 #' @param FD Use this parameter if you do not want the \code{FD} parameter to be estimated, but rather take the
@@ -326,7 +326,7 @@ model_distance_time_FD <- function(distance,
 #' print(FD_TC_model)
 #' coef(FD_TC_model)
 #' plot(FD_TC_model)
-#'  @export
+#' @export
 model_distance_time_FD_TC <- function(distance,
                                    time,
                                    weights = 1,
