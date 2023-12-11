@@ -35,8 +35,8 @@ This package creates short sprint (<6sec) profiles using the split times, or the
 install.packages("shorts")
 
 # Or the development version from GitHub
-# install.packages("devtools")
-devtools::install_github("mladenjovanovic/shorts")
+# install.packages("remotes")
+remotes::install_github("mladenjovanovic/shorts")
 ```
 
 ## Examples
@@ -53,7 +53,7 @@ data("split_times", "radar_gun_data")
 
 ### Profiling using split times 
 
-To model sprint performance using split times, distance will be used as predictor and time as target. Since `split_times` contains data for multiple athletes, let's extract only one athlete and model it using `shorts::model_timing_gates()` function. 
+To model sprint performance using split times, distance will be used as predictor and time as target. Since `split_times` contains data for multiple athletes, let's extract only one athlete and model it using `shorts::model_distance_time()` function. 
 
 ```{r}
 kimberley_data <- filter(split_times, athlete == "Kimberley")
@@ -61,10 +61,10 @@ kimberley_data <- filter(split_times, athlete == "Kimberley")
 kable(kimberley_data)
 ```
 
-`shorts::model_timing_gates()` returns an object with `parameters`, `model_fit`, `model` returned from `minpack.lm::nlsLM()` function and `data` used to estimate parameters. Parameters estimated using mono-exponential equation are *maximal sprinting speed* (MSS), and *relative acceleration* (TAU). Additional parameters computed from MSS and TAU are *maximal acceleration* (MAC) and *maximal relative power* (PMAX) (which is calculated as MAC*MSS/4). 
+`shorts::model_distance_time()` returns an object with `data`, `model_info`, `model` (returned from `minpack.lm::nlsLM()` function), `parameters`, `corrections`, `predictions`, `model_fit` and `CV` elements. Parameters estimated using mono-exponential equation are *maximal sprinting speed* (MSS), and *relative acceleration* (TAU). Additional parameters computed from MSS and TAU are *maximal acceleration* (MAC) and *maximal relative power* (PMAX) (which is calculated as MAC*MSS/4). 
 
 ```{r}
-kimberley_profile <- shorts::model_timing_gates(
+kimberley_profile <- shorts::model_distance_time(
   distance = kimberley_data$distance,
   time = kimberley_data$time
 )
@@ -82,7 +82,7 @@ To return the predicted outcome (in this case time variable), use `predict()` fu
 predict(kimberley_profile)
 ```
 
-To create a simple plot, use S3 `plot()` method:
+To create a simple plot of the model residuals, use S3 `plot()` method:
 
 ```{r}
 plot(kimberley_profile) +
@@ -96,17 +96,6 @@ kable(shorts::format_splits(
   distance = kimberley_data$distance,
   time = kimberley_data$time
 ))
-```
-
-Let's plot observed vs fitted split times. For this we can use `data` returned from `shorts::model_timing_gates()` since it contains `pred_time` column.
-
-```{r}
-ggplot(kimberley_profile$data, aes(x = distance)) +
-  theme_bw() +
-  geom_point(aes(y = time)) +
-  geom_line(aes(y = pred_time)) +
-  xlab("Distance (m)") +
-  ylab("Time (s)")
 ```
 
 To plot predicted velocity, acceleration, air resistance, force, and power over distance, use `shorts:predict_XXX()`. Please note that to calculate force, air resistance, and power, we need Kimberley's bodymass and height (as well as other characteristics such as air pressure, temperature and wind - see `get_air_resistance()` function).
@@ -224,15 +213,14 @@ shorts::find_velocity_critical_distance(
 )
 ```
 
-
 ### Profiling using radar gun data
 
-The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using `shorts::model_radar_gun()` function. Let's do analysis for Jim:
+The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using `shorts::model_time_velocity()` function. Let's do analysis for Jim:
 
 ```{r}
 jim_data <- filter(radar_gun_data, athlete == "Jim")
 
-jim_profile <- shorts::model_radar_gun(
+jim_profile <- shorts::model_time_velocity(
   time = jim_data$time,
   velocity = jim_data$velocity
 )
@@ -245,21 +233,23 @@ plot(jim_profile) +
   theme_bw()
 ```
 
-The object returned from `shorts::model_radar_gun()` is same as object returned from `shorts::model_timing_gates()`. Let's plot Jim's measured velocity and predicted velocity: 
+The object returned from `shorts::model_time_velocity()` is same as object returned from `shorts::model_distance_time()`. Let's plot Jim's measured velocity and predicted velocity: 
 
 ```{r}
-ggplot(jim_profile$data, aes(x = time)) +
+ggplot(
+  data.frame(jim_profile$predictions),
+  aes(x = .predictor)) +
   theme_bw() +
-  geom_line(aes(y = velocity), alpha = 0.5) +
-  geom_line(aes(y = pred_velocity), color = "red", alpha = 0.5) +
+  geom_line(aes(y = .observed), alpha = 0.5) +
+  geom_line(aes(y = .predicted), color = "red", alpha = 0.5) +
   xlab("Time (s)") +
   ylab("Velocity (m/s)")
 ```
 
-Rather than estimating MSS, `shorts::model_radar_gun()` function allows you to utilize peak velocity observed in the data as MSS. This is done by setting the `use_observed_MSS` parameter to `TRUE`:
+Rather than estimating MSS, `shorts::model_time_velocity()` function allows you to utilize peak velocity observed in the data as MSS. This is done by setting the `use_observed_MSS` parameter to `TRUE`:
 
 ```{r}
-jim_profile <- shorts::model_radar_gun(
+jim_profile <- shorts::model_time_velocity(
   time = jim_data$time,
   velocity = jim_data$velocity,
   use_observed_MSS = TRUE
@@ -272,34 +262,40 @@ summary(jim_profile)
 
 ### Profiling using tether devices
 
-Some tether devices provide data out in a velocity-at-distance format. In this case, velocity is the outcome variable and distance is the predictor. To estimate sprint profiles from *tether data*, use `shorts::model_tether()` function:
+Some tether devices provide data out in a velocity-at-distance format. In this case, velocity is the outcome variable and distance is the predictor. To estimate sprint profiles from *tether data*, use `shorts::model_distance_velocity()` function:
 
 ```{r}
 distance <- c(5, 10, 20, 30, 40)
 
 velocity <- predict_velocity_at_distance(distance, MSS = 10, MAC = 8)
 
-m1 <- model_tether(distance = distance, velocity = velocity)
+m1 <- model_distance_velocity(distance = distance, velocity = velocity)
 
 df <- data.frame(
   distance = distance,
   obs_velocity = velocity
 )
 
-plot(m1) +
-  geom_point(data = df, aes(x = distance, y = obs_velocity))
+ggplot(
+  data.frame(m1$predictions),
+  aes(x = .predictor)) +
+  theme_bw() +
+  geom_point(aes(y = .observed), alpha = 0.5) +
+  geom_line(aes(y = .predicted), color = "red", alpha = 0.5) +
+  xlab("Distance (m)") +
+  ylab("Velocity (m/s)")
 ```
 
-Setting `use_observed_MSS` parameter to `TRUE` in the `shorts::model_tether()` function also allows you to use observed peak velocity as MSS. 
+Setting `use_observed_MSS` parameter to `TRUE` in the `shorts::model_distance_velocity()` function also allows you to use observed peak velocity as MSS. 
 
-In the case when distance is not centered at zero, use `shorts::model_tether_DC()` which also estimated the *distance correction* (DC) parameter, serving as model intercept:
+In the case when distance is not centered at zero, use `shorts::model_distance_velocity_DC()` which also estimated the *distance correction* (DC) parameter, serving as model intercept (for more info see [Using corrections] section):
 
 ```{r}
 distance <- c(5, 10, 20, 30, 40)
 
 velocity <- predict_velocity_at_distance(distance - 0.5, MSS = 10, MAC = 8)
 
-m1 <- model_tether_DC(distance = distance, velocity = velocity)
+m1 <- model_distance_velocity_DC(distance = distance, velocity = velocity)
 m1
 ```
 
@@ -334,7 +330,7 @@ kimberley_avp
 
 ### Using external load
 
-**{shorts}** package also allows utilizing external load in estimating FVP, as well as using FVP parameters to predict kinematic and kinetic variables. External load is represented either with additional **inertia** (i.e., weight vest), horizontal **resistance** (i.e., tether device that create additional resistance or help, or a hill sprinting), or both (i.e., a sled, which have both inertia and resistance due to friction forces). 
+**{shorts}** package also allows utilizing external load in estimating FVP, as well as using FVP parameters to predict kinematic and kinetic variables. External load is represented either with additional **inertia** (i.e., weight vest), horizontal **resistance** (i.e., tether device that create additional resistance or help, or a hill sprinting), or both (i.e., a sled, which have both inertia and resistance due to friction forces). One might also consider head and tail wind as a form of resistance (or assistance).
 
 Let's see how theoretical model, assuming FVP is *determinant of performance* (which I do not agree with, BTW), predicts changes in sprint characteristics (i.e., MSS and MAC) under different external load conditions and magnitudes using Kimberley's estimated FVP:
 
@@ -424,7 +420,7 @@ You have probably noticed that estimated MSS and TAU were a bit too high for spl
 Here I will provide quick summary. Often, this bias in estimates is dealt with by using heuristic rule of thumb of adding time correction (`time_correction`) to split times (e.g. from 0.3-0.5sec; see more in Haugen *et al.*, 2012). To do this, just add time correction to time split: 
 
 ```{r}
-kimberley_profile_fixed_TC <- shorts::model_timing_gates(
+kimberley_profile_fixed_TC <- shorts::model_distance_time(
   distance = kimberley_data$distance,
   time = kimberley_data$time + 0.3
 )
@@ -436,10 +432,10 @@ summary(kimberley_profile_fixed_TC)
 coef(kimberley_profile_fixed_TC)
 ```
 
-Instead of providing for `TC`, this parameter can be estimated using `shorts::model_timing_gates_TC()`.
+Instead of providing for `TC`, this parameter can be estimated using `shorts::model_distance_time_TC()`.
 
 ```{r}
-kimberley_profile_TC <- shorts::model_timing_gates_TC(
+kimberley_profile_TC <- shorts::model_distance_time_TC(
   distance = kimberley_data$distance,
   time = kimberley_data$time
 )
@@ -450,7 +446,7 @@ kimberley_profile_TC
 Instead of estimating `TC`, **{shorts}** package features a method of estimating flying start distance (`FD`):
 
 ```{r}
-kimberley_profile_FD <- shorts::model_timing_gates_FD(
+kimberley_profile_FD <- shorts::model_distance_time_FD(
   distance = kimberley_data$distance,
   time = kimberley_data$time
 )
@@ -461,7 +457,7 @@ kimberley_profile_FD
 If you want to use fixed `FD` parameter (e.g., when you know what is the flying distance), in a similar vein of using fixed `TC` correction, use:
 
 ```{r}
-kimberley_profile_fixed_FD <- shorts::model_timing_gates_FD(
+kimberley_profile_fixed_FD <- shorts::model_distance_time_FD(
   distance = kimberley_data$distance,
   time = kimberley_data$time,
   FD = 0.5
@@ -472,84 +468,24 @@ kimberley_profile_fixed_FD
 
 ### Cross-Validation (CV)
 
-`model_timing_gates_()` family of functions come with LOOCV feature that is performed by setting the function parameter `LOOCV = TRUE`. This feature is very useful for checking model parameters robustness and model predictions on unseen data. LOOCV involve iterative model building and testing by removing observation one by one and making predictions for them. Let's use Kimberley again, but this time perform LOOCV:
+`model_` family of functions come with CV feature that is performed by setting the function parameter CV to desired number of folds. This feature is very useful for checking model parameters robustness and model predictions on unseen data. Let's use Kimberley again, but this time perform special kind of CV, leave-one-out-cross-validation (LOOCV):
 
 ```{r}
-kimberley_profile_LOOCV <- shorts::model_timing_gates(
+kimberley_profile_CV <- shorts::model_distance_time(
   distance = kimberley_data$distance,
   time = kimberley_data$time,
-  LOOCV = TRUE
+  # To perform LOOCV number of folds is equal to 
+  # number of observatins
+  CV = nrow(kimberley_data)
 )
 
-kimberley_profile_LOOCV
+kimberley_profile_CV
 ```
 
-Box-plot is suitable method for plotting estimated parameters: 
+Radar gun data often comes with much more observations, thus we can set smaller CV parameter:
 
 ```{r}
-LOOCV_parameters <- gather(kimberley_profile_LOOCV$CV$parameters)
-
-ggplot(LOOCV_parameters, aes(y = value)) +
-  theme_bw() +
-  geom_boxplot() +
-  facet_wrap(~key, scales = "free") +
-  ylab(NULL) +
-  theme(axis.ticks.x = element_blank(), axis.text.x = element_blank())
-```
-
-Let's plot model LOOCV predictions and training (when using all data set) predictions against observed performance:
-
-```{r}
-kimberley_data <- kimberley_data %>%
-  mutate(
-    pred_time = predict(kimberley_profile_LOOCV),
-    LOOCV_time = kimberley_profile_LOOCV$CV$data$pred_time
-  )
-
-ggplot(kimberley_data, aes(x = distance)) +
-  theme_bw() +
-  geom_point(aes(y = time)) +
-  geom_line(aes(y = pred_time), color = "black") +
-  geom_line(aes(y = LOOCV_time), color = "red") +
-  xlab("Distance (m)") +
-  ylab("Time (s)")
-```
-
-Let's plot predicted velocity using LOOCV estimate parameters to check robustness of the model predictions:
-
-```{r}
-plot_data <- kimberley_profile_LOOCV$CV$parameters %>%
-  mutate(LOOCV = row_number())
-
-plot_data <- expand_grid(
-  data.frame(time = seq(0, 6, length.out = 100)),
-  plot_data
-) %>%
-  mutate(
-    LOOCV_velocity = predict_velocity_at_time(
-      time = time,
-      MSS = MSS,
-      MAC = MAC
-    ),
-    velocity = predict_velocity_at_time(
-      time = time,
-      MSS = kimberley_profile_LOOCV$parameters$MSS,
-      MAC = kimberley_profile_LOOCV$parameters$MAC
-    )
-  )
-
-ggplot(plot_data, aes(x = time, y = LOOCV_velocity, group = LOOCV)) +
-  theme_bw() +
-  geom_line(alpha = 0.8) +
-  geom_line(aes(y = velocity), color = "red", size = 0.5) +
-  xlab("Time (sec)") +
-  ylab("Velocity (m/s)")
-```
-
-Cross-validation implemented in `model_radar_gun()` function involves using n-folds, set by using `CV=` parameter: 
-
-```{r}
-jim_profile_CV <- shorts::model_radar_gun(
+jim_profile_CV <- shorts::model_time_velocity(
   time = jim_data$time,
   velocity = jim_data$velocity,
   CV = 10

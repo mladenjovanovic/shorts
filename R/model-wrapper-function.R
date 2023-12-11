@@ -93,6 +93,7 @@ model_sprint <- function(df,
     })
 
     testing_corrections <- purrr::imap_dfr(testing, function(x, id) {
+      if (is.null(x$corrections)) return(NULL)
       data.frame(.fold = id, x$corrections)
     })
 
