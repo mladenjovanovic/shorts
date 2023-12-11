@@ -6,6 +6,7 @@
 * Renamed the output of `predict_kinematics()` function `relative_power` to `power_relative` to be in alignment with other variables
 * Added `predict_work_till_time()` and `predict_work_till_distance()` to calculate horizontal work performance.
 * Added `work`, `average_power`, and `average_power_relative` to the output of `predict_kinematics()` function, and removed `net_horizontal_force` from the output to avoid confusion whether the inertia is included or not.
+* Updated internal `shorts_model_fit()` function to return model fit metrics in both absolute and percentage forms
 * Updated README to cover changes
 
 # shorts 2.5.0
