@@ -7,6 +7,8 @@
 * Added `predict_work_till_time()` and `predict_work_till_distance()` to calculate horizontal work performance.
 * Added `work`, `average_power`, and `average_power_relative` to the output of `predict_kinematics()` function, and removed `net_horizontal_force` from the output to avoid confusion whether the inertia is included or not.
 * Updated internal `shorts_model_fit()` function to return model fit metrics in both absolute and percentage forms
+* Added internal `model_sprint()` wrapper function and updated internal `new_shorts_model()` constructor which provide changes in the model output format (`"shorts_model"` class)
+* Updated S3 print and plot methods for the `"shorts_model"` class. The plot method now plots residuals against fitted values
 * Updated README to cover changes
 
 # shorts 2.5.0

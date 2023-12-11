@@ -20,6 +20,28 @@ coef.shorts_model <- function(object, ...) {
 }
 
 
+#' S3 method for returning residuals of \code{shorts_model}
+#'
+#' @param object \code{shorts_model} object
+#' @param ... Extra arguments. Not used
+#' @examples
+#' split_distances <- c(10, 20, 30, 40, 50)
+#' split_times <- create_timing_gates_splits(
+#'   gates = split_distances,
+#'   MSS = 10,
+#'   MAC = 9,
+#'   FD = 0.25,
+#'   TC = 0
+#' )
+#'
+#' # Simple model
+#' simple_model <- model_timing_gates(split_distances, split_times)
+#' residuals(simple_model)
+#' @export
+residuals.shorts_model <- function(object, ...) {
+  object$predictions$.residual
+}
+
 #' S3 method for returning predictions of \code{shorts_model}
 #'
 #' @param object \code{shorts_model} object
@@ -39,7 +61,7 @@ coef.shorts_model <- function(object, ...) {
 #' fitted(simple_model)
 #' @export
 fitted.shorts_model <- function(object, ...) {
-  object$data[[4]]
+  object$predictions$.predicted
 }
 
 #' S3 method for making predictions using \code{shorts_model}
@@ -86,6 +108,12 @@ print.shorts_model <- function(x, ...) {
   cat("--------------------------\n")
   print(unlist(x$parameters))
 
+  if(!is.null(x$corrections)) {
+    cat("\nEstimated model corrections\n")
+    cat("--------------------------\n")
+    print(unlist(x$corrections))
+  }
+
   cat("\nModel fit estimators\n")
   cat("--------------------\n")
   print(unlist(x$model_fit))
@@ -96,8 +124,8 @@ print.shorts_model <- function(x, ...) {
 
     cat("Parameters:\n")
     print(x$CV$parameters)
-    cat("\nTesting model fit:\n")
-    print(unlist(x$CV$model_fit))
+    cat("\nTesting model fit estimators (overall):\n")
+    print(unlist(x$CV$model_fit_overall))
   }
 }
 
@@ -121,27 +149,6 @@ print.shorts_model <- function(x, ...) {
 #' @export
 summary.shorts_model <- function(object, ...) {
   summary(object$model)
-}
-
-#' S3 method for providing residuals for the \code{shorts_model} object
-#' @param object \code{shorts_model} object
-#' @param ... Not used
-#' @examples
-#' split_distances <- c(10, 20, 30, 40, 50)
-#' split_times <- create_timing_gates_splits(
-#'   gates = split_distances,
-#'   MSS = 10,
-#'   MAC = 9,
-#'   FD = 0.25,
-#'   TC = 0
-#' )
-#'
-#' # Simple model
-#' simple_model <- model_timing_gates(split_distances, split_times)
-#' residuals(simple_model)
-#' @export
-residuals.shorts_model <- function(object, ...) {
-  object$data[[2]] - object$data[[4]]
 }
 
 #' S3 method for plotting \code{shorts_model} object
@@ -181,65 +188,11 @@ residuals.shorts_model <- function(object, ...) {
 #' @export
 plot.shorts_model <- function(x, type = NULL, ...) {
 
-  # +++++++++++++++++++++++++++++++++++++++++++
-  # Code chunk for dealing with R CMD check note
-  value <- NULL
-  variable <- NULL
-  # +++++++++++++++++++++++++++++++++++++++++++
-
-  # Check which models is done?
-  model_type <- names(x$data[1])
-
-  if (model_type == "distance") {
-    # This is time-split model
-    df <- data.frame(
-      distance = seq(0, max(x$data$distance), length.out = 1000)
-    )
-
-    df$velocity <- predict_velocity_at_distance(
-      distance = df$distance,
-      MSS = x$parameters$MSS,
-      MAC = x$parameters$MAC
-    )
-
-    df$acceleration <- predict_acceleration_at_distance(
-      distance = df$distance,
-      MSS = x$parameters$MSS,
-      MAC = x$parameters$MAC
-    )
-    df$power <- df$velocity * df$acceleration
-  } else {
-    # This is radar model
-    df <- data.frame(
-      time = seq(0, max(x$data$time), length.out = 1000)
-    )
-
-    df$velocity <- predict_velocity_at_time(
-      time = df$time,
-      MSS = x$parameters$MSS,
-      MAC = x$parameters$MAC
-    )
-
-    df$acceleration <- predict_acceleration_at_time(
-      time = df$time,
-      MSS = x$parameters$MSS,
-      MAC = x$parameters$MAC
-    )
-
-    df$power <- df$velocity * df$acceleration
-  }
-
-  colnames(df)[1] <- "x"
-
-  plot_data <- tidyr::pivot_longer(df, cols = -1, names_to = "variable", values_to = "value")
-  plot_data$variable <- factor(
-    plot_data$variable,
-    levels = c("acceleration", "velocity", "power")
+  df <- data.frame(
+    Fitted = x$predictions$.predicted,
+    Residual = x$predictions$.residual
   )
 
-  gg <- ggplot2::ggplot(plot_data, ggplot2::aes(x = x, y = value, color = variable)) +
-    ggplot2::geom_line(alpha = 0.8) +
-    ggplot2::xlab(model_type) +
-    ggplot2::ylab(NULL)
-  gg
+  ggplot2::ggplot(df, ggplot2::aes(x = Fitted, y = Residual)) +
+    ggplot2::geom_point(alpha = 0.8, shape = 21)
 }

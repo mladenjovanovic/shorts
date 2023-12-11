@@ -2,17 +2,17 @@
 % Please edit documentation in R/shorts-S3.R
 \name{residuals.shorts_model}
 \alias{residuals.shorts_model}
-\title{S3 method for providing residuals for the \code{shorts_model} object}
+\title{S3 method for returning residuals of \code{shorts_model}}
 \usage{
 \method{residuals}{shorts_model}(object, ...)
 }
 \arguments{
 \item{object}{\code{shorts_model} object}
 
-\item{...}{Not used}
+\item{...}{Extra arguments. Not used}
 }
 \description{
-S3 method for providing residuals for the \code{shorts_model} object
+S3 method for returning residuals of \code{shorts_model}
 }
 \examples{
 split_distances <- c(10, 20, 30, 40, 50)
