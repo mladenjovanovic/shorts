@@ -19,6 +19,9 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/LPS_session.html</loc>
+  </url>
+  <url>
     <loc>/reference/coef.shorts_model.html</loc>
   </url>
   <url>
@@ -56,6 +59,9 @@
   </url>
   <url>
     <loc>/reference/make_FV_profile.html</loc>
+  </url>
+  <url>
+    <loc>/reference/model_functions.html</loc>
   </url>
   <url>
     <loc>/reference/model_radar_gun.html</loc>
