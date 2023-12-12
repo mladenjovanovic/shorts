@@ -138,7 +138,7 @@ wind, and positive number as back wind</p></dd>
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"jb_morin"</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_functions.html">model_time_velocity</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">time</span>, velocity <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">velocity</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_functions.html">model_radar_gun</a></span><span class="op">(</span>time <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">time</span>, velocity <span class="op">=</span> <span class="va">jb_morin</span><span class="op">$</span><span class="va">velocity</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">fv_profile</span> <span class="op">&lt;-</span> <span class="fu">create_FVP</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  MSS <span class="op">=</span> <span class="va">m1</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span></span>
@@ -153,22 +153,22 @@ wind, and positive number as back wind</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 120</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 840.4452</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 829.9911</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $F0_rel</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 7.00371</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 6.916593</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $V0</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.506403</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 9.534875</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Pmax</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1997.403</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 1978.465</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $Pmax_rel</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16.64502</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] 16.48721</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $FV_slope</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7367361</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] -0.7253995</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
