@@ -211,7 +211,7 @@ split_times <- data.frame(
 # Simple model
 simple_model <- with(
   split_times,
-  model_distance_time(distance, time)
+  model_timing_gates(distance, time)
 )
 
 predict_kinematics(simple_model)

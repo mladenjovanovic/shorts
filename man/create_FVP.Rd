@@ -48,7 +48,7 @@ Provides Force-Velocity (FV) profile modified using ideas by Pierre Samozino and
 \examples{
 data("jb_morin")
 
-m1 <- model_time_velocity(time = jb_morin$time, velocity = jb_morin$velocity)
+m1 <- model_radar_gun(time = jb_morin$time, velocity = jb_morin$velocity)
 
 fv_profile <- create_FVP(
   MSS = m1$parameters$MSS,
