@@ -12,6 +12,7 @@
 * Added `model_time_velocity()` and `model_time_velocity_TC()` functions. Removed `model_radar_gun()`
 * Added `model_distance_time()`, `model_distance_time_TC()`, `model_distance_time_FD()`, and `model_distance_time_FD_TC()`, functions, and removed all `model_timing_gates` functions. Now the `TC` parameter has positive sign
 * Added `model_distance_velocity()` and `model_distance_velocity_DC()` functions, and removed all `model_tether` functions
+* Added `LPS_session` dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.
 * Updated README to cover changes
 
 # shorts 2.5.0
