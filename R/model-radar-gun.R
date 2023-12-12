@@ -108,7 +108,7 @@ model_radar_gun <- function(time,
 }
 
 #' @rdname model_functions
-#' @description \code{model_laser_gun} alias for \code{\link{model_rada_gun}}
+#' @description \code{model_laser_gun} alias for \code{\link{model_radar_gun}}
 #' @param use_observed_MSS Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
 #'     is \code{FALSE}
 #' @export

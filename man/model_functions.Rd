@@ -154,7 +154,7 @@ Family of functions that serve a purpose of estimating short sprint parameters
 \code{model_radar_gun} estimates short sprint parameters using time-velocity trace,
     with additional parameter \code{TC} serving as intercept
 
-\code{model_laser_gun} alias for \code{\link{model_rada_gun}}
+\code{model_laser_gun} alias for \code{\link{model_radar_gun}}
 
 \code{model_tether} estimates short sprint parameters using distance-velocity trace
     (e.g., tether devices)
