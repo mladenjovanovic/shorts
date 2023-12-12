@@ -5,6 +5,7 @@
 #' @param time Numeric vector
 #' @param velocity Numeric vector
 #' @param distance Numeric vector
+#' @param acceleration Numeric v
 #' @param weights Numeric vector. Default is 1
 #' @param CV Should cross-validation be used to estimate model fit? Default is \code{NULL}. Otherwise use integer
 #'     indicating number of folds.
