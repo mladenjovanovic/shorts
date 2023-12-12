@@ -488,6 +488,74 @@ m1
 #>   1.155185e-14   7.105427e-16   8.773026e-15
 ```
 
+### Embedded (i.e., *in-situ*) Profiling
+
+With the modern technologies like GPS and LPS, session acceleration and
+velocity can be tracked continuously. This provides an opportunity to
+estimate short sprint profiles from *in-situ*, without the need for
+explicit testing (assuming the maximal effort was performed). The
+analysis is based on the theoretical model where acceleration and
+velocity have linear relationship. The time frame of the analysis can
+vary from single drills (e.g., sprint drills), session, week, to
+multiple weeks.
+
+Here is an example of the data collected during one basketball session
+for a single person. Duration was aprox. 90min with 20Hz sampling rate.
+This is the positional data:
+
+``` r
+data("LPS_session")
+
+LPS_session %>%
+  ggplot(aes(x = x, y = y)) +
+  theme_bw() +
+  geom_point(alpha = 0.1)
+```
+
+<img src="man/figures/README-unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
+
+The next figure plots instant acceleration and velocity:
+
+``` r
+LPS_session %>%
+  ggplot(aes(x = velocity, y = acceleration)) +
+  theme_bw() +
+  geom_point(alpha = 0.1)
+```
+
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
+
+To estimate embedded short sprint profile, we need to filter out
+positive acceleration and velocities over 3 $ms{-1}$ (defaul), then
+filter few top acceleration observations per velocity bracket (for more
+information please see Clavel *et al.* (2023)). Here is the graphical
+representation:
+
+``` r
+embedded_model <- model_in_situ(
+  LPS_session$velocity,
+  LPS_session$acceleration,
+  velocity_threshold = 4)
+                                
+LPS_session %>%
+  filter(acceleration > 0) %>%
+  ggplot(aes(x = velocity, y = acceleration)) +
+  theme_bw() +
+  geom_point(alpha = 0.1) +
+  geom_point(
+    data = embedded_model$data, 
+    color = "red"
+  ) +
+  geom_abline(
+    intercept = coef(embedded_model$model)[[1]],
+    slope = coef(embedded_model$model)[[2]],
+    linetype = "dotted", color = "red") +
+  scale_x_continuous(expand = c(0, 0), limits = c(0,  embedded_model$parameters$MSS)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, embedded_model$parameters$MAC)) 
+```
+
+<img src="man/figures/README-unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
+
 ### Force-Velocity Profiling
 
 To estimate *Force-Velocity Profile* (FVP) using approach by Samozino
@@ -586,7 +654,7 @@ loads_df %>%
   ylab(NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 Following figure depicts the effect on split times under different load
 types and magnitudes, assuming FVP to be determinant of performance
@@ -612,7 +680,7 @@ dist_df %>%
   ylab("Time (s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
 
 One can use external resistance when predicting force or power:
 
@@ -1001,7 +1069,7 @@ ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
   ylab("Profile imbalance")
 ```
 
-<img src="man/figures/README-unnamed-chunk-27-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Publications
 
@@ -1041,6 +1109,11 @@ Exercise:326–333. DOI: 10.1097/00005768-200102000-00024.
 Clark KP, Rieger RH, Bruno RF, Stearne DJ. 2017. The NFL Combine 40-Yard
 Dash: How Important is Maximum Velocity? Journal of Strength and
 Conditioning Research:1. DOI: 10.1519/JSC.0000000000002081.
+
+Clavel, P., Leduc, C., Morin, J.-B., Buchheit, M., & Lacome, M. (2023).
+Reliability of individual acceleration-speed profile in-situ in elite
+youth soccer players. Journal of Biomechanics, 153, 111602.
+<https://doi.org/10.1016/j.jbiomech.2023.111602>
 
 Furusawa K, Hill AV, and Parkinson JL. The dynamics of” sprint” running.
 Proceedings of the Royal Society of London. Series B, Containing Papers
