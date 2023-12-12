@@ -1,5 +1,5 @@
 #' @rdname model_functions
-#' @description \code{model_distance_velocity} estimates short sprint parameters using distance-velocity trace
+#' @description \code{model_tether} estimates short sprint parameters using distance-velocity trace
 #'     (e.g., tether devices)
 #' @param use_observed_MSS Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
 #'     is \code{FALSE}
@@ -11,12 +11,12 @@
 #'
 #' velocity <- predict_velocity_at_distance(distance, MSS = 10, MAC = 8)
 #'
-#' m1 <- model_distance_velocity(distance = distance, velocity = velocity)
+#' m1 <- model_tether(distance = distance, velocity = velocity)
 #'
 #' m1
 #'
 #' plot(m1)
-model_distance_velocity <- function(distance,
+model_tether <- function(distance,
                                     velocity,
                                     weights = 1,
                                     CV = NULL,
@@ -102,7 +102,7 @@ model_distance_velocity <- function(distance,
 }
 
 #' @rdname model_functions
-#' @description \code{model_distance_velocity_DC} estimates short sprint parameters using distance-velocity trace
+#' @description \code{model_tether_DC} estimates short sprint parameters using distance-velocity trace
 #'     (e.g., tether devices) with additional distance correction \code{DC} parameter
 #' @param use_observed_MSS Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
 #'     is \code{FALSE}
@@ -112,13 +112,13 @@ model_distance_velocity <- function(distance,
 #'
 #' velocity <- predict_velocity_at_distance(distance - 0.5, MSS = 10, MAC = 8)
 #'
-#' m1 <- model_distance_velocity_DC(distance = distance, velocity = velocity)
+#' m1 <- model_tether_DC(distance = distance, velocity = velocity)
 #'
 #' m1
 #'
 #' plot(m1)
 #'
-model_distance_velocity_DC <- function(distance,
+model_tether_DC <- function(distance,
                                     velocity,
                                     weights = 1,
                                     CV = NULL,

@@ -11,7 +11,7 @@
 * Updated S3 print and plot methods for the `"shorts_model"` class. The plot method now plots residuals against fitted values
 * Rewritten `model_radar_gun()` and added alias `model_laser_gun()` function
 * Rewritten `model_timing_gates()`, `model_timing_gates_TC()`, `model_timing_gates_FD()`, and `model_timing_gaes_FD_TC()`, functions. Now the `TC` parameter has positive sign
-* Added `model_distance_velocity()` and `model_distance_velocity_DC()` functions, and removed all `model_tether` functions
+* Rewritten `model_tether()` and `model_tether_DC()` functions
 * Added `LPS_session` dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.
 * Added `model_in_situ()` function which performs *embedded* (i.e., *in-situ*) analysis of the session monitoring data using GPS or LPS systems which provide instantaneous acceleration and velocity. 
 * Updated README to cover changes
