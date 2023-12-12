@@ -14,6 +14,7 @@
 * Rewritten `model_tether()` and `model_tether_DC()` functions
 * Added `LPS_session` dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.
 * Added `model_in_situ()` function which performs *embedded* (i.e., *in-situ*) analysis of the session monitoring data using GPS or LPS systems which provide instantaneous acceleration and velocity. 
+* Added `dynaspeed` dataset
 * Updated README to cover changes
 
 # shorts 2.5.0
