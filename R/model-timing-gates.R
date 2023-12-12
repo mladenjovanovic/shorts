@@ -1,5 +1,5 @@
 #' @rdname model_functions
-#' @description \code{model_distance_time} estimates short sprint parameters using distance-time trace
+#' @description \code{model_timing_gates} estimates short sprint parameters using distance-time trace
 #'      (e.g., timing gates/photo cells)
 #' @examples
 #' split_distances <- c(10, 20, 30, 40, 50)
@@ -12,13 +12,13 @@
 #' )
 #'
 #' # Simple model
-#' simple_model <- model_distance_time(split_distances, split_times)
+#' simple_model <- model_timing_gates(split_distances, split_times)
 #'
 #' print(simple_model)
 #' coef(simple_model)
 #' plot(simple_model)
 #' @export
-model_distance_time <- function(distance,
+model_timing_gates <- function(distance,
                                 time,
                                 weights = 1,
                                 CV = NULL,
@@ -90,7 +90,7 @@ model_distance_time <- function(distance,
 }
 
 #' @rdname model_functions
-#' @description \code{model_distance_time_TC} estimates short sprint parameters using distance-time trace
+#' @description \code{model_timing_gates_TC} estimates short sprint parameters using distance-time trace
 #'      (e.g., timing gates/photo cells), with additional time correction parameter \code{TC}
 #' @examples
 #' split_distances <- c(10, 20, 30, 40, 50)
@@ -104,13 +104,13 @@ model_distance_time <- function(distance,
 #' )
 #'
 #' # TC model
-#' TC_model <- model_distance_time_TC(split_distances, split_times)
+#' TC_model <- model_timing_gates_TC(split_distances, split_times)
 #'
 #' print(TC_model)
 #' coef(TC_model)
 #' plot(TC_model)
 #' @export
-model_distance_time_TC <- function(distance,
+model_timing_gates_TC <- function(distance,
                                    time,
                                    weights = 1,
                                    CV = NULL,
@@ -188,7 +188,7 @@ model_distance_time_TC <- function(distance,
 
 
 #' @rdname model_functions
-#' @description \code{model_distance_time_FD} estimates short sprint parameters using distance-time trace
+#' @description \code{model_timing_gates_FD} estimates short sprint parameters using distance-time trace
 #'      (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD}
 #' @param FD Use this parameter if you do not want the \code{FD} parameter to be estimated, but rather take the
 #'     provided value
@@ -204,13 +204,13 @@ model_distance_time_TC <- function(distance,
 #' )
 #'
 #' # FD model
-#' FD_model <- model_distance_time_FD(split_distances, split_times)
+#' FD_model <- model_timing_gates_FD(split_distances, split_times)
 #'
 #' print(FD_model)
 #' coef(FD_model)
 #' plot(FD_model)
 #' @export
-model_distance_time_FD <- function(distance,
+model_timing_gates_FD <- function(distance,
                                    time,
                                    weights = 1,
                                    FD = NULL,
@@ -304,7 +304,7 @@ model_distance_time_FD <- function(distance,
 }
 
 #' @rdname model_functions
-#' @description \code{model_distance_time_FD_TC} estimates short sprint parameters using distance-time trace
+#' @description \code{model_timing_gates_FD_TC} estimates short sprint parameters using distance-time trace
 #'      (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD} and
 #'      time correction parameter \code{TC}
 #' @param FD Use this parameter if you do not want the \code{FD} parameter to be estimated, but rather take the
@@ -321,13 +321,13 @@ model_distance_time_FD <- function(distance,
 #' )
 #'
 #' # FD TC model
-#' FD_TC_model <- model_distance_time_FD_TC(split_distances, split_times)
+#' FD_TC_model <- model_timing_gates_FD_TC(split_distances, split_times)
 #'
 #' print(FD_TC_model)
 #' coef(FD_TC_model)
 #' plot(FD_TC_model)
 #' @export
-model_distance_time_FD_TC <- function(distance,
+model_timing_gates_FD_TC <- function(distance,
                                    time,
                                    weights = 1,
                                    FD = NULL,
