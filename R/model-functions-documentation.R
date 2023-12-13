@@ -2,10 +2,7 @@
 #'
 #' Family of functions that serve a purpose of estimating short sprint parameters
 #'
-#' @param time Numeric vector
-#' @param velocity Numeric vector
-#' @param distance Numeric vector
-#' @param acceleration Numeric v
+#' @param time,velocity,distance,acceleration Numeric vector
 #' @param weights Numeric vector. Default is 1
 #' @param CV Should cross-validation be used to estimate model fit? Default is \code{NULL}. Otherwise use integer
 #'     indicating number of folds.

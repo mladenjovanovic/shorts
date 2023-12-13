@@ -99,10 +99,6 @@ model_timing_gates_FD_TC(
 )
 }
 \arguments{
-\item{velocity}{Numeric vector}
-
-\item{acceleration}{Numeric v}
-
 \item{weights}{Numeric vector. Default is 1}
 
 \item{velocity_threshold}{Default is 3 m/s}
@@ -119,12 +115,10 @@ indicating number of folds.}
 
 \item{...}{Forwarded to \code{\link[minpack.lm]{nlsLM}} function}
 
-\item{time}{Numeric vector}
+\item{time, velocity, distance, acceleration}{Numeric vector}
 
 \item{use_observed_MSS}{Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
 is \code{FALSE}}
-
-\item{distance}{Numeric vector}
 
 \item{FD}{Use this parameter if you do not want the \code{FD} parameter to be estimated, but rather take the
 provided value}
