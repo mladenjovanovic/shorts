@@ -11,7 +11,7 @@
 
 \item{type}{Not used}
 
-\item{...}{Not used}
+\item{...}{Forwarded to \code{\link[ggplot2]{geom_smooth}}}
 }
 \value{
 \link[ggplot2]{ggplot} object

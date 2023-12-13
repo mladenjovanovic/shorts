@@ -154,7 +154,7 @@ summary.shorts_model <- function(object, ...) {
 #' S3 method for plotting \code{shorts_model} object
 #' @param x \code{shorts_model} object
 #' @param type Not used
-#' @param ... Not used
+#' @param ... Forwarded to \code{\link[ggplot2]{geom_smooth}}
 #' @return \link[ggplot2]{ggplot} object
 #' @examples
 #' split_times <- data.frame(
@@ -198,5 +198,6 @@ plot.shorts_model <- function(x, type = NULL, ...) {
   )
 
   ggplot2::ggplot(df, ggplot2::aes(x = Fitted, y = Residual)) +
-    ggplot2::geom_point(alpha = 0.8, shape = 21)
+    ggplot2::geom_point(alpha = 0.8, shape = 21) +
+    ggplot2::geom_smooth(...)
 }
