@@ -5,9 +5,8 @@
 \alias{LPS_session}
 \title{LPS Basketball Session Dataset}
 \format{
-Data frame with 6 variables and 91,099 observations:
+Data frame with 5 variables and 91,099 observations:
 \describe{
-   \item{clock}{Characted vector showing current closk in hh:mm:ss.ms format}
    \item{time}{Time in seconds from the start of the session}
    \item{x}{x-coordinate in meters provided by the LPS}
    \item{y}{y-coordinate in meters provided by the LPS}
