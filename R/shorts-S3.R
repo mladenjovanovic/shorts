@@ -108,7 +108,7 @@ print.shorts_model <- function(x, ...) {
   cat("--------------------------\n")
   print(unlist(x$parameters))
 
-  if(!is.null(x$corrections)) {
+  if (!is.null(x$corrections)) {
     cat("\nEstimated model corrections\n")
     cat("--------------------------\n")
     print(unlist(x$corrections))
@@ -153,24 +153,11 @@ summary.shorts_model <- function(object, ...) {
 
 #' S3 method for plotting \code{shorts_model} object
 #' @param x \code{shorts_model} object
-#' @param type Not used
-#' @param ... Forwarded to \code{\link[ggplot2]{geom_smooth}}
-#' @return \link[ggplot2]{ggplot} object
+#' @param type Type of plot. Can be "model" (default), "kinematics-time",
+#'     "kinematics-distance", or "residuals"
+#' @param ... Not used
+#' @return \code{\link[ggplot2]{ggplot}} object
 #' @examples
-#' split_times <- data.frame(
-#'   distance = c(5, 10, 20, 30, 35),
-#'   time = c(1.20, 1.96, 3.36, 4.71, 5.35)
-#' )
-#'
-#' # Simple model with time splits
-#' simple_model <- with(
-#'   split_times,
-#'   model_timing_gates(distance, time)
-#' )
-#'
-#' coef(simple_model)
-#' plot(simple_model)
-#'
 #' # Simple model with radar gun data
 #' instant_velocity <- data.frame(
 #'   time = c(0, 1, 2, 3, 4, 5, 6),
@@ -182,22 +169,86 @@ summary.shorts_model <- function(object, ...) {
 #'   model_radar_gun(time, velocity)
 #' )
 #'
-#' # sprint_model$parameters
-#' coef(radar_model)
 #' plot(radar_model)
+#' plot(radar_model, "kinematics-time")
+#' plot(radar_model, "kinematics-distance")
+#' plot(radar_model, "residuals")
 #' @export
-plot.shorts_model <- function(x, type = NULL, ...) {
+plot.shorts_model <- function(x, type = "model", ...) {
+
   # ----------------
   Fitted <- NULL
   Residual <- NULL
+  .observed <- NULL
+  .predicted <- NULL
+  .predictor <- NULL
+  distance <- NULL
+  kinematic <- NULL
+  time <- NULL
+  value <- NULL
   # ----------------
 
-  df <- data.frame(
-    Fitted = x$predictions$.predicted,
-    Residual = x$predictions$.residual
-  )
+  if (!(type %in% c("model", "kinematics-time", "kinematics-distance", "residuals"))) {
+    stop("Wrong plot type. Please use either 'model', 'kinematics-time', 'kinematics-distance', or 'residuals'", call. = FALSE)
+  }
 
-  ggplot2::ggplot(df, ggplot2::aes(x = Fitted, y = Residual)) +
-    ggplot2::geom_point(alpha = 0.8, shape = 21) +
-    ggplot2::geom_smooth(...)
+  if (type == "model") {
+    df <- data.frame(x$predictions)
+
+    ggplot2::ggplot(df, ggplot2::aes(x = .predictor)) +
+      ggplot2::geom_point(ggplot2::aes(y = .observed), alpha = 0.8, shape = 21) +
+      ggplot2::geom_line(ggplot2::aes(y = .predicted), alpha = 0.8) +
+      ggplot2::xlab(x$model_info$predictor) +
+      ggplot2::ylab(x$model_info$target)
+  } else if (type == "kinematics-time") {
+    MSS <- x$parameters$MSS
+    MAC <- x$parameters$MAC
+
+    df <- data.frame(time = seq(0, 6, length.out = 1000))
+
+    df$velocity <- predict_velocity_at_time(df$time, MSS, MAC)
+    df$acceleration <- predict_acceleration_at_time(df$time, MSS, MAC)
+    df$power <- df$velocity * df$acceleration
+
+    df <- tidyr::pivot_longer(
+      data = df,
+      cols = c("velocity", "acceleration", "power"),
+      names_to = "kinematic",
+      values_to = "value"
+    )
+
+    df$kinematic <- factor(df$kinematic, levels = c("velocity", "acceleration", "power"))
+
+    ggplot2::ggplot(df, ggplot2::aes(x = time)) +
+      ggplot2::geom_line(ggplot2::aes(y = value, color = kinematic), alpha = 0.8)
+  } else if (type == "kinematics-distance") {
+    MSS <- x$parameters$MSS
+    MAC <- x$parameters$MAC
+
+    df <- data.frame(distance = seq(0, 60, length.out = 1000))
+
+    df$velocity <- predict_velocity_at_distance(df$distance, MSS, MAC)
+    df$acceleration <- predict_acceleration_at_distance(df$distance, MSS, MAC)
+    df$power <- df$velocity * df$acceleration
+
+    df <- tidyr::pivot_longer(
+      data = df,
+      cols = c("velocity", "acceleration", "power"),
+      names_to = "kinematic",
+      values_to = "value"
+    )
+
+    df$kinematic <- factor(df$kinematic, levels = c("velocity", "acceleration", "power"))
+
+    ggplot2::ggplot(df, ggplot2::aes(x = distance)) +
+      ggplot2::geom_line(ggplot2::aes(y = value, color = kinematic), alpha = 0.8)
+  } else if (type == "residuals") {
+    df <- data.frame(
+      Fitted = x$predictions$.predicted,
+      Residual = x$predictions$.residual
+    )
+
+    ggplot2::ggplot(df, ggplot2::aes(x = Fitted, y = Residual)) +
+      ggplot2::geom_point(alpha = 0.8, shape = 21)
+  }
 }

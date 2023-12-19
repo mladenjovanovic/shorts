@@ -4,36 +4,23 @@
 \alias{plot.shorts_model}
 \title{S3 method for plotting \code{shorts_model} object}
 \usage{
-\method{plot}{shorts_model}(x, type = NULL, ...)
+\method{plot}{shorts_model}(x, type = "model", ...)
 }
 \arguments{
 \item{x}{\code{shorts_model} object}
 
-\item{type}{Not used}
+\item{type}{Type of plot. Can be "model" (default), "kinematics-time",
+"kinematics-distance", or "residuals"}
 
-\item{...}{Forwarded to \code{\link[ggplot2]{geom_smooth}}}
+\item{...}{Not used}
 }
 \value{
-\link[ggplot2]{ggplot} object
+\code{\link[ggplot2]{ggplot}} object
 }
 \description{
 S3 method for plotting \code{shorts_model} object
 }
 \examples{
-split_times <- data.frame(
-  distance = c(5, 10, 20, 30, 35),
-  time = c(1.20, 1.96, 3.36, 4.71, 5.35)
-)
-
-# Simple model with time splits
-simple_model <- with(
-  split_times,
-  model_timing_gates(distance, time)
-)
-
-coef(simple_model)
-plot(simple_model)
-
 # Simple model with radar gun data
 instant_velocity <- data.frame(
   time = c(0, 1, 2, 3, 4, 5, 6),
@@ -45,7 +32,8 @@ radar_model <- with(
   model_radar_gun(time, velocity)
 )
 
-# sprint_model$parameters
-coef(radar_model)
 plot(radar_model)
+plot(radar_model, "kinematics-time")
+plot(radar_model, "kinematics-distance")
+plot(radar_model, "residuals")
 }

@@ -7,14 +7,14 @@
 * Added `predict_work_till_time()` and `predict_work_till_distance()` to calculate horizontal work performance.
 * Added `work`, `average_power`, and `average_power_relative` to the output of `predict_kinematics()` function, and removed `net_horizontal_force` from the output to avoid confusion whether the inertia is included or not.
 * Updated internal `shorts_model_fit()` function to return model fit metrics in both absolute and percentage forms
-* Added internal `model_sprint()` wrapper function and updated internal `new_shorts_model()` constructor which provide changes in the model output format (`"shorts_model"` class)
-* Updated S3 print and plot methods for the `"shorts_model"` class. The plot method now plots residuals against fitted values
+* Added internal `model_sprint()` wrapper function and updated internal `new_shorts_model()` constructor which provide changes in the model output format (`"shorts_model"` class). This will create BREAK CHANGE from the previous versions of the `{shorts}` package
 * Rewritten `model_radar_gun()` and added alias `model_laser_gun()` function
 * Rewritten `model_timing_gates()`, `model_timing_gates_TC()`, `model_timing_gates_FD()`, and `model_timing_gaes_FD_TC()`, functions. Now the `TC` parameter has positive sign
 * Rewritten `model_tether()` and `model_tether_DC()` functions
 * Added `LPS_session` dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.
 * Added `model_in_situ()` function which performs *embedded* (i.e., *in-situ*) analysis of the session monitoring data using GPS or LPS systems which provide instantaneous acceleration and velocity. 
 * Added `dynaspeed` dataset
+* Updated S3 print and plot methods for the `"shorts_model"` class. The plot method now plots four different types of plots, depending on the `type` argument: "model" (default), "kinematics-time", "kinematics-distance", or "residuals"
 * Updated README to cover changes
 
 # shorts 2.5.0
