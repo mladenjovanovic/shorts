@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 set.seed(1667)
 ```
 
-# shorts <img src="man/figures/logo.png" align="right" width="200"/>
+# shorts <img src="man/figures/logo.png" align="right" width="200" />
 
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/shorts)](https://cran.r-project.org/package=shorts)
@@ -85,10 +85,25 @@ To return the predicted outcome (in this case time variable), use `predict()` fu
 predict(kimberley_profile)
 ```
 
-To create a simple plot of the model residuals, use S3 `plot()` method:
+To create a simple plot use S3 `plot()` method. There are four type options: "model" (default), "kinematics-time", "kinematics-distance", or "residuals":
 
 ```{r}
 plot(kimberley_profile) +
+  theme_bw()
+```
+
+```{r}
+plot(kimberley_profile, "kinematics-time") +
+  theme_bw()
+```
+
+```{r}
+plot(kimberley_profile, "kinematics-distance") +
+  theme_bw()
+```
+
+```{r}
+plot(kimberley_profile, "residuals") +
   theme_bw()
 ```
 
@@ -232,11 +247,12 @@ jim_profile
 
 summary(jim_profile)
 
-plot(jim_profile) +
+# Plot model residuals
+plot(jim_profile, "residuals") +
   theme_bw()
 ```
 
-The object returned from `shorts::model_radar_gun()` is same as object returned from `shorts::model_timing_gates()`. Let's plot Jim's measured velocity and predicted velocity: 
+The object returned from `shorts::model_radar_gun()` is same as object returned from `shorts::model_timing_gates()`. Let's plot Jim's measured velocity and predicted velocity (if you do not want to use generic S3 `plot()` method): 
 
 ```{r}
 ggplot(

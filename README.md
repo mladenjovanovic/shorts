@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file  -->
 
-# shorts <img src="man/figures/logo.png" align="right" width="200"/>
+# shorts <img src="man/figures/logo.png" align="right" width="200" />
 
 <!-- badges: start -->
 
@@ -122,7 +122,9 @@ predict(kimberley_profile)
 #> [1] 1.210935 1.897021 2.521028 3.122008 4.299243 5.466324
 ```
 
-To create a simple plot of the model residuals, use S3 `plot()` method:
+To create a simple plot use S3 `plot()` method. There are four type
+options: “model” (default), “kinematics-time”, “kinematics-distance”, or
+“residuals”:
 
 ``` r
 plot(kimberley_profile) +
@@ -130,6 +132,27 @@ plot(kimberley_profile) +
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" />
+
+``` r
+plot(kimberley_profile, "kinematics-time") +
+  theme_bw()
+```
+
+<img src="man/figures/README-unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
+
+``` r
+plot(kimberley_profile, "kinematics-distance") +
+  theme_bw()
+```
+
+<img src="man/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
+
+``` r
+plot(kimberley_profile, "residuals") +
+  theme_bw()
+```
+
+<img src="man/figures/README-unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" />
 
 If you are interested in calculating average split velocity, use
 `shorts::format_splits()`
@@ -216,7 +239,7 @@ ggplot(kimberley_pred, aes(x = distance, y = value)) +
   ylab(NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
 
 To do prediction simpler, use `shorts::predict_kinematics()` function.
 This will provide kinetics and kinematics for 0-6s sprint using 100Hz.
@@ -349,15 +372,17 @@ summary(jim_profile)
 #> Number of iterations to convergence: 6 
 #> Achieved convergence tolerance: 1.49e-08
 
-plot(jim_profile) +
+# Plot model residuals
+plot(jim_profile, "residuals") +
   theme_bw()
 ```
 
-<img src="man/figures/README-unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
 
 The object returned from `shorts::model_radar_gun()` is same as object
 returned from `shorts::model_timing_gates()`. Let’s plot Jim’s measured
-velocity and predicted velocity:
+velocity and predicted velocity (if you do not want to use generic S3
+`plot()` method):
 
 ``` r
 ggplot(
@@ -370,7 +395,7 @@ ggplot(
   ylab("Velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;" />
 
 Rather than estimating MSS, `shorts::model_radar_gun()` function allows
 you to utilize peak velocity observed in the data as MSS. This is done
@@ -450,7 +475,7 @@ ggplot(
   ylab("Velocity (m/s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
 
 Setting `use_observed_MSS` parameter to `TRUE` in the
 `shorts::model_tether()` function also allows you to use observed peak
@@ -512,7 +537,7 @@ LPS_session %>%
   geom_point(alpha = 0.1)
 ```
 
-<img src="man/figures/README-unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;" />
 
 The next figure plots instant acceleration and velocity:
 
@@ -523,7 +548,7 @@ LPS_session %>%
   geom_point(alpha = 0.1)
 ```
 
-<img src="man/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />
 
 To estimate embedded short sprint profile, we need to filter out
 positive acceleration and velocities over 3 $ms{-1}$ (defaul), then
@@ -554,7 +579,7 @@ LPS_session %>%
   scale_y_continuous(expand = c(0, 0), limits = c(0, embedded_model$parameters$MAC)) 
 ```
 
-<img src="man/figures/README-unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
 
 ### Force-Velocity Profiling
 
@@ -654,7 +679,7 @@ loads_df %>%
   ylab(NULL)
 ```
 
-<img src="man/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;" />
 
 Following figure depicts the effect on split times under different load
 types and magnitudes, assuming FVP to be determinant of performance
@@ -680,7 +705,7 @@ dist_df %>%
   ylab("Time (s)")
 ```
 
-<img src="man/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;" />
 
 One can use external resistance when predicting force or power:
 
@@ -1069,7 +1094,7 @@ ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
   ylab("Profile imbalance")
 ```
 
-<img src="man/figures/README-unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;" />
+<img src="man/figures/README-unnamed-chunk-33-1.png" width="90%" style="display: block; margin: auto;" />
 
 ## Publications
 
