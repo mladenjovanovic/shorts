@@ -1,1 +1,4 @@
-destination: docs
+url: https://mladenjovanovic.github.io/shorts/
+template:
+  bootstrap: 5
+

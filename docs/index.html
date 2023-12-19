@@ -4,7 +4,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Create short sprint (&lt;6sec) profiles using the split times or the radar gun data.
+    Mono-exponential equation is used to estimate maximal sprinting speed (MSS), relative acceleration (TAU),
+    and other parameters such us maximal acceleration (MAC) and maximal relative power (PMAX). These parameters 
+    can be used to predict kinematic and kinetics variables and to compare individuals. The modeling method utilized
+    in this package is based on the works of Chelly SM, Denis C. (2001) &lt;doi: 10.1097/00005768-200102000-00024&gt;,
+    Clark KP, Rieger RH, Bruno RF, Stearne DJ. (2017) &lt;doi: 10.1519/JSC.0000000000002081&gt;, 
+    Furusawa K, Hill AV, Parkinson JL (1927) &lt;doi: 10.1098/rspb.1927.0035&gt;, 
+    Greene PR. (1986) &lt;doi: 10.1016/0025-5564(86)90063-5&gt;, Samozino P. and Peyrot N., et al (2022)
+    &lt;doi: 10.1111/sms.14097&gt;, and Samozino P. (2018) &lt;doi: 10.1007/978-3-319-05633-3_11&gt;.">
 <title>Short Sprints • shorts</title>
 <!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -12,12 +21,11 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
-<script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="deps/bootstrap-5.2.2/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.2.2/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script><meta property="og:title" content="Short Sprints">
+<!-- bootstrap-toc --><script src="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@v1.0.1/dist/bootstrap-toc.min.js" integrity="sha256-4veVQbu7//Lk5TSmc7YV48MxtMy98e26cf5MrgZYnwo=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Short Sprints">
 <meta property="og:description" content="Create short sprint (&lt;6sec) profiles using the split times or the radar gun data.
     Mono-exponential equation is used to estimate maximal sprinting speed (MSS), relative acceleration (TAU),
     and other parameters such us maximal acceleration (MAC) and maximal relative power (PMAX). These parameters 
@@ -27,62 +35,59 @@
     Furusawa K, Hill AV, Parkinson JL (1927) &lt;doi: 10.1098/rspb.1927.0035&gt;, 
     Greene PR. (1986) &lt;doi: 10.1016/0025-5564(86)90063-5&gt;, Samozino P. and Peyrot N., et al (2022)
     &lt;doi: 10.1111/sms.14097&gt;, and Samozino P. (2018) &lt;doi: 10.1007/978-3-319-05633-3_11&gt;.">
-<meta property="og:image" content="/logo.png">
+<meta property="og:image" content="https://mladenjovanovic.github.io/shorts/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
     
 
-    <div class="container template-home">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="index.html">shorts</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.5.0.9000</span>
-      </span>
-    </div>
+    <nav class="navbar fixed-top navbar-light navbar-expand-lg bg-light"><div class="container">
+    
+    <a class="navbar-brand me-2" href="index.html">shorts</a>
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="reference/index.html">Reference</a>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">2.5.0.9000</small>
+
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item">
+  <a class="nav-link" href="reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="news/index.html">Changelog</a>
+<li class="nav-item">
+  <a class="nav-link" href="news/index.html">Changelog</a>
 </li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/mladenjovanovic/shorts/" class="external-link">
-    <span class="fab fa-github fa-lg"></span>
+<form class="form-inline my-2 my-lg-0" role="search">
+        <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
+</form>
+
+      <ul class="navbar-nav">
+<li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/mladenjovanovic/shorts/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
 </li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+    
   </div>
-<!--/.container -->
+</nav><div class="container template-home">
+<div class="row">
+  <main id="main" class="col-md-9"><div class="section level1">
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="shorts-">shorts <a class="anchor" aria-label="anchor" href="#shorts-"></a>
+</h1>
 </div>
-<!--/.navbar -->
-
-      
-
-      </header><div class="row">
-  <div class="contents col-md-9">
-<div class="section level1">
-<div class="page-header"><h1 id="shorts-">shorts <img src="reference/figures/logo.png" align="right" width="200"><a class="anchor" aria-label="anchor" href="#shorts-"></a>
-</h1></div>
 <!-- badges: start -->
 
 <p>This package creates short sprint (&lt;6sec) profiles using the split times, or the radar gun data. Mono-exponential equation is used to estimate maximal sprinting speed (MSS), relative acceleration (TAU), and other parameters. These parameters can be used to predict kinematic and kinetics variables and to compare individuals.</p>
@@ -102,7 +107,7 @@
 </h2>
 <p><strong>{shorts}</strong> comes with two sample data sets: <code>split_times</code> and <code>radar_gun_data</code> with N=5 athletes. Let’s load them both:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://mladenjovanovic.github.io/shorts/" class="external-link">shorts</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://mladenjovanovic.github.io/shorts/">shorts</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://yihui.org/knitr/" class="external-link">knitr</a></span><span class="op">)</span></span>
 <span></span>
@@ -207,13 +212,25 @@
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 1.210935 1.897021 2.521028 3.122008 4.299243 5.466324</span></span></code></pre></div>
-<p>To create a simple plot of the model residuals, use S3 <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method:</p>
+<p>To create a simple plot use S3 <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method. There are four type options: “model” (default), “kinematics-time”, “kinematics-distance”, or “residuals”:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>If you are interested in calculating average split velocity, use <code><a href="reference/format_splits.html">shorts::format_splits()</a></code></p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">kimberley_profile</span>, <span class="st">"kinematics-time"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">kimberley_profile</span>, <span class="st">"kinematics-distance"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">kimberley_profile</span>, <span class="st">"residuals"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p><img src="reference/figures/README-unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p>If you are interested in calculating average split velocity, use <code><a href="reference/format_splits.html">shorts::format_splits()</a></code></p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/format_splits.html">format_splits</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
 <span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span></span>
@@ -311,7 +328,7 @@
 </tbody>
 </table>
 <p>To plot predicted velocity, acceleration, air resistance, force, and power over distance, use <code>shorts:predict_XXX()</code>. Please note that to calculate force, air resistance, and power, we need Kimberley’s bodymass and height (as well as other characteristics such as air pressure, temperature and wind - see <code><a href="reference/get_air_resistance.html">get_air_resistance()</a></code> function).</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_bodymass</span> <span class="op">&lt;-</span> <span class="fl">60</span> <span class="co"># in kilograms</span></span>
 <span><span class="va">kimberley_bodyheight</span> <span class="op">&lt;-</span> <span class="fl">1.7</span> <span class="co"># in meters</span></span>
 <span></span>
@@ -369,9 +386,9 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">metric</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>To do prediction simpler, use <code><a href="reference/predict_kinematics.html">shorts::predict_kinematics()</a></code> function. This will provide kinetics and kinematics for 0-6s sprint using 100Hz.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">predicted_kinematics</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_kinematics.html">predict_kinematics</a></span><span class="op">(</span></span>
 <span>  <span class="va">kimberley_profile</span>,</span>
 <span>  bodymass <span class="op">=</span> <span class="va">kimberley_bodymass</span>,</span>
@@ -560,12 +577,12 @@
 </tbody>
 </table>
 <p>To get model residuals, use <code><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals()</a></code> function:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] -0.052934560 -0.004021206  0.019971712  0.026991617  0.013756878</span></span>
 <span><span class="co">#&gt; [6] -0.022324483</span></span></code></pre></div>
 <p>Package <strong>{shorts}</strong> comes with <code>find_XXX()</code> family of functions that allow finding peak power and it’s location, as well as <em>critical distance</em> over which velocity, acceleration, or power drops below certain threshold:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Peak power and location</span></span>
 <span><span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/find_functions.html">find_peak_power_distance</a></span><span class="op">(</span></span>
 <span>  MSS <span class="op">=</span> <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
@@ -613,7 +630,7 @@
 <h3 id="profiling-using-radar-gun-data">Profiling using radar gun data<a class="anchor" aria-label="anchor" href="#profiling-using-radar-gun-data"></a>
 </h3>
 <p>The radar gun data is modeled using measured velocity as target variable and time as predictor. Individual analysis is performed using <code><a href="reference/model_functions.html">shorts::model_radar_gun()</a></code> function. Let’s do analysis for Jim:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jim_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">radar_gun_data</span>, <span class="va">athlete</span> <span class="op">==</span> <span class="st">"Jim"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">jim_profile</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_radar_gun</a></span><span class="op">(</span></span>
@@ -658,11 +675,12 @@
 <span><span class="co">#&gt; Number of iterations to convergence: 6 </span></span>
 <span><span class="co">#&gt; Achieved convergence tolerance: 1.49e-08</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">jim_profile</span><span class="op">)</span> <span class="op">+</span></span>
+<span><span class="co"># Plot model residuals</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">jim_profile</span>, <span class="st">"residuals"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-11-1.png" width="90%" style="display: block; margin: auto;"></p>
-<p>The object returned from <code><a href="reference/model_functions.html">shorts::model_radar_gun()</a></code> is same as object returned from <code><a href="reference/model_functions.html">shorts::model_timing_gates()</a></code>. Let’s plot Jim’s measured velocity and predicted velocity:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<p><img src="reference/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p>The object returned from <code><a href="reference/model_functions.html">shorts::model_radar_gun()</a></code> is same as object returned from <code><a href="reference/model_functions.html">shorts::model_timing_gates()</a></code>. Let’s plot Jim’s measured velocity and predicted velocity (if you do not want to use generic S3 <code><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot()</a></code> method):</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">jim_profile</span><span class="op">$</span><span class="va">predictions</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">.predictor</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -671,9 +689,9 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">.predicted</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Time (s)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Velocity (m/s)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-12-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-15-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>Rather than estimating MSS, <code><a href="reference/model_functions.html">shorts::model_radar_gun()</a></code> function allows you to utilize peak velocity observed in the data as MSS. This is done by setting the <code>use_observed_MSS</code> parameter to <code>TRUE</code>:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jim_profile</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_radar_gun</a></span><span class="op">(</span></span>
 <span>  time <span class="op">=</span> <span class="va">jim_data</span><span class="op">$</span><span class="va">time</span>,</span>
 <span>  velocity <span class="op">=</span> <span class="va">jim_data</span><span class="op">$</span><span class="va">velocity</span>,</span>
@@ -721,7 +739,7 @@
 <h3 id="profiling-using-tether-devices">Profiling using tether devices<a class="anchor" aria-label="anchor" href="#profiling-using-tether-devices"></a>
 </h3>
 <p>Some tether devices provide data out in a velocity-at-distance format. In this case, velocity is the outcome variable and distance is the predictor. To estimate sprint profiles from <em>tether data</em>, use <code><a href="reference/model_functions.html">shorts::model_tether()</a></code> function:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">distance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">velocity</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_kinematics.html">predict_velocity_at_distance</a></span><span class="op">(</span><span class="va">distance</span>, MSS <span class="op">=</span> <span class="fl">10</span>, MAC <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
@@ -741,10 +759,10 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>y <span class="op">=</span> <span class="va">.predicted</span><span class="op">)</span>, color <span class="op">=</span> <span class="st">"red"</span>, alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Velocity (m/s)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>Setting <code>use_observed_MSS</code> parameter to <code>TRUE</code> in the <code><a href="reference/model_functions.html">shorts::model_tether()</a></code> function also allows you to use observed peak velocity as MSS.</p>
 <p>In the case when distance is not centered at zero, use <code><a href="reference/model_functions.html">shorts::model_tether_DC()</a></code> which also estimated the <em>distance correction</em> (DC) parameter, serving as model intercept (for more info see <a href="#using-corrections">Using corrections</a> section):</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">distance</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">velocity</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/predict_kinematics.html">predict_velocity_at_distance</a></span><span class="op">(</span><span class="va">distance</span> <span class="op">-</span> <span class="fl">0.5</span>, MSS <span class="op">=</span> <span class="fl">10</span>, MAC <span class="op">=</span> <span class="fl">8</span><span class="op">)</span></span>
@@ -775,23 +793,23 @@
 </h3>
 <p>With the modern technologies like GPS and LPS, session acceleration and velocity can be tracked continuously. This provides an opportunity to estimate short sprint profiles from <em>in-situ</em>, without the need for explicit testing (assuming the maximal effort was performed). The analysis is based on the theoretical model where acceleration and velocity have linear relationship. The time frame of the analysis can vary from single drills (e.g., sprint drills), session, week, to multiple weeks.</p>
 <p>Here is an example of the data collected during one basketball session for a single person. Duration was aprox. 90min with 20Hz sampling rate. This is the positional data:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"LPS_session"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">LPS_session</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">x</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-19-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>The next figure plots instant acceleration and velocity:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">LPS_session</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">velocity</span>, y <span class="op">=</span> <span class="va">acceleration</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-17-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>To estimate embedded short sprint profile, we need to filter out positive acceleration and velocities over 3 <span class="math inline"><em>m</em><em>s</em>−1</span> (defaul), then filter few top acceleration observations per velocity bracket (for more information please see Clavel <em>et al.</em> (2023)). Here is the graphical representation:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">embedded_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/model_functions.html">model_in_situ</a></span><span class="op">(</span></span>
 <span>  <span class="va">LPS_session</span><span class="op">$</span><span class="va">velocity</span>,</span>
 <span>  <span class="va">LPS_session</span><span class="op">$</span><span class="va">acceleration</span>,</span>
@@ -812,13 +830,13 @@
 <span>    linetype <span class="op">=</span> <span class="st">"dotted"</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_x_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,  <span class="va">embedded_model</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_continuous.html" class="external-link">scale_y_continuous</a></span><span class="op">(</span>expand <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>, limits <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="va">embedded_model</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MAC</span><span class="op">)</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-18-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
 <div class="section level3">
 <h3 id="force-velocity-profiling">Force-Velocity Profiling<a class="anchor" aria-label="anchor" href="#force-velocity-profiling"></a>
 </h3>
 <p>To estimate <em>Force-Velocity Profile</em> (FVP) using approach by Samozino <em>et al.</em> (2016, 2022) use <code><a href="reference/create_FVP.html">shorts::create_FVP()</a></code>:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_fv</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/create_FVP.html">create_FVP</a></span><span class="op">(</span></span>
 <span>  MSS <span class="op">=</span> <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MSS</span>,</span>
 <span>  MAC <span class="op">=</span> <span class="va">kimberley_profile</span><span class="op">$</span><span class="va">parameters</span><span class="op">$</span><span class="va">MAC</span>,</span>
@@ -849,7 +867,7 @@
 <span><span class="co">#&gt; $FV_slope</span></span>
 <span><span class="co">#&gt; [1] -1.197112</span></span></code></pre></div>
 <p>To convert back to <em>Acceleration-Velocity Profile</em> (AVP), use:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_avp</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/convert_FVP.html">convert_FVP</a></span><span class="op">(</span></span>
 <span>  F0 <span class="op">=</span> <span class="va">kimberley_fv</span><span class="op">$</span><span class="va">F0</span>,</span>
 <span>  V0 <span class="op">=</span> <span class="va">kimberley_fv</span><span class="op">$</span><span class="va">V0</span>,</span>
@@ -869,7 +887,7 @@
 </h3>
 <p><strong>{shorts}</strong> package also allows utilizing external load in estimating FVP, as well as using FVP parameters to predict kinematic and kinetic variables. External load is represented either with additional <strong>inertia</strong> (i.e., weight vest), horizontal <strong>resistance</strong> (i.e., tether device that create additional resistance or help, or a hill sprinting), or both (i.e., a sled, which have both inertia and resistance due to friction forces). One might also consider head and tail wind as a form of resistance (or assistance).</p>
 <p>Let’s see how theoretical model, assuming FVP is <em>determinant of performance</em> (which I do not agree with, BTW), predicts changes in sprint characteristics (i.e., MSS and MAC) under different external load conditions and magnitudes using Kimberley’s estimated FVP:</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">loads_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span></span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Weight vest"</span>, magnitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">20</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>, inertia <span class="op">=</span> <span class="va">magnitude</span>, resistance <span class="op">=</span> <span class="fl">0</span><span class="op">)</span>,</span>
 <span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html" class="external-link">tibble</a></span><span class="op">(</span>type <span class="op">=</span> <span class="st">"Tether"</span>, magnitude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">50</span>, <span class="fl">200</span>, length.out <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>, inertia <span class="op">=</span> <span class="fl">0</span>, resistance <span class="op">=</span> <span class="va">magnitude</span><span class="op">)</span>,</span>
@@ -894,9 +912,9 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">type</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-21-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-24-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>Following figure depicts the effect on split times under different load types and magnitudes, assuming FVP to be determinant of performance (i.e., causal mechanism):</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dist_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tidyr.tidyverse.org/reference/expand_grid.html" class="external-link">expand_grid</a></span><span class="op">(</span></span>
 <span>  <span class="va">loads_df</span>,</span>
 <span>  distance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fl">10</span>, <span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span></span>
@@ -914,9 +932,9 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_path.html" class="external-link">geom_line</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/facet_wrap.html" class="external-link">facet_wrap</a></span><span class="op">(</span><span class="op">~</span><span class="va">type</span>, scales <span class="op">=</span> <span class="st">"free_x"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Time (s)"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-22-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-25-1.png" width="90%" style="display: block; margin: auto;"></p>
 <p>One can use external resistance when predicting force or power:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/predict_kinematics.html">predict_force_at_time</a></span><span class="op">(</span></span>
 <span>  time <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  MSS <span class="op">=</span> <span class="fl">9</span>,</span>
@@ -950,7 +968,7 @@
 </h3>
 <p>You have probably noticed that estimated MSS and TAU were a bit too high for splits data. Biased estimates are due to differences in starting positions and <em>timing triggering methods</em> for certain measurement approaches (e.g. starting behind first timing gate, or allowing for body rocking).</p>
 <p>Here I will provide quick summary. Often, this bias in estimates is dealt with by using heuristic rule of thumb of adding time correction (<code>time_correction</code>) to split times (e.g. from 0.3-0.5sec; see more in Haugen <em>et al.</em>, 2012). To do this, just add time correction to time split:</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile_fixed_TC</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_timing_gates</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
 <span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span> <span class="op">+</span> <span class="fl">0.3</span></span>
@@ -992,7 +1010,7 @@
 <span><span class="co">#&gt;       MSS       TAU       MAC      PMAX </span></span>
 <span><span class="co">#&gt;  9.127769  1.377624  6.625731 15.119536</span></span></code></pre></div>
 <p>Instead of providing for <code>TC</code>, this parameter can be estimated using <code><a href="reference/model_functions.html">shorts::model_timing_gates_TC()</a></code>.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile_TC</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_timing_gates_TC</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
 <span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span></span>
@@ -1018,7 +1036,7 @@
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
 <span><span class="co">#&gt;   3.748225e-02   6.586034e-04   2.823533e-02</span></span></code></pre></div>
 <p>Instead of estimating <code>TC</code>, <strong>{shorts}</strong> package features a method of estimating flying start distance (<code>FD</code>):</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile_FD</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_timing_gates_FD</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
 <span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span></span>
@@ -1044,7 +1062,7 @@
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
 <span><span class="co">#&gt;   8.402643e-03   2.367539e-04   7.829109e-03</span></span></code></pre></div>
 <p>If you want to use fixed <code>FD</code> parameter (e.g., when you know what is the flying distance), in a similar vein of using fixed <code>TC</code> correction, use:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile_fixed_FD</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_timing_gates_FD</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
 <span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span>,</span>
@@ -1075,7 +1093,7 @@
 <h3 id="cross-validation-cv">Cross-Validation (CV)<a class="anchor" aria-label="anchor" href="#cross-validation-cv"></a>
 </h3>
 <p><code>model_</code> family of functions come with CV feature that is performed by setting the function parameter CV to desired number of folds. This feature is very useful for checking model parameters robustness and model predictions on unseen data. Let’s use Kimberley again, but this time perform special kind of CV, leave-one-out-cross-validation (LOOCV):</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile_CV</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_timing_gates</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
 <span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span>,</span>
@@ -1119,7 +1137,7 @@
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
 <span><span class="co">#&gt;     2.59202754     0.03923868     1.72270383</span></span></code></pre></div>
 <p>Radar gun data often comes with much more observations, thus we can set smaller CV parameter:</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jim_profile_CV</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_radar_gun</a></span><span class="op">(</span></span>
 <span>  time <span class="op">=</span> <span class="va">jim_data</span><span class="op">$</span><span class="va">time</span>,</span>
 <span>  velocity <span class="op">=</span> <span class="va">jim_data</span><span class="op">$</span><span class="va">velocity</span>,</span>
@@ -1174,7 +1192,7 @@
 <h3 id="optimization">Optimization<a class="anchor" aria-label="anchor" href="#optimization"></a>
 </h3>
 <p>Using the method outlined in Samozino <em>et al</em> (2022), one can find the optimal profiles, as well as the profile imbalance (compared to the optimal), for both sprint profiles (i.e., MSS and MAC) and Force-Velocity (FV). In addition to this, one can <em>probe</em> the profiles (i.e., increase V0/F0 or MSS/MAC for say 2.5% to check which improvement yield more improvement in sprint time). The following graph depicts estimate profile imbalances. Note that &gt;100% is velocity deficit (i.e., increasing <em>velocity</em>; MSS or V0; will yield more improvement in sprint times), while &lt;100% is <em>force</em> deficit.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">MSS</span> <span class="op">&lt;-</span> <span class="fl">10</span></span>
 <span><span class="va">MAC</span> <span class="op">&lt;-</span> <span class="fl">8</span></span>
 <span><span class="va">bodymass</span> <span class="op">&lt;-</span> <span class="fl">75</span></span>
@@ -1257,7 +1275,7 @@
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">opt_dist</span>, <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">value</span>, y <span class="op">=</span> <span class="fl">100</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"Distance (m)"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"Profile imbalance"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-30-1.png" width="90%" style="display: block; margin: auto;"></p>
+<p><img src="reference/figures/README-unnamed-chunk-33-1.png" width="90%" style="display: block; margin: auto;"></p>
 </div>
 </div>
 <div class="section level2">
@@ -1273,7 +1291,7 @@
 <h2 id="citation">Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h2>
 <p>To cite <strong>{shorts}</strong>, please use the following command to get the BibTex entry:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/citation.html" class="external-link">citation</a></span><span class="op">(</span><span class="st">"shorts"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
@@ -1291,10 +1309,7 @@
 <p>Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P, Vanwanseele B, Morin J. 2022. Optimal mechanical force‐velocity profile for sprint acceleration performance.Scandinavian Journal of Medicine &amp; Science in Sports 32:559–575. DOI: 10.1111/sms.14097.</p>
 </div>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <div class="links">
+  </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li><a href="https://cloud.r-project.org/package=shorts" class="external-link">View on CRAN</a></li>
@@ -1335,25 +1350,24 @@
 </ul>
 </div>
 
-  </div>
+  </aside>
 </div>
 
 
-      <footer><div class="copyright">
+    <footer><div class="pkgdown-footer-left">
   <p></p>
 <p>Developed by Mladen Jovanović.</p>
 </div>
 
-<div class="pkgdown">
+<div class="pkgdown-footer-right">
   <p></p>
 <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
 
   
-
 
   
 
