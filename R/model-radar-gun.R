@@ -43,7 +43,7 @@ model_radar_gun <- function(time,
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      velocity ~ MSS * (1 - exp(1)^(-(time + TC) / TAU)),
+      velocity ~ MSS * (1 - exp(1)^(-(time - TC) / TAU)),
       data = train,
       start = param_start,
       lower = param_lower,
