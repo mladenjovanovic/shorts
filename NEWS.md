@@ -10,7 +10,7 @@
 * Added internal `model_sprint()` wrapper function and updated internal `new_shorts_model()` constructor which provide changes in the model output format (`"shorts_model"` class). This will create BREAK CHANGE from the previous versions of the `{shorts}` package
 * Rewritten `model_radar_gun()` and added alias `model_laser_gun()` function
 * Rewritten `model_timing_gates()`, `model_timing_gates_TC()`, `model_timing_gates_FD()`, and `model_timing_gaes_FD_TC()`, functions. Now the `TC` parameter has positive sign
-* Rewritten `model_tether()` and `model_tether_DC()` functions
+* Rewritten `model_tether()` and `model_tether_DC()` functions. Changed the sign of the `DC`parameter
 * Added `LPS_session` dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.
 * Added `model_in_situ()` function which performs *embedded* (i.e., *in-situ*) analysis of the session monitoring data using GPS or LPS systems which provide instantaneous acceleration and velocity. 
 * Added `dynaspeed` dataset

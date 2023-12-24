@@ -142,7 +142,7 @@ model_tether_DC <- function(distance,
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      velocity ~ MSS * (1 - exp(1)^(-((TAU * I(LambertW::W(-exp(1)^(-(distance + DC) / (MSS * TAU) - 1))) + (distance + DC) / MSS + TAU) / TAU))),
+      velocity ~ MSS * (1 - exp(1)^(-((TAU * I(LambertW::W(-exp(1)^(-(distance - DC) / (MSS * TAU) - 1))) + (distance - DC) / MSS + TAU) / TAU))),
       data = train,
       start = param_start,
       lower = param_lower,
