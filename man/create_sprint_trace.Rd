@@ -30,8 +30,8 @@ create_sprint_trace(
 \value{
 Data-frame with following 6 columns
     \describe{
-       \item{time}{Measurement-scale time vector in seconds}
-       \item{distance}{Measurement-scale distance vector in meters}
+       \item{time}{Measurement-scale time vector in seconds. Equal to parameter \code{time}}
+       \item{distance}{Measurement-scale distance vector in meters. Equal to parameter \code{distance}}
        \item{velocity}{Velocity vector in m/s}
        \item{acceleration}{Acceleration vector in m/s/s}
        \item{sprint_time}{Sprint scale time vector in seconds. Sprint always start at t=0s}
@@ -39,11 +39,11 @@ Data-frame with following 6 columns
     }
 }
 \description{
-This function creates sprint trace either using `time` or `distance` vectors
+This function creates sprint trace either using \code{time} or \code{distance} vectors
 }
 \examples{
-df <- create_sprint_trace(8, 7, time = seq(0, 6, by = 0.01))
 
+df <- create_sprint_trace(8, 7, time = seq(0, 6, by = 0.01))
 df <- create_sprint_trace(8, 7, distance = seq(0, 40, by = 1))
 
 }

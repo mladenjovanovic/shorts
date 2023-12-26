@@ -12,7 +12,6 @@
 \alias{model_timing_gates}
 \alias{model_timing_gates_TC}
 \alias{model_timing_gates_FD}
-\alias{model_timing_gates_FD_TC}
 \title{Model functions}
 \usage{
 model_in_situ(
@@ -79,16 +78,6 @@ model_timing_gates_TC(
 )
 
 model_timing_gates_FD(
-  distance,
-  time,
-  weights = 1,
-  FD = NULL,
-  CV = NULL,
-  na.rm = FALSE,
-  ...
-)
-
-model_timing_gates_FD_TC(
   distance,
   time,
   weights = 1,
@@ -164,19 +153,14 @@ Family of functions that serve a purpose of estimating short sprint parameters
 
 \code{model_timing_gates_FD} estimates short sprint parameters using distance-time trace
      (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD}
-
-\code{model_timing_gates_FD_TC} estimates short sprint parameters using distance-time trace
-     (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD} and
-     time correction parameter \code{TC}
 }
 \examples{
+
+# Model In-Situ (Embedded profiling)
 data("LPS_session")
-
-insitu_model <- model_in_situ(LPS_session$velocity, LPS_session$acceleration)
-
-print(insitu_model)
-coef(insitu_model)
-plot(insitu_model)
+m1 <- model_in_situ(LPS_session$velocity, LPS_session$acceleration)
+m1
+plot(m1)
 
 
 # Model Radar Gun (includes Time Correction)
@@ -206,69 +190,27 @@ m1 <- model_tether_DC(distance = df$distance, velocity = df$velocity)
 m1
 plot(m1)
 
-split_distances <- c(10, 20, 30, 40, 50)
-split_times <- create_timing_gates_splits(
-  gates = split_distances,
-  MSS = 10,
-  MAC = 9,
-  FD = 0,
-  TC = 0
-)
 
-# Simple model
-simple_model <- model_timing_gates(split_distances, split_times)
+# Model Timing Gates (simple, withour corrections)
+df <- create_sprint_trace(MSS = 8, MAC = 6, distance = c(5, 10, 20, 30, 40))
+m1 <- model_timing_gates(distance = df$distance, time = df$time)
+m1
+plot(m1)
 
-print(simple_model)
-coef(simple_model)
-plot(simple_model)
-split_distances <- c(10, 20, 30, 40, 50)
-split_times <- create_timing_gates_splits(
-  gates = split_distances,
-  MSS = 10,
-  MAC = 9,
-  FD = 0,
-  TC = 0.2,
-  noise = 0.001
-)
 
-# TC model
-TC_model <- model_timing_gates_TC(split_distances, split_times)
+# Model Timing Gates (with Time Correction)
+df <- create_sprint_trace(MSS = 8, MAC = 6, distance = c(5, 10, 20, 30, 40), TC = 0.2)
+m1 <- model_timing_gates_TC(distance = df$distance, time = df$time)
+m1
+plot(m1)
 
-print(TC_model)
-coef(TC_model)
-plot(TC_model)
-split_distances <- c(10, 20, 30, 40, 50)
-split_times <- create_timing_gates_splits(
-  gates = split_distances,
-  MSS = 10,
-  MAC = 9,
-  FD = 0.5,
-  TC = 0,
-  noise = 0.001
-)
 
-# FD model
-FD_model <- model_timing_gates_FD(split_distances, split_times)
+# Model Timing Gates (with Flying Distance Correction)
+df <- create_sprint_trace(MSS = 8, MAC = 6, distance = c(5, 10, 20, 30, 40), FD = 0.5)
+m1 <- model_timing_gates_FD(distance = df$distance, time = df$time)
+m1
+plot(m1)
 
-print(FD_model)
-coef(FD_model)
-plot(FD_model)
-split_distances <- c(10, 20, 30, 40, 50)
-split_times <- create_timing_gates_splits(
-  gates = split_distances,
-  MSS = 10,
-  MAC = 9,
-  FD = 0.5,
-  TC = 0.1,
-  noise = 0.001
-)
-
-# FD TC model
-FD_TC_model <- model_timing_gates_FD_TC(split_distances, split_times)
-
-print(FD_TC_model)
-coef(FD_TC_model)
-plot(FD_TC_model)
 }
 \references{
 Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
