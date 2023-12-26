@@ -11,7 +11,7 @@
 * Rewritten `model_radar_gun()` and added alias `model_laser_gun()` function
 * Rewritten `model_timing_gates()`, `model_timing_gates_TC()`, `model_timing_gates_FD()`, and `model_timing_gaes_FD_TC()`, functions. Now the `TC` parameter has positive sign
 * Rewritten `model_tether()` and `model_tether_DC()` functions. Changed the sign of the `DC`parameter
-* Rewritten `model_` family of functions to include `predict_` function in the model definition. This improves readability of the model definition. Also moved `MAC` in the output after `MSS` parameter.
+* Rewritten `model_` family of functions to include `predict_` function in the model definition. Now `MSS` and `MAC` are estimated, rather than `MSS` and `TAU`. This improves readability of the model definition. Also moved `MAC` in the output after `MSS` parameter.
 * Updated examples for the `model_` family of functions
 * Removed `model_timing_gates_FD_TC()` function
 * Added `LPS_session` dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.
@@ -19,6 +19,7 @@
 * Added `create_sprint_trace()` function for quickly creating sprint traces with time- and distance-shifts, as well as flying starts. Useful for creating examples for issues in modeling sprint traces
 * Added `dynaspeed` dataset
 * Updated S3 print and plot methods for the `"shorts_model"` class. The plot method now plots four different types of plots, depending on the `type` argument: "model" (default), "kinematics-time", "kinematics-distance", or "residuals"
+* Added `confint` S3 method to provide confidence intervals of the parameters
 * Updated README to cover changes
 
 # shorts 2.5.0
