@@ -13,6 +13,7 @@
 * Rewritten `model_tether()` and `model_tether_DC()` functions. Changed the sign of the `DC`parameter
 * Added `LPS_session` dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.
 * Added `model_in_situ()` function which performs *embedded* (i.e., *in-situ*) analysis of the session monitoring data using GPS or LPS systems which provide instantaneous acceleration and velocity. 
+* Added `create_sprint_trace()` function for quickly creating sprint traces with time- and distance-shifts, as well as flying starts. Useful for creating examples for issues in modeling sprint traces
 * Added `dynaspeed` dataset
 * Updated S3 print and plot methods for the `"shorts_model"` class. The plot method now plots four different types of plots, depending on the `type` argument: "model" (default), "kinematics-time", "kinematics-distance", or "residuals"
 * Updated README to cover changes
