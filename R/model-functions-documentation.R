@@ -14,7 +14,7 @@
 #'         \item{model_info}{Extra information regarding model used}
 #'         \item{model}{Model returned by the \code{\link[minpack.lm]{nlsLM}} function}
 #'         \item{parameters}{List with the following estimated parameters:
-#'             \code{MSS}, \code{TAU}, \code{MAC}, and \code{PMAX}}
+#'             \code{MSS}, \code{MAC}, \code{TAU}, and \code{PMAX}}
 #'         \item{correction}{List with additional model correcitons}
 #'         \item{predictions}{Data frame with \code{.predictor}, \code{.observed},
 #'             \code{.predicted}, and \code{.residual} columns}
