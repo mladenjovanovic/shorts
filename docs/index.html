@@ -176,27 +176,26 @@
 <span><span class="va">kimberley_profile</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt;        MSS        TAU        MAC       PMAX </span></span>
-<span><span class="co">#&gt;  8.5911430  0.8113285 10.5889820 22.7428645 </span></span>
+<span><span class="co">#&gt;        MSS        MAC        TAU       PMAX </span></span>
+<span><span class="co">#&gt;  8.5911431 10.5889817  0.8113285 22.7428642 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model fit estimators</span></span>
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;     0.99965531    -0.00309334    -0.53860253    -0.05293456    -4.57120551 </span></span>
+<span><span class="co">#&gt;    0.999655312   -0.003093343   -0.538602775   -0.052934568   -4.571206233 </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
-<span><span class="co">#&gt;     0.02699162     0.85714883     0.05293456     4.57120551     0.02778875 </span></span>
+<span><span class="co">#&gt;    0.026991611    0.857148665    0.052934568    4.571206233    0.027788752 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
-<span><span class="co">#&gt;     1.93921846     0.02333341     1.19263265</span></span>
+<span><span class="co">#&gt;    1.939218713    0.023333409    1.192632747</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Formula: time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS * TAU) - 1))) + </span></span>
-<span><span class="co">#&gt;     distance/MSS + TAU</span></span>
+<span><span class="co">#&gt; Formula: time ~ predict_time_at_distance(distance, MSS, MAC)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parameters:</span></span>
 <span><span class="co">#&gt;     Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">#&gt; MSS  8.59114    0.12251   70.13 2.48e-07 ***</span></span>
-<span><span class="co">#&gt; TAU  0.81133    0.04581   17.71 5.97e-05 ***</span></span>
+<span><span class="co">#&gt; MSS   8.5911     0.1225   70.13 2.48e-07 ***</span></span>
+<span><span class="co">#&gt; MAC  10.5890     0.4599   23.03 2.11e-05 ***</span></span>
 <span><span class="co">#&gt; ---</span></span>
 <span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -206,8 +205,8 @@
 <span><span class="co">#&gt; Achieved convergence tolerance: 1.49e-08</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span></span>
-<span><span class="co">#&gt;        MSS        TAU        MAC       PMAX </span></span>
-<span><span class="co">#&gt;  8.5911430  0.8113285 10.5889820 22.7428645</span></span></code></pre></div>
+<span><span class="co">#&gt;        MSS        MAC        TAU       PMAX </span></span>
+<span><span class="co">#&gt;  8.5911431 10.5889817  0.8113285 22.7428642</span></span></code></pre></div>
 <p>To return the predicted outcome (in this case time variable), use <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> function:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span></span>
@@ -476,7 +475,7 @@
 <td align="right">627.5588</td>
 <td align="right">10.459313</td>
 <td align="right">588.6</td>
-<td align="right">860.3953</td>
+<td align="right">860.3952</td>
 <td align="right">14.33992</td>
 <td align="right">66.04424</td>
 <td align="right">1.100737</td>
@@ -500,11 +499,11 @@
 <td align="right">588.6</td>
 <td align="right">854.8100</td>
 <td align="right">14.24683</td>
-<td align="right">129.67295</td>
+<td align="right">129.67294</td>
 <td align="right">2.161216</td>
 <td align="right">1.3128332</td>
 <td align="right">65.64166</td>
-<td align="right">1.0940277</td>
+<td align="right">1.0940276</td>
 <td align="right">0.7251660</td>
 <td align="right">43.51734</td>
 </tr>
@@ -522,11 +521,11 @@
 <td align="right">588.6</td>
 <td align="right">849.3290</td>
 <td align="right">14.15548</td>
-<td align="right">190.95643</td>
+<td align="right">190.95642</td>
 <td align="right">3.182607</td>
-<td align="right">2.9179057</td>
+<td align="right">2.9179055</td>
 <td align="right">97.26352</td>
-<td align="right">1.6210587</td>
+<td align="right">1.6210586</td>
 <td align="right">0.7209206</td>
 <td align="right">43.86946</td>
 </tr>
@@ -544,11 +543,11 @@
 <td align="right">588.6</td>
 <td align="right">843.9506</td>
 <td align="right">14.06584</td>
-<td align="right">249.96306</td>
+<td align="right">249.96305</td>
 <td align="right">4.166051</td>
-<td align="right">5.1243725</td>
+<td align="right">5.1243723</td>
 <td align="right">128.10931</td>
-<td align="right">2.1351552</td>
+<td align="right">2.1351551</td>
 <td align="right">0.7166488</td>
 <td align="right">44.22151</td>
 </tr>
@@ -556,7 +555,7 @@
 <td align="right">0.05</td>
 <td align="right">0.0129685</td>
 <td align="right">0.5134649</td>
-<td align="right">9.956113</td>
+<td align="right">9.956112</td>
 <td align="right">60</td>
 <td align="right">0</td>
 <td align="right">0</td>
@@ -566,11 +565,11 @@
 <td align="right">588.6</td>
 <td align="right">838.6732</td>
 <td align="right">13.97789</td>
-<td align="right">306.75938</td>
+<td align="right">306.75937</td>
 <td align="right">5.112656</td>
-<td align="right">7.9097994</td>
-<td align="right">158.19599</td>
-<td align="right">2.6365998</td>
+<td align="right">7.9097991</td>
+<td align="right">158.19598</td>
+<td align="right">2.6365997</td>
 <td align="right">0.7123515</td>
 <td align="right">44.57343</td>
 </tr>
@@ -579,8 +578,8 @@
 <p>To get model residuals, use <code><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals()</a></code> function:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals</a></span><span class="op">(</span><span class="va">kimberley_profile</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] -0.052934560 -0.004021206  0.019971712  0.026991617  0.013756878</span></span>
-<span><span class="co">#&gt; [6] -0.022324483</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] -0.052934568 -0.004021215  0.019971704  0.026991611  0.013756880</span></span>
+<span><span class="co">#&gt; [6] -0.022324473</span></span></code></pre></div>
 <p>Package <strong>{shorts}</strong> comes with <code>find_XXX()</code> family of functions that allow finding peak power and it’s location, as well as <em>critical distance</em> over which velocity, acceleration, or power drops below certain threshold:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Peak power and location</span></span>
@@ -641,38 +640,38 @@
 <span><span class="va">jim_profile</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt;        MSS        TAU        MAC       PMAX </span></span>
-<span><span class="co">#&gt;  7.9980114  0.8887955  8.9987083 17.9929427 </span></span>
+<span><span class="co">#&gt;        MSS        MAC        TAU       PMAX </span></span>
+<span><span class="co">#&gt;  7.9980115  8.9987068  0.8887957 17.9929400 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Estimated model corrections</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
 <span><span class="co">#&gt;           TC </span></span>
-<span><span class="co">#&gt; 0.0001103989 </span></span>
+<span><span class="co">#&gt; 0.0001104745 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model fit estimators</span></span>
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;   9.992441e-01  -4.601924e-08           -Inf  -1.640452e-01           -Inf </span></span>
+<span><span class="co">#&gt;   9.992441e-01  -3.022959e-08           -Inf  -1.640450e-01           -Inf </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
-<span><span class="co">#&gt;   1.511231e-01   2.332507e+00   1.640452e-01            Inf   5.050254e-02 </span></span>
+<span><span class="co">#&gt;   1.511234e-01   2.332511e+00   1.640450e-01            Inf   5.050254e-02 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
 <span><span class="co">#&gt;            Inf   3.927236e-02            Inf</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">jim_profile</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Formula: velocity ~ MSS * (1 - exp(1)^(-(time + TC)/TAU))</span></span>
+<span><span class="co">#&gt; Formula: velocity ~ predict_velocity_at_time(time + TC, MSS, MAC)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parameters:</span></span>
 <span><span class="co">#&gt;      Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">#&gt; MSS 7.9980114  0.0031934 2504.54   &lt;2e-16 ***</span></span>
-<span><span class="co">#&gt; TAU 0.8887955  0.0021794  407.81   &lt;2e-16 ***</span></span>
-<span><span class="co">#&gt; TC  0.0001104  0.0012283    0.09    0.928    </span></span>
+<span><span class="co">#&gt; MSS 7.9980115  0.0031934 2504.54   &lt;2e-16 ***</span></span>
+<span><span class="co">#&gt; MAC 8.9987068  0.0199704  450.60   &lt;2e-16 ***</span></span>
+<span><span class="co">#&gt; TC  0.0001105  0.0012283    0.09    0.928    </span></span>
 <span><span class="co">#&gt; ---</span></span>
 <span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Residual standard error: 0.05063 on 597 degrees of freedom</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Number of iterations to convergence: 6 </span></span>
+<span><span class="co">#&gt; Number of iterations to convergence: 4 </span></span>
 <span><span class="co">#&gt; Achieved convergence tolerance: 1.49e-08</span></span>
 <span></span>
 <span><span class="co"># Plot model residuals</span></span>
@@ -701,32 +700,32 @@
 <span><span class="va">jim_profile</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt;        MSS        TAU        MAC       PMAX </span></span>
-<span><span class="co">#&gt;  8.0950000  0.9327946  8.6782238 17.5625555 </span></span>
+<span><span class="co">#&gt;        MSS        MAC        TAU       PMAX </span></span>
+<span><span class="co">#&gt;  8.0950000  8.6782211  0.9327949 17.5625500 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Estimated model corrections</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
 <span><span class="co">#&gt;         TC </span></span>
-<span><span class="co">#&gt; 0.01117667 </span></span>
+<span><span class="co">#&gt; 0.01117683 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model fit estimators</span></span>
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;     0.99875693    -0.03881100           -Inf    -0.22869210           -Inf </span></span>
+<span><span class="co">#&gt;     0.99875693    -0.03881082           -Inf    -0.22869200           -Inf </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
-<span><span class="co">#&gt;     0.18253899     2.81739446     0.22869210            Inf     0.07984600 </span></span>
+<span><span class="co">#&gt;     0.18253953     2.81740282     0.22869200            Inf     0.07984600 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
-<span><span class="co">#&gt;            Inf     0.06431869            Inf</span></span>
+<span><span class="co">#&gt;            Inf     0.06431872            Inf</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">jim_profile</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Formula: velocity ~ MSS * (1 - exp(1)^(-(time + TC)/TAU))</span></span>
+<span><span class="co">#&gt; Formula: velocity ~ predict_velocity_at_time(time + TC, MSS, MAC)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parameters:</span></span>
 <span><span class="co">#&gt;     Estimate Std. Error  t value Pr(&gt;|t|)    </span></span>
 <span><span class="co">#&gt; MSS 8.095000   0.005209 1554.099  &lt; 2e-16 ***</span></span>
-<span><span class="co">#&gt; TAU 0.932795   0.003605  258.739  &lt; 2e-16 ***</span></span>
-<span><span class="co">#&gt; TC  0.011177   0.002025    5.519  5.1e-08 ***</span></span>
+<span><span class="co">#&gt; MAC 8.678221   0.030174  287.601  &lt; 2e-16 ***</span></span>
+<span><span class="co">#&gt; TC  0.011177   0.002025    5.519 5.09e-08 ***</span></span>
 <span><span class="co">#&gt; ---</span></span>
 <span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -771,22 +770,22 @@
 <span><span class="va">m1</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt;   MSS   TAU   MAC  PMAX </span></span>
-<span><span class="co">#&gt; 10.00  1.25  8.00 20.00 </span></span>
+<span><span class="co">#&gt;   MSS   MAC   TAU  PMAX </span></span>
+<span><span class="co">#&gt; 10.00  8.00  1.25 20.00 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Estimated model corrections</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt;   DC </span></span>
-<span><span class="co">#&gt; -0.5 </span></span>
+<span><span class="co">#&gt;  DC </span></span>
+<span><span class="co">#&gt; 0.5 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model fit estimators</span></span>
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;   1.000000e+00   7.105427e-16   8.773026e-15   0.000000e+00   0.000000e+00 </span></span>
+<span><span class="co">#&gt;   1.000000e+00   3.552714e-16   3.685421e-15   0.000000e+00   0.000000e+00 </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
-<span><span class="co">#&gt;   1.776357e-15   1.842711e-14   1.776357e-15   1.842711e-14   9.729507e-16 </span></span>
+<span><span class="co">#&gt;   1.776357e-15   1.842711e-14   1.776357e-15   1.842711e-14   7.944109e-16 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
-<span><span class="co">#&gt;   1.155185e-14   7.105427e-16   8.773026e-15</span></span></code></pre></div>
+<span><span class="co">#&gt;   8.240853e-15   3.552714e-16   3.685421e-15</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="embedded-ie-in-situ-profiling">Embedded (i.e., <em>in-situ</em>) Profiling<a class="anchor" aria-label="anchor" href="#embedded-ie-in-situ-profiling"></a>
@@ -977,27 +976,26 @@
 <span><span class="va">kimberley_profile_fixed_TC</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt;       MSS       TAU       MAC      PMAX </span></span>
-<span><span class="co">#&gt;  9.127769  1.377624  6.625731 15.119536 </span></span>
+<span><span class="co">#&gt;       MSS       MAC       TAU      PMAX </span></span>
+<span><span class="co">#&gt;  9.127769  6.625731  1.377624 15.119536 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model fit estimators</span></span>
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;    0.999971375    0.001009227    0.125589831   -0.007689947   -0.222961649 </span></span>
+<span><span class="co">#&gt;    0.999971375    0.001009227    0.125589837   -0.007689947   -0.222961644 </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
-<span><span class="co">#&gt;    0.016398636    1.124735002    0.016398636    1.124735002    0.008139867 </span></span>
+<span><span class="co">#&gt;    0.016398637    1.124735020    0.016398637    1.124735020    0.008139867 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
-<span><span class="co">#&gt;    0.477039249    0.006393853    0.285701748</span></span>
+<span><span class="co">#&gt;    0.477039255    0.006393853    0.285701750</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">kimberley_profile_fixed_TC</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
-<span><span class="co">#&gt; Formula: time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS * TAU) - 1))) + </span></span>
-<span><span class="co">#&gt;     distance/MSS + TAU</span></span>
+<span><span class="co">#&gt; Formula: time ~ predict_time_at_distance(distance, MSS, MAC)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Parameters:</span></span>
 <span><span class="co">#&gt;     Estimate Std. Error t value Pr(&gt;|t|)    </span></span>
-<span><span class="co">#&gt; MSS  9.12777    0.05355  170.44 7.11e-09 ***</span></span>
-<span><span class="co">#&gt; TAU  1.37762    0.02131   64.66 3.43e-07 ***</span></span>
+<span><span class="co">#&gt; MSS  9.12777    0.05355   170.4 7.11e-09 ***</span></span>
+<span><span class="co">#&gt; MAC  6.62573    0.06569   100.9 5.79e-08 ***</span></span>
 <span><span class="co">#&gt; ---</span></span>
 <span><span class="co">#&gt; Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -1007,8 +1005,8 @@
 <span><span class="co">#&gt; Achieved convergence tolerance: 1.49e-08</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">kimberley_profile_fixed_TC</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       MSS       TAU       MAC      PMAX </span></span>
-<span><span class="co">#&gt;  9.127769  1.377624  6.625731 15.119536</span></span></code></pre></div>
+<span><span class="co">#&gt;       MSS       MAC       TAU      PMAX </span></span>
+<span><span class="co">#&gt;  9.127769  6.625731  1.377624 15.119536</span></span></code></pre></div>
 <p>Instead of providing for <code>TC</code>, this parameter can be estimated using <code><a href="reference/model_functions.html">shorts::model_timing_gates_TC()</a></code>.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile_TC</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_timing_gates_TC</a></span><span class="op">(</span></span>
@@ -1019,8 +1017,8 @@
 <span><span class="va">kimberley_profile_TC</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt;       MSS       TAU       MAC      PMAX </span></span>
-<span><span class="co">#&gt;  8.974835  1.234857  7.267917 16.307090 </span></span>
+<span><span class="co">#&gt;       MSS       MAC       TAU      PMAX </span></span>
+<span><span class="co">#&gt;  8.974835  7.267917  1.234857 16.307090 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Estimated model corrections</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
@@ -1030,11 +1028,11 @@
 <span><span class="co">#&gt; Model fit estimators</span></span>
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;   9.999997e-01   1.696769e-11   1.816277e-03  -1.180735e-03  -6.237372e-02 </span></span>
+<span><span class="co">#&gt;   9.999997e-01   1.854313e-11   1.816275e-03  -1.180734e-03  -6.237372e-02 </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
-<span><span class="co">#&gt;   1.209466e-03   5.974775e-02   1.209466e-03   6.237372e-02   7.983565e-04 </span></span>
+<span><span class="co">#&gt;   1.209466e-03   5.974772e-02   1.209466e-03   6.237372e-02   7.983565e-04 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
-<span><span class="co">#&gt;   3.748225e-02   6.586034e-04   2.823533e-02</span></span></code></pre></div>
+<span><span class="co">#&gt;   3.748224e-02   6.586034e-04   2.823532e-02</span></span></code></pre></div>
 <p>Instead of estimating <code>TC</code>, <strong>{shorts}</strong> package features a method of estimating flying start distance (<code>FD</code>):</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile_FD</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_timing_gates_FD</a></span><span class="op">(</span></span>
@@ -1045,8 +1043,8 @@
 <span><span class="va">kimberley_profile_FD</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt;       MSS       TAU       MAC      PMAX </span></span>
-<span><span class="co">#&gt;  9.002681  1.287701  6.991283 15.735073 </span></span>
+<span><span class="co">#&gt;       MSS       MAC       TAU      PMAX </span></span>
+<span><span class="co">#&gt;  9.002681  6.991283  1.287701 15.735073 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Estimated model corrections</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
@@ -1056,11 +1054,11 @@
 <span><span class="co">#&gt; Model fit estimators</span></span>
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;   1.000000e+00   6.447913e-07   3.182714e-04  -4.036159e-04  -1.281727e-02 </span></span>
+<span><span class="co">#&gt;   1.000000e+00   6.446653e-07   3.182633e-04  -4.036158e-04  -1.281727e-02 </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
 <span><span class="co">#&gt;   4.557031e-04   1.056580e-02   4.557031e-04   1.281727e-02   2.758661e-04 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
-<span><span class="co">#&gt;   8.402643e-03   2.367539e-04   7.829109e-03</span></span></code></pre></div>
+<span><span class="co">#&gt;   8.402638e-03   2.367538e-04   7.829105e-03</span></span></code></pre></div>
 <p>If you want to use fixed <code>FD</code> parameter (e.g., when you know what is the flying distance), in a similar vein of using fixed <code>TC</code> correction, use:</p>
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">kimberley_profile_fixed_FD</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_timing_gates_FD</a></span><span class="op">(</span></span>
@@ -1072,8 +1070,8 @@
 <span><span class="va">kimberley_profile_fixed_FD</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt;       MSS       TAU       MAC      PMAX </span></span>
-<span><span class="co">#&gt;  9.178464  1.472935  6.231413 14.298700 </span></span>
+<span><span class="co">#&gt;       MSS       MAC       TAU      PMAX </span></span>
+<span><span class="co">#&gt;  9.178464  6.231413  1.472935 14.298700 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Estimated model corrections</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
@@ -1083,11 +1081,11 @@
 <span><span class="co">#&gt; Model fit estimators</span></span>
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;    0.999973897    0.001247560    0.177401430   -0.007903690   -0.250990459 </span></span>
+<span><span class="co">#&gt;    0.999973897    0.001247560    0.177401418   -0.007903690   -0.250990469 </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
-<span><span class="co">#&gt;    0.015461987    1.335232014    0.015461987    1.335232014    0.007939415 </span></span>
+<span><span class="co">#&gt;    0.015461986    1.335231979    0.015461986    1.335231979    0.007939415 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
-<span><span class="co">#&gt;    0.564926535    0.006718969    0.349905006</span></span></code></pre></div>
+<span><span class="co">#&gt;    0.564926522    0.006718969    0.349905002</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="cross-validation-cv">Cross-Validation (CV)<a class="anchor" aria-label="anchor" href="#cross-validation-cv"></a>
@@ -1105,37 +1103,37 @@
 <span><span class="va">kimberley_profile_CV</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt;        MSS        TAU        MAC       PMAX </span></span>
-<span><span class="co">#&gt;  8.5911430  0.8113285 10.5889820 22.7428645 </span></span>
+<span><span class="co">#&gt;        MSS        MAC        TAU       PMAX </span></span>
+<span><span class="co">#&gt;  8.5911431 10.5889817  0.8113285 22.7428642 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model fit estimators</span></span>
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;     0.99965531    -0.00309334    -0.53860253    -0.05293456    -4.57120551 </span></span>
+<span><span class="co">#&gt;    0.999655312   -0.003093343   -0.538602775   -0.052934568   -4.571206233 </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
-<span><span class="co">#&gt;     0.02699162     0.85714883     0.05293456     4.57120551     0.02778875 </span></span>
+<span><span class="co">#&gt;    0.026991611    0.857148665    0.052934568    4.571206233    0.027788752 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
-<span><span class="co">#&gt;     1.93921846     0.02333341     1.19263265 </span></span>
+<span><span class="co">#&gt;    1.939218713    0.023333409    1.192632747 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Cross-Validation</span></span>
 <span><span class="co">#&gt; ------------------------------</span></span>
 <span><span class="co">#&gt; Parameters:</span></span>
-<span><span class="co">#&gt;   .fold      MSS       TAU      MAC     PMAX</span></span>
-<span><span class="co">#&gt; 1     1 8.693800 0.8561005 10.15512 22.07163</span></span>
-<span><span class="co">#&gt; 2     2 8.560667 0.7953648 10.76319 23.03503</span></span>
-<span><span class="co">#&gt; 3     3 8.394674 0.7596924 11.05010 23.19049</span></span>
-<span><span class="co">#&gt; 4     4 8.571600 0.7972998 10.75079 23.03786</span></span>
-<span><span class="co">#&gt; 5     5 8.608052 0.8130141 10.58783 22.78514</span></span>
-<span><span class="co">#&gt; 6     6 8.599599 0.8152661 10.54821 22.67760</span></span>
+<span><span class="co">#&gt;   .fold      MSS      MAC       TAU     PMAX</span></span>
+<span><span class="co">#&gt; 1     1 8.693800 10.15512 0.8561005 22.07163</span></span>
+<span><span class="co">#&gt; 2     2 8.560667 10.76319 0.7953649 23.03503</span></span>
+<span><span class="co">#&gt; 3     3 8.394674 11.05010 0.7596925 23.19049</span></span>
+<span><span class="co">#&gt; 4     4 8.571600 10.75079 0.7972998 23.03786</span></span>
+<span><span class="co">#&gt; 5     5 8.608052 10.58783 0.8130141 22.78514</span></span>
+<span><span class="co">#&gt; 6     6 8.599600 10.54821 0.8152661 22.67760</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Testing model fit estimators (overall):</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;     0.99901083    -0.01236576    -0.85484629    -0.08009036    -5.96012084 </span></span>
+<span><span class="co">#&gt;     0.99901083    -0.01236576    -0.85484642    -0.08009034    -5.96012088 </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
-<span><span class="co">#&gt;     0.03444978     1.09399120     0.08009036     5.96012084     0.04742765 </span></span>
+<span><span class="co">#&gt;     0.03444978     1.09399112     0.08009034     5.96012088     0.04742764 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
-<span><span class="co">#&gt;     2.59202754     0.03923868     1.72270383</span></span></code></pre></div>
+<span><span class="co">#&gt;     2.59202750     0.03923868     1.72270380</span></span></code></pre></div>
 <p>Radar gun data often comes with much more observations, thus we can set smaller CV parameter:</p>
 <div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">jim_profile_CV</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_radar_gun</a></span><span class="op">(</span></span>
@@ -1147,20 +1145,20 @@
 <span><span class="va">jim_profile_CV</span></span>
 <span><span class="co">#&gt; Estimated model parameters</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
-<span><span class="co">#&gt;        MSS        TAU        MAC       PMAX </span></span>
-<span><span class="co">#&gt;  7.9980114  0.8887955  8.9987083 17.9929427 </span></span>
+<span><span class="co">#&gt;        MSS        MAC        TAU       PMAX </span></span>
+<span><span class="co">#&gt;  7.9980115  8.9987068  0.8887957 17.9929400 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Estimated model corrections</span></span>
 <span><span class="co">#&gt; --------------------------</span></span>
 <span><span class="co">#&gt;           TC </span></span>
-<span><span class="co">#&gt; 0.0001103989 </span></span>
+<span><span class="co">#&gt; 0.0001104745 </span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Model fit estimators</span></span>
 <span><span class="co">#&gt; --------------------</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;   9.992441e-01  -4.601924e-08           -Inf  -1.640452e-01           -Inf </span></span>
+<span><span class="co">#&gt;   9.992441e-01  -3.022959e-08           -Inf  -1.640450e-01           -Inf </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
-<span><span class="co">#&gt;   1.511231e-01   2.332507e+00   1.640452e-01            Inf   5.050254e-02 </span></span>
+<span><span class="co">#&gt;   1.511234e-01   2.332511e+00   1.640450e-01            Inf   5.050254e-02 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
 <span><span class="co">#&gt;            Inf   3.927236e-02            Inf </span></span>
 <span><span class="co">#&gt; </span></span>
@@ -1168,25 +1166,25 @@
 <span><span class="co">#&gt; Cross-Validation</span></span>
 <span><span class="co">#&gt; ------------------------------</span></span>
 <span><span class="co">#&gt; Parameters:</span></span>
-<span><span class="co">#&gt;    .fold      MSS       TAU      MAC     PMAX</span></span>
-<span><span class="co">#&gt; 1      1 7.997012 0.8890576 8.994931 17.98314</span></span>
-<span><span class="co">#&gt; 2      2 7.997697 0.8883183 9.003189 18.00119</span></span>
-<span><span class="co">#&gt; 3      3 7.997266 0.8888389 8.997430 17.98871</span></span>
-<span><span class="co">#&gt; 4      4 7.998063 0.8888795 8.997915 17.99147</span></span>
-<span><span class="co">#&gt; 5      5 7.999258 0.8889119 8.998932 17.99619</span></span>
-<span><span class="co">#&gt; 6      6 7.998143 0.8884548 9.002307 18.00043</span></span>
-<span><span class="co">#&gt; 7      7 7.998979 0.8892622 8.995074 17.98785</span></span>
-<span><span class="co">#&gt; 8      8 7.998321 0.8885668 9.001374 17.99897</span></span>
-<span><span class="co">#&gt; 9      9 7.998101 0.8880004 9.006867 18.00946</span></span>
-<span><span class="co">#&gt; 10    10 7.997287 0.8897072 8.988672 17.97125</span></span>
+<span><span class="co">#&gt;    .fold      MSS      MAC       TAU     PMAX</span></span>
+<span><span class="co">#&gt; 1      1 7.997012 8.994931 0.8890576 17.98314</span></span>
+<span><span class="co">#&gt; 2      2 7.997697 9.003190 0.8883182 18.00120</span></span>
+<span><span class="co">#&gt; 3      3 7.997266 8.997428 0.8888392 17.98871</span></span>
+<span><span class="co">#&gt; 4      4 7.998063 8.997911 0.8888800 17.99146</span></span>
+<span><span class="co">#&gt; 5      5 7.999258 8.998932 0.8889119 17.99619</span></span>
+<span><span class="co">#&gt; 6      6 7.998143 9.002307 0.8884548 18.00043</span></span>
+<span><span class="co">#&gt; 7      7 7.998979 8.995075 0.8892621 17.98785</span></span>
+<span><span class="co">#&gt; 8      8 7.998321 9.001373 0.8885669 17.99897</span></span>
+<span><span class="co">#&gt; 9      9 7.998100 9.006877 0.8879992 18.00948</span></span>
+<span><span class="co">#&gt; 10    10 7.997287 8.988673 0.8897072 17.97125</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt; Testing model fit estimators (overall):</span></span>
 <span><span class="co">#&gt;             R2        meanErr   meanErr_perc         minErr    minErr_perc </span></span>
-<span><span class="co">#&gt;   9.992387e-01  -1.380449e-05           -Inf  -1.616499e-01           -Inf </span></span>
+<span><span class="co">#&gt;   9.992387e-01  -1.381541e-05           -Inf  -1.616499e-01           -Inf </span></span>
 <span><span class="co">#&gt;         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE </span></span>
-<span><span class="co">#&gt;   1.507893e-01   2.327354e+00   1.616499e-01            Inf   5.068118e-02 </span></span>
+<span><span class="co">#&gt;   1.507892e-01   2.327353e+00   1.616499e-01            Inf   5.068118e-02 </span></span>
 <span><span class="co">#&gt;      RMSE_perc            MAE       MAE_perc </span></span>
-<span><span class="co">#&gt;            Inf   3.944145e-02            Inf</span></span></code></pre></div>
+<span><span class="co">#&gt;            Inf   3.944146e-02            Inf</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="optimization">Optimization<a class="anchor" aria-label="anchor" href="#optimization"></a>

@@ -81,13 +81,12 @@
 <span class="r-in"><span><span class="va">simple_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="model_functions.html">model_timing_gates</a></span><span class="op">(</span><span class="va">split_distances</span>, <span class="va">split_times</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">simple_model</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Formula: time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS * TAU) - 1))) + </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>     distance/MSS + TAU</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Formula: time ~ predict_time_at_distance(distance, MSS, MAC)</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Parameters:</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     Estimate Std. Error t value Pr(&gt;|t|)    </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> MSS  9.78099    0.07441  131.44 9.71e-07 ***</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> TAU  0.78798    0.02827   27.87 0.000101 ***</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> MAC 12.41280    0.35730   34.74 5.24e-05 ***</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ---</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
