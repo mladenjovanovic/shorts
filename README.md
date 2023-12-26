@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file  -->
 
-# shorts <img src="man/figures/logo.png" align="right" width="200" />
+# shorts <img src="man/figures/logo.png" align="right" width="200"/>
 
 <!-- badges: start -->
 
@@ -80,27 +80,26 @@ kimberley_profile <- shorts::model_timing_gates(
 kimberley_profile
 #> Estimated model parameters
 #> --------------------------
-#>        MSS        TAU        MAC       PMAX 
-#>  8.5911430  0.8113285 10.5889820 22.7428645 
+#>        MSS        MAC        TAU       PMAX 
+#>  8.5911431 10.5889817  0.8113285 22.7428642 
 #> 
 #> Model fit estimators
 #> --------------------
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>     0.99965531    -0.00309334    -0.53860253    -0.05293456    -4.57120551 
+#>    0.999655312   -0.003093343   -0.538602775   -0.052934568   -4.571206233 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>     0.02699162     0.85714883     0.05293456     4.57120551     0.02778875 
+#>    0.026991611    0.857148665    0.052934568    4.571206233    0.027788752 
 #>      RMSE_perc            MAE       MAE_perc 
-#>     1.93921846     0.02333341     1.19263265
+#>    1.939218713    0.023333409    1.192632747
 
 summary(kimberley_profile)
 #> 
-#> Formula: time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS * TAU) - 1))) + 
-#>     distance/MSS + TAU
+#> Formula: time ~ predict_time_at_distance(distance, MSS, MAC)
 #> 
 #> Parameters:
 #>     Estimate Std. Error t value Pr(>|t|)    
-#> MSS  8.59114    0.12251   70.13 2.48e-07 ***
-#> TAU  0.81133    0.04581   17.71 5.97e-05 ***
+#> MSS   8.5911     0.1225   70.13 2.48e-07 ***
+#> MAC  10.5890     0.4599   23.03 2.11e-05 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
@@ -110,8 +109,8 @@ summary(kimberley_profile)
 #> Achieved convergence tolerance: 1.49e-08
 
 coef(kimberley_profile)
-#>        MSS        TAU        MAC       PMAX 
-#>  8.5911430  0.8113285 10.5889820 22.7428645
+#>        MSS        MAC        TAU       PMAX 
+#>  8.5911431 10.5889817  0.8113285 22.7428642
 ```
 
 To return the predicted outcome (in this case time variable), use
@@ -257,18 +256,18 @@ kable(head(predicted_kinematics))
 | time |  distance |  velocity | acceleration | bodymass | inertia | resistance | air_resistance | horizontal_force | horizontal_force_relative | vertical_force | resultant_force | resultant_force_relative |     power | power_relative |      work | average_power | average_power_relative |        RF | force_angle |
 |-----:|----------:|----------:|-------------:|---------:|--------:|-----------:|---------------:|-----------------:|--------------------------:|---------------:|----------------:|-------------------------:|----------:|---------------:|----------:|--------------:|-----------------------:|----------:|------------:|
 | 0.00 | 0.0000000 | 0.0000000 |    10.588982 |       60 |       0 |          0 |      0.0000000 |         635.3389 |                 10.588982 |          588.6 |        866.0863 |                 14.43477 |   0.00000 |       0.000000 | 0.0000000 |           NaN |                    NaN | 0.7335746 |    42.81309 |
-| 0.01 | 0.0005273 | 0.1052399 |    10.459269 |       60 |       0 |          0 |      0.0026620 |         627.5588 |                 10.459313 |          588.6 |        860.3953 |                 14.33992 |  66.04424 |       1.100737 | 0.3322639 |      33.22639 |              0.5537732 | 0.7293843 |    43.16520 |
-| 0.02 | 0.0021005 | 0.2091907 |    10.331145 |       60 |       0 |          0 |      0.0105181 |         619.8792 |                 10.331320 |          588.6 |        854.8100 |                 14.24683 | 129.67295 |       2.161216 | 1.3128332 |      65.64166 |              1.0940277 | 0.7251660 |    43.51734 |
-| 0.03 | 0.0047068 | 0.3118680 |    10.204590 |       60 |       0 |          0 |      0.0233774 |         612.2988 |                 10.204980 |          588.6 |        849.3290 |                 14.15548 | 190.95643 |       3.182607 | 2.9179057 |      97.26352 |              1.6210587 | 0.7209206 |    43.86946 |
-| 0.04 | 0.0083337 | 0.4132876 |    10.079586 |       60 |       0 |          0 |      0.0410543 |         604.8162 |                 10.080270 |          588.6 |        843.9506 |                 14.06584 | 249.96306 |       4.166051 | 5.1243725 |     128.10931 |              2.1351552 | 0.7166488 |    44.22151 |
-| 0.05 | 0.0129685 | 0.5134649 |     9.956113 |       60 |       0 |          0 |      0.0633688 |         597.4301 |                  9.957169 |          588.6 |        838.6732 |                 13.97789 | 306.75938 |       5.112656 | 7.9097994 |     158.19599 |              2.6365998 | 0.7123515 |    44.57343 |
+| 0.01 | 0.0005273 | 0.1052399 |    10.459269 |       60 |       0 |          0 |      0.0026620 |         627.5588 |                 10.459313 |          588.6 |        860.3952 |                 14.33992 |  66.04424 |       1.100737 | 0.3322639 |      33.22639 |              0.5537732 | 0.7293843 |    43.16520 |
+| 0.02 | 0.0021005 | 0.2091907 |    10.331145 |       60 |       0 |          0 |      0.0105181 |         619.8792 |                 10.331320 |          588.6 |        854.8100 |                 14.24683 | 129.67294 |       2.161216 | 1.3128332 |      65.64166 |              1.0940276 | 0.7251660 |    43.51734 |
+| 0.03 | 0.0047068 | 0.3118680 |    10.204590 |       60 |       0 |          0 |      0.0233774 |         612.2988 |                 10.204980 |          588.6 |        849.3290 |                 14.15548 | 190.95642 |       3.182607 | 2.9179055 |      97.26352 |              1.6210586 | 0.7209206 |    43.86946 |
+| 0.04 | 0.0083337 | 0.4132876 |    10.079586 |       60 |       0 |          0 |      0.0410543 |         604.8162 |                 10.080270 |          588.6 |        843.9506 |                 14.06584 | 249.96305 |       4.166051 | 5.1243723 |     128.10931 |              2.1351551 | 0.7166488 |    44.22151 |
+| 0.05 | 0.0129685 | 0.5134649 |     9.956112 |       60 |       0 |          0 |      0.0633688 |         597.4301 |                  9.957169 |          588.6 |        838.6732 |                 13.97789 | 306.75937 |       5.112656 | 7.9097991 |     158.19598 |              2.6365997 | 0.7123515 |    44.57343 |
 
 To get model residuals, use `residuals()` function:
 
 ``` r
 residuals(kimberley_profile)
-#> [1] -0.052934560 -0.004021206  0.019971712  0.026991617  0.013756878
-#> [6] -0.022324483
+#> [1] -0.052934568 -0.004021215  0.019971704  0.026991611  0.013756880
+#> [6] -0.022324473
 ```
 
 Package **{shorts}** comes with `find_XXX()` family of functions that
@@ -338,38 +337,38 @@ jim_profile <- shorts::model_radar_gun(
 jim_profile
 #> Estimated model parameters
 #> --------------------------
-#>        MSS        TAU        MAC       PMAX 
-#>  7.9980114  0.8887955  8.9987083 17.9929427 
+#>        MSS        MAC        TAU       PMAX 
+#>  7.9980115  8.9987068  0.8887957 17.9929400 
 #> 
 #> Estimated model corrections
 #> --------------------------
 #>           TC 
-#> 0.0001103989 
+#> 0.0001104745 
 #> 
 #> Model fit estimators
 #> --------------------
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   9.992441e-01  -4.601924e-08           -Inf  -1.640452e-01           -Inf 
+#>   9.992441e-01  -3.022959e-08           -Inf  -1.640450e-01           -Inf 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   1.511231e-01   2.332507e+00   1.640452e-01            Inf   5.050254e-02 
+#>   1.511234e-01   2.332511e+00   1.640450e-01            Inf   5.050254e-02 
 #>      RMSE_perc            MAE       MAE_perc 
 #>            Inf   3.927236e-02            Inf
 
 summary(jim_profile)
 #> 
-#> Formula: velocity ~ MSS * (1 - exp(1)^(-(time + TC)/TAU))
+#> Formula: velocity ~ predict_velocity_at_time(time + TC, MSS, MAC)
 #> 
 #> Parameters:
 #>      Estimate Std. Error t value Pr(>|t|)    
-#> MSS 7.9980114  0.0031934 2504.54   <2e-16 ***
-#> TAU 0.8887955  0.0021794  407.81   <2e-16 ***
-#> TC  0.0001104  0.0012283    0.09    0.928    
+#> MSS 7.9980115  0.0031934 2504.54   <2e-16 ***
+#> MAC 8.9987068  0.0199704  450.60   <2e-16 ***
+#> TC  0.0001105  0.0012283    0.09    0.928    
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
 #> Residual standard error: 0.05063 on 597 degrees of freedom
 #> 
-#> Number of iterations to convergence: 6 
+#> Number of iterations to convergence: 4 
 #> Achieved convergence tolerance: 1.49e-08
 
 # Plot model residuals
@@ -411,32 +410,32 @@ jim_profile <- shorts::model_radar_gun(
 jim_profile
 #> Estimated model parameters
 #> --------------------------
-#>        MSS        TAU        MAC       PMAX 
-#>  8.0950000  0.9327946  8.6782238 17.5625555 
+#>        MSS        MAC        TAU       PMAX 
+#>  8.0950000  8.6782211  0.9327949 17.5625500 
 #> 
 #> Estimated model corrections
 #> --------------------------
 #>         TC 
-#> 0.01117667 
+#> 0.01117683 
 #> 
 #> Model fit estimators
 #> --------------------
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>     0.99875693    -0.03881100           -Inf    -0.22869210           -Inf 
+#>     0.99875693    -0.03881082           -Inf    -0.22869200           -Inf 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>     0.18253899     2.81739446     0.22869210            Inf     0.07984600 
+#>     0.18253953     2.81740282     0.22869200            Inf     0.07984600 
 #>      RMSE_perc            MAE       MAE_perc 
-#>            Inf     0.06431869            Inf
+#>            Inf     0.06431872            Inf
 
 summary(jim_profile)
 #> 
-#> Formula: velocity ~ MSS * (1 - exp(1)^(-(time + TC)/TAU))
+#> Formula: velocity ~ predict_velocity_at_time(time + TC, MSS, MAC)
 #> 
 #> Parameters:
 #>     Estimate Std. Error  t value Pr(>|t|)    
 #> MSS 8.095000   0.005209 1554.099  < 2e-16 ***
-#> TAU 0.932795   0.003605  258.739  < 2e-16 ***
-#> TC  0.011177   0.002025    5.519  5.1e-08 ***
+#> MAC 8.678221   0.030174  287.601  < 2e-16 ***
+#> TC  0.011177   0.002025    5.519 5.09e-08 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
@@ -495,22 +494,22 @@ m1 <- model_tether_DC(distance = distance, velocity = velocity)
 m1
 #> Estimated model parameters
 #> --------------------------
-#>   MSS   TAU   MAC  PMAX 
-#> 10.00  1.25  8.00 20.00 
+#>   MSS   MAC   TAU  PMAX 
+#> 10.00  8.00  1.25 20.00 
 #> 
 #> Estimated model corrections
 #> --------------------------
-#>   DC 
-#> -0.5 
+#>  DC 
+#> 0.5 
 #> 
 #> Model fit estimators
 #> --------------------
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   1.000000e+00   7.105427e-16   8.773026e-15   0.000000e+00   0.000000e+00 
+#>   1.000000e+00   3.552714e-16   3.685421e-15   0.000000e+00   0.000000e+00 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   1.776357e-15   1.842711e-14   1.776357e-15   1.842711e-14   9.729507e-16 
+#>   1.776357e-15   1.842711e-14   1.776357e-15   1.842711e-14   7.944109e-16 
 #>      RMSE_perc            MAE       MAE_perc 
-#>   1.155185e-14   7.105427e-16   8.773026e-15
+#>   8.240853e-15   3.552714e-16   3.685421e-15
 ```
 
 ### Embedded (i.e., *in-situ*) Profiling
@@ -764,27 +763,26 @@ kimberley_profile_fixed_TC <- shorts::model_timing_gates(
 kimberley_profile_fixed_TC
 #> Estimated model parameters
 #> --------------------------
-#>       MSS       TAU       MAC      PMAX 
-#>  9.127769  1.377624  6.625731 15.119536 
+#>       MSS       MAC       TAU      PMAX 
+#>  9.127769  6.625731  1.377624 15.119536 
 #> 
 #> Model fit estimators
 #> --------------------
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>    0.999971375    0.001009227    0.125589831   -0.007689947   -0.222961649 
+#>    0.999971375    0.001009227    0.125589837   -0.007689947   -0.222961644 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>    0.016398636    1.124735002    0.016398636    1.124735002    0.008139867 
+#>    0.016398637    1.124735020    0.016398637    1.124735020    0.008139867 
 #>      RMSE_perc            MAE       MAE_perc 
-#>    0.477039249    0.006393853    0.285701748
+#>    0.477039255    0.006393853    0.285701750
 
 summary(kimberley_profile_fixed_TC)
 #> 
-#> Formula: time ~ TAU * I(LambertW::W(-exp(1)^(-distance/(MSS * TAU) - 1))) + 
-#>     distance/MSS + TAU
+#> Formula: time ~ predict_time_at_distance(distance, MSS, MAC)
 #> 
 #> Parameters:
 #>     Estimate Std. Error t value Pr(>|t|)    
-#> MSS  9.12777    0.05355  170.44 7.11e-09 ***
-#> TAU  1.37762    0.02131   64.66 3.43e-07 ***
+#> MSS  9.12777    0.05355   170.4 7.11e-09 ***
+#> MAC  6.62573    0.06569   100.9 5.79e-08 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
@@ -794,8 +792,8 @@ summary(kimberley_profile_fixed_TC)
 #> Achieved convergence tolerance: 1.49e-08
 
 coef(kimberley_profile_fixed_TC)
-#>       MSS       TAU       MAC      PMAX 
-#>  9.127769  1.377624  6.625731 15.119536
+#>       MSS       MAC       TAU      PMAX 
+#>  9.127769  6.625731  1.377624 15.119536
 ```
 
 Instead of providing for `TC`, this parameter can be estimated using
@@ -810,8 +808,8 @@ kimberley_profile_TC <- shorts::model_timing_gates_TC(
 kimberley_profile_TC
 #> Estimated model parameters
 #> --------------------------
-#>       MSS       TAU       MAC      PMAX 
-#>  8.974835  1.234857  7.267917 16.307090 
+#>       MSS       MAC       TAU      PMAX 
+#>  8.974835  7.267917  1.234857 16.307090 
 #> 
 #> Estimated model corrections
 #> --------------------------
@@ -821,11 +819,11 @@ kimberley_profile_TC
 #> Model fit estimators
 #> --------------------
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   9.999997e-01   1.696769e-11   1.816277e-03  -1.180735e-03  -6.237372e-02 
+#>   9.999997e-01   1.854313e-11   1.816275e-03  -1.180734e-03  -6.237372e-02 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   1.209466e-03   5.974775e-02   1.209466e-03   6.237372e-02   7.983565e-04 
+#>   1.209466e-03   5.974772e-02   1.209466e-03   6.237372e-02   7.983565e-04 
 #>      RMSE_perc            MAE       MAE_perc 
-#>   3.748225e-02   6.586034e-04   2.823533e-02
+#>   3.748224e-02   6.586034e-04   2.823532e-02
 ```
 
 Instead of estimating `TC`, **{shorts}** package features a method of
@@ -840,8 +838,8 @@ kimberley_profile_FD <- shorts::model_timing_gates_FD(
 kimberley_profile_FD
 #> Estimated model parameters
 #> --------------------------
-#>       MSS       TAU       MAC      PMAX 
-#>  9.002681  1.287701  6.991283 15.735073 
+#>       MSS       MAC       TAU      PMAX 
+#>  9.002681  6.991283  1.287701 15.735073 
 #> 
 #> Estimated model corrections
 #> --------------------------
@@ -851,11 +849,11 @@ kimberley_profile_FD
 #> Model fit estimators
 #> --------------------
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   1.000000e+00   6.447913e-07   3.182714e-04  -4.036159e-04  -1.281727e-02 
+#>   1.000000e+00   6.446653e-07   3.182633e-04  -4.036158e-04  -1.281727e-02 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
 #>   4.557031e-04   1.056580e-02   4.557031e-04   1.281727e-02   2.758661e-04 
 #>      RMSE_perc            MAE       MAE_perc 
-#>   8.402643e-03   2.367539e-04   7.829109e-03
+#>   8.402638e-03   2.367538e-04   7.829105e-03
 ```
 
 If you want to use fixed `FD` parameter (e.g., when you know what is the
@@ -871,8 +869,8 @@ kimberley_profile_fixed_FD <- shorts::model_timing_gates_FD(
 kimberley_profile_fixed_FD
 #> Estimated model parameters
 #> --------------------------
-#>       MSS       TAU       MAC      PMAX 
-#>  9.178464  1.472935  6.231413 14.298700 
+#>       MSS       MAC       TAU      PMAX 
+#>  9.178464  6.231413  1.472935 14.298700 
 #> 
 #> Estimated model corrections
 #> --------------------------
@@ -882,11 +880,11 @@ kimberley_profile_fixed_FD
 #> Model fit estimators
 #> --------------------
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>    0.999973897    0.001247560    0.177401430   -0.007903690   -0.250990459 
+#>    0.999973897    0.001247560    0.177401418   -0.007903690   -0.250990469 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>    0.015461987    1.335232014    0.015461987    1.335232014    0.007939415 
+#>    0.015461986    1.335231979    0.015461986    1.335231979    0.007939415 
 #>      RMSE_perc            MAE       MAE_perc 
-#>    0.564926535    0.006718969    0.349905006
+#>    0.564926522    0.006718969    0.349905002
 ```
 
 ### Cross-Validation (CV)
@@ -909,37 +907,37 @@ kimberley_profile_CV <- shorts::model_timing_gates(
 kimberley_profile_CV
 #> Estimated model parameters
 #> --------------------------
-#>        MSS        TAU        MAC       PMAX 
-#>  8.5911430  0.8113285 10.5889820 22.7428645 
+#>        MSS        MAC        TAU       PMAX 
+#>  8.5911431 10.5889817  0.8113285 22.7428642 
 #> 
 #> Model fit estimators
 #> --------------------
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>     0.99965531    -0.00309334    -0.53860253    -0.05293456    -4.57120551 
+#>    0.999655312   -0.003093343   -0.538602775   -0.052934568   -4.571206233 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>     0.02699162     0.85714883     0.05293456     4.57120551     0.02778875 
+#>    0.026991611    0.857148665    0.052934568    4.571206233    0.027788752 
 #>      RMSE_perc            MAE       MAE_perc 
-#>     1.93921846     0.02333341     1.19263265 
+#>    1.939218713    0.023333409    1.192632747 
 #> 
 #> 
 #> Cross-Validation
 #> ------------------------------
 #> Parameters:
-#>   .fold      MSS       TAU      MAC     PMAX
-#> 1     1 8.693800 0.8561005 10.15512 22.07163
-#> 2     2 8.560667 0.7953648 10.76319 23.03503
-#> 3     3 8.394674 0.7596924 11.05010 23.19049
-#> 4     4 8.571600 0.7972998 10.75079 23.03786
-#> 5     5 8.608052 0.8130141 10.58783 22.78514
-#> 6     6 8.599599 0.8152661 10.54821 22.67760
+#>   .fold      MSS      MAC       TAU     PMAX
+#> 1     1 8.693800 10.15512 0.8561005 22.07163
+#> 2     2 8.560667 10.76319 0.7953649 23.03503
+#> 3     3 8.394674 11.05010 0.7596925 23.19049
+#> 4     4 8.571600 10.75079 0.7972998 23.03786
+#> 5     5 8.608052 10.58783 0.8130141 22.78514
+#> 6     6 8.599600 10.54821 0.8152661 22.67760
 #> 
 #> Testing model fit estimators (overall):
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>     0.99901083    -0.01236576    -0.85484629    -0.08009036    -5.96012084 
+#>     0.99901083    -0.01236576    -0.85484642    -0.08009034    -5.96012088 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>     0.03444978     1.09399120     0.08009036     5.96012084     0.04742765 
+#>     0.03444978     1.09399112     0.08009034     5.96012088     0.04742764 
 #>      RMSE_perc            MAE       MAE_perc 
-#>     2.59202754     0.03923868     1.72270383
+#>     2.59202750     0.03923868     1.72270380
 ```
 
 Radar gun data often comes with much more observations, thus we can set
@@ -955,20 +953,20 @@ jim_profile_CV <- shorts::model_radar_gun(
 jim_profile_CV
 #> Estimated model parameters
 #> --------------------------
-#>        MSS        TAU        MAC       PMAX 
-#>  7.9980114  0.8887955  8.9987083 17.9929427 
+#>        MSS        MAC        TAU       PMAX 
+#>  7.9980115  8.9987068  0.8887957 17.9929400 
 #> 
 #> Estimated model corrections
 #> --------------------------
 #>           TC 
-#> 0.0001103989 
+#> 0.0001104745 
 #> 
 #> Model fit estimators
 #> --------------------
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   9.992441e-01  -4.601924e-08           -Inf  -1.640452e-01           -Inf 
+#>   9.992441e-01  -3.022959e-08           -Inf  -1.640450e-01           -Inf 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   1.511231e-01   2.332507e+00   1.640452e-01            Inf   5.050254e-02 
+#>   1.511234e-01   2.332511e+00   1.640450e-01            Inf   5.050254e-02 
 #>      RMSE_perc            MAE       MAE_perc 
 #>            Inf   3.927236e-02            Inf 
 #> 
@@ -976,25 +974,25 @@ jim_profile_CV
 #> Cross-Validation
 #> ------------------------------
 #> Parameters:
-#>    .fold      MSS       TAU      MAC     PMAX
-#> 1      1 7.997012 0.8890576 8.994931 17.98314
-#> 2      2 7.997697 0.8883183 9.003189 18.00119
-#> 3      3 7.997266 0.8888389 8.997430 17.98871
-#> 4      4 7.998063 0.8888795 8.997915 17.99147
-#> 5      5 7.999258 0.8889119 8.998932 17.99619
-#> 6      6 7.998143 0.8884548 9.002307 18.00043
-#> 7      7 7.998979 0.8892622 8.995074 17.98785
-#> 8      8 7.998321 0.8885668 9.001374 17.99897
-#> 9      9 7.998101 0.8880004 9.006867 18.00946
-#> 10    10 7.997287 0.8897072 8.988672 17.97125
+#>    .fold      MSS      MAC       TAU     PMAX
+#> 1      1 7.997012 8.994931 0.8890576 17.98314
+#> 2      2 7.997697 9.003190 0.8883182 18.00120
+#> 3      3 7.997266 8.997428 0.8888392 17.98871
+#> 4      4 7.998063 8.997911 0.8888800 17.99146
+#> 5      5 7.999258 8.998932 0.8889119 17.99619
+#> 6      6 7.998143 9.002307 0.8884548 18.00043
+#> 7      7 7.998979 8.995075 0.8892621 17.98785
+#> 8      8 7.998321 9.001373 0.8885669 17.99897
+#> 9      9 7.998100 9.006877 0.8879992 18.00948
+#> 10    10 7.997287 8.988673 0.8897072 17.97125
 #> 
 #> Testing model fit estimators (overall):
 #>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   9.992387e-01  -1.380449e-05           -Inf  -1.616499e-01           -Inf 
+#>   9.992387e-01  -1.381541e-05           -Inf  -1.616499e-01           -Inf 
 #>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   1.507893e-01   2.327354e+00   1.616499e-01            Inf   5.068118e-02 
+#>   1.507892e-01   2.327353e+00   1.616499e-01            Inf   5.068118e-02 
 #>      RMSE_perc            MAE       MAE_perc 
-#>            Inf   3.944145e-02            Inf
+#>            Inf   3.944146e-02            Inf
 ```
 
 ### Optimization
