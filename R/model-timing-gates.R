@@ -11,11 +11,11 @@
 #'
 #' @export
 model_timing_gates <- function(distance,
-                                time,
-                                weights = 1,
-                                CV = NULL,
-                                na.rm = FALSE,
-                                ...) {
+                               time,
+                               weights = 1,
+                               CV = NULL,
+                               na.rm = FALSE,
+                               ...) {
 
 
   # Estimation function
@@ -94,11 +94,11 @@ model_timing_gates <- function(distance,
 #'
 #' @export
 model_timing_gates_TC <- function(distance,
-                                   time,
-                                   weights = 1,
-                                   CV = NULL,
-                                   na.rm = FALSE,
-                                   ...) {
+                                  time,
+                                  weights = 1,
+                                  CV = NULL,
+                                  na.rm = FALSE,
+                                  ...) {
 
 
   # Estimation function
@@ -185,12 +185,12 @@ model_timing_gates_TC <- function(distance,
 #'
 #' @export
 model_timing_gates_FD <- function(distance,
-                                   time,
-                                   weights = 1,
-                                   FD = NULL,
-                                   CV = NULL,
-                                   na.rm = FALSE,
-                                   ...) {
+                                  time,
+                                  weights = 1,
+                                  FD = NULL,
+                                  CV = NULL,
+                                  na.rm = FALSE,
+                                  ...) {
 
 
   # Estimation function
@@ -271,4 +271,3 @@ model_timing_gates_FD <- function(distance,
     ...
   )
 }
-

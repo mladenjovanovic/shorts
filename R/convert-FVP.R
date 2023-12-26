@@ -13,10 +13,10 @@
 convert_FVP <- function(F0, V0, bodymass = 75, inertia = 0, resistance = 0, wind_velocity = 0, ...) {
   k_rel <- get_air_resistance(velocity = 1, bodymass = bodymass, wind_velocity = 0, ...) / bodymass
 
-  MAC <- ((F0 - resistance - get_air_resistance(velocity = 0, bodymass = bodymass, wind_velocity = wind_velocity, ...) ) /
-            (bodymass + inertia))
+  MAC <- ((F0 - resistance - get_air_resistance(velocity = 0, bodymass = bodymass, wind_velocity = wind_velocity, ...)) /
+    (bodymass + inertia))
 
-  MSS <- (MAC * V0 * (inertia + bodymass))/(MAC * inertia + MAC * bodymass + k_rel * bodymass * V0^2 - 2 * k_rel * bodymass * V0 * wind_velocity + k_rel * bodymass * wind_velocity^2 + resistance)
+  MSS <- (MAC * V0 * (inertia + bodymass)) / (MAC * inertia + MAC * bodymass + k_rel * bodymass * V0^2 - 2 * k_rel * bodymass * V0 * wind_velocity + k_rel * bodymass * wind_velocity^2 + resistance)
 
   list(
     MSS = MSS,

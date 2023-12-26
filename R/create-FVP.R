@@ -36,7 +36,6 @@
 #'   MAC = m1$parameters$MAC,
 #'   bodyheight = 1.72,
 #'   bodymass = 120,
-#'
 #' )
 #'
 #' fv_profile
@@ -65,9 +64,10 @@ create_FVP <- function(MSS,
     velocity = 1,
     bodymass = bodymass,
     wind_velocity = 0,
-    ...) / bodymass
+    ...
+  ) / bodymass
 
-  V0 <- -(sqrt(4 * k_rel * bodymass * MSS * (-MAC * inertia * MSS - MAC * bodymass * MSS - k_rel * bodymass * MSS * wind_velocity^2 - MSS * resistance) + (MAC * inertia + MAC * bodymass + 2 * k_rel * bodymass * MSS * wind_velocity)^2) - MAC * inertia - MAC * bodymass - 2 * k_rel * bodymass * MSS * wind_velocity)/(2 * k_rel * bodymass * MSS)
+  V0 <- -(sqrt(4 * k_rel * bodymass * MSS * (-MAC * inertia * MSS - MAC * bodymass * MSS - k_rel * bodymass * MSS * wind_velocity^2 - MSS * resistance) + (MAC * inertia + MAC * bodymass + 2 * k_rel * bodymass * MSS * wind_velocity)^2) - MAC * inertia - MAC * bodymass - 2 * k_rel * bodymass * MSS * wind_velocity) / (2 * k_rel * bodymass * MSS)
 
   F0_rel <- F0 / bodymass
   Pmax <- (F0 * V0) / 4

@@ -122,7 +122,8 @@ find_optimal_FV_scalar <- function(distance, F0, V0, bodymass = 75, inertia = 0,
     bodymass = bodymass,
     inertia = inertia,
     resistance = resistance,
-    ...)
+    ...
+  )
 
   MSS_conv <- converted$MSS
   MAC_conv <- converted$MAC
@@ -152,7 +153,8 @@ find_optimal_FV_scalar <- function(distance, F0, V0, bodymass = 75, inertia = 0,
     bodymass = bodymass,
     inertia = inertia,
     resistance = resistance,
-    ...)
+    ...
+  )
 
   MSS_conv_optim <- converted_optim$MSS
   MAC_conv_optim <- converted_optim$MAC
@@ -216,7 +218,8 @@ find_FV_peak_power <- function(F0, V0, bodymass = 75, inertia = 0, resistance = 
     bodymass = bodymass,
     inertia = inertia,
     resistance = resistance,
-    ...)
+    ...
+  )
 
   MSS_conv <- converted$MSS
   MAC_conv <- converted$MAC
@@ -240,7 +243,8 @@ find_V0 <- function(F0, Ppeak, bodymass = 75, inertia = 0, resistance = 0, ...) 
       bodymass = bodymass,
       inertia = inertia,
       resistance = resistance,
-      ...))
+      ...
+    ))
   }
 
   V0 <- (4 * Ppeak) / F0
@@ -270,7 +274,8 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, inertia
     bodymass = bodymass,
     inertia = inertia,
     resistance = resistance,
-    ...)
+    ...
+  )
 
   opt_func <- function(par) {
     new_F0 <- par
@@ -280,7 +285,8 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, inertia
       bodymass = bodymass,
       inertia = inertia,
       resistance = resistance,
-      ...)
+      ...
+    )
 
     predict_time_at_distance_FV(
       distance = distance,
@@ -300,7 +306,8 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, inertia
     bodymass = bodymass,
     inertia = inertia,
     resistance = resistance,
-    ...)$F0_optim
+    ...
+  )$F0_optim
 
   get_optim_model <- function() {
     tryCatch(
@@ -331,7 +338,8 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, inertia
     bodymass = bodymass,
     inertia = inertia,
     resistance = resistance,
-    ...)
+    ...
+  )
 
   FV_slope <- -(F0 / bodymass) / V0
   FV_slope_optim <- -(F0_optim / bodymass) / V0_optim
@@ -358,7 +366,8 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, inertia
     bodymass = bodymass,
     inertia = inertia,
     resistance = resistance,
-    ...)
+    ...
+  )
 
   MSS_conv <- converted$MSS
   MAC_conv <- converted$MAC
@@ -388,7 +397,8 @@ find_optimal_FV_peak_scalar <- function(distance, F0, V0, bodymass = 75, inertia
     bodymass = bodymass,
     inertia = inertia,
     resistance = resistance,
-    ...)
+    ...
+  )
 
   MSS_conv_optim <- converted_optim$MSS
   MAC_conv_optim <- converted_optim$MAC

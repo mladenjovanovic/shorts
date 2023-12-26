@@ -13,4 +13,3 @@ new_shorts_model <- function(data, model_info, model, parameters, corrections, p
   class(shorts_model_object) <- "shorts_model"
   return(shorts_model_object)
 }
-
