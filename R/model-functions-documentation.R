@@ -5,7 +5,9 @@
 #' @param time,velocity,distance,acceleration Numeric vector
 #' @param weights Numeric vector. Default is 1
 #' @param CV Should cross-validation be used to estimate model fit? Default is \code{NULL}. Otherwise use integer
-#'     indicating number of folds.
+#'     indicating number of folds
+#' @param use_observed_MSS Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
+#'     is \code{FALSE}
 #' @param na.rm Logical. Default is FALSE
 #' @param ... Forwarded to \code{\link[minpack.lm]{nlsLM}} function
 #' @return List object with the following elements:
@@ -14,7 +16,7 @@
 #'         \item{model_info}{Extra information regarding model used}
 #'         \item{model}{Model returned by the \code{\link[minpack.lm]{nlsLM}} function}
 #'         \item{parameters}{List with the following estimated parameters:
-#'             \code{MSS}, \code{TAU}, \code{MAC}, and \code{PMAX}}
+#'             \code{MSS}, \code{MAC}, \code{TAU}, and \code{PMAX}}
 #'         \item{correction}{List with additional model correcitons}
 #'         \item{predictions}{Data frame with \code{.predictor}, \code{.observed},
 #'             \code{.predicted}, and \code{.residual} columns}

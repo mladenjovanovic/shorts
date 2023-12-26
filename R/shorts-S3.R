@@ -86,6 +86,29 @@ predict.shorts_model <- function(object, ...) {
   stats::predict(object$model, ...)
 }
 
+#' S3 method for providing confidence intervals for the \code{shorts_model}
+#'
+#' @param object \code{shorts_model} object
+#' @param ... Forwarded to generic \code{confint()} function
+#' @examples
+#' split_distances <- c(10, 20, 30, 40, 50)
+#' split_times <- create_timing_gates_splits(
+#'   gates = split_distances,
+#'   MSS = 10,
+#'   MAC = 9,
+#'   FD = 0,
+#'   TC = 0,
+#'   noise = 0.01
+#' )
+#'
+#' # Simple model
+#' simple_model <- model_timing_gates(split_distances, split_times)
+#' confint(simple_model)
+#' @export
+confint.shorts_model <- function(object, ...) {
+  stats::confint(object$model, ...)
+}
+
 #' S3 method for printing \code{shorts_model} object
 #' @param x \code{shorts_model} object
 #' @param ... Not used

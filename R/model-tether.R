@@ -1,46 +1,41 @@
 #' @rdname model_functions
+#'
 #' @description \code{model_tether} estimates short sprint parameters using distance-velocity trace
-#'     (e.g., tether devices)
-#' @param use_observed_MSS Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
-#'     is \code{FALSE}
+#'     (e.g., tether devices).
 #' @export
 #' @examples
-#' # example code
 #'
-#' distance <- c(5, 10, 20, 30, 40)
-#'
-#' velocity <- predict_velocity_at_distance(distance, MSS = 10, MAC = 8)
-#'
-#' m1 <- model_tether(distance = distance, velocity = velocity)
-#'
+#' # Model Tether
+#' df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 6, 0.5))
+#' m1 <- model_tether(distance = df$distance, velocity = df$velocity)
 #' m1
-#'
 #' plot(m1)
+#'
 model_tether <- function(distance,
-                                    velocity,
-                                    weights = 1,
-                                    CV = NULL,
-                                    use_observed_MSS = FALSE,
-                                    na.rm = FALSE,
-                                    ...) {
+                         velocity,
+                         weights = 1,
+                         CV = NULL,
+                         use_observed_MSS = FALSE,
+                         na.rm = FALSE,
+                         ...) {
 
   # Estimation function
   model_func <- function(train, test, use_observed_MSS, ...) {
-    param_start <- list(MSS = 7, TAU = 0.8)
-    param_lower <- NULL
-    param_upper <- NULL
+    param_start <- list(MSS = 7, MAC = 7)
+    param_lower <- c(MSS = 0, MAC = 0)
+    param_upper <- c(MSS = Inf, MAC = Inf)
 
     if (use_observed_MSS == TRUE) {
       observed_MSS <- max(train$velocity)
 
-      param_start <- list(MSS = observed_MSS, TAU = 0.8)
-      param_lower <- c(MSS = observed_MSS, TAU = -Inf)
-      param_upper <- c(MSS = observed_MSS, TAU = Inf)
+      param_start <- list(MSS = observed_MSS, MAC = 7)
+      param_lower <- c(MSS = observed_MSS, MAC = 0)
+      param_upper <- c(MSS = observed_MSS, MAC = Inf)
     }
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      velocity ~ MSS * (1 - exp(1)^(-((TAU * I(LambertW::W(-exp(1)^(-(distance) / (MSS * TAU) - 1))) + (distance) / MSS + TAU) / TAU))),
+      velocity ~ predict_velocity_at_distance(distance, MSS, MAC),
       data = train,
       start = param_start,
       lower = param_lower,
@@ -49,14 +44,10 @@ model_tether <- function(distance,
       ...
     )
 
-    # Maximal Sprinting Speed
-    MSS <- stats::coef(model)[[1]]
-    TAU <- stats::coef(model)[[2]]
-
-    # Maximal acceleration
-    MAC <- MSS / TAU
-
-    # Maximal Power (relative)
+    # Parameters
+    MSS <- stats::coef(model)[["MSS"]]
+    MAC <- stats::coef(model)[["MAC"]]
+    TAU <- MSS / MAC
     PMAX <- (MSS * MAC) / 4
 
     # Model fit
@@ -73,8 +64,8 @@ model_tether <- function(distance,
       model = model,
       parameters = list(
         MSS = MSS,
-        TAU = TAU,
         MAC = MAC,
+        TAU = TAU,
         PMAX = PMAX
       ),
       corrections = NULL,
@@ -104,45 +95,40 @@ model_tether <- function(distance,
 #' @rdname model_functions
 #' @description \code{model_tether_DC} estimates short sprint parameters using distance-velocity trace
 #'     (e.g., tether devices) with additional distance correction \code{DC} parameter
-#' @param use_observed_MSS Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
-#'     is \code{FALSE}
 #' @export
 #' @examples
-#' distance <- c(5, 10, 20, 30, 40)
 #'
-#' velocity <- predict_velocity_at_distance(distance - 0.5, MSS = 10, MAC = 8)
-#'
-#' m1 <- model_tether_DC(distance = distance, velocity = velocity)
-#'
+#' # Model Tether with Distance Correction (DC)
+#' df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0.001, 6, 0.5), DC = 5)
+#' m1 <- model_tether_DC(distance = df$distance, velocity = df$velocity)
 #' m1
-#'
 #' plot(m1)
 #'
 model_tether_DC <- function(distance,
-                                    velocity,
-                                    weights = 1,
-                                    CV = NULL,
-                                    use_observed_MSS = FALSE,
-                                    na.rm = FALSE,
-                                    ...) {
+                            velocity,
+                            weights = 1,
+                            CV = NULL,
+                            use_observed_MSS = FALSE,
+                            na.rm = FALSE,
+                            ...) {
 
   # Estimation function
   model_func <- function(train, test, use_observed_MSS, ...) {
-    param_start <- list(MSS = 7, TAU = 0.8, DC = 0)
-    param_lower <- NULL
-    param_upper <- NULL
+    param_start <- list(MSS = 7, MAC = 7, DC = 0)
+    param_lower <- c(MSS = 0, MAC = 0, DC = -Inf)
+    param_upper <- c(MSS = Inf, MAC = Inf, DC = Inf)
 
     if (use_observed_MSS == TRUE) {
       observed_MSS <- max(train$velocity)
 
-      param_start <- list(MSS = observed_MSS, TAU = 0.8)
-      param_lower <- c(MSS = observed_MSS, TAU = -Inf, DC = -Inf)
-      param_upper <- c(MSS = observed_MSS, TAU = Inf, DC = Inf)
+      param_start <- list(MSS = observed_MSS, MAC = 7, DC = 0)
+      param_lower <- c(MSS = observed_MSS, MAC = 0, DC = -Inf)
+      param_upper <- c(MSS = observed_MSS, MAC = Inf, DC = Inf)
     }
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      velocity ~ MSS * (1 - exp(1)^(-((TAU * I(LambertW::W(-exp(1)^(-(distance - DC) / (MSS * TAU) - 1))) + (distance - DC) / MSS + TAU) / TAU))),
+      velocity ~ predict_velocity_at_distance(distance - DC, MSS, MAC),
       data = train,
       start = param_start,
       lower = param_lower,
@@ -151,18 +137,14 @@ model_tether_DC <- function(distance,
       ...
     )
 
-    # Maximal Sprinting Speed
-    MSS <- stats::coef(model)[[1]]
-    TAU <- stats::coef(model)[[2]]
-
-    # Maximal acceleration
-    MAC <- MSS / TAU
-
-    # Maximal Power (relative)
+    # Parameters
+    MSS <- stats::coef(model)[["MSS"]]
+    MAC <- stats::coef(model)[["MAC"]]
+    TAU <- MSS / MAC
     PMAX <- (MSS * MAC) / 4
 
-    # Corrections
-    DC <- stats::coef(model)[[3]]
+    # Correction
+    DC <- stats::coef(model)[["DC"]]
 
     # Model fit
     pred_velocity <- stats::predict(model, newdata = data.frame(distance = test$distance))
@@ -178,8 +160,8 @@ model_tether_DC <- function(distance,
       model = model,
       parameters = list(
         MSS = MSS,
-        TAU = TAU,
         MAC = MAC,
+        TAU = TAU,
         PMAX = PMAX
       ),
       corrections = list(
@@ -207,4 +189,3 @@ model_tether_DC <- function(distance,
     ...
   )
 }
-

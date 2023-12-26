@@ -1,6 +1,6 @@
 #' Create Sprint Trace
 #'
-#' This function creates sprint trace either using `time` or `distance` vectors
+#' This function creates sprint trace either using \code{time} or \code{distance} vectors
 #' @param MSS,MAC  Numeric vector. Model parameters
 #' @param time Numeric vector.
 #' @param distance Numeric vector.
@@ -9,8 +9,8 @@
 #' @param FD Numeric vector. Flying start distance. Default is 0
 #' @return Data-frame with following 6 columns
 #'     \describe{
-#'        \item{time}{Measurement-scale time vector in seconds}
-#'        \item{distance}{Measurement-scale distance vector in meters}
+#'        \item{time}{Measurement-scale time vector in seconds. Equal to parameter \code{time}}
+#'        \item{distance}{Measurement-scale distance vector in meters. Equal to parameter \code{distance}}
 #'        \item{velocity}{Velocity vector in m/s}
 #'        \item{acceleration}{Acceleration vector in m/s/s}
 #'        \item{sprint_time}{Sprint scale time vector in seconds. Sprint always start at t=0s}
@@ -18,8 +18,8 @@
 #'     }
 #' @export
 #' @examples
-#' df <- create_sprint_trace(8, 7, time = seq(0, 6, by = 0.01))
 #'
+#' df <- create_sprint_trace(8, 7, time = seq(0, 6, by = 0.01))
 #' df <- create_sprint_trace(8, 7, distance = seq(0, 40, by = 1))
 #'
 #' @export
@@ -32,6 +32,10 @@ create_sprint_trace <- function(MSS,
                                 FD = 0) {
   if (!is.null(time) & !is.null(distance)) {
     stop("Please use either time or distance vector, not both.", call. = FALSE)
+  }
+
+  if (FD < 0) {
+    stop("Flying start distance (FD) cannot be negative number.", call. = FALSE)
   }
 
   # TRUE sprint performance data, with the start at d=0 and t=0

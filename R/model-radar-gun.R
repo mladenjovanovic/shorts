@@ -1,23 +1,15 @@
 #' @rdname model_functions
 #' @description \code{model_radar_gun} estimates short sprint parameters using time-velocity trace,
 #'     with additional parameter \code{TC} serving as intercept
-#' @param use_observed_MSS Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
-#'     is \code{FALSE}
 #' @export
 #' @examples
-#' instant_velocity <- data.frame(
-#'   time = c(0, 1, 2, 3, 4, 5, 6),
-#'   velocity = c(0.00, 4.99, 6.43, 6.84, 6.95, 6.99, 7.00)
-#' )
 #'
-#' sprint_model <- with(
-#'   instant_velocity,
-#'   model_radar_gun(time, velocity)
-#' )
+#' # Model Radar Gun (includes Time Correction)
+#' df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 6, 0.1))
+#' m1 <- model_radar_gun(time = df$time, velocity = df$velocity)
+#' m1
+#' plot(m1)
 #'
-#' print(sprint_model)
-#' coef(sprint_model)
-#' plot(sprint_model)
 model_radar_gun <- function(time,
                             velocity,
                             weights = 1,
@@ -29,21 +21,21 @@ model_radar_gun <- function(time,
 
   # Estimation function
   model_func <- function(train, test, use_observed_MSS, ...) {
-    param_start <- list(MSS = 7, TAU = 0.8, TC = 0)
-    param_lower <- NULL
-    param_upper <- NULL
+    param_start <- list(MSS = 7, MAC = 7, TC = 0)
+    param_lower <- c(MSS = 0, MAC = 0, TC = -Inf)
+    param_upper <- c(MSS = Inf, MAC = Inf, TC = Inf)
 
     if (use_observed_MSS == TRUE) {
       observed_MSS <- max(train$velocity)
 
-      param_start <- list(MSS = observed_MSS, TAU = 0.8, TC = 0)
-      param_lower <- c(MSS = observed_MSS, TAU = -Inf, TC = -Inf)
-      param_upper <- c(MSS = observed_MSS, TAU = Inf, TC = Inf)
+      param_start <- list(MSS = observed_MSS, MAC = 7, TC = 0)
+      param_lower <- c(MSS = observed_MSS, MAC = 0, TC = -Inf)
+      param_upper <- c(MSS = observed_MSS, MAC = Inf, TC = Inf)
     }
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      velocity ~ MSS * (1 - exp(1)^(-(time - TC) / TAU)),
+      velocity ~ predict_velocity_at_time(time + TC, MSS, MAC),
       data = train,
       start = param_start,
       lower = param_lower,
@@ -52,16 +44,14 @@ model_radar_gun <- function(time,
       ...
     )
 
-    # Maximal Sprinting Speed
-    MSS <- stats::coef(model)[[1]]
-    TAU <- stats::coef(model)[[2]]
-    TC <- stats::coef(model)[[3]]
-
-    # Maximal acceleration
-    MAC <- MSS / TAU
-
-    # Maximal Power (relative)
+    # Parameters
+    MSS <- stats::coef(model)[["MSS"]]
+    MAC <- stats::coef(model)[["MAC"]]
+    TAU <- MSS / MAC
     PMAX <- (MSS * MAC) / 4
+
+    # Correction
+    TC <- stats::coef(model)[["TC"]]
 
     # Model fit
     pred_velocity <- stats::predict(model, newdata = data.frame(time = test$time))
@@ -77,8 +67,8 @@ model_radar_gun <- function(time,
       model = model,
       parameters = list(
         MSS = MSS,
-        TAU = TAU,
         MAC = MAC,
+        TAU = TAU,
         PMAX = PMAX
       ),
       corrections = list(
@@ -109,21 +99,13 @@ model_radar_gun <- function(time,
 
 #' @rdname model_functions
 #' @description \code{model_laser_gun} alias for \code{\link{model_radar_gun}}
-#' @param use_observed_MSS Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
-#'     is \code{FALSE}
 #' @export
 #' @examples
-#' instant_velocity <- data.frame(
-#'   time = c(0, 1, 2, 3, 4, 5, 6),
-#'   velocity = c(0.00, 4.99, 6.43, 6.84, 6.95, 6.99, 7.00)
-#' )
 #'
-#' sprint_model <- with(
-#'   instant_velocity,
-#'   model_laser_gun(time, velocity)
-#' )
+#' # Model Laser Gun (includes Time Correction)
+#' df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 6, 0.1))
+#' m1 <- model_laser_gun(time = df$time, velocity = df$velocity)
+#' m1
+#' plot(m1)
 #'
-#' print(sprint_model)
-#' coef(sprint_model)
-#' plot(sprint_model)
 model_laser_gun <- model_radar_gun

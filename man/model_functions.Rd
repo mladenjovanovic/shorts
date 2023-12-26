@@ -12,7 +12,6 @@
 \alias{model_timing_gates}
 \alias{model_timing_gates_TC}
 \alias{model_timing_gates_FD}
-\alias{model_timing_gates_FD_TC}
 \title{Model functions}
 \usage{
 model_in_situ(
@@ -87,16 +86,6 @@ model_timing_gates_FD(
   na.rm = FALSE,
   ...
 )
-
-model_timing_gates_FD_TC(
-  distance,
-  time,
-  weights = 1,
-  FD = NULL,
-  CV = NULL,
-  na.rm = FALSE,
-  ...
-)
 }
 \arguments{
 \item{weights}{Numeric vector. Default is 1}
@@ -109,7 +98,7 @@ model_timing_gates_FD_TC(
 Default is 2}
 
 \item{CV}{Should cross-validation be used to estimate model fit? Default is \code{NULL}. Otherwise use integer
-indicating number of folds.}
+indicating number of folds}
 
 \item{na.rm}{Logical. Default is FALSE}
 
@@ -130,7 +119,7 @@ List object with the following elements:
         \item{model_info}{Extra information regarding model used}
         \item{model}{Model returned by the \code{\link[minpack.lm]{nlsLM}} function}
         \item{parameters}{List with the following estimated parameters:
-            \code{MSS}, \code{TAU}, \code{MAC}, and \code{PMAX}}
+            \code{MSS}, \code{MAC}, \code{TAU}, and \code{PMAX}}
         \item{correction}{List with additional model correcitons}
         \item{predictions}{Data frame with \code{.predictor}, \code{.observed},
             \code{.predicted}, and \code{.residual} columns}
@@ -151,7 +140,7 @@ Family of functions that serve a purpose of estimating short sprint parameters
 \code{model_laser_gun} alias for \code{\link{model_radar_gun}}
 
 \code{model_tether} estimates short sprint parameters using distance-velocity trace
-    (e.g., tether devices)
+    (e.g., tether devices).
 
 \code{model_tether_DC} estimates short sprint parameters using distance-velocity trace
     (e.g., tether devices) with additional distance correction \code{DC} parameter
@@ -164,130 +153,64 @@ Family of functions that serve a purpose of estimating short sprint parameters
 
 \code{model_timing_gates_FD} estimates short sprint parameters using distance-time trace
      (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD}
-
-\code{model_timing_gates_FD_TC} estimates short sprint parameters using distance-time trace
-     (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD} and
-     time correction parameter \code{TC}
 }
 \examples{
+
+# Model In-Situ (Embedded profiling)
 data("LPS_session")
-
-insitu_model <- model_in_situ(LPS_session$velocity, LPS_session$acceleration)
-
-print(insitu_model)
-coef(insitu_model)
-plot(insitu_model)
-
-instant_velocity <- data.frame(
-  time = c(0, 1, 2, 3, 4, 5, 6),
-  velocity = c(0.00, 4.99, 6.43, 6.84, 6.95, 6.99, 7.00)
-)
-
-sprint_model <- with(
-  instant_velocity,
-  model_radar_gun(time, velocity)
-)
-
-print(sprint_model)
-coef(sprint_model)
-plot(sprint_model)
-instant_velocity <- data.frame(
-  time = c(0, 1, 2, 3, 4, 5, 6),
-  velocity = c(0.00, 4.99, 6.43, 6.84, 6.95, 6.99, 7.00)
-)
-
-sprint_model <- with(
-  instant_velocity,
-  model_laser_gun(time, velocity)
-)
-
-print(sprint_model)
-coef(sprint_model)
-plot(sprint_model)
-# example code
-
-distance <- c(5, 10, 20, 30, 40)
-
-velocity <- predict_velocity_at_distance(distance, MSS = 10, MAC = 8)
-
-m1 <- model_tether(distance = distance, velocity = velocity)
-
+m1 <- model_in_situ(LPS_session$velocity, LPS_session$acceleration)
 m1
-
-plot(m1)
-distance <- c(5, 10, 20, 30, 40)
-
-velocity <- predict_velocity_at_distance(distance - 0.5, MSS = 10, MAC = 8)
-
-m1 <- model_tether_DC(distance = distance, velocity = velocity)
-
-m1
-
 plot(m1)
 
-split_distances <- c(10, 20, 30, 40, 50)
-split_times <- create_timing_gates_splits(
-  gates = split_distances,
-  MSS = 10,
-  MAC = 9,
-  FD = 0,
-  TC = 0
-)
 
-# Simple model
-simple_model <- model_timing_gates(split_distances, split_times)
+# Model Radar Gun (includes Time Correction)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 6, 0.1))
+m1 <- model_radar_gun(time = df$time, velocity = df$velocity)
+m1
+plot(m1)
 
-print(simple_model)
-coef(simple_model)
-plot(simple_model)
-split_distances <- c(10, 20, 30, 40, 50)
-split_times <- create_timing_gates_splits(
-  gates = split_distances,
-  MSS = 10,
-  MAC = 9,
-  FD = 0,
-  TC = 0.2,
-  noise = 0.001
-)
 
-# TC model
-TC_model <- model_timing_gates_TC(split_distances, split_times)
+# Model Laser Gun (includes Time Correction)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 6, 0.1))
+m1 <- model_laser_gun(time = df$time, velocity = df$velocity)
+m1
+plot(m1)
 
-print(TC_model)
-coef(TC_model)
-plot(TC_model)
-split_distances <- c(10, 20, 30, 40, 50)
-split_times <- create_timing_gates_splits(
-  gates = split_distances,
-  MSS = 10,
-  MAC = 9,
-  FD = 0.5,
-  TC = 0,
-  noise = 0.001
-)
 
-# FD model
-FD_model <- model_timing_gates_FD(split_distances, split_times)
+# Model Tether
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 6, 0.5))
+m1 <- model_tether(distance = df$distance, velocity = df$velocity)
+m1
+plot(m1)
 
-print(FD_model)
-coef(FD_model)
-plot(FD_model)
-split_distances <- c(10, 20, 30, 40, 50)
-split_times <- create_timing_gates_splits(
-  gates = split_distances,
-  MSS = 10,
-  MAC = 9,
-  FD = 0.5,
-  TC = 0.1,
-  noise = 0.001
-)
 
-# FD TC model
-FD_TC_model <- model_timing_gates_FD_TC(split_distances, split_times)
+# Model Tether with Distance Correction (DC)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0.001, 6, 0.5), DC = 5)
+m1 <- model_tether_DC(distance = df$distance, velocity = df$velocity)
+m1
+plot(m1)
 
-print(FD_TC_model)
-coef(FD_TC_model)
-plot(FD_TC_model)
+
+# Model Timing Gates (simple, withour corrections)
+df <- create_sprint_trace(MSS = 8, MAC = 6, distance = c(5, 10, 20, 30, 40))
+m1 <- model_timing_gates(distance = df$distance, time = df$time)
+m1
+plot(m1)
+
+
+# Model Timing Gates (with Time Correction)
+df <- create_sprint_trace(MSS = 8, MAC = 6, distance = c(5, 10, 20, 30, 40), TC = 0.2)
+m1 <- model_timing_gates_TC(distance = df$distance, time = df$time)
+m1
+plot(m1)
+
+
+# Model Timing Gates (with Flying Distance Correction)
+df <- create_sprint_trace(MSS = 8, MAC = 6, distance = c(5, 10, 20, 30, 40), FD = 0.5)
+m1 <- model_timing_gates_FD(distance = df$distance, time = df$time)
+m1
+plot(m1)
+
 }
 \references{
 Samozino P. 2018. A Simple Method for Measuring Force, Velocity and Power Capabilities and Mechanical
