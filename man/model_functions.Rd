@@ -109,7 +109,7 @@ model_timing_gates_FD_TC(
 Default is 2}
 
 \item{CV}{Should cross-validation be used to estimate model fit? Default is \code{NULL}. Otherwise use integer
-indicating number of folds.}
+indicating number of folds}
 
 \item{na.rm}{Logical. Default is FALSE}
 
@@ -151,7 +151,7 @@ Family of functions that serve a purpose of estimating short sprint parameters
 \code{model_laser_gun} alias for \code{\link{model_radar_gun}}
 
 \code{model_tether} estimates short sprint parameters using distance-velocity trace
-    (e.g., tether devices)
+    (e.g., tether devices).
 
 \code{model_tether_DC} estimates short sprint parameters using distance-velocity trace
     (e.g., tether devices) with additional distance correction \code{DC} parameter
@@ -178,51 +178,32 @@ print(insitu_model)
 coef(insitu_model)
 plot(insitu_model)
 
-instant_velocity <- data.frame(
-  time = c(0, 1, 2, 3, 4, 5, 6),
-  velocity = c(0.00, 4.99, 6.43, 6.84, 6.95, 6.99, 7.00)
-)
 
-sprint_model <- with(
-  instant_velocity,
-  model_radar_gun(time, velocity)
-)
-
-print(sprint_model)
-coef(sprint_model)
-plot(sprint_model)
-instant_velocity <- data.frame(
-  time = c(0, 1, 2, 3, 4, 5, 6),
-  velocity = c(0.00, 4.99, 6.43, 6.84, 6.95, 6.99, 7.00)
-)
-
-sprint_model <- with(
-  instant_velocity,
-  model_laser_gun(time, velocity)
-)
-
-print(sprint_model)
-coef(sprint_model)
-plot(sprint_model)
-# example code
-
-distance <- c(5, 10, 20, 30, 40)
-
-velocity <- predict_velocity_at_distance(distance, MSS = 10, MAC = 8)
-
-m1 <- model_tether(distance = distance, velocity = velocity)
-
+# Model Radar Gun (includes Time Correction)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 6, 0.1))
+m1 <- model_radar_gun(time = df$time, velocity = df$velocity)
 m1
-
 plot(m1)
-distance <- c(5, 10, 20, 30, 40)
 
-velocity <- predict_velocity_at_distance(distance - 0.5, MSS = 10, MAC = 8)
 
-m1 <- model_tether_DC(distance = distance, velocity = velocity)
-
+# Model Laser Gun (includes Time Correction)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 6, 0.1))
+m1 <- model_laser_gun(time = df$time, velocity = df$velocity)
 m1
+plot(m1)
 
+
+# Model Tether
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 6, 0.5))
+m1 <- model_tether(distance = df$distance, velocity = df$velocity)
+m1
+plot(m1)
+
+
+# Model Tether with Distance Correction (DC)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0.001, 6, 0.5), DC = 5)
+m1 <- model_tether_DC(distance = df$distance, velocity = df$velocity)
+m1
 plot(m1)
 
 split_distances <- c(10, 20, 30, 40, 50)

@@ -44,13 +44,12 @@ prepare_in_situ_data <- function(df,
 #'     https://doi.org/10.1016/j.jbiomech.2023.111602
 #' @export
 #' @examples
+#'
+#' # Model In-Situ (Embedded profiling)
 #' data("LPS_session")
-#'
-#' insitu_model <- model_in_situ(LPS_session$velocity, LPS_session$acceleration)
-#'
-#' print(insitu_model)
-#' coef(insitu_model)
-#' plot(insitu_model)
+#' m1 <- model_in_situ(LPS_session$velocity, LPS_session$acceleration)
+#' m1
+#' plot(m1)
 #'
 model_in_situ <- function(velocity,
                           acceleration,
@@ -111,8 +110,8 @@ model_in_situ <- function(velocity,
       model = model,
       parameters = list(
         MSS = MSS,
-        TAU = TAU,
         MAC = MAC,
+        TAU = TAU,
         PMAX = PMAX
       ),
       corrections = NULL,

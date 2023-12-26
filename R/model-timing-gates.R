@@ -29,19 +29,23 @@ model_timing_gates <- function(distance,
   # Estimation function
   model_func <- function(train, test, ...) {
     param_start <- list(MSS = 7, MAC = 7)
+    param_lower <- c(MSS = 0, MAC = 0)
+    param_upper <- c(MSS = Inf, MAC = Inf)
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
       time ~ predict_time_at_distance(distance, MSS, MAC),
       data = train,
       start = param_start,
+      lower = param_lower,
+      upper = param_upper,
       weights = train$weight,
       ...
     )
 
     # Parameters
-    MSS <- stats::coef(model)[[1]]
-    MAC <- stats::coef(model)[[2]]
+    MSS <- stats::coef(model)[["MSS"]]
+    MAC <- stats::coef(model)[["MAC"]]
     TAU <- MSS / MAC
     PMAX <- (MSS * MAC) / 4
 
