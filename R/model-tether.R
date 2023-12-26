@@ -26,21 +26,21 @@ model_tether <- function(distance,
 
   # Estimation function
   model_func <- function(train, test, use_observed_MSS, ...) {
-    param_start <- list(MSS = 7, TAU = 0.8)
+    param_start <- list(MSS = 7, MAC = 7)
     param_lower <- NULL
     param_upper <- NULL
 
     if (use_observed_MSS == TRUE) {
       observed_MSS <- max(train$velocity)
 
-      param_start <- list(MSS = observed_MSS, TAU = 0.8)
+      param_start <- list(MSS = observed_MSS, MAC = 7)
       param_lower <- c(MSS = observed_MSS, TAU = -Inf)
       param_upper <- c(MSS = observed_MSS, TAU = Inf)
     }
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      velocity ~ MSS * (1 - exp(1)^(-((TAU * I(LambertW::W(-exp(1)^(-(distance) / (MSS * TAU) - 1))) + (distance) / MSS + TAU) / TAU))),
+      velocity ~ predict_velocity_at_distance(distance, MSS, MAC),
       data = train,
       start = param_start,
       lower = param_lower,
@@ -49,14 +49,10 @@ model_tether <- function(distance,
       ...
     )
 
-    # Maximal Sprinting Speed
+    # Parameters
     MSS <- stats::coef(model)[[1]]
-    TAU <- stats::coef(model)[[2]]
-
-    # Maximal acceleration
-    MAC <- MSS / TAU
-
-    # Maximal Power (relative)
+    MAC <- stats::coef(model)[[2]]
+    TAU <- MSS / MAC
     PMAX <- (MSS * MAC) / 4
 
     # Model fit
@@ -73,8 +69,8 @@ model_tether <- function(distance,
       model = model,
       parameters = list(
         MSS = MSS,
-        TAU = TAU,
         MAC = MAC,
+        TAU = TAU,
         PMAX = PMAX
       ),
       corrections = NULL,
@@ -128,21 +124,21 @@ model_tether_DC <- function(distance,
 
   # Estimation function
   model_func <- function(train, test, use_observed_MSS, ...) {
-    param_start <- list(MSS = 7, TAU = 0.8, DC = 0)
+    param_start <- list(MSS = 7, MAC = 7, DC = 0)
     param_lower <- NULL
     param_upper <- NULL
 
     if (use_observed_MSS == TRUE) {
       observed_MSS <- max(train$velocity)
 
-      param_start <- list(MSS = observed_MSS, TAU = 0.8)
-      param_lower <- c(MSS = observed_MSS, TAU = -Inf, DC = -Inf)
-      param_upper <- c(MSS = observed_MSS, TAU = Inf, DC = Inf)
+      param_start <- list(MSS = observed_MSS, MAC = 7, DC = 0)
+      param_lower <- c(MSS = observed_MSS, MAC = -Inf, DC = -Inf)
+      param_upper <- c(MSS = observed_MSS, MAC = Inf, DC = Inf)
     }
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      velocity ~ MSS * (1 - exp(1)^(-((TAU * I(LambertW::W(-exp(1)^(-(distance - DC) / (MSS * TAU) - 1))) + (distance - DC) / MSS + TAU) / TAU))),
+      velocity ~ predict_velocity_at_distance(distance - DC, MSS, MAC),
       data = train,
       start = param_start,
       lower = param_lower,
@@ -151,17 +147,13 @@ model_tether_DC <- function(distance,
       ...
     )
 
-    # Maximal Sprinting Speed
+    # Parameters
     MSS <- stats::coef(model)[[1]]
-    TAU <- stats::coef(model)[[2]]
-
-    # Maximal acceleration
-    MAC <- MSS / TAU
-
-    # Maximal Power (relative)
+    MAC <- stats::coef(model)[[2]]
+    TAU <- MSS / MAC
     PMAX <- (MSS * MAC) / 4
 
-    # Corrections
+    # Correction
     DC <- stats::coef(model)[[3]]
 
     # Model fit
@@ -178,8 +170,8 @@ model_tether_DC <- function(distance,
       model = model,
       parameters = list(
         MSS = MSS,
-        TAU = TAU,
         MAC = MAC,
+        TAU = TAU,
         PMAX = PMAX
       ),
       corrections = list(

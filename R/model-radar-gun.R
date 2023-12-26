@@ -29,21 +29,21 @@ model_radar_gun <- function(time,
 
   # Estimation function
   model_func <- function(train, test, use_observed_MSS, ...) {
-    param_start <- list(MSS = 7, TAU = 0.8, TC = 0)
+    param_start <- list(MSS = 7, MAC = 7, TC = 0)
     param_lower <- NULL
     param_upper <- NULL
 
     if (use_observed_MSS == TRUE) {
       observed_MSS <- max(train$velocity)
 
-      param_start <- list(MSS = observed_MSS, TAU = 0.8, TC = 0)
-      param_lower <- c(MSS = observed_MSS, TAU = -Inf, TC = -Inf)
-      param_upper <- c(MSS = observed_MSS, TAU = Inf, TC = Inf)
+      param_start <- list(MSS = observed_MSS, MAC = 7, TC = 0)
+      param_lower <- c(MSS = observed_MSS, MAC = -Inf, TC = -Inf)
+      param_upper <- c(MSS = observed_MSS, MAC = Inf, TC = Inf)
     }
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      velocity ~ MSS * (1 - exp(1)^(-(time - TC) / TAU)),
+      velocity ~ predict_velocity_at_time(time + TC, MSS, MAC),
       data = train,
       start = param_start,
       lower = param_lower,
@@ -52,16 +52,14 @@ model_radar_gun <- function(time,
       ...
     )
 
-    # Maximal Sprinting Speed
+    # Parameters
     MSS <- stats::coef(model)[[1]]
-    TAU <- stats::coef(model)[[2]]
-    TC <- stats::coef(model)[[3]]
-
-    # Maximal acceleration
-    MAC <- MSS / TAU
-
-    # Maximal Power (relative)
+    MAC <- stats::coef(model)[[2]]
+    TAU <- MSS / MAC
     PMAX <- (MSS * MAC) / 4
+
+    # Correction
+    TC <- stats::coef(model)[[3]]
 
     # Model fit
     pred_velocity <- stats::predict(model, newdata = data.frame(time = test$time))
@@ -77,8 +75,8 @@ model_radar_gun <- function(time,
       model = model,
       parameters = list(
         MSS = MSS,
-        TAU = TAU,
         MAC = MAC,
+        TAU = TAU,
         PMAX = PMAX
       ),
       corrections = list(

@@ -28,25 +28,21 @@ model_timing_gates <- function(distance,
 
   # Estimation function
   model_func <- function(train, test, ...) {
-    param_start <- list(MSS = 7, TAU = 0.8)
+    param_start <- list(MSS = 7, MAC = 7)
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU,
+      time ~ predict_time_at_distance(distance, MSS, MAC),
       data = train,
       start = param_start,
       weights = train$weight,
       ...
     )
 
-    # Maximal Sprinting Speed
+    # Parameters
     MSS <- stats::coef(model)[[1]]
-    TAU <- stats::coef(model)[[2]]
-
-    # Maximal acceleration
-    MAC <- MSS / TAU
-
-    # Maximal Power (relative)
+    MAC <- stats::coef(model)[[2]]
+    TAU <- MSS / MAC
     PMAX <- (MSS * MAC) / 4
 
     # Model fit
@@ -62,8 +58,8 @@ model_timing_gates <- function(distance,
       model = model,
       parameters = list(
         MSS = MSS,
-        TAU = TAU,
         MAC = MAC,
+        TAU = TAU,
         PMAX = PMAX
       ),
       corrections = NULL,
@@ -120,25 +116,21 @@ model_timing_gates_TC <- function(distance,
 
   # Estimation function
   model_func <- function(train, test, ...) {
-    param_start <- list(MSS = 7, TAU = 0.8, TC = 0)
+    param_start <- list(MSS = 7, MAC = 7, TC = 0)
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      time ~ TAU * I(LambertW::W(-exp(1)^(-distance / (MSS * TAU) - 1))) + distance / MSS + TAU + TC,
+      time ~ predict_time_at_distance(distance, MSS, MAC) + TC,
       data = train,
       start = param_start,
       weights = train$weight,
       ...
     )
 
-    # Maximal Sprinting Speed
+    # Parameters
     MSS <- stats::coef(model)[[1]]
-    TAU <- stats::coef(model)[[2]]
-
-    # Maximal acceleration
-    MAC <- MSS / TAU
-
-    # Maximal Power (relative)
+    MAC <- stats::coef(model)[[2]]
+    TAU <- MSS / MAC
     PMAX <- (MSS * MAC) / 4
 
     # Correction
@@ -157,8 +149,8 @@ model_timing_gates_TC <- function(distance,
       model = model,
       parameters = list(
         MSS = MSS,
-        TAU = TAU,
         MAC = MAC,
+        TAU = TAU,
         PMAX = PMAX
       ),
       corrections = list(
@@ -221,7 +213,7 @@ model_timing_gates_FD <- function(distance,
 
   # Estimation function
   model_func <- function(train, test, ...) {
-    param_start <- list(MSS = 7, TAU = 0.8, FD = 0)
+    param_start <- list(MSS = 7, MAC = 7, FD = 0)
     param_lower <- NULL
     param_upper <- NULL
 
@@ -230,15 +222,14 @@ model_timing_gates_FD <- function(distance,
     # If FD is provided, use that
     if (is.null(FD) == FALSE) {
       user_FD <- FD
-      param_start <- list(MSS = 7, TAU = 0.8, FD = FD)
-      param_lower <- c(MSS = -Inf, TAU = -Inf, FD = FD)
-      param_upper <- c(MSS = Inf, TAU = Inf, FD = FD)
+      param_start <- list(MSS = 7, MAC = 7, FD = FD)
+      param_lower <- c(MSS = -Inf, MAC = -Inf, FD = FD)
+      param_upper <- c(MSS = Inf, MAC = Inf, FD = FD)
     }
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      time ~ (TAU * I(LambertW::W(-exp(1)^(-(distance + FD) / (MSS * TAU) - 1))) + (distance + FD) / MSS + TAU) -
-        (TAU * I(LambertW::W(-exp(1)^(-FD / (MSS * TAU) - 1))) + FD / MSS + TAU),
+      time ~ predict_time_at_distance(distance + FD, MSS, MAC) - predict_time_at_distance(FD, MSS, MAC),
       data = train,
       start = param_start,
       lower = param_lower,
@@ -247,14 +238,10 @@ model_timing_gates_FD <- function(distance,
       ...
     )
 
-    # Maximal Sprinting Speed
+    # Parameters
     MSS <- stats::coef(model)[[1]]
-    TAU <- stats::coef(model)[[2]]
-
-    # Maximal acceleration
-    MAC <- MSS / TAU
-
-    # Maximal Power (relative)
+    MAC <- stats::coef(model)[[2]]
+    TAU <- MSS / MAC
     PMAX <- (MSS * MAC) / 4
 
     # Correction
@@ -274,8 +261,8 @@ model_timing_gates_FD <- function(distance,
       model = model,
       parameters = list(
         MSS = MSS,
-        TAU = TAU,
         MAC = MAC,
+        TAU = TAU,
         PMAX = PMAX
       ),
       corrections = list(
@@ -338,7 +325,7 @@ model_timing_gates_FD_TC <- function(distance,
 
   # Estimation function
   model_func <- function(train, test, ...) {
-    param_start <- list(MSS = 7, TAU = 0.8, FD = 0, TC = 0)
+    param_start <- list(MSS = 7, MAC = 7, FD = 0, TC = 0)
     param_lower <- NULL
     param_upper <- NULL
 
@@ -347,16 +334,14 @@ model_timing_gates_FD_TC <- function(distance,
     # If FD is provided, use that
     if (is.null(FD) == FALSE) {
       user_FD <- FD
-      param_start <- list(MSS = 7, TAU = 0.8, FD = FD, TC = 0)
-      param_lower <- c(MSS = -Inf, TAU = -Inf, FD = FD, TC = -Inf)
-      param_upper <- c(MSS = Inf, TAU = Inf, FD = FD, TC = Inf)
+      param_start <- list(MSS = 7, MAC = 7, FD = FD, TC = 0)
+      param_lower <- c(MSS = -Inf, MAC = -Inf, FD = FD, TC = -Inf)
+      param_upper <- c(MSS = Inf, MAC = Inf, FD = FD, TC = Inf)
     }
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      time ~ (TAU * I(LambertW::W(-exp(1)^(-(distance + FD) / (MSS * TAU) - 1))) + (distance + FD) / MSS + TAU) -
-        (TAU * I(LambertW::W(-exp(1)^(-FD / (MSS * TAU) - 1))) + FD / MSS + TAU) + TC,
-
+      time ~ predict_time_at_distance(distance + FD, MSS, MAC) - predict_time_at_distance(FD, MSS, MAC) + TC,
       data = train,
       start = param_start,
       lower = param_lower,
@@ -365,17 +350,13 @@ model_timing_gates_FD_TC <- function(distance,
       ...
     )
 
-    # Maximal Sprinting Speed
+    # Parameters
     MSS <- stats::coef(model)[[1]]
-    TAU <- stats::coef(model)[[2]]
-
-    # Maximal acceleration
-    MAC <- MSS / TAU
-
-    # Maximal Power (relative)
+    MAC <- stats::coef(model)[[2]]
+    TAU <- MSS / MAC
     PMAX <- (MSS * MAC) / 4
 
-    # Correction
+    # Corrections
     FD <- stats::coef(model)[[3]]
     TC <- stats::coef(model)[[4]]
 
@@ -393,8 +374,8 @@ model_timing_gates_FD_TC <- function(distance,
       model = model,
       parameters = list(
         MSS = MSS,
-        TAU = TAU,
         MAC = MAC,
+        TAU = TAU,
         PMAX = PMAX
       ),
       corrections = list(
