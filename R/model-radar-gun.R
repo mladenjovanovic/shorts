@@ -35,7 +35,7 @@ model_radar_gun <- function(time,
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
-      velocity ~ predict_velocity_at_time(time + TC, MSS, MAC),
+      velocity ~ predict_velocity_at_time(time - TC, MSS, MAC),
       data = train,
       start = param_start,
       lower = param_lower,
