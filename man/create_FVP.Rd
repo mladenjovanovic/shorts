@@ -55,7 +55,6 @@ fv_profile <- create_FVP(
   MAC = m1$parameters$MAC,
   bodyheight = 1.72,
   bodymass = 120,
-
 )
 
 fv_profile
