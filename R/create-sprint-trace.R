@@ -59,7 +59,6 @@ create_sprint_trace <- function(MSS,
     if (remove_leading == TRUE) {
       df <- df[df$time >= TC, ]
     }
-
   } else if (!is.null(distance)) {
     df <- data.frame(distance = distance)
     df$sprint_distance <- df$distance + FD - DC

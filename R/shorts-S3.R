@@ -19,7 +19,7 @@ coef.shorts_model <- function(object, ...) {
   # This return model parameters
   stats::coef(object$model, ...)
   # This only return sprint parameters
-  #return(unlist(object$parameters))
+  # return(unlist(object$parameters))
 }
 
 

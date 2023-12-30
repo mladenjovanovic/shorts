@@ -196,11 +196,11 @@ model_time_distance_FD <- function(time,
 #'
 #' @export
 model_time_distance_TC <- function(time,
-                                distance,
-                                weights = 1,
-                                CV = NULL,
-                                na.rm = FALSE,
-                                ...) {
+                                   distance,
+                                   weights = 1,
+                                   CV = NULL,
+                                   na.rm = FALSE,
+                                   ...) {
 
 
   # Estimation function
@@ -373,11 +373,11 @@ model_time_distance_DC <- function(time,
 #'
 #' @export
 model_time_distance_TC_DC <- function(time,
-                                   distance,
-                                   weights = 1,
-                                   CV = NULL,
-                                   na.rm = FALSE,
-                                   ...) {
+                                      distance,
+                                      weights = 1,
+                                      CV = NULL,
+                                      na.rm = FALSE,
+                                      ...) {
 
 
   # Estimation function

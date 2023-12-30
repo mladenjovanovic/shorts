@@ -375,11 +375,11 @@ model_timing_gates_DC <- function(distance,
 #'
 #' @export
 model_timing_gates_TC_DC <- function(distance,
-                                  time,
-                                  weights = 1,
-                                  CV = NULL,
-                                  na.rm = FALSE,
-                                  ...) {
+                                     time,
+                                     weights = 1,
+                                     CV = NULL,
+                                     na.rm = FALSE,
+                                     ...) {
 
 
   # Estimation function
