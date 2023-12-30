@@ -20,6 +20,7 @@
 * Added `dynaspeed` dataset
 * Updated S3 print and plot methods for the `"shorts_model"` class. The plot method now plots four different types of plots, depending on the `type` argument: "model" (default), "kinematics-time", "kinematics-distance", or "residuals"
 * Added `confint` S3 method to provide confidence intervals of the parameters
+* Changed `coef` S3 method to return all model parameters, not only sprint parameters
 * Updated README to cover changes
 
 # shorts 2.5.0
