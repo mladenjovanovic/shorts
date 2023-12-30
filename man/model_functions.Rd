@@ -9,6 +9,11 @@
 \alias{model_laser_gun}
 \alias{model_tether}
 \alias{model_tether_DC}
+\alias{model_time_distance}
+\alias{model_time_distance_FD}
+\alias{model_time_distance_TC}
+\alias{model_time_distance_DC}
+\alias{model_time_distance_TC_DC}
 \alias{model_timing_gates}
 \alias{model_timing_gates_TC}
 \alias{model_timing_gates_FD}
@@ -68,7 +73,44 @@ model_tether_DC(
   ...
 )
 
-model_timing_gates(distance, time, weights = 1, CV = NULL, na.rm = FALSE, ...)
+model_time_distance(time, distance, weights = 1, CV = NULL, na.rm = FALSE, ...)
+
+model_time_distance_FD(
+  time,
+  distance,
+  weights = 1,
+  FD = NULL,
+  CV = NULL,
+  na.rm = FALSE,
+  ...
+)
+
+model_time_distance_TC(
+  time,
+  distance,
+  weights = 1,
+  CV = NULL,
+  na.rm = FALSE,
+  ...
+)
+
+model_time_distance_DC(
+  time,
+  distance,
+  weights = 1,
+  CV = NULL,
+  na.rm = FALSE,
+  ...
+)
+
+model_time_distance_TC_DC(
+  time,
+  distance,
+  weights = 1,
+  CV = NULL,
+  na.rm = FALSE,
+  ...
+)
 
 model_timing_gates(distance, time, weights = 1, CV = NULL, na.rm = FALSE, ...)
 
@@ -169,6 +211,18 @@ Family of functions that serve a purpose of estimating short sprint parameters
 
 \code{model_time_distance} estimates short sprint parameters using time distance trace
 
+\code{model_time_distance_FD} estimates short sprint parameters using time-distance trace
+     with additional flying distance correction parameter \code{FD}
+
+\code{model_time_distance} estimates short sprint parameters using time distance trace
+    with additional time correction parameter \code{TC}
+
+\code{model_time_distance} estimates short sprint parameters using time distance trace
+    with additional distance correction parameter \code{DC}
+
+\code{model_time_distance} estimates short sprint parameters using time distance trace
+    with additional time correction \code{TC} and distance correction \code{TC} parameters
+
 \code{model_timing_gates} estimates short sprint parameters using distance-time trace
      (e.g., timing gates/photo cells)
 
@@ -223,8 +277,36 @@ plot(m1)
 
 
 # Model Time-Distance trace (simple, without corrections)
-df <- create_sprint_trace(MSS = 8, MAC = 6, distance = c(5, 10, 20, 30, 40))
-m1 <- model_timing_gates(distance = df$distance, time = df$time)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 5, by = 0.5))
+m1 <- model_time_distance(time = df$time, distance = df$distance)
+m1
+plot(m1)
+
+
+# Model Time-Distance trace (with Flying Distance Correction)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 5, by = 0.5), FD = 0.5)
+m1 <- model_time_distance_FD(time = df$time, distance = df$distance)
+m1
+plot(m1)
+
+
+# Model Time-Distance trace (with Time Correction)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 5, by = 0.5), TC = 1.5)
+m1 <- model_time_distance_TC(time = df$time, distance = df$distance)
+m1
+plot(m1)
+
+
+# Model Time-Distance trace (with Distance Correction)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 5, by = 0.5), DC = -5)
+m1 <- model_time_distance_DC(time = df$time, distance = df$distance)
+m1
+plot(m1)
+
+
+# Model Time-Distance trace (with Time and Distance Corrections)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 5, by = 0.5), TC = -1.3, DC = 5)
+m1 <- model_time_distance_TC_DC(time = df$time, distance = df$distance)
 m1
 plot(m1)
 
