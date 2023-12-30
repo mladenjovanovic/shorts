@@ -14,6 +14,7 @@
 * Rewritten `model_` family of functions to include `predict_` function in the model definition. Now `MSS` and `MAC` are estimated, rather than `MSS` and `TAU`. This improves readability of the model definition. Also moved `MAC` in the output after `MSS` parameter.
 * Updated examples for the `model_` family of functions
 * Removed `model_timing_gates_FD_TC()` function
+* Added `model_timing_gates_DC()` and `model_timing_gates_TC_DC()` functions
 * Added `LPS_session` dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.
 * Added `model_in_situ()` function which performs *embedded* (i.e., *in-situ*) analysis of the session monitoring data using GPS or LPS systems which provide instantaneous acceleration and velocity. 
 * Added `create_sprint_trace()` function for quickly creating sprint traces with time- and distance-shifts, as well as flying starts. Useful for creating examples for issues in modeling sprint traces
