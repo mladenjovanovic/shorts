@@ -7,6 +7,7 @@
 #' @param TC Numeric vector. Time-shift added to sprint times. Default is 0
 #' @param DC Numeric vector. Distance-shift added to sprint distance. Default is 0
 #' @param FD Numeric vector. Flying start distance. Default is 0
+#' @param remove_leading Should trace leading to sprint be removed? Default is \code{FALSE}
 #' @return Data-frame with following 6 columns
 #'     \describe{
 #'        \item{time}{Measurement-scale time vector in seconds. Equal to parameter \code{time}}
@@ -29,7 +30,8 @@ create_sprint_trace <- function(MSS,
                                 distance = NULL,
                                 TC = 0,
                                 DC = 0,
-                                FD = 0) {
+                                FD = 0,
+                                remove_leading = FALSE) {
   if (!is.null(time) & !is.null(distance)) {
     stop("Please use either time or distance vector, not both.", call. = FALSE)
   }
@@ -53,6 +55,11 @@ create_sprint_trace <- function(MSS,
     )
 
     df$distance <- df$sprint_distance + DC - FD
+
+    if (remove_leading == TRUE) {
+      df <- df[df$time >= TC, ]
+    }
+
   } else if (!is.null(distance)) {
     df <- data.frame(distance = distance)
     df$sprint_distance <- df$distance + FD - DC
@@ -65,6 +72,10 @@ create_sprint_trace <- function(MSS,
     )
 
     df$time <- df$sprint_time + TC - FD_time
+
+    if (remove_leading == TRUE) {
+      df <- df[df$distance >= DC, ]
+    }
   }
 
   # Add velocity and acceleration

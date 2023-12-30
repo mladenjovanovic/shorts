@@ -11,7 +11,8 @@ create_sprint_trace(
   distance = NULL,
   TC = 0,
   DC = 0,
-  FD = 0
+  FD = 0,
+  remove_leading = FALSE
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ create_sprint_trace(
 \item{DC}{Numeric vector. Distance-shift added to sprint distance. Default is 0}
 
 \item{FD}{Numeric vector. Flying start distance. Default is 0}
+
+\item{remove_leading}{Should trace leading to sprint be removed? Default is \code{FALSE}}
 }
 \value{
 Data-frame with following 6 columns
