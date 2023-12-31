@@ -246,7 +246,8 @@ plot.shorts_model <- function(x, type = "model", ...) {
     df$kinematic <- factor(df$kinematic, levels = c("velocity", "acceleration", "power"))
 
     ggplot2::ggplot(df, ggplot2::aes(x = time)) +
-      ggplot2::geom_line(ggplot2::aes(y = value, color = kinematic), alpha = 0.8)
+      ggplot2::geom_line(ggplot2::aes(y = value, color = kinematic), alpha = 0.8) +
+      ggplot2::ylab(NULL)
   } else if (type == "kinematics-distance") {
     MSS <- x$parameters$MSS
     MAC <- x$parameters$MAC
@@ -267,7 +268,8 @@ plot.shorts_model <- function(x, type = "model", ...) {
     df$kinematic <- factor(df$kinematic, levels = c("velocity", "acceleration", "power"))
 
     ggplot2::ggplot(df, ggplot2::aes(x = distance)) +
-      ggplot2::geom_line(ggplot2::aes(y = value, color = kinematic), alpha = 0.8)
+      ggplot2::geom_line(ggplot2::aes(y = value, color = kinematic), alpha = 0.8) +
+      ggplot2::ylab(NULL)
   } else if (type == "residuals") {
     df <- data.frame(
       Fitted = x$predictions$.predicted,
@@ -275,6 +277,6 @@ plot.shorts_model <- function(x, type = "model", ...) {
     )
 
     ggplot2::ggplot(df, ggplot2::aes(x = Fitted, y = Residual)) +
-      ggplot2::geom_point(alpha = 0.8, shape = 21)
+      ggplot2::geom_point(alpha = 0.7, shape = 21)
   }
 }
