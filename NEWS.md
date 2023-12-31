@@ -10,7 +10,7 @@
 
 * Renamed the `make_FV_profile()` function to `create_FVP()`.
 * Renamed the `convert_FV()` function to `convert_FVP()`.
-* Renamed the output of `predict_kinematics()` function `relative_power` to `power_relative` to be in alignment with other variables
+* Renamed the output of `predict_kinematics()` function `relative_power` to `power_relative` to be in alignment with other variables.
 * Added `work`, `average_power`, and `average_power_relative` to the output of `predict_kinematics()` function, and removed `net_horizontal_force` from the output to avoid confusion whether the inertia is included or not.
 * Updated internal `shorts_model_fit()` function to return model fit metrics in both absolute and percentage forms.
 * Added internal `model_sprint()` wrapper function and updated internal `new_shorts_model()` constructor which provide changes in the model output format (`"shorts_model"` class). This will create **BREAK CHANGE** from the previous versions of the `{shorts}` package.
@@ -18,25 +18,25 @@
 ## New functions and updates in functions
 
 * Added `predict_work_till_time()` and `predict_work_till_distance()` to calculate horizontal work performance.
-* Rewritten `model_radar_gun()` and added alias `model_laser_gun()` function
-* Rewritten `model_timing_gates()`, `model_timing_gates_TC()`, `model_timing_gates_FD()`, and `model_timing_gaes_FD_TC()`, functions. Now the `TC` parameter has positive sign
-* Rewritten `model_tether()` and `model_tether_DC()` functions. Changed the sign of the `DC`parameter
+* Rewritten `model_radar_gun()` and added alias `model_laser_gun()` function.
+* Rewritten `model_timing_gates()`, `model_timing_gates_TC()`, `model_timing_gates_FD()`, and `model_timing_gaes_FD_TC()`, functions. Now the `TC` parameter has positive sign.
+* Rewritten `model_tether()` and `model_tether_DC()` functions. Changed the sign of the `DC` parameter.
 * Rewritten `model_` family of functions to include `predict_` function in the model definition. Now `MSS` and `MAC` are estimated, rather than `MSS` and `TAU`. This improves readability of the model definition. Also moved `MAC` in the output after `MSS` parameter.
-* Removed `model_timing_gates_FD_TC()` function
-* Added `model_timing_gates_DC()` and `model_timing_gates_TC_DC()` functions
+* Removed `model_timing_gates_FD_TC()` function.
+* Added `model_timing_gates_DC()` and `model_timing_gates_TC_DC()` functions.
 * Added `model_in_situ()` function which performs *embedded* (i.e., *in-situ*) analysis of the session monitoring data using GPS or LPS systems which provide instantaneous acceleration and velocity. 
-* Added `model_time_distance()`, `model_time_distance_TC()`, `model_time_distance_DC()`, `model_time_distance_TC_DC()`, and `model_time_distance_FD()` functions. These are exactly the same as `model_timing_gates` family of functions, but with reverse predictor and outcome variables
-* Added `create_sprint_trace()` function for quickly creating sprint traces with time- and distance-shifts, as well as flying starts. Useful for creating examples for issues in modeling sprint traces
-* Updated S3 print and plot methods for the `"shorts_model"` class. The plot method now plots four different types of plots, depending on the `type` argument: "model" (default), "kinematics-time", "kinematics-distance", or "residuals"
-* Added `confint` S3 method to provide confidence intervals of the parameters
-* Changed `coef` S3 method to return all model parameters, not only sprint parameters
+* Added `model_time_distance()`, `model_time_distance_TC()`, `model_time_distance_DC()`, `model_time_distance_TC_DC()`, and `model_time_distance_FD()` functions. These are exactly the same as `model_timing_gates` family of functions, but with reverse predictor and outcome variables.
+* Added `create_sprint_trace()` function for quickly creating sprint traces with time- and distance-shifts, as well as flying starts. Useful for creating examples for issues in modeling sprint traces.
+* Updated S3 print and plot methods for the `"shorts_model"` class. The plot method now plots four different types of plots, depending on the `type` argument: "model" (default), "kinematics-time", "kinematics-distance", or "residuals".
+* Added `confint` S3 method to provide confidence intervals of the parameters.
+* Changed `coef` S3 method to return all model parameters, not only sprint parameters.
 
 ## Datasets and documentation
 
-* Updated examples for the `model_` family of functions
+* Updated examples for the `model_` family of functions.
 * Added `LPS_session` dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.
-* Added `dynaspeed` dataset
-* Updated README to cover changes
+* Added `dynaspeed` dataset.
+* Updated README to cover changes.
 
 # shorts 2.5.0
 
