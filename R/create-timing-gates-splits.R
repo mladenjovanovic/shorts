@@ -8,6 +8,7 @@
 #' @param TC Numeric vector. Time-correction added to split times (e.g., reaction time). Default is 0
 #' @param noise Numeric vector. SD of Gaussian noise added to the split times. Default is 0
 #' @export
+#' @seealso \code{\link{create_sprint_trace}}
 #' @examples
 #' create_timing_gates_splits(
 #'   gates = c(10, 20, 30, 40, 50),

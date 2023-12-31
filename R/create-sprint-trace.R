@@ -18,6 +18,7 @@
 #'        \item{sprint_distance}{Sprint scale distance vector in meters. Sprint always start at d=0m}
 #'     }
 #' @export
+#' @seealso \code{\link{create_timing_gates_splits}}
 #' @examples
 #'
 #' df <- create_sprint_trace(8, 7, time = seq(0, 6, by = 0.01))

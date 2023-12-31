@@ -36,3 +36,6 @@ create_timing_gates_splits(
   TC = 0
 )
 }
+\seealso{
+\code{\link{create_sprint_trace}}
+}

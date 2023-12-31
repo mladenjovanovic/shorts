@@ -16,16 +16,16 @@ get_air_resistance(
 \arguments{
 \item{velocity}{Instantaneous running velocity in meters per second (m/s)}
 
-\item{bodymass}{In kilograms (kg)}
+\item{bodymass}{In kilograms (kg). Default is 75kg}
 
-\item{bodyheight}{In meters (m)}
+\item{bodyheight}{In meters (m). Default is 1.75m}
 
-\item{barometric_pressure}{In Torrs}
+\item{barometric_pressure}{In Torrs. Default is 760Torrs}
 
-\item{air_temperature}{In Celzius (C)}
+\item{air_temperature}{In Celzius (C). Default is 25C}
 
 \item{wind_velocity}{In meters per second (m/s). Use negative number as head
-wind, and positive number as back wind}
+wind, and positive number as back wind. Default is 0m/s (no wind)}
 }
 \value{
 Air resistance in Newtons (N)

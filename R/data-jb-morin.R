@@ -28,5 +28,4 @@
 #'     Morin JB. 2017.A spreadsheet for Sprint acceleration Force-Velocity-Power profiling.
 #'     Available at https://jbmorin.net/2017/12/13/a-spreadsheet-for-sprint-acceleration-force-velocity-power-profiling/
 #'     (accessed October 27, 2020).
-
 "jb_morin"

@@ -9,7 +9,7 @@
 #'         Not included in the air resistance calculation
 #' @param resistance External horizontal resistance in Newtons (for example tether device or a sled friction resistance)
 #' @param distance Numeric vector
-#' @param ... Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance
+#' @inheritDotParams get_air_resistance
 #' @references
 #' Samozino P, Peyrot N, Edouard P, Nagahara R, Jimenez‐Reyes P, Vanwanseele B, Morin J. 2022.
 #'      Optimal mechanical force-velocity profile for sprint acceleration performance.

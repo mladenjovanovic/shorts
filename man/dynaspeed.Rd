@@ -18,7 +18,8 @@ data(dynaspeed)
 }
 \description{
 DynaSpeed(TM) data collected for a single athlete (female, 177cm, 64kg) and a single sprint over 40m.
-    Sampling frequenzy is 1,000Hz
+    Sampling frequency is 1,000Hz. Additional time and distance shift is added to the dataset
+    to provide a sandbox for potential issues during the analysis
 }
 \author{
 Håkan Andersson\cr

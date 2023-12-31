@@ -10,7 +10,7 @@
 #' @param inertia External inertia in kg (for example a weight vest, or a sled).
 #'         Not included in the air resistance calculation
 #' @param resistance External horizontal resistance in Newtons (for example tether device or a sled friction resistance)
-#' @param ... Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance and power
+#' @inheritDotParams get_air_resistance
 #' @return Numeric vector
 #' @references
 #' Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
@@ -307,6 +307,7 @@ predict_work_till_distance <- function(distance, ...) {
 #' )
 #'
 #' predict_kinematics(simple_model)
+#'
 predict_kinematics <- function(object = NULL,
                                MSS,
                                MAC,

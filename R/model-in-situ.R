@@ -42,6 +42,12 @@ prepare_in_situ_data <- function(df,
 #'     Reliability of individual acceleration-speed profile in-situ in elite youth
 #'     soccer players. Journal of Biomechanics, 153, 111602.
 #'     https://doi.org/10.1016/j.jbiomech.2023.111602
+#'
+#'     Morin, J.-B. (2021). The “in-situ” acceleration-speed profile for team
+#'     sports: testing players without testing them. JB Morin, PhD – Sport Science website.
+#'     Accessed 31. Dec. 2023.
+#'     https://jbmorin.net/2021/07/29/the-in-situ-sprint-profile-for-team-sports-testing-players-without-testing-them/
+#'
 #' @export
 #' @examples
 #'

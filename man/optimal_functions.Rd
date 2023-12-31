@@ -33,7 +33,16 @@ Not included in the air resistance calculation}
 
 \item{method}{Method to be utilized. Options are "peak" and "max" (default)}
 
-\item{...}{Forwarded to \code{\link{get_air_resistance}} for the purpose of calculation of air resistance}
+\item{...}{
+  Arguments passed on to \code{\link[=get_air_resistance]{get_air_resistance}}
+  \describe{
+    \item{\code{velocity}}{Instantaneous running velocity in meters per second (m/s)}
+    \item{\code{bodyheight}}{In meters (m). Default is 1.75m}
+    \item{\code{barometric_pressure}}{In Torrs. Default is 760Torrs}
+    \item{\code{air_temperature}}{In Celzius (C). Default is 25C}
+    \item{\code{wind_velocity}}{In meters per second (m/s). Use negative number as head
+wind, and positive number as back wind. Default is 0m/s (no wind)}
+  }}
 
 \item{MSS, MAC}{Numeric vectors. Model parameters}
 }

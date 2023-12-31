@@ -25,7 +25,7 @@ Not included in the air resistance calculation}
 \item{resistance}{External horizontal resistance in Newtons (for example tether device or a sled friction resistance)}
 
 \item{wind_velocity}{In meters per second (m/s). Use negative number as head
-wind, and positive number as back wind}
+wind, and positive number as back wind. Default is 0m/s (no wind)}
 
 \item{...}{Forwarded to \code{\link{predict_power_at_distance}}}
 }
@@ -33,8 +33,8 @@ wind, and positive number as back wind}
 A list with calculated \code{MSS} and \code{MAC} parameters
 }
 \description{
-This function converts back the Force-Velocity profile (FVP) to Acceleration-Velocity
-    profile (AVP)
+This function converts back the Force-Velocity profile (FVP; F0 and V0 parameters) to
+    Acceleration-Velocity profile (AVP; MSS and MAC parameters)
 }
 \examples{
 FVP <- create_FVP(7, 8.3, inertia = 10, resistance = 50)
