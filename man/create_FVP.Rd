@@ -25,7 +25,7 @@ Not included in the air resistance calculation}
 \item{resistance}{External horizontal resistance in Newtons (for example tether device or a sled friction resistance)}
 
 \item{wind_velocity}{In meters per second (m/s). Use negative number as head
-wind, and positive number as back wind}
+wind, and positive number as back wind. Default is 0m/s (no wind)}
 
 \item{...}{Forwarded to \code{\link{predict_power_at_distance}}}
 }
@@ -42,7 +42,7 @@ List containing the following elements:
     }
 }
 \description{
-Provides Force-Velocity (FV) profile modified using ideas by Pierre Samozino and JB-Morin, et al. (2016) and
+Creates Force-Velocity Profile (FVP) modified using ideas by Pierre Samozino and JB-Morin, et al. (2016) and
    Pierre Samozino and Nicolas Peyror, et al (2021).
 }
 \examples{

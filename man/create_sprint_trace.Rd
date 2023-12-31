@@ -50,3 +50,6 @@ df <- create_sprint_trace(8, 7, time = seq(0, 6, by = 0.01))
 df <- create_sprint_trace(8, 7, distance = seq(0, 40, by = 1))
 
 }
+\seealso{
+\code{\link{create_timing_gates_splits}}
+}

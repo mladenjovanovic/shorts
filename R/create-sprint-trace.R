@@ -18,6 +18,7 @@
 #'        \item{sprint_distance}{Sprint scale distance vector in meters. Sprint always start at d=0m}
 #'     }
 #' @export
+#' @seealso \code{\link{create_timing_gates_splits}}
 #' @examples
 #'
 #' df <- create_sprint_trace(8, 7, time = seq(0, 6, by = 0.01))
@@ -59,7 +60,6 @@ create_sprint_trace <- function(MSS,
     if (remove_leading == TRUE) {
       df <- df[df$time >= TC, ]
     }
-
   } else if (!is.null(distance)) {
     df <- data.frame(distance = distance)
     df$sprint_distance <- df$distance + FD - DC

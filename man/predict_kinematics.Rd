@@ -152,7 +152,15 @@ Not included in the air resistance calculation}
 
 \item{resistance}{External horizontal resistance in Newtons (for example tether device or a sled friction resistance)}
 
-\item{...}{Forwarded to \code{\link{predict_power_at_distance}}}
+\item{...}{
+  Arguments passed on to \code{\link[=get_air_resistance]{get_air_resistance}}
+  \describe{
+    \item{\code{bodyheight}}{In meters (m). Default is 1.75m}
+    \item{\code{barometric_pressure}}{In Torrs. Default is 760Torrs}
+    \item{\code{air_temperature}}{In Celzius (C). Default is 25C}
+    \item{\code{wind_velocity}}{In meters per second (m/s). Use negative number as head
+wind, and positive number as back wind. Default is 0m/s (no wind)}
+  }}
 
 \item{object}{If \code{shorts_model} object is provided, estimated parameters
 will be used. Otherwise provide \code{MSS} and \code{MAC} parameters}
@@ -215,6 +223,7 @@ simple_model <- with(
 )
 
 predict_kinematics(simple_model)
+
 }
 \references{
 Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start

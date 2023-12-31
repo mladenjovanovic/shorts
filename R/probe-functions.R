@@ -12,7 +12,7 @@
 #' @param resistance External horizontal resistance in Newtons (for example tether device or a sled friction resistance)
 #' @param distance Numeric vector
 #' @param perc Numeric vector. Probing percentage. Default is 2.5 percent
-#' @param ... Forwarded to \code{\link{predict_power_at_distance}} for the purpose of calculation of air resistance
+#' @inheritDotParams get_air_resistance
 #' @examples
 #' MSS <- 10
 #' MAC <- 8

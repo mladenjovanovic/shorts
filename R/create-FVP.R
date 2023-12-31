@@ -1,6 +1,6 @@
 #' Create Force-Velocity Profile
 #'
-#' Provides Force-Velocity (FV) profile modified using ideas by Pierre Samozino and JB-Morin, et al. (2016) and
+#' Creates Force-Velocity Profile (FVP) modified using ideas by Pierre Samozino and JB-Morin, et al. (2016) and
 #'    Pierre Samozino and Nicolas Peyror, et al (2021).
 #' @inheritParams predict_kinematics
 #' @inheritParams get_air_resistance

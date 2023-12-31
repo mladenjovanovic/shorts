@@ -1,7 +1,7 @@
 #' Convert Force-Velocity profile back to Acceleration-Velocity profile
 #'
-#' This function converts back the Force-Velocity profile (FVP) to Acceleration-Velocity
-#'     profile (AVP)
+#' This function converts back the Force-Velocity profile (FVP; F0 and V0 parameters) to
+#'     Acceleration-Velocity profile (AVP; MSS and MAC parameters)
 #' @inheritParams predict_kinematics
 #' @inheritParams get_air_resistance
 #' @returns A list with calculated \code{MSS} and \code{MAC} parameters

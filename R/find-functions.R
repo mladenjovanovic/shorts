@@ -8,7 +8,7 @@
 #' @param inertia External inertia in kg (for example a weight vest, or a sled).
 #'         Not included in the air resistance calculation
 #' @param resistance External horizontal resistance in Newtons (for example tether device or a sled friction resistance)
-#' @param ... Forwarded to \code{predict_power} functions for the purpose of calculation of air resistance
+#' @inheritDotParams get_air_resistance
 #' @references
 #' Haugen TA, Tønnessen E, Seiler SK. 2012. The Difference Is in the Start: Impact of Timing and Start
 #'         Procedure on Sprint Running Performance: Journal of Strength and Conditioning Research 26:473–479.
