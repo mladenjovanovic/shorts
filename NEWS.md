@@ -1,7 +1,5 @@
 # shorts 3.0.0
 
-# shorts 2.5.0.9000
-
 ## Fixed Bugs and Errors
 
 * Fixed the sign error in the `get_air_resistance()` function where both head wind and tail wind returned the same resistance.
