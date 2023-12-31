@@ -45,10 +45,12 @@ data("split_times", "radar_gun_data")
 
 ### Profiling using split times
 
-To model sprint performance using split times, distance will be used as
-predictor and time as target. Since `split_times` dataset contains data
-for multiple athletes, let’s extract only one athlete and model it using
-`shorts::model_timing_gates()` function.
+**{shorts}** package utilizes modified *mono-exponential functions* to
+model short sprint performance. To model sprint performance using split
+times, distance will be used as predictor and time as target. Since
+`split_times` dataset contains data for multiple athletes, let’s extract
+only one athlete and model it using `shorts::model_timing_gates()`
+function.
 
 ``` r
 kimberley_data <- filter(split_times, athlete == "Kimberley")
@@ -69,7 +71,7 @@ Parameters estimated using mono-exponential equation are *maximal
 sprinting speed* ($MSS$), and *maximal acceleration* (MAC). Additional
 parameters computed from $MSS$ and $MAC$ are *relative acceleration*
 ($TAU$) and *maximal relative power* ($PMAX$) (which is calculated as
-$\frac{MAC \cdot MSS}{4}$).
+$MAC \cdot MSS\div4$).
 
 ``` r
 kimberley_profile <- shorts::model_timing_gates(
@@ -246,7 +248,8 @@ ggplot(kimberley_pred, aes(x = distance, y = value)) +
 <img src="man/figures/README-unnamed-chunk-10-1.png" width="90%" style="display: block; margin: auto;" />
 
 To do prediction simpler, use `shorts::predict_kinematics()` function.
-This will provide kinetics and kinematics for 0-6s sprint using 100Hz.
+This will provide kinetics and kinematics for 0-6 $s$ sprint using 100
+$Hz$.
 
 ``` r
 predicted_kinematics <- predict_kinematics(
@@ -390,7 +393,7 @@ plot(jim_profile) +
 <img src="man/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
 
 In addition to $MSS$ and $MAC$ parameters, `shorts::model_radar_gun()`
-function also estiamted *time-correction* (TC) parameter.
+function also estimated *time-correction* ($TC$) parameter.
 
 Rather than estimating $MSS$, `shorts::model_radar_gun()` function
 allows you to utilize peak velocity observed in the data as $MSS$. This
@@ -479,12 +482,12 @@ plot(m1)
 <img src="man/figures/README-unnamed-chunk-16-1.png" width="90%" style="display: block; margin: auto;" />
 
 Setting `use_observed_MSS` parameter to `TRUE` in the
-`shorts::model_tether()` function also allows you to use observed peak
-velocity as MSS.
+`shorts::model_tether()` function also allows you to use observed *peak
+velocity* as $MSS$.
 
 In the case when distance is not centered at zero, use
 `shorts::model_tether_DC()` which also estimated the *distance
-correction* (DC) parameter, serving as model intercept (for more info
+correction* ($DC$) parameter, serving as model intercept (for more info
 see [Using corrections](#using-corrections) section):
 
 ``` r
@@ -536,8 +539,8 @@ thus far). The time frame of the analysis can vary from single drills
 (e.g., sprint drills), session, week, to multiple weeks.
 
 Here is an example of the data collected during one basketball session
-for a single person. Duration was aprox. 90min with 20Hz sampling rate.
-This is the positional data:
+for a single person. Duration was approx. 90 min with 20 $Hz$ sampling
+rate. This is the positional data:
 
 ``` r
 data("LPS_session")
@@ -647,7 +650,7 @@ kimberley_avp
 #> [1] 10.58898
 ```
 
-### Using external load
+#### Using external load
 
 **{shorts}** package also allows utilizing external load in estimating
 FVP, as well as using FVP parameters to predict kinematic and kinetic
@@ -660,8 +663,8 @@ of resistance (or assistance).
 
 Let’s see how theoretical model, assuming FVP is *determinant of
 performance* (which I do not agree with, BTW), predicts changes in
-sprint characteristics (i.e., MSS and MAC) under different external load
-conditions and magnitudes using Kimberley’s estimated FVP:
+sprint characteristics (i.e., $MSS$ and $MAC$) under different external
+load conditions and magnitudes using Kimberley’s estimated FVP:
 
 ``` r
 loads_df <- rbind(
@@ -754,17 +757,17 @@ External resistances can also be utilized in the
 
 ### Using corrections
 
-You have probably noticed that estimated MSS and TAU were a bit too high
-for splits data. Biased estimates are due to differences in starting
-positions and *timing triggering methods* for certain measurement
-approaches (e.g. starting behind first timing gate, or allowing for body
-rocking).
+You have probably noticed that estimated $MSS$ and $TAU$ were a bit too
+high for splits data. Biased estimates are due to differences in
+starting positions and *timing triggering methods* for certain
+measurement approaches (e.g. starting behind first timing gate, or
+allowing for body rocking).
 
 Here I will provide quick summary (see more in Jovanović M., 2023).
 Often, this bias in estimates is dealt with by using heuristic rule of
 thumb of adding time correction (`time_correction`) to split times
-(e.g. from 0.3-0.5sec; see more in Haugen *et al.*, 2012). To do this,
-just add time correction to time split:
+(e.g. from 0.3-0.5 $sec$; see more in Haugen *et al.*, 2012). To do
+this, just add time correction to time split:
 
 ``` r
 kimberley_profile_fixed_TC <- shorts::model_timing_gates(
@@ -1018,13 +1021,13 @@ jim_profile_CV
 
 Using the method outlined in Samozino *et al* (2022), one can find the
 optimal profiles, as well as the profile imbalance (compared to the
-optimal), for both sprint profiles (i.e., MSS and MAC) and
+optimal), for both sprint profiles (i.e., $MSS$ and $MAC$) and
 Force-Velocity (FV). In addition to this, one can *probe* the profiles
-(i.e., increase V0/F0 or MSS/MAC for say 2.5% to check which improvement
-yield more improvement in sprint time). The following graph depicts
-estimate profile imbalances. Note that \>100% is velocity deficit (i.e.,
-increasing *velocity*; MSS or V0; will yield more improvement in sprint
-times), while \<100% is *force* deficit.
+(i.e., increase $V0$ / $F0$ or $MSS$ / $MAC$ for say 2.5% to check which
+improvement yield more improvement in sprint time). The following graph
+depicts estimate profile imbalances. Note that \>100% is velocity
+deficit (i.e., increasing *velocity*; $MSS$ or $V0$; will yield more
+improvement in sprint times), while \<100% is *force* deficit.
 
 ``` r
 MSS <- 10
