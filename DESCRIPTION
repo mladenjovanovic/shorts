@@ -4,7 +4,7 @@ Title: Short Sprints
 Authors@R:
     c(person(given = "Mladen",
            family = "Jovanović",
-           role = c("aut", "cre"),
+           role = c("aut", "cre", "cph"),
            email = "coach.mladen.jovanovic@gmail.com",
            comment = c(ORCID = "0000-0002-4013-6530")),
       person(given = c("Jason", "D."),
