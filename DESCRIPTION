@@ -6,11 +6,8 @@ Authors@R:
            family = "Jovanović",
            role = c("aut", "cre", "cph"),
            email = "coach.mladen.jovanovic@gmail.com",
-           comment = c(ORCID = "0000-0002-4013-6530")),
-      person(given = c("Jason", "D."),
-           family = "Vescovi",
-           role = c("dtc"),
-           email = "vescovij@gmail.com"))
+           comment = c(ORCID = "0000-0002-4013-6530"))
+           )
 Version: 3.0.0
 Description: Create short sprint (<6sec) profiles using the split times or the radar gun data.
     Mono-exponential equation is used to estimate maximal sprinting speed (MSS), relative acceleration (TAU),

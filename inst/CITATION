@@ -4,12 +4,8 @@ bibentry(
      author = c(
        person(given = "Mladen",
            family = "Jovanović",
-           role = c("aut", "cre"),
-           email = "coach.mladen.jovanovic@gmail.com"),
-      person(given = c("Jason", "D."),
-           family = "Vescovi",
-           role = c("dtc"),
-           email = "vescovij@gmail.com")
+           role = c("aut", "cre", "cph"),
+           email = "coach.mladen.jovanovic@gmail.com")
      ),
      year = "2024",
      note = "R package version 3.0.0",
