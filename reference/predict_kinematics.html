@@ -195,7 +195,21 @@ Not included in the air resistance calculation</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Forwarded to <code>predict_power_at_distance</code></p></dd>
+<dd><p>Arguments passed on to <code><a href="get_air_resistance.html">get_air_resistance</a></code></p><dl><dt><code>bodyheight</code></dt>
+<dd><p>In meters (m). Default is 1.75m</p></dd>
+
+    <dt><code>barometric_pressure</code></dt>
+<dd><p>In Torrs. Default is 760Torrs</p></dd>
+
+    <dt><code>air_temperature</code></dt>
+<dd><p>In Celzius (C). Default is 25C</p></dd>
+
+    <dt><code>wind_velocity</code></dt>
+<dd><p>In meters per second (m/s). Use negative number as head
+wind, and positive number as back wind. Default is 0m/s (no wind)</p></dd>
+
+  
+</dl></dd>
 
 
 <dt>object</dt>
@@ -2722,6 +2736,7 @@ calculating vertical force? Use <code>TRUE</code> (Default) when using weight ve
 <span class="r-out co"><span class="r-pr">#&gt;</span> 599 2574.4835760     430.51565               5.740209 0.02014498    88.84570</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 600 2575.5795422     429.97989               5.733065 0.02014348    88.84579</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 601 2576.6754288     429.44590               5.725945 0.02014200    88.84587</span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

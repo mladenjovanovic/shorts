@@ -111,7 +111,24 @@ Not included in the air resistance calculation</p></dd>
 
 
 <dt>...</dt>
-<dd><p>Forwarded to <code><a href="predict_kinematics.html">predict_power_at_distance</a></code> for the purpose of calculation of air resistance</p></dd>
+<dd><p>Arguments passed on to <code><a href="get_air_resistance.html">get_air_resistance</a></code></p><dl><dt><code>velocity</code></dt>
+<dd><p>Instantaneous running velocity in meters per second (m/s)</p></dd>
+
+    <dt><code>bodyheight</code></dt>
+<dd><p>In meters (m). Default is 1.75m</p></dd>
+
+    <dt><code>barometric_pressure</code></dt>
+<dd><p>In Torrs. Default is 760Torrs</p></dd>
+
+    <dt><code>air_temperature</code></dt>
+<dd><p>In Celzius (C). Default is 25C</p></dd>
+
+    <dt><code>wind_velocity</code></dt>
+<dd><p>In meters per second (m/s). Use negative number as head
+wind, and positive number as back wind. Default is 0m/s (no wind)</p></dd>
+
+  
+</dl></dd>
 
 
 <dt>MSS, MAC</dt>

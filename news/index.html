@@ -46,33 +46,45 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.5.0.9000" id="shorts-2509000">shorts 2.5.0.9000<a class="anchor" aria-label="anchor" href="#shorts-2509000"></a></h2>
+<div class="section level3">
+<h3 id="fixed-bugs-and-errors-2-5-0-9000">Fixed Bugs and Errors<a class="anchor" aria-label="anchor" href="#fixed-bugs-and-errors-2-5-0-9000"></a></h3>
 <ul><li>Fixed the sign error in the <code><a href="../reference/get_air_resistance.html">get_air_resistance()</a></code> function where both head wind and tail wind returned the same resistance.</li>
-<li>Fixed the error in <code>make_FV_profile()</code> function when estimating force-velocity profile with wind conditions. Renamed the function to <code><a href="../reference/create_FVP.html">create_FVP()</a></code>
-</li>
-<li>Fixed the error in <code>convert_FV()</code> function when converting force-velocity profile back to acceleration-velocity profile with wind conditions. Renamed the function to <code><a href="../reference/convert_FVP.html">convert_FVP()</a></code>
-</li>
-<li>Renamed the output of <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> function <code>relative_power</code> to <code>power_relative</code> to be in alignment with other variables</li>
-<li>Added <code><a href="../reference/predict_kinematics.html">predict_work_till_time()</a></code> and <code><a href="../reference/predict_kinematics.html">predict_work_till_distance()</a></code> to calculate horizontal work performance.</li>
-<li>Added <code>work</code>, <code>average_power</code>, and <code>average_power_relative</code> to the output of <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> function, and removed <code>net_horizontal_force</code> from the output to avoid confusion whether the inertia is included or not.</li>
-<li>Updated internal <code>shorts_model_fit()</code> function to return model fit metrics in both absolute and percentage forms</li>
-<li>Added internal <code>model_sprint()</code> wrapper function and updated internal <code>new_shorts_model()</code> constructor which provide changes in the model output format (<code>"shorts_model"</code> class). This will create BREAK CHANGE from the previous versions of the <a href="https://mladenjovanovic.github.io/shorts/">shorts</a> package</li>
-<li>Rewritten <code><a href="../reference/model_functions.html">model_radar_gun()</a></code> and added alias <code><a href="../reference/model_functions.html">model_laser_gun()</a></code> function</li>
-<li>Rewritten <code><a href="../reference/model_functions.html">model_timing_gates()</a></code>, <code><a href="../reference/model_functions.html">model_timing_gates_TC()</a></code>, <code><a href="../reference/model_functions.html">model_timing_gates_FD()</a></code>, and <code>model_timing_gaes_FD_TC()</code>, functions. Now the <code>TC</code> parameter has positive sign</li>
-<li>Rewritten <code><a href="../reference/model_functions.html">model_tether()</a></code> and <code><a href="../reference/model_functions.html">model_tether_DC()</a></code> functions. Changed the sign of the <code>DC</code>parameter</li>
-<li>Rewritten <code>model_</code> family of functions to include <code>predict_</code> function in the model definition. Now <code>MSS</code> and <code>MAC</code> are estimated, rather than <code>MSS</code> and <code>TAU</code>. This improves readability of the model definition. Also moved <code>MAC</code> in the output after <code>MSS</code> parameter.</li>
-<li>Updated examples for the <code>model_</code> family of functions</li>
-<li>Removed <code>model_timing_gates_FD_TC()</code> function</li>
-<li>Added <code><a href="../reference/model_functions.html">model_timing_gates_DC()</a></code> and <code><a href="../reference/model_functions.html">model_timing_gates_TC_DC()</a></code> functions</li>
-<li>Added <code>LPS_session</code> dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.</li>
-<li>Added <code><a href="../reference/model_functions.html">model_in_situ()</a></code> function which performs <em>embedded</em> (i.e., <em>in-situ</em>) analysis of the session monitoring data using GPS or LPS systems which provide instantaneous acceleration and velocity.</li>
-<li>Added <code><a href="../reference/model_functions.html">model_time_distance()</a></code>, <code><a href="../reference/model_functions.html">model_time_distance_TC()</a></code>, <code><a href="../reference/model_functions.html">model_time_distance_DC()</a></code>, <code><a href="../reference/model_functions.html">model_time_distance_TC_DC()</a></code>, and <code><a href="../reference/model_functions.html">model_time_distance_FD()</a></code> functions. These are exactly the same as <code>model_timing_gates</code> family of funcitons, but with reverse predictor and outcome variables</li>
-<li>Added <code><a href="../reference/create_sprint_trace.html">create_sprint_trace()</a></code> function for quickly creating sprint traces with time- and distance-shifts, as well as flying starts. Useful for creating examples for issues in modeling sprint traces</li>
-<li>Added <code>dynaspeed</code> dataset</li>
-<li>Updated S3 print and plot methods for the <code>"shorts_model"</code> class. The plot method now plots four different types of plots, depending on the <code>type</code> argument: “model” (default), “kinematics-time”, “kinematics-distance”, or “residuals”</li>
-<li>Added <code>confint</code> S3 method to provide confidence intervals of the parameters</li>
-<li>Changed <code>coef</code> S3 method to return all model parameters, not only sprint parameters</li>
-<li>Updated README to cover changes</li>
+<li>Fixed the error in <code>make_FV_profile()</code> function when estimating force-velocity profile with wind conditions.</li>
+<li>Fixed the error in <code>convert_FV()</code> function when converting force-velocity profile back to acceleration-velocity profile with wind conditions.</li>
 </ul></div>
+<div class="section level3">
+<h3 id="changes-in-names-and-formats-2-5-0-9000">Changes in names and formats<a class="anchor" aria-label="anchor" href="#changes-in-names-and-formats-2-5-0-9000"></a></h3>
+<ul><li>Renamed the <code>make_FV_profile()</code> function to <code><a href="../reference/create_FVP.html">create_FVP()</a></code>.</li>
+<li>Renamed the <code>convert_FV()</code> function to <code><a href="../reference/convert_FVP.html">convert_FVP()</a></code>.</li>
+<li>Renamed the output of <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> function <code>relative_power</code> to <code>power_relative</code> to be in alignment with other variables.</li>
+<li>Added <code>work</code>, <code>average_power</code>, and <code>average_power_relative</code> to the output of <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> function, and removed <code>net_horizontal_force</code> from the output to avoid confusion whether the inertia is included or not.</li>
+<li>Updated internal <code>shorts_model_fit()</code> function to return model fit metrics in both absolute and percentage forms.</li>
+<li>Added internal <code>model_sprint()</code> wrapper function and updated internal <code>new_shorts_model()</code> constructor which provide changes in the model output format (<code>"shorts_model"</code> class). This will create <strong>BREAK CHANGE</strong> from the previous versions of the <a href="https://mladenjovanovic.github.io/shorts/">shorts</a> package.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="new-functions-and-updates-in-functions-2-5-0-9000">New functions and updates in functions<a class="anchor" aria-label="anchor" href="#new-functions-and-updates-in-functions-2-5-0-9000"></a></h3>
+<ul><li>Added <code><a href="../reference/predict_kinematics.html">predict_work_till_time()</a></code> and <code><a href="../reference/predict_kinematics.html">predict_work_till_distance()</a></code> to calculate horizontal work performance.</li>
+<li>Rewritten <code><a href="../reference/model_functions.html">model_radar_gun()</a></code> and added alias <code><a href="../reference/model_functions.html">model_laser_gun()</a></code> function.</li>
+<li>Rewritten <code><a href="../reference/model_functions.html">model_timing_gates()</a></code>, <code><a href="../reference/model_functions.html">model_timing_gates_TC()</a></code>, <code><a href="../reference/model_functions.html">model_timing_gates_FD()</a></code>, and <code>model_timing_gaes_FD_TC()</code>, functions. Now the <code>TC</code> parameter has positive sign.</li>
+<li>Rewritten <code><a href="../reference/model_functions.html">model_tether()</a></code> and <code><a href="../reference/model_functions.html">model_tether_DC()</a></code> functions. Changed the sign of the <code>DC</code> parameter.</li>
+<li>Rewritten <code>model_</code> family of functions to include <code>predict_</code> function in the model definition. Now <code>MSS</code> and <code>MAC</code> are estimated, rather than <code>MSS</code> and <code>TAU</code>. This improves readability of the model definition. Also moved <code>MAC</code> in the output after <code>MSS</code> parameter.</li>
+<li>Removed <code>model_timing_gates_FD_TC()</code> function.</li>
+<li>Added <code><a href="../reference/model_functions.html">model_timing_gates_DC()</a></code> and <code><a href="../reference/model_functions.html">model_timing_gates_TC_DC()</a></code> functions.</li>
+<li>Added <code><a href="../reference/model_functions.html">model_in_situ()</a></code> function which performs <em>embedded</em> (i.e., <em>in-situ</em>) analysis of the session monitoring data using GPS or LPS systems which provide instantaneous acceleration and velocity.</li>
+<li>Added <code><a href="../reference/model_functions.html">model_time_distance()</a></code>, <code><a href="../reference/model_functions.html">model_time_distance_TC()</a></code>, <code><a href="../reference/model_functions.html">model_time_distance_DC()</a></code>, <code><a href="../reference/model_functions.html">model_time_distance_TC_DC()</a></code>, and <code><a href="../reference/model_functions.html">model_time_distance_FD()</a></code> functions. These are exactly the same as <code>model_timing_gates</code> family of functions, but with reverse predictor and outcome variables.</li>
+<li>Added <code><a href="../reference/create_sprint_trace.html">create_sprint_trace()</a></code> function for quickly creating sprint traces with time- and distance-shifts, as well as flying starts. Useful for creating examples for issues in modeling sprint traces.</li>
+<li>Updated S3 print and plot methods for the <code>"shorts_model"</code> class. The plot method now plots four different types of plots, depending on the <code>type</code> argument: “model” (default), “kinematics-time”, “kinematics-distance”, or “residuals”.</li>
+<li>Added <code>confint</code> S3 method to provide confidence intervals of the parameters.</li>
+<li>Changed <code>coef</code> S3 method to return all model parameters, not only sprint parameters.</li>
+</ul></div>
+<div class="section level3">
+<h3 id="datasets-and-documentation-2-5-0-9000">Datasets and documentation<a class="anchor" aria-label="anchor" href="#datasets-and-documentation-2-5-0-9000"></a></h3>
+<ul><li>Updated examples for the <code>model_</code> family of functions.</li>
+<li>Added <code>LPS_session</code> dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.</li>
+<li>Added <code>dynaspeed</code> dataset.</li>
+<li>Updated README to cover changes.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="2.5.0" id="shorts-250">shorts 2.5.0<a class="anchor" aria-label="anchor" href="#shorts-250"></a></h2><p class="text-muted">CRAN release: 2023-11-21</p>
 <ul><li>Added <code>inertia</code> (mass; in kg) and <code>resistance</code> (force; in Newtons) to <code>predict_force_</code>, <code>predict_power_</code>, <code>predict_relative_power_</code>, as well as <code><a href="../reference/predict_kinematics.html">predict_kinematics()</a></code> functions. This increases the ability of the {shorts} package to deal with external resistance, like weight vest, sled, and tether devices.</li>
