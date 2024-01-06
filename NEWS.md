@@ -36,7 +36,7 @@
 * Updated examples for the `model_` family of functions.
 * Added `LPS_session` dataset. This dataset represents a sample data provided by Local Positioning System (LPS) on a single individual performing a single basketball practice session (aprox. 90min). Sampling frequency is 20Hz.
 * Added `dynaspeed` dataset.
-* Added `laser_gun` dataset.
+* Added `laser_gun_data` dataset.
 * Updated README to cover changes.
 * Removed Jason Vescovi from the authorship in the DESCRIPTION file and CITATION. Jason is still referenced in the dataset he provided
 

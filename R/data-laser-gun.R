@@ -19,5 +19,5 @@
 #'    \item{butter_acceleration}{Smoothed acceleration vector in m/s/s; smoothed out using
 #'    4th-order Butterworth filter with a cutoff frequency of 1 Hz}
 #' }
-#' @usage data(laser_data)
-"laser_data"
+#' @usage data(laser_gun_data)
+"laser_gun_data"

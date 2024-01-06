@@ -1,11 +1,11 @@
-## code to prepare `laser_data` dataset goes here
+## code to prepare `laser_gun_data` dataset goes here
 library(tidyverse)
 library(signal)
 
 # Load data
-laser_data <- read.csv("data-raw/laser-data.csv")
+laser_gun_data <- read.csv("data-raw/laser-gun-data.csv")
 
-laser_data <- laser_data %>%
+laser_gun_data <- laser_gun_data %>%
   mutate(
     raw_acceleration = c(NA, diff(velocity) / diff(time))
   ) %>%
@@ -28,23 +28,23 @@ Wn <- cutoff_frequency / (sampling_frequency / 2)
 butter_filter <- butter(4, Wn)
 
 # Apply the filter to your acceleration data
-laser_data <- laser_data %>%
+laser_gun_data <- laser_gun_data %>%
   mutate(
     butter_acceleration = filtfilt(butter_filter, raw_acceleration)
   ) %>%
   dplyr::filter(time > 0.414)
 
-laser_data %>%
+laser_gun_data %>%
   ggplot(aes(y = velocity, x = time)) +
   geom_point()
 
-laser_data %>%
+laser_gun_data %>%
   ggplot(aes(y = raw_acceleration, x = time)) +
   geom_point() +
   geom_line(aes(y = butter_acceleration), color = "red")
 
-laser_data %>%
+laser_gun_data %>%
   ggplot(aes(y = butter_acceleration, x = velocity)) +
   geom_point()
 
-usethis::use_data(laser_data, overwrite = TRUE)
+usethis::use_data(laser_gun_data, overwrite = TRUE)
