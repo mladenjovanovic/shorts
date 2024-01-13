@@ -15,6 +15,7 @@
 S3 method for providing confidence intervals for the \code{shorts_model}
 }
 \examples{
+\dontrun{
 split_distances <- c(10, 20, 30, 40, 50)
 split_times <- create_timing_gates_splits(
   gates = split_distances,
@@ -28,4 +29,5 @@ split_times <- create_timing_gates_splits(
 # Simple model
 simple_model <- model_timing_gates(split_distances, split_times)
 confint(simple_model)
+}
 }

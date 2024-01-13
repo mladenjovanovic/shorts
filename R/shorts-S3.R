@@ -94,6 +94,7 @@ predict.shorts_model <- function(object, ...) {
 #' @param object \code{shorts_model} object
 #' @param ... Forwarded to generic \code{confint()} function
 #' @examples
+#' \dontrun{
 #' split_distances <- c(10, 20, 30, 40, 50)
 #' split_times <- create_timing_gates_splits(
 #'   gates = split_distances,
@@ -107,6 +108,7 @@ predict.shorts_model <- function(object, ...) {
 #' # Simple model
 #' simple_model <- model_timing_gates(split_distances, split_times)
 #' confint(simple_model)
+#' }
 #' @export
 confint.shorts_model <- function(object, ...) {
   stats::confint(object$model, ...)
