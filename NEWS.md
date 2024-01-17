@@ -1,6 +1,7 @@
 # shorts 3.1.0
 
 * Fixed the error in `model_radar_gun()` example that happened on `r-release-macos-arm64` and `r-oldrel-macos-arm64` due to the perfect model fit causing "singular gradient matrix at initial parameter estimates". This is sorted by adding simple noise to the simulated data
+* Updated the DESCRIPTION file with better package description
 
 # shorts 3.0.0
 
