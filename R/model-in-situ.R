@@ -53,7 +53,10 @@ prepare_in_situ_data <- function(df,
 #'
 #' # Model In-Situ (Embedded profiling)
 #' data("LPS_session")
-#' m1 <- model_in_situ(LPS_session$velocity, LPS_session$acceleration)
+#' m1 <- model_in_situ(
+#'   velocity = LPS_session$velocity,
+#'   acceleration = LPS_session$acceleration,
+#'   velocity_threshold = 4)
 #' m1
 #' plot(m1)
 #'
@@ -87,21 +90,26 @@ model_in_situ <- function(velocity,
       na.rm = na.rm
     )
 
+    param_start <- list(MSS = 7, MAC = 7)
+    param_lower <- c(MSS = 0, MAC = 0)
+    param_upper <- c(MSS = Inf, MAC = Inf)
+
     # Linear model
-    model <- stats::lm(
-      acceleration ~ velocity,
+    model <- minpack.lm::nlsLM(
+      acceleration ~ predict_acceleration_at_velocity(velocity, MSS, MAC),
       data = train,
-      weights = train$weight
+      start = param_start,
+      lower = param_lower,
+      upper = param_upper,
+      weights = train$weight,
+      ...
     )
 
-    # Get parameters
-    slope <- stats::coef(model)[[2]]
-    MAC <- stats::coef(model)[[1]]
-
-    MSS <- -MAC / slope
+    # Parameters
+    MSS <- stats::coef(model)[["MSS"]]
+    MAC <- stats::coef(model)[["MAC"]]
     TAU <- MSS / MAC
-
-    PMAX <- MSS * MAC / 4
+    PMAX <- (MSS * MAC) / 4
 
     # Model fit
     pred_acceleration <- stats::predict(model, newdata = data.frame(velocity = test$velocity))

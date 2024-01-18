@@ -243,7 +243,10 @@ Family of functions that serve a purpose of estimating short sprint parameters
 
 # Model In-Situ (Embedded profiling)
 data("LPS_session")
-m1 <- model_in_situ(LPS_session$velocity, LPS_session$acceleration)
+m1 <- model_in_situ(
+  velocity = LPS_session$velocity,
+  acceleration = LPS_session$acceleration,
+  velocity_threshold = 4)
 m1
 plot(m1)
 
