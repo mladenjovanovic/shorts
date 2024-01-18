@@ -243,13 +243,20 @@ Family of functions that serve a purpose of estimating short sprint parameters
 
 # Model In-Situ (Embedded profiling)
 data("LPS_session")
-m1 <- model_in_situ(LPS_session$velocity, LPS_session$acceleration)
+m1 <- model_in_situ(
+  velocity = LPS_session$velocity,
+  acceleration = LPS_session$acceleration,
+  velocity_threshold = 4)
 m1
 plot(m1)
 
 
 # Model Radar Gun (includes Time Correction)
 df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 6, 0.1))
+
+# Add some noise
+df$velocity <- df$velocity + rnorm(n = nrow(df), 0, 10^-2)
+
 m1 <- model_radar_gun(time = df$time, velocity = df$velocity)
 m1
 plot(m1)
