@@ -108,6 +108,10 @@ model_radar_gun <- function(time,
 #'
 #' # Model Laser Gun (includes Time Correction)
 #' df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 6, 0.1))
+#'
+#' # Add some noise
+#' df$velocity <- df$velocity + rnorm(n = nrow(df), 0, 10^-2)
+#'
 #' m1 <- model_laser_gun(time = df$time, velocity = df$velocity)
 #' m1
 #' plot(m1)
