@@ -1,3 +1,5 @@
+# shorts (development version)
+
 # shorts 3.1.0
 
 * Fixed the error in `model_radar_gun()` and `model_laser_gun()` examples that happened on `r-release-macos-arm64` and `r-oldrel-macos-arm64` due to the perfect model fit causing "singular gradient matrix at initial parameter estimates". This is sorted by adding simple noise to the simulated data
