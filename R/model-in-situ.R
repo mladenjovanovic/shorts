@@ -32,7 +32,8 @@ prepare_in_situ_data <- function(df,
 #' @description \code{model_in_situ} estimates short sprint parameters using velocity-acceleration trace,
 #'     provided by the monitoring systems like GPS or LPS. See references for the information
 #'
-#' @param velocity_threshold Default is 3 m/s
+#' @param velocity_threshold Velocity cutoff. If \code{NULL} (default), velocity of the observation with
+#'     the fastest acceleration is taken as the cutoff value
 #' @param velocity_step Velocity increment size for finding max acceleration. Default is 0.2 m/s
 #' @param n_observations Number of top acceleration observations to keep in velocity bracket.
 #'      Default is 2
@@ -56,6 +57,7 @@ prepare_in_situ_data <- function(df,
 #' m1 <- model_in_situ(
 #'   velocity = LPS_session$velocity,
 #'   acceleration = LPS_session$acceleration,
+#'   # Use specific cutoff value
 #'   velocity_threshold = 4)
 #' m1
 #' plot(m1)
@@ -63,7 +65,7 @@ prepare_in_situ_data <- function(df,
 model_in_situ <- function(velocity,
                           acceleration,
                           weights = 1,
-                          velocity_threshold = 3,
+                          velocity_threshold = NULL,
                           velocity_step = 0.2,
                           n_observations = 2,
                           CV = NULL,
@@ -72,6 +74,12 @@ model_in_situ <- function(velocity,
 
   # Estimation function
   model_func <- function(train, test, ...) {
+
+    # If velocity threshold is null
+    if (is.null(velocity_threshold)) {
+      # find the velocity of the highest acceleration observation
+      velocity_threshold <- train$velocity[which.max(train$acceleration)]
+    }
 
     # Filter data
     train <- prepare_in_situ_data(
@@ -128,7 +136,11 @@ model_in_situ <- function(velocity,
         TAU = TAU,
         PMAX = PMAX
       ),
-      corrections = NULL,
+      corrections = list(
+        velocity_threshold = velocity_threshold,
+        velocity_step = velocity_step,
+        n_observations = n_observations
+      ),
       predictions = list(
         .predictor = test$velocity,
         .observed = test$acceleration,
