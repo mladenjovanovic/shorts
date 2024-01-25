@@ -142,7 +142,7 @@ model_timing_gates_TC_DC estimates short sprint parameters using distance-time t
 <span>  <span class="va">velocity</span>,</span>
 <span>  <span class="va">acceleration</span>,</span>
 <span>  weights <span class="op">=</span> <span class="fl">1</span>,</span>
-<span>  velocity_threshold <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  velocity_threshold <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  velocity_step <span class="op">=</span> <span class="fl">0.2</span>,</span>
 <span>  n_observations <span class="op">=</span> <span class="fl">2</span>,</span>
 <span>  CV <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -276,7 +276,8 @@ model_timing_gates_TC_DC estimates short sprint parameters using distance-time t
 
 
 <dt>velocity_threshold</dt>
-<dd><p>Default is 3 m/s</p></dd>
+<dd><p>Velocity cutoff. If <code>NULL</code> (default), velocity of the observation with
+the fastest acceleration is taken as the cutoff value</p></dd>
 
 
 <dt>velocity_step</dt>
@@ -373,12 +374,18 @@ provided value</p></dd>
 <span class="r-in"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu">model_in_situ</span><span class="op">(</span></span></span>
 <span class="r-in"><span>  velocity <span class="op">=</span> <span class="va">LPS_session</span><span class="op">$</span><span class="va">velocity</span>,</span></span>
 <span class="r-in"><span>  acceleration <span class="op">=</span> <span class="va">LPS_session</span><span class="op">$</span><span class="va">acceleration</span>,</span></span>
+<span class="r-in"><span>  <span class="co"># Use specific cutoff value</span></span></span>
 <span class="r-in"><span>  velocity_threshold <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">m1</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Estimated model parameters</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>       MSS       MAC       TAU      PMAX </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  8.175298  7.892268  1.035862 16.130411 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Estimated model corrections</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> --------------------------</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> velocity_threshold      velocity_step     n_observations </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                4.0                0.2                2.0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Model fit estimators</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> --------------------</span>
