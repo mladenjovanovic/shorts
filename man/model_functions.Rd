@@ -25,7 +25,7 @@ model_in_situ(
   velocity,
   acceleration,
   weights = 1,
-  velocity_threshold = 3,
+  velocity_threshold = NULL,
   velocity_step = 0.2,
   n_observations = 2,
   CV = NULL,
@@ -154,7 +154,8 @@ model_timing_gates_TC_DC(
 \arguments{
 \item{weights}{Numeric vector. Default is 1}
 
-\item{velocity_threshold}{Default is 3 m/s}
+\item{velocity_threshold}{Velocity cutoff. If \code{NULL} (default), velocity of the observation with
+the fastest acceleration is taken as the cutoff value}
 
 \item{velocity_step}{Velocity increment size for finding max acceleration. Default is 0.2 m/s}
 
@@ -246,6 +247,7 @@ data("LPS_session")
 m1 <- model_in_situ(
   velocity = LPS_session$velocity,
   acceleration = LPS_session$acceleration,
+  # Use specific cutoff value
   velocity_threshold = 4)
 m1
 plot(m1)
