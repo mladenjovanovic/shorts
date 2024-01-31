@@ -587,7 +587,7 @@ LPS_session %>%
   ) +
   geom_abline(
     intercept = coef(embedded_model$model)[[1]],
-    slope = coef(embedded_model$model)[[2]],
+    slope = -coef(embedded_model$model)[[1]]/coef(embedded_model$model)[[2]],
     linetype = "dotted", color = "red") +
   scale_x_continuous(expand = c(0, 0), limits = c(0,  embedded_model$parameters$MSS)) +
   scale_y_continuous(expand = c(0, 0), limits = c(0, embedded_model$parameters$MAC)) 
