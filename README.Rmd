@@ -20,6 +20,22 @@ knitr::opts_chunk$set(
 
 # To avoid re-generating figures with random noise
 set.seed(1667)
+
+# Set print options
+options(
+  digits = 3,
+  "width" = 65,
+  scipen = 999,
+  knitr.kable.NA = ""
+)
+
+# Set default ggplot theme
+ggplot2::theme_set(ggdist::theme_ggdist())
+ggplot2::theme_update(
+  legend.position = "none",
+  strip.background = ggplot2::element_rect(fill = "grey20"),
+  strip.text = ggplot2::element_text(color = "white")
+)
 ```
 
 # shorts <img src="man/figures/logo.png" align="right" width="200"/>
@@ -91,23 +107,19 @@ predict(kimberley_profile)
 To create a simple plot use S3 `plot()` method. There are four type options: `"model"` (default), `"kinematics-time"`, `"kinematics-distance"`, or `"residuals"`:
 
 ```{r}
-plot(kimberley_profile) +
-  theme_bw()
+plot(kimberley_profile)
 ```
 
 ```{r}
-plot(kimberley_profile, "kinematics-time") +
-  theme_bw()
+plot(kimberley_profile, "kinematics-time")
 ```
 
 ```{r}
-plot(kimberley_profile, "kinematics-distance") +
-  theme_bw()
+plot(kimberley_profile, "kinematics-distance")
 ```
 
 ```{r}
-plot(kimberley_profile, "residuals") +
-  theme_bw()
+plot(kimberley_profile, "residuals")
 ```
 
 If you are interested in calculating average split velocity, use `shorts::format_splits()`
@@ -174,7 +186,6 @@ kimberley_pred <- tibble(
 kimberley_pred <- gather(kimberley_pred, "metric", "value", -distance)
 
 ggplot(kimberley_pred, aes(x = distance, y = value)) +
-  theme_bw() +
   geom_line() +
   facet_wrap(~metric, scales = "free_y") +
   xlab("Distance (m)") +
@@ -252,8 +263,7 @@ summary(jim_profile)
 
 confint(jim_profile)
 
-plot(jim_profile) +
-  theme_bw()
+plot(jim_profile)
 ```
 
 In addition to $MSS$ and $MAC$ parameters, `shorts::model_radar_gun()` function also estimated *time-correction* ($TC$) parameter. 
@@ -323,7 +333,6 @@ data("LPS_session")
 
 LPS_session %>%
   ggplot(aes(x = x, y = y)) +
-  theme_bw() +
   geom_point(alpha = 0.1)
 ```
 
@@ -332,7 +341,6 @@ The next figure plots instant acceleration and velocity:
 ```{r}
 LPS_session %>%
   ggplot(aes(x = velocity, y = acceleration)) +
-  theme_bw() +
   geom_point(alpha = 0.1)
 ```
 
@@ -347,7 +355,6 @@ embedded_model <- model_in_situ(
 LPS_session %>%
   filter(acceleration > 0) %>%
   ggplot(aes(x = velocity, y = acceleration)) +
-  theme_bw() +
   geom_point(alpha = 0.1) +
   geom_point(
     data = embedded_model$data, 
@@ -416,7 +423,6 @@ loads_df <- rbind(
 loads_df %>%
   pivot_longer(cols = c(MSS, MAC), names_to = "parameter") %>%
   ggplot(aes(x = magnitude, y = value, color = parameter)) +
-  theme_bw() + 
   geom_vline(xintercept = 0, linetype = "dotted") +
   geom_line() +
   facet_wrap(~type, scales = "free_x") +
@@ -438,7 +444,6 @@ dist_df <- expand_grid(
 
 dist_df %>%
   ggplot(aes(x = magnitude, y = time, color = distance)) +
-  theme_bw() + 
   geom_vline(xintercept = 0, linetype = "dotted") +
   geom_line() +
   facet_wrap(~type, scales = "free_x") +
@@ -639,7 +644,6 @@ opt_dist <- tibble(
   pivot_longer(cols = 1:5, names_to = "profile")
 
 ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
-  theme_bw() +
   geom_hline(yintercept = 100, linetype = "dashed", alpha = 0.6) +
   geom_line() +
   geom_point(data = opt_dist, aes(x = value, y = 100), size = 2) +

@@ -82,42 +82,44 @@ kimberley_profile <- shorts::model_timing_gates(
 kimberley_profile
 #> Estimated model parameters
 #> --------------------------
-#>        MSS        MAC        TAU       PMAX 
-#>  8.5911431 10.5889817  0.8113285 22.7428642 
+#>    MSS    MAC    TAU   PMAX 
+#>  8.591 10.589  0.811 22.743 
 #> 
 #> Model fit estimators
 #> --------------------
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>    0.999655312   -0.003093343   -0.538602775   -0.052934568   -4.571206233 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>    0.026991611    0.857148665    0.052934568    4.571206233    0.027788752 
-#>      RMSE_perc            MAE       MAE_perc 
-#>    1.939218713    0.023333409    1.192632747
+#>             R2        meanErr   meanErr_perc         minErr 
+#>        0.99966       -0.00309       -0.53860       -0.05293 
+#>    minErr_perc         maxErr    maxErr_perc      maxAbsErr 
+#>       -4.57121        0.02699        0.85715        0.05293 
+#> maxAbsErr_perc           RMSE      RMSE_perc            MAE 
+#>        4.57121        0.02779        1.93922        0.02333 
+#>       MAE_perc 
+#>        1.19263
 
 summary(kimberley_profile)
 #> 
 #> Formula: time ~ predict_time_at_distance(distance, MSS, MAC)
 #> 
 #> Parameters:
-#>     Estimate Std. Error t value Pr(>|t|)    
-#> MSS   8.5911     0.1225   70.13 2.48e-07 ***
-#> MAC  10.5890     0.4599   23.03 2.11e-05 ***
+#>     Estimate Std. Error t value   Pr(>|t|)    
+#> MSS    8.591      0.123    70.1 0.00000025 ***
+#> MAC   10.589      0.460    23.0 0.00002108 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 0.03403 on 4 degrees of freedom
+#> Residual standard error: 0.034 on 4 degrees of freedom
 #> 
 #> Number of iterations to convergence: 5 
-#> Achieved convergence tolerance: 1.49e-08
+#> Achieved convergence tolerance: 0.0000000149
 
 coef(kimberley_profile)
-#>       MSS       MAC 
-#>  8.591143 10.588982
+#>   MSS   MAC 
+#>  8.59 10.59
 
 confint(kimberley_profile, level = 0.95)
-#>         2.5%     97.5%
-#> MSS 8.273337  8.963098
-#> MAC 9.421593 12.022126
+#>     2.5% 97.5%
+#> MSS 8.27  8.96
+#> MAC 9.42 12.02
 ```
 
 To return the predicted/fitted values (in this case time variable), use
@@ -125,7 +127,7 @@ To return the predicted/fitted values (in this case time variable), use
 
 ``` r
 predict(kimberley_profile)
-#> [1] 1.210935 1.897021 2.521028 3.122008 4.299243 5.466324
+#> [1] 1.21 1.90 2.52 3.12 4.30 5.47
 ```
 
 To create a simple plot use S3 `plot()` method. There are four type
@@ -133,29 +135,25 @@ options: `"model"` (default), `"kinematics-time"`,
 `"kinematics-distance"`, or `"residuals"`:
 
 ``` r
-plot(kimberley_profile) +
-  theme_bw()
+plot(kimberley_profile)
 ```
 
 <img src="man/figures/README-unnamed-chunk-5-1.png" width="90%" style="display: block; margin: auto;" />
 
 ``` r
-plot(kimberley_profile, "kinematics-time") +
-  theme_bw()
+plot(kimberley_profile, "kinematics-time")
 ```
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="90%" style="display: block; margin: auto;" />
 
 ``` r
-plot(kimberley_profile, "kinematics-distance") +
-  theme_bw()
+plot(kimberley_profile, "kinematics-distance")
 ```
 
 <img src="man/figures/README-unnamed-chunk-7-1.png" width="90%" style="display: block; margin: auto;" />
 
 ``` r
-plot(kimberley_profile, "residuals") +
-  theme_bw()
+plot(kimberley_profile, "residuals")
 ```
 
 <img src="man/figures/README-unnamed-chunk-8-1.png" width="90%" style="display: block; margin: auto;" />
@@ -238,7 +236,6 @@ kimberley_pred <- tibble(
 kimberley_pred <- gather(kimberley_pred, "metric", "value", -distance)
 
 ggplot(kimberley_pred, aes(x = distance, y = value)) +
-  theme_bw() +
   geom_line() +
   facet_wrap(~metric, scales = "free_y") +
   xlab("Distance (m)") +
@@ -261,21 +258,20 @@ predicted_kinematics <- predict_kinematics(
 kable(head(predicted_kinematics))
 ```
 
-| time |  distance |  velocity | acceleration | bodymass | inertia | resistance | air_resistance | horizontal_force | horizontal_force_relative | vertical_force | resultant_force | resultant_force_relative |     power | power_relative |      work | average_power | average_power_relative |        RF | force_angle |
-|-----:|----------:|----------:|-------------:|---------:|--------:|-----------:|---------------:|-----------------:|--------------------------:|---------------:|----------------:|-------------------------:|----------:|---------------:|----------:|--------------:|-----------------------:|----------:|------------:|
-| 0.00 | 0.0000000 | 0.0000000 |    10.588982 |       60 |       0 |          0 |      0.0000000 |         635.3389 |                 10.588982 |          588.6 |        866.0863 |                 14.43477 |   0.00000 |       0.000000 | 0.0000000 |           NaN |                    NaN | 0.7335746 |    42.81309 |
-| 0.01 | 0.0005273 | 0.1052399 |    10.459269 |       60 |       0 |          0 |      0.0026620 |         627.5588 |                 10.459313 |          588.6 |        860.3952 |                 14.33992 |  66.04424 |       1.100737 | 0.3322639 |      33.22639 |              0.5537732 | 0.7293843 |    43.16520 |
-| 0.02 | 0.0021005 | 0.2091907 |    10.331145 |       60 |       0 |          0 |      0.0105181 |         619.8792 |                 10.331320 |          588.6 |        854.8100 |                 14.24683 | 129.67294 |       2.161216 | 1.3128332 |      65.64166 |              1.0940276 | 0.7251660 |    43.51734 |
-| 0.03 | 0.0047068 | 0.3118680 |    10.204590 |       60 |       0 |          0 |      0.0233774 |         612.2988 |                 10.204980 |          588.6 |        849.3290 |                 14.15548 | 190.95642 |       3.182607 | 2.9179055 |      97.26352 |              1.6210586 | 0.7209206 |    43.86946 |
-| 0.04 | 0.0083337 | 0.4132876 |    10.079586 |       60 |       0 |          0 |      0.0410543 |         604.8162 |                 10.080270 |          588.6 |        843.9506 |                 14.06584 | 249.96305 |       4.166051 | 5.1243723 |     128.10931 |              2.1351551 | 0.7166488 |    44.22151 |
-| 0.05 | 0.0129685 | 0.5134649 |     9.956112 |       60 |       0 |          0 |      0.0633688 |         597.4301 |                  9.957169 |          588.6 |        838.6732 |                 13.97789 | 306.75937 |       5.112656 | 7.9097991 |     158.19598 |              2.6365997 | 0.7123515 |    44.57343 |
+| time | distance | velocity | acceleration | bodymass | inertia | resistance | air_resistance | horizontal_force | horizontal_force_relative | vertical_force | resultant_force | resultant_force_relative | power | power_relative |  work | average_power | average_power_relative |    RF | force_angle |
+|-----:|---------:|---------:|-------------:|---------:|--------:|-----------:|---------------:|-----------------:|--------------------------:|---------------:|----------------:|-------------------------:|------:|---------------:|------:|--------------:|-----------------------:|------:|------------:|
+| 0.00 |    0.000 |    0.000 |        10.59 |       60 |       0 |          0 |          0.000 |              635 |                     10.59 |            589 |             866 |                     14.4 |     0 |           0.00 | 0.000 |               |                        | 0.734 |        42.8 |
+| 0.01 |    0.001 |    0.105 |        10.46 |       60 |       0 |          0 |          0.003 |              628 |                     10.46 |            589 |             860 |                     14.3 |    66 |           1.10 | 0.332 |          33.2 |                  0.554 | 0.729 |        43.2 |
+| 0.02 |    0.002 |    0.209 |        10.33 |       60 |       0 |          0 |          0.011 |              620 |                     10.33 |            589 |             855 |                     14.2 |   130 |           2.16 | 1.313 |          65.6 |                  1.094 | 0.725 |        43.5 |
+| 0.03 |    0.005 |    0.312 |        10.21 |       60 |       0 |          0 |          0.023 |              612 |                     10.21 |            589 |             849 |                     14.2 |   191 |           3.18 | 2.918 |          97.3 |                  1.621 | 0.721 |        43.9 |
+| 0.04 |    0.008 |    0.413 |        10.08 |       60 |       0 |          0 |          0.041 |              605 |                     10.08 |            589 |             844 |                     14.1 |   250 |           4.17 | 5.124 |         128.1 |                  2.135 | 0.717 |        44.2 |
+| 0.05 |    0.013 |    0.513 |         9.96 |       60 |       0 |          0 |          0.063 |              597 |                      9.96 |            589 |             839 |                     14.0 |   307 |           5.11 | 7.910 |         158.2 |                  2.637 | 0.712 |        44.6 |
 
 To get model residuals, use `residuals()` function:
 
 ``` r
 residuals(kimberley_profile)
-#> [1] -0.052934568 -0.004021215  0.019971704  0.026991611  0.013756880
-#> [6] -0.022324473
+#> [1] -0.05293 -0.00402  0.01997  0.02699  0.01376 -0.02232
 ```
 
 Package **{shorts}** comes with `find_XXX()` family of functions that
@@ -292,10 +288,10 @@ shorts::find_peak_power_distance(
   bodyheight = kimberley_bodyheight
 )
 #> $peak_power
-#> [1] 1384.248
+#> [1] 1384
 #> 
 #> $distance
-#> [1] 1.424183
+#> [1] 1.42
 
 # Distance over which power is over 80%
 shorts::find_power_critical_distance(
@@ -306,10 +302,10 @@ shorts::find_power_critical_distance(
   percent = 0.8
 )
 #> $lower
-#> [1] 0.3421958
+#> [1] 0.342
 #> 
 #> $upper
-#> [1] 4.26947
+#> [1] 4.27
 
 # Distance over which acceleration is under 50%
 shorts::find_acceleration_critical_distance(
@@ -317,7 +313,7 @@ shorts::find_acceleration_critical_distance(
   MAC = kimberley_profile$parameters$MAC,
   percent = 0.5
 )
-#> [1] 1.34628
+#> [1] 1.35
 
 # Distance over which velocity is over 95%
 shorts::find_velocity_critical_distance(
@@ -325,7 +321,7 @@ shorts::find_velocity_critical_distance(
   MAC = kimberley_profile$parameters$MAC,
   percent = 0.95
 )
-#> [1] 14.25923
+#> [1] 14.3
 ```
 
 ### Profiling using radar gun data
@@ -346,48 +342,49 @@ jim_profile <- shorts::model_radar_gun(
 jim_profile
 #> Estimated model parameters
 #> --------------------------
-#>        MSS        MAC        TAU       PMAX 
-#>  7.9980115  8.9987070  0.8887956 17.9929403 
+#>    MSS    MAC    TAU   PMAX 
+#>  7.998  8.999  0.889 17.993 
 #> 
 #> Estimated model corrections
 #> --------------------------
-#>            TC 
-#> -0.0001104572 
+#>       TC 
+#> -0.00011 
 #> 
 #> Model fit estimators
 #> --------------------
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   9.992441e-01  -2.481182e-08           -Inf  -1.640451e-01           -Inf 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   1.511234e-01   2.332511e+00   1.640451e-01            Inf   5.050254e-02 
-#>      RMSE_perc            MAE       MAE_perc 
-#>            Inf   3.927236e-02            Inf
+#>             R2        meanErr   meanErr_perc         minErr 
+#>   0.9992440860  -0.0000000248           -Inf  -0.1640450506 
+#>    minErr_perc         maxErr    maxErr_perc      maxAbsErr 
+#>           -Inf   0.1511233656   2.3325106593   0.1640450506 
+#> maxAbsErr_perc           RMSE      RMSE_perc            MAE 
+#>            Inf   0.0505025383            Inf   0.0392723633 
+#>       MAE_perc 
+#>            Inf
 
 summary(jim_profile)
 #> 
 #> Formula: velocity ~ predict_velocity_at_time(time - TC, MSS, MAC)
 #> 
 #> Parameters:
-#>       Estimate Std. Error t value Pr(>|t|)    
-#> MSS  7.9980115  0.0031934 2504.55   <2e-16 ***
-#> MAC  8.9987070  0.0199701  450.61   <2e-16 ***
-#> TC  -0.0001105  0.0012283   -0.09    0.928    
+#>     Estimate Std. Error t value            Pr(>|t|)    
+#> MSS  7.99801    0.00319 2504.55 <0.0000000000000002 ***
+#> MAC  8.99871    0.01997  450.61 <0.0000000000000002 ***
+#> TC  -0.00011    0.00123   -0.09                0.93    
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 0.05063 on 597 degrees of freedom
+#> Residual standard error: 0.0506 on 597 degrees of freedom
 #> 
 #> Number of iterations to convergence: 4 
-#> Achieved convergence tolerance: 1.49e-08
+#> Achieved convergence tolerance: 0.0000000149
 
 confint(jim_profile)
-#>             2.5%       97.5%
-#> MSS  7.991747860 8.004286924
-#> MAC  8.959592160 9.037967809
-#> TC  -0.002530815 0.002291737
+#>         2.5%   97.5%
+#> MSS  7.99175 8.00429
+#> MAC  8.95959 9.03797
+#> TC  -0.00253 0.00229
 
-plot(jim_profile) +
-  theme_bw()
+plot(jim_profile)
 ```
 
 <img src="man/figures/README-unnamed-chunk-14-1.png" width="90%" style="display: block; margin: auto;" />
@@ -409,39 +406,41 @@ jim_profile <- shorts::model_radar_gun(
 jim_profile
 #> Estimated model parameters
 #> --------------------------
-#>        MSS        MAC        TAU       PMAX 
-#>  8.0950000  8.6782211  0.9327949 17.5625500 
+#>    MSS    MAC    TAU   PMAX 
+#>  8.095  8.678  0.933 17.563 
 #> 
 #> Estimated model corrections
 #> --------------------------
-#>          TC 
-#> -0.01117683 
+#>      TC 
+#> -0.0112 
 #> 
 #> Model fit estimators
 #> --------------------
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>     0.99875693    -0.03881082           -Inf    -0.22869200           -Inf 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>     0.18253953     2.81740287     0.22869200            Inf     0.07984600 
-#>      RMSE_perc            MAE       MAE_perc 
-#>            Inf     0.06431872            Inf
+#>             R2        meanErr   meanErr_perc         minErr 
+#>         0.9988        -0.0388           -Inf        -0.2287 
+#>    minErr_perc         maxErr    maxErr_perc      maxAbsErr 
+#>           -Inf         0.1825         2.8174         0.2287 
+#> maxAbsErr_perc           RMSE      RMSE_perc            MAE 
+#>            Inf         0.0798            Inf         0.0643 
+#>       MAE_perc 
+#>            Inf
 
 summary(jim_profile)
 #> 
 #> Formula: velocity ~ predict_velocity_at_time(time - TC, MSS, MAC)
 #> 
 #> Parameters:
-#>      Estimate Std. Error  t value Pr(>|t|)    
-#> MSS  8.095000   0.005209 1554.099  < 2e-16 ***
-#> MAC  8.678221   0.030174  287.601  < 2e-16 ***
-#> TC  -0.011177   0.002025   -5.519 5.09e-08 ***
+#>     Estimate Std. Error t value             Pr(>|t|)    
+#> MSS  8.09500    0.00521 1554.10 < 0.0000000000000002 ***
+#> MAC  8.67822    0.03017  287.60 < 0.0000000000000002 ***
+#> TC  -0.01118    0.00203   -5.52          0.000000051 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 0.08005 on 597 degrees of freedom
+#> Residual standard error: 0.08 on 597 degrees of freedom
 #> 
 #> Number of iterations to convergence: 5 
-#> Achieved convergence tolerance: 1.49e-08
+#> Achieved convergence tolerance: 0.0000000149
 ```
 
 ### Profiling using tether devices
@@ -464,17 +463,25 @@ m1 <- model_tether(
 m1
 #> Estimated model parameters
 #> --------------------------
-#>       MSS       MAC       TAU      PMAX 
-#>  7.000000  6.000000  1.166667 10.500000 
+#>   MSS   MAC   TAU  PMAX 
+#>  7.00  6.00  1.17 10.50 
 #> 
 #> Model fit estimators
 #> --------------------
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   1.000000e+00   4.638882e-16   8.491813e-13  -3.808065e-14  -3.200666e-11 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   2.984279e-13   4.995146e-10   2.984279e-13   4.995146e-10   1.259855e-14 
-#>      RMSE_perc            MAE       MAE_perc 
-#>   2.044889e-11   1.438294e-15   9.813336e-13
+#>                    R2               meanErr 
+#>  0.999999999999999778  0.000000000000000464 
+#>          meanErr_perc                minErr 
+#>  0.000000000000849181 -0.000000000000038081 
+#>           minErr_perc                maxErr 
+#> -0.000000000032006657  0.000000000000298428 
+#>           maxErr_perc             maxAbsErr 
+#>  0.000000000499514588  0.000000000000298428 
+#>        maxAbsErr_perc                  RMSE 
+#>  0.000000000499514588  0.000000000000012599 
+#>             RMSE_perc                   MAE 
+#>  0.000000000020448893  0.000000000000001438 
+#>              MAE_perc 
+#>  0.000000000000981334
 
 plot(m1)
 ```
@@ -505,8 +512,8 @@ m1 <- model_tether_DC(
 m1
 #> Estimated model parameters
 #> --------------------------
-#>       MSS       MAC       TAU      PMAX 
-#>  7.000000  6.000000  1.166667 10.500000 
+#>   MSS   MAC   TAU  PMAX 
+#>  7.00  6.00  1.17 10.50 
 #> 
 #> Estimated model corrections
 #> --------------------------
@@ -515,12 +522,16 @@ m1
 #> 
 #> Model fit estimators
 #> --------------------
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   1.000000e+00   6.483757e-11   8.098034e-07  -1.517186e-11  -2.897114e-10 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   2.873803e-08   4.791725e-04   2.873803e-08   4.791725e-04   1.181241e-09 
-#>      RMSE_perc            MAE       MAE_perc 
-#>   1.956287e-05   7.412052e-11   8.099718e-07
+#>               R2          meanErr     meanErr_perc 
+#>  1.0000000000000  0.0000000000648  0.0000008098034 
+#>           minErr      minErr_perc           maxErr 
+#> -0.0000000000152 -0.0000000002897  0.0000000287380 
+#>      maxErr_perc        maxAbsErr   maxAbsErr_perc 
+#>  0.0004791725496  0.0000000287380  0.0004791725496 
+#>             RMSE        RMSE_perc              MAE 
+#>  0.0000000011812  0.0000195628726  0.0000000000741 
+#>         MAE_perc 
+#>  0.0000008099718
 
 plot(m1)
 ```
@@ -547,7 +558,6 @@ data("LPS_session")
 
 LPS_session %>%
   ggplot(aes(x = x, y = y)) +
-  theme_bw() +
   geom_point(alpha = 0.1)
 ```
 
@@ -558,7 +568,6 @@ The next figure plots instant acceleration and velocity:
 ``` r
 LPS_session %>%
   ggplot(aes(x = velocity, y = acceleration)) +
-  theme_bw() +
   geom_point(alpha = 0.1)
 ```
 
@@ -579,7 +588,6 @@ embedded_model <- model_in_situ(
 LPS_session %>%
   filter(acceleration > 0) %>%
   ggplot(aes(x = velocity, y = acceleration)) +
-  theme_bw() +
   geom_point(alpha = 0.1) +
   geom_point(
     data = embedded_model$data, 
@@ -614,22 +622,22 @@ kimberley_fv
 #> [1] 60
 #> 
 #> $F0
-#> [1] 635.3389
+#> [1] 635
 #> 
 #> $F0_rel
-#> [1] 10.58898
+#> [1] 10.6
 #> 
 #> $V0
-#> [1] 8.845438
+#> [1] 8.85
 #> 
 #> $Pmax
-#> [1] 1404.963
+#> [1] 1405
 #> 
 #> $Pmax_rel
-#> [1] 23.41605
+#> [1] 23.4
 #> 
 #> $FV_slope
-#> [1] -1.197112
+#> [1] -1.2
 ```
 
 To convert back to *Acceleration-Velocity Profile* (AVP), use:
@@ -644,10 +652,10 @@ kimberley_avp <- shorts::convert_FVP(
 
 kimberley_avp
 #> $MSS
-#> [1] 8.591143
+#> [1] 8.59
 #> 
 #> $MAC
-#> [1] 10.58898
+#> [1] 10.6
 ```
 
 #### Using external load
@@ -686,7 +694,6 @@ loads_df <- rbind(
 loads_df %>%
   pivot_longer(cols = c(MSS, MAC), names_to = "parameter") %>%
   ggplot(aes(x = magnitude, y = value, color = parameter)) +
-  theme_bw() + 
   geom_vline(xintercept = 0, linetype = "dotted") +
   geom_line() +
   facet_wrap(~type, scales = "free_x") +
@@ -712,7 +719,6 @@ dist_df <- expand_grid(
 
 dist_df %>%
   ggplot(aes(x = magnitude, y = time, color = distance)) +
-  theme_bw() + 
   geom_vline(xintercept = 0, linetype = "dotted") +
   geom_line() +
   facet_wrap(~type, scales = "free_x") +
@@ -731,7 +737,7 @@ shorts::predict_force_at_time(
   bodymass = 75,
   inertia = 20,
   resistance = 50)
-#> [1] 503.0126
+#> [1] 503
 
 shorts::predict_power_at_time(
   time = 0.5,
@@ -740,7 +746,7 @@ shorts::predict_power_at_time(
   bodymass = 75,
   inertia = 20,
   resistance = 50)
-#> [1] 1458.593
+#> [1] 1459
 
 shorts::predict_time_at_distance_FV(
   distance = 10,
@@ -749,7 +755,7 @@ shorts::predict_time_at_distance_FV(
   bodymass = 75,
   inertia = 20,
   resistance = 50)
-#> [1] 2.259444
+#> [1] 2.26
 ```
 
 External resistances can also be utilized in the
@@ -778,37 +784,39 @@ kimberley_profile_fixed_TC <- shorts::model_timing_gates(
 kimberley_profile_fixed_TC
 #> Estimated model parameters
 #> --------------------------
-#>       MSS       MAC       TAU      PMAX 
-#>  9.127769  6.625731  1.377624 15.119536 
+#>   MSS   MAC   TAU  PMAX 
+#>  9.13  6.63  1.38 15.12 
 #> 
 #> Model fit estimators
 #> --------------------
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>    0.999971375    0.001009227    0.125589837   -0.007689947   -0.222961644 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>    0.016398637    1.124735020    0.016398637    1.124735020    0.008139867 
-#>      RMSE_perc            MAE       MAE_perc 
-#>    0.477039255    0.006393853    0.285701750
+#>             R2        meanErr   meanErr_perc         minErr 
+#>        0.99997        0.00101        0.12559       -0.00769 
+#>    minErr_perc         maxErr    maxErr_perc      maxAbsErr 
+#>       -0.22296        0.01640        1.12474        0.01640 
+#> maxAbsErr_perc           RMSE      RMSE_perc            MAE 
+#>        1.12474        0.00814        0.47704        0.00639 
+#>       MAE_perc 
+#>        0.28570
 
 summary(kimberley_profile_fixed_TC)
 #> 
 #> Formula: time ~ predict_time_at_distance(distance, MSS, MAC)
 #> 
 #> Parameters:
-#>     Estimate Std. Error t value Pr(>|t|)    
-#> MSS  9.12777    0.05355   170.4 7.11e-09 ***
-#> MAC  6.62573    0.06569   100.9 5.79e-08 ***
+#>     Estimate Std. Error t value     Pr(>|t|)    
+#> MSS   9.1278     0.0536     170 0.0000000071 ***
+#> MAC   6.6257     0.0657     101 0.0000000579 ***
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 #> 
-#> Residual standard error: 0.009969 on 4 degrees of freedom
+#> Residual standard error: 0.00997 on 4 degrees of freedom
 #> 
 #> Number of iterations to convergence: 5 
-#> Achieved convergence tolerance: 1.49e-08
+#> Achieved convergence tolerance: 0.0000000149
 
 coef(kimberley_profile_fixed_TC)
-#>      MSS      MAC 
-#> 9.127769 6.625731
+#>  MSS  MAC 
+#> 9.13 6.63
 ```
 
 Instead of providing for `TC`, this parameter can be estimated using
@@ -823,22 +831,26 @@ kimberley_profile_TC <- shorts::model_timing_gates_TC(
 kimberley_profile_TC
 #> Estimated model parameters
 #> --------------------------
-#>       MSS       MAC       TAU      PMAX 
-#>  8.974835  7.267917  1.234857 16.307090 
+#>   MSS   MAC   TAU  PMAX 
+#>  8.97  7.27  1.23 16.31 
 #> 
 #> Estimated model corrections
 #> --------------------------
-#>         TC 
-#> -0.2346537 
+#>     TC 
+#> -0.235 
 #> 
 #> Model fit estimators
 #> --------------------
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   9.999997e-01   1.854313e-11   1.816275e-03  -1.180734e-03  -6.237372e-02 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   1.209466e-03   5.974772e-02   1.209466e-03   6.237372e-02   7.983565e-04 
-#>      RMSE_perc            MAE       MAE_perc 
-#>   3.748224e-02   6.586034e-04   2.823532e-02
+#>               R2          meanErr     meanErr_perc 
+#>  0.9999996942338  0.0000000000185  0.0018162748771 
+#>           minErr      minErr_perc           maxErr 
+#> -0.0011807344888 -0.0623737183716  0.0012094657303 
+#>      maxErr_perc        maxAbsErr   maxAbsErr_perc 
+#>  0.0597477188383  0.0012094657303  0.0623737183716 
+#>             RMSE        RMSE_perc              MAE 
+#>  0.0007983564900  0.0374822377932  0.0006586033619 
+#>         MAE_perc 
+#>  0.0282353234295
 ```
 
 Instead of estimating `TC`, **{shorts}** package features a method of
@@ -853,22 +865,24 @@ kimberley_profile_FD <- shorts::model_timing_gates_FD(
 kimberley_profile_FD
 #> Estimated model parameters
 #> --------------------------
-#>       MSS       MAC       TAU      PMAX 
-#>  9.002681  6.991283  1.287701 15.735073 
+#>   MSS   MAC   TAU  PMAX 
+#>  9.00  6.99  1.29 15.74 
 #> 
 #> Estimated model corrections
 #> --------------------------
-#>        FD 
-#> 0.3015635 
+#>    FD 
+#> 0.302 
 #> 
 #> Model fit estimators
 #> --------------------
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   1.000000e+00   6.446653e-07   3.182633e-04  -4.036158e-04  -1.281727e-02 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   4.557031e-04   1.056580e-02   4.557031e-04   1.281727e-02   2.758661e-04 
-#>      RMSE_perc            MAE       MAE_perc 
-#>   8.402638e-03   2.367538e-04   7.829105e-03
+#>             R2        meanErr   meanErr_perc         minErr 
+#>    0.999999963    0.000000645    0.000318263   -0.000403616 
+#>    minErr_perc         maxErr    maxErr_perc      maxAbsErr 
+#>   -0.012817270    0.000455703    0.010565804    0.000455703 
+#> maxAbsErr_perc           RMSE      RMSE_perc            MAE 
+#>    0.012817270    0.000275866    0.008402638    0.000236754 
+#>       MAE_perc 
+#>    0.007829105
 ```
 
 If you want to use fixed `FD` parameter (e.g., when you know what is the
@@ -884,8 +898,8 @@ kimberley_profile_fixed_FD <- shorts::model_timing_gates_FD(
 kimberley_profile_fixed_FD
 #> Estimated model parameters
 #> --------------------------
-#>       MSS       MAC       TAU      PMAX 
-#>  9.178464  6.231413  1.472935 14.298700 
+#>   MSS   MAC   TAU  PMAX 
+#>  9.18  6.23  1.47 14.30 
 #> 
 #> Estimated model corrections
 #> --------------------------
@@ -894,12 +908,14 @@ kimberley_profile_fixed_FD
 #> 
 #> Model fit estimators
 #> --------------------
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>    0.999973897    0.001247560    0.177401418   -0.007903690   -0.250990469 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>    0.015461986    1.335231979    0.015461986    1.335231979    0.007939415 
-#>      RMSE_perc            MAE       MAE_perc 
-#>    0.564926522    0.006718969    0.349905002
+#>             R2        meanErr   meanErr_perc         minErr 
+#>        0.99997        0.00125        0.17740       -0.00790 
+#>    minErr_perc         maxErr    maxErr_perc      maxAbsErr 
+#>       -0.25099        0.01546        1.33523        0.01546 
+#> maxAbsErr_perc           RMSE      RMSE_perc            MAE 
+#>        1.33523        0.00794        0.56493        0.00672 
+#>       MAE_perc 
+#>        0.34991
 ```
 
 There are other corrections involving time correction (`TC`), distance
@@ -929,37 +945,41 @@ kimberley_profile_CV <- shorts::model_timing_gates(
 kimberley_profile_CV
 #> Estimated model parameters
 #> --------------------------
-#>        MSS        MAC        TAU       PMAX 
-#>  8.5911431 10.5889817  0.8113285 22.7428642 
+#>    MSS    MAC    TAU   PMAX 
+#>  8.591 10.589  0.811 22.743 
 #> 
 #> Model fit estimators
 #> --------------------
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>    0.999655312   -0.003093343   -0.538602775   -0.052934568   -4.571206233 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>    0.026991611    0.857148665    0.052934568    4.571206233    0.027788752 
-#>      RMSE_perc            MAE       MAE_perc 
-#>    1.939218713    0.023333409    1.192632747 
+#>             R2        meanErr   meanErr_perc         minErr 
+#>        0.99966       -0.00309       -0.53860       -0.05293 
+#>    minErr_perc         maxErr    maxErr_perc      maxAbsErr 
+#>       -4.57121        0.02699        0.85715        0.05293 
+#> maxAbsErr_perc           RMSE      RMSE_perc            MAE 
+#>        4.57121        0.02779        1.93922        0.02333 
+#>       MAE_perc 
+#>        1.19263 
 #> 
 #> 
 #> Cross-Validation
 #> ------------------------------
 #> Parameters:
-#>   .fold      MSS      MAC       TAU     PMAX
-#> 1     1 8.693800 10.15512 0.8561005 22.07163
-#> 2     2 8.560667 10.76319 0.7953649 23.03503
-#> 3     3 8.394674 11.05010 0.7596925 23.19049
-#> 4     4 8.571600 10.75079 0.7972998 23.03786
-#> 5     5 8.608052 10.58783 0.8130141 22.78514
-#> 6     6 8.599600 10.54821 0.8152661 22.67760
+#>   .fold  MSS  MAC   TAU PMAX
+#> 1     1 8.69 10.2 0.856 22.1
+#> 2     2 8.56 10.8 0.795 23.0
+#> 3     3 8.39 11.1 0.760 23.2
+#> 4     4 8.57 10.8 0.797 23.0
+#> 5     5 8.61 10.6 0.813 22.8
+#> 6     6 8.60 10.5 0.815 22.7
 #> 
 #> Testing model fit estimators (overall):
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>     0.99901083    -0.01236576    -0.85484642    -0.08009034    -5.96012088 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>     0.03444978     1.09399112     0.08009034     5.96012088     0.04742764 
-#>      RMSE_perc            MAE       MAE_perc 
-#>     2.59202750     0.03923868     1.72270380
+#>             R2        meanErr   meanErr_perc         minErr 
+#>         0.9990        -0.0124        -0.8548        -0.0801 
+#>    minErr_perc         maxErr    maxErr_perc      maxAbsErr 
+#>        -5.9601         0.0344         1.0940         0.0801 
+#> maxAbsErr_perc           RMSE      RMSE_perc            MAE 
+#>         5.9601         0.0474         2.5920         0.0392 
+#>       MAE_perc 
+#>         1.7227
 ```
 
 Radar gun data often comes with much more observations, thus we can set
@@ -975,46 +995,50 @@ jim_profile_CV <- shorts::model_radar_gun(
 jim_profile_CV
 #> Estimated model parameters
 #> --------------------------
-#>        MSS        MAC        TAU       PMAX 
-#>  7.9980115  8.9987070  0.8887956 17.9929403 
+#>    MSS    MAC    TAU   PMAX 
+#>  7.998  8.999  0.889 17.993 
 #> 
 #> Estimated model corrections
 #> --------------------------
-#>            TC 
-#> -0.0001104572 
+#>       TC 
+#> -0.00011 
 #> 
 #> Model fit estimators
 #> --------------------
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   9.992441e-01  -2.481182e-08           -Inf  -1.640451e-01           -Inf 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   1.511234e-01   2.332511e+00   1.640451e-01            Inf   5.050254e-02 
-#>      RMSE_perc            MAE       MAE_perc 
-#>            Inf   3.927236e-02            Inf 
+#>             R2        meanErr   meanErr_perc         minErr 
+#>   0.9992440860  -0.0000000248           -Inf  -0.1640450506 
+#>    minErr_perc         maxErr    maxErr_perc      maxAbsErr 
+#>           -Inf   0.1511233656   2.3325106593   0.1640450506 
+#> maxAbsErr_perc           RMSE      RMSE_perc            MAE 
+#>            Inf   0.0505025383            Inf   0.0392723633 
+#>       MAE_perc 
+#>            Inf 
 #> 
 #> 
 #> Cross-Validation
 #> ------------------------------
 #> Parameters:
-#>    .fold      MSS      MAC       TAU     PMAX
-#> 1      1 7.997012 8.994930 0.8890577 17.98314
-#> 2      2 7.997697 9.003190 0.8883182 18.00120
-#> 3      3 7.997266 8.997429 0.8888391 17.98871
-#> 4      4 7.998063 8.997914 0.8888796 17.99147
-#> 5      5 7.999258 8.998932 0.8889119 17.99619
-#> 6      6 7.998143 9.002309 0.8884545 18.00044
-#> 7      7 7.998979 8.995074 0.8892622 17.98785
-#> 8      8 7.998321 9.001374 0.8885668 17.99897
-#> 9      9 7.998101 9.006872 0.8879998 18.00947
-#> 10    10 7.997287 8.988672 0.8897072 17.97125
+#>    .fold MSS  MAC   TAU PMAX
+#> 1      1   8 8.99 0.889   18
+#> 2      2   8 9.00 0.888   18
+#> 3      3   8 9.00 0.889   18
+#> 4      4   8 9.00 0.889   18
+#> 5      5   8 9.00 0.889   18
+#> 6      6   8 9.00 0.888   18
+#> 7      7   8 9.00 0.889   18
+#> 8      8   8 9.00 0.889   18
+#> 9      9   8 9.01 0.888   18
+#> 10    10   8 8.99 0.890   18
 #> 
 #> Testing model fit estimators (overall):
-#>             R2        meanErr   meanErr_perc         minErr    minErr_perc 
-#>   9.992387e-01  -1.379258e-05           -Inf  -1.616499e-01           -Inf 
-#>         maxErr    maxErr_perc      maxAbsErr maxAbsErr_perc           RMSE 
-#>   1.507892e-01   2.327353e+00   1.616499e-01            Inf   5.068118e-02 
-#>      RMSE_perc            MAE       MAE_perc 
-#>            Inf   3.944147e-02            Inf
+#>             R2        meanErr   meanErr_perc         minErr 
+#>      0.9992387     -0.0000138           -Inf     -0.1616499 
+#>    minErr_perc         maxErr    maxErr_perc      maxAbsErr 
+#>           -Inf      0.1507892      2.3273526      0.1616499 
+#> maxAbsErr_perc           RMSE      RMSE_perc            MAE 
+#>            Inf      0.0506812            Inf      0.0394415 
+#>       MAE_perc 
+#>            Inf
 ```
 
 ### Optimization
@@ -1106,7 +1130,6 @@ opt_dist <- tibble(
   pivot_longer(cols = 1:5, names_to = "profile")
 
 ggplot(opt_df, aes(x = dist, y = value, color = profile)) +
-  theme_bw() +
   geom_hline(yintercept = 100, linetype = "dashed", alpha = 0.6) +
   geom_line() +
   geom_point(data = opt_dist, aes(x = value, y = 100), size = 2) +
@@ -1127,19 +1150,25 @@ create_sprint_trace(
   distance = c(5, 10, 20, 30, 40),
   # Add flying distance
   FD = 0.5)
-#>       time distance velocity acceleration sprint_time sprint_distance
-#> 1 1.241196        5 5.333967   1.42802852    1.674709             5.5
-#> 2 2.100178       10 6.202142   0.68387846    2.533690            10.5
-#> 3 3.625761       20 6.784214   0.18495957    4.059274            20.5
-#> 4 5.079956       30 6.937957   0.05318010    5.513469            30.5
-#> 5 6.515848       40 6.981879   0.01553227    6.949361            40.5
+#>   time distance velocity acceleration sprint_time
+#> 1 1.24        5     5.33       1.4280        1.67
+#> 2 2.10       10     6.20       0.6839        2.53
+#> 3 3.63       20     6.78       0.1850        4.06
+#> 4 5.08       30     6.94       0.0532        5.51
+#> 5 6.52       40     6.98       0.0155        6.95
+#>   sprint_distance
+#> 1             5.5
+#> 2            10.5
+#> 3            20.5
+#> 4            30.5
+#> 5            40.5
 
 create_timing_gates_splits(
   MSS = 7, MAC = 6,
   gates = c(5, 10, 20, 30, 40),
   # Add time-shift (i.e., rection time of 200ms)
   TC = 0.2)
-#> [1] 1.779729 2.652703 4.185497 5.641381 7.077741
+#> [1] 1.78 2.65 4.19 5.64 7.08
 ```
 
 Using `predict_` family of functions, one can predict kinematics and
