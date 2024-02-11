@@ -594,11 +594,11 @@ LPS_session %>%
     color = "red"
   ) +
   geom_abline(
-    intercept = coef(embedded_model$model)[[1]],
-    slope = -coef(embedded_model$model)[[1]]/coef(embedded_model$model)[[2]],
+    intercept = embedded_model$parameters$MAC,
+    slope = -embedded_model$parameters$MAC / embedded_model$parameters$MSS,
     linetype = "dotted", color = "red") +
-  scale_x_continuous(expand = c(0, 0), limits = c(0,  embedded_model$parameters$MSS)) +
-  scale_y_continuous(expand = c(0, 0), limits = c(0, embedded_model$parameters$MAC)) 
+  scale_x_continuous(expand = c(0, 0), limits = c(0, embedded_model$parameters$MSS)) +
+  scale_y_continuous(expand = c(0, 0), limits = c(0, embedded_model$parameters$MAC))
 ```
 
 <img src="man/figures/README-unnamed-chunk-20-1.png" width="90%" style="display: block; margin: auto;" />

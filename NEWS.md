@@ -4,6 +4,7 @@
 * `velocity_threshold` parameter in the `model_in_situ()` function is now by default `NULL`, in which case the velocity of the observation with the fastest acceleration is taken as the cutoff value
 * Updated the *in-situ* examples in the README file
 * Cleaned the `theme_bw()` from README and set default `ggplot` theme with `ggdist::ggdist()`
+* Fixed the error in README example for plotting the in-situ velocity-acceleration profile 
 
 # shorts 3.1.0
 
