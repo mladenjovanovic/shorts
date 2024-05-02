@@ -6,6 +6,8 @@
 * Cleaned the `theme_bw()` from README and set default `ggplot` theme with `ggdist::ggdist()`
 * Fixed the error in README example for plotting the in-situ velocity-acceleration profile 
 * Fixed error in the `find_optimal_FV_scalar()` function and all upper-level calling functions which happens when `resistance` parameter is below zero
+* Added new publication in README and DESCRIPTION
+* Rebuilt `split_times` since it has `AsIs` object, causing issues with `ggplot2` plotting in the README file
 
 # shorts 3.1.0
 
