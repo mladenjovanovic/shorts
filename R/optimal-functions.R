@@ -80,8 +80,8 @@ find_optimal_FV_scalar <- function(distance, F0, V0, bodymass = 75, inertia = 0,
           par = 1,
           fn = opt_func,
           method = "Brent",
-          lower = 1 / min(100, F0 / resistance),
-          upper = min(100, F0 / resistance)
+          lower = 1 / min(100, F0 / ifelse(resistance < 0, 0, resistance)),
+          upper = min(100, F0 / ifelse(resistance < 0, 0, resistance))
         )
       },
       error = function(cond) {

@@ -5,6 +5,7 @@
 * Updated the *in-situ* examples in the README file
 * Cleaned the `theme_bw()` from README and set default `ggplot` theme with `ggdist::ggdist()`
 * Fixed the error in README example for plotting the in-situ velocity-acceleration profile 
+* Fixed error in the `find_optimal_FV_scalar()` function and all upper-level calling functions which happens when `resistance` parameter is below zero
 
 # shorts 3.1.0
 
