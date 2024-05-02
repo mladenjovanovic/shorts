@@ -1,4 +1,4 @@
-# shorts (development version)
+# shorts 3.1.1
 
 * For `model_in_situ()` function, the filtering parameters (`velocity_threshold`, `velocity_step`, and `n_observations`) are returned in the `corrections` element of the returned object. These are also returned in the `CV` element of the returned object for every cross-validation fold
 * `velocity_threshold` parameter in the `model_in_situ()` function is now by default `NULL`, in which case the velocity of the observation with the fastest acceleration is taken as the cutoff value
