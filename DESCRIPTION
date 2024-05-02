@@ -21,7 +21,7 @@ Description: Create short sprint acceleration-velocity (AVP) and force-velocity 
     Samozino P. and Peyrot N., et al (2022) <doi: 10.1111/sms.14097>, 
     Clavel, P., et al (2023) <doi: 10.1016/j.jbiomech.2023.111602>, 
     Jovanovic M. (2023) <doi: 10.1080/10255842.2023.2170713>, and
-    Jovanovic M. et al (2024) <doi: 10.3390/s24092894> 
+    Jovanovic M. et al (2024) <doi: 10.3390/s24092894>. 
 URL: https://mladenjovanovic.github.io/shorts/
 BugReports: https://github.com/mladenjovanovic/shorts/issues
 License: MIT + file LICENSE
