@@ -58,14 +58,14 @@ kimberley_data <- filter(split_times, athlete == "Kimberley")
 kable(kimberley_data)
 ```
 
-| athlete   | bodyweight | distance |  time |
-|:----------|-----------:|---------:|------:|
-| Kimberley |         55 |        5 | 1.158 |
-| Kimberley |         55 |       10 | 1.893 |
-| Kimberley |         55 |       15 | 2.541 |
-| Kimberley |         55 |       20 | 3.149 |
-| Kimberley |         55 |       30 | 4.313 |
-| Kimberley |         55 |       40 | 5.444 |
+| athlete   | bodyweight | distance | time |
+|:----------|-----------:|---------:|-----:|
+| Kimberley |         55 |        5 | 1.16 |
+| Kimberley |         55 |       10 | 1.89 |
+| Kimberley |         55 |       15 | 2.54 |
+| Kimberley |         55 |       20 | 3.15 |
+| Kimberley |         55 |       30 | 4.31 |
+| Kimberley |         55 |       40 | 5.44 |
 
 Parameters estimated using mono-exponential equation are *maximal
 sprinting speed* ($MSS$), and *maximal acceleration* (MAC). Additional
@@ -170,12 +170,12 @@ kable(shorts::format_splits(
 
 | split | split_distance_start | split_distance_stop | split_distance | split_time_start | split_time_stop | split_time | split_mean_velocity | split_mean_acceleration |
 |------:|---------------------:|--------------------:|---------------:|-----------------:|----------------:|-----------:|--------------------:|------------------------:|
-|     1 |                    0 |                   5 |              5 |                0 |           1.158 |      1.158 |          4.317789…. |              3.728660…. |
-|     2 |                    5 |                  10 |              5 |            1.158 |           1.893 |      0.735 |          6.802721…. |              3.380859…. |
-|     3 |                   10 |                  15 |              5 |            1.893 |           2.541 |      0.648 |          7.716049…. |              1.409457…. |
-|     4 |                   15 |                  20 |              5 |            2.541 |           3.149 |      0.608 |          8.223684…. |              0.834925…. |
-|     5 |                   20 |                  30 |             10 |            3.149 |           4.313 |      1.164 |          8.591065…. |              0.315619…. |
-|     6 |                   30 |                  40 |             10 |            4.313 |           5.444 |      1.131 |          8.841732…. |              0.221633…. |
+|     1 |                    0 |                   5 |              5 |             0.00 |            1.16 |      1.158 |                4.32 |                   3.729 |
+|     2 |                    5 |                  10 |              5 |             1.16 |            1.89 |      0.735 |                6.80 |                   3.381 |
+|     3 |                   10 |                  15 |              5 |             1.89 |            2.54 |      0.648 |                7.72 |                   1.409 |
+|     4 |                   15 |                  20 |              5 |             2.54 |            3.15 |      0.608 |                8.22 |                   0.835 |
+|     5 |                   20 |                  30 |             10 |             3.15 |            4.31 |      1.164 |                8.59 |                   0.316 |
+|     6 |                   30 |                  40 |             10 |             4.31 |            5.44 |      1.131 |                8.84 |                   0.222 |
 
 To plot predicted velocity, acceleration, air resistance, force, and
 power over distance, use `shorts:predict_XXX()`. Please note that to
@@ -1185,7 +1185,11 @@ kinetics using *known* $MSS$ and $MAC$ parameters.
     solutions.** *Computer Methods in Biomechanics and Biomedical
     Engineering:1–11*. <https://doi.org/10.1080/10255842.2023.2170713>
 
-3.  Vescovi, JD and Jovanović, M. (2021). **Sprint Mechanical
+3.  Jovanović M., *et al.* (2024). **“Effects of the Flying Start on
+    Estimated Short Sprint Profiles Using Timing Gates”**.
+    <https://doi.org/10.3390/s24092894>
+
+4.  Vescovi, JD and Jovanović, M. (2021). **Sprint Mechanical
     Characteristics of Female Soccer Players: A Retrospective Pilot
     Study to Examine a Novel Approach for Correction of Timing Gate
     Starts.** *Front Sports Act Living 3: 629694, 2021.*
