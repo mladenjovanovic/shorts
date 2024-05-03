@@ -272,7 +272,7 @@ predict_work_till_distance <- function(distance, ...) {
       do.call(predict_power_at_distance, as.list(tidyr::tibble(distance = x, .x[-1])))
     }
 
-    stats::integrate(integrand, lower = 0, upper = .x$time)$value
+    stats::integrate(integrand, lower = 0, upper = .x$distance)$value
   })
 
   unname(res)

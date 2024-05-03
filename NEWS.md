@@ -1,5 +1,7 @@
 # shorts (development version)
 
+* Fixed error in `predict_work_till_distance()` function
+
 # shorts 3.1.1
 
 * For `model_in_situ()` function, the filtering parameters (`velocity_threshold`, `velocity_step`, and `n_observations`) are returned in the `corrections` element of the returned object. These are also returned in the `CV` element of the returned object for every cross-validation fold
