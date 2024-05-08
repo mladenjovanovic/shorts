@@ -1072,9 +1072,9 @@
 <span><span class="co">#&gt;    0.012817270    0.000275866    0.008402638    0.000236754 </span></span>
 <span><span class="co">#&gt;       MAE_perc </span></span>
 <span><span class="co">#&gt;    0.007829105</span></span></code></pre></div>
-<p>If you want to use fixed <code>FD</code> parameter (e.g., when you know what is the flying distance), in a similar vein of using fixed <code>TC</code> correction, use:</p>
+<p>If you want to use fixed <code>FD</code> parameter (e.g., when you know what is the flying distance), use <code><a href="reference/model_functions.html">shorts::model_timing_gates_FD_fixed()</a></code> function:</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">kimberley_profile_fixed_FD</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_timing_gates_FD</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">kimberley_profile_fixed_FD</span> <span class="op">&lt;-</span> <span class="fu">shorts</span><span class="fu">::</span><span class="fu"><a href="reference/model_functions.html">model_timing_gates_FD_fixed</a></span><span class="op">(</span></span>
 <span>  distance <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">distance</span>,</span>
 <span>  time <span class="op">=</span> <span class="va">kimberley_data</span><span class="op">$</span><span class="va">time</span>,</span>
 <span>  FD <span class="op">=</span> <span class="fl">0.5</span></span>
