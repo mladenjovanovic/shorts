@@ -11,12 +11,14 @@
 \alias{model_tether_DC}
 \alias{model_time_distance}
 \alias{model_time_distance_FD}
+\alias{model_time_distance_FD_fixed}
 \alias{model_time_distance_TC}
 \alias{model_time_distance_DC}
 \alias{model_time_distance_TC_DC}
 \alias{model_timing_gates}
 \alias{model_timing_gates_TC}
 \alias{model_timing_gates_FD}
+\alias{model_timing_gates_FD_fixed}
 \alias{model_timing_gates_DC}
 \alias{model_timing_gates_TC_DC}
 \title{Model functions}
@@ -79,7 +81,16 @@ model_time_distance_FD(
   time,
   distance,
   weights = 1,
-  FD = NULL,
+  CV = NULL,
+  na.rm = FALSE,
+  ...
+)
+
+model_time_distance_FD_fixed(
+  time,
+  distance,
+  weights = 1,
+  FD = 0,
   CV = NULL,
   na.rm = FALSE,
   ...
@@ -127,7 +138,16 @@ model_timing_gates_FD(
   distance,
   time,
   weights = 1,
-  FD = NULL,
+  CV = NULL,
+  na.rm = FALSE,
+  ...
+)
+
+model_timing_gates_FD_fixed(
+  distance,
+  time,
+  weights = 1,
+  FD = 0,
   CV = NULL,
   na.rm = FALSE,
   ...
@@ -174,8 +194,7 @@ indicating number of folds}
 \item{use_observed_MSS}{Should observed peak \code{velocity} be used as \code{MSS} parameter? Default
 is \code{FALSE}}
 
-\item{FD}{Use this parameter if you do not want the \code{FD} parameter to be estimated, but rather take the
-provided value}
+\item{FD}{Flying distance parameter. Default is 0}
 }
 \value{
 List object with the following elements:
@@ -213,7 +232,11 @@ Family of functions that serve a purpose of estimating short sprint parameters
 \code{model_time_distance} estimates short sprint parameters using time distance trace
 
 \code{model_time_distance_FD} estimates short sprint parameters using time-distance trace
-     with additional flying distance correction parameter \code{FD}
+     with additional estimated flying distance correction parameter \code{FD}
+
+\code{model_time_distance_FD_fixed} estimates short sprint parameters using time-distance trace
+     with additional flying distance correction parameter \code{FD} which
+     is fixed by the user
 
 \code{model_time_distance} estimates short sprint parameters using time distance trace
     with additional time correction parameter \code{TC}
@@ -231,7 +254,12 @@ Family of functions that serve a purpose of estimating short sprint parameters
      (e.g., timing gates/photo cells), with additional time correction parameter \code{TC}
 
 \code{model_timing_gates_FD} estimates short sprint parameters using distance-time trace
-     (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD}
+     (e.g., timing gates/photo cells), with additional estimated flying distance correction
+     parameter \code{FD}
+
+\code{model_timing_gates_FD_fixed} estimates short sprint parameters using distance-time trace
+     (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD} which
+     is fixed by the user
 
 \code{model_timing_gates_DC} estimates short sprint parameters using distance-time trace
      (e.g., timing gates/photo cells), with additional distance correction parameter \code{DC}
@@ -303,6 +331,13 @@ m1
 plot(m1)
 
 
+# Model Time-Distance trace (with Flying Distance Correction fixed)
+df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 5, by = 0.5), FD = 0.5)
+m1 <- model_time_distance_FD_fixed(time = df$time, distance = df$distance, FD = 0.5)
+m1
+plot(m1)
+
+
 # Model Time-Distance trace (with Time Correction)
 df <- create_sprint_trace(MSS = 8, MAC = 6, time = seq(0, 5, by = 0.5), TC = 1.5)
 m1 <- model_time_distance_TC(time = df$time, distance = df$distance)
@@ -341,6 +376,13 @@ plot(m1)
 # Model Timing Gates (with Flying Distance Correction)
 df <- create_sprint_trace(MSS = 8, MAC = 6, distance = c(5, 10, 20, 30, 40), FD = 0.5)
 m1 <- model_timing_gates_FD(distance = df$distance, time = df$time)
+m1
+plot(m1)
+
+
+# Model Timing Gates (with Flying Distance Correction fixed)
+df <- create_sprint_trace(MSS = 8, MAC = 6, distance = c(5, 10, 20, 30, 40), FD = 0.5)
+m1 <- model_timing_gates_FD_fixed(distance = df$distance, time = df$time)
 m1
 plot(m1)
 
