@@ -886,10 +886,10 @@ kimberley_profile_FD
 ```
 
 If you want to use fixed `FD` parameter (e.g., when you know what is the
-flying distance), in a similar vein of using fixed `TC` correction, use:
+flying distance), use `shorts::model_timing_gates_FD_fixed()` function:
 
 ``` r
-kimberley_profile_fixed_FD <- shorts::model_timing_gates_FD(
+kimberley_profile_fixed_FD <- shorts::model_timing_gates_FD_fixed(
   distance = kimberley_data$distance,
   time = kimberley_data$time,
   FD = 0.5

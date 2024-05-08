@@ -172,9 +172,8 @@ model_timing_gates_TC <- function(distance,
 
 #' @rdname model_functions
 #' @description \code{model_timing_gates_FD} estimates short sprint parameters using distance-time trace
-#'      (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD}
-#' @param FD Use this parameter if you do not want the \code{FD} parameter to be estimated, but rather take the
-#'     provided value
+#'      (e.g., timing gates/photo cells), with additional estimated flying distance correction
+#'      parameter \code{FD}
 #' @examples
 #'
 #' # Model Timing Gates (with Flying Distance Correction)
@@ -187,7 +186,6 @@ model_timing_gates_TC <- function(distance,
 model_timing_gates_FD <- function(distance,
                                   time,
                                   weights = 1,
-                                  FD = NULL,
                                   CV = NULL,
                                   na.rm = FALSE,
                                   ...) {
@@ -198,16 +196,6 @@ model_timing_gates_FD <- function(distance,
     param_start <- list(MSS = 7, MAC = 7, FD = 0)
     param_lower <- c(MSS = 0, MAC = 0, FD = 0)
     param_upper <- c(MSS = Inf, MAC = Inf, FD = Inf)
-
-    user_FD <- NULL
-
-    # If FD is provided, use that
-    if (is.null(FD) == FALSE) {
-      user_FD <- FD
-      param_start <- list(MSS = 7, MAC = 7, FD = FD)
-      param_lower <- c(MSS = 0, MAC = 0, FD = FD)
-      param_upper <- c(MSS = Inf, MAC = Inf, FD = FD)
-    }
 
     # Non-linear model
     model <- minpack.lm::nlsLM(
@@ -237,8 +225,100 @@ model_timing_gates_FD <- function(distance,
       data = train,
       model_info = list(
         predictor = "distance",
+        target = "time"
+      ),
+      model = model,
+      parameters = list(
+        MSS = MSS,
+        MAC = MAC,
+        TAU = TAU,
+        PMAX = PMAX
+      ),
+      corrections = list(
+        FD = FD
+      ),
+      predictions = list(
+        .predictor = test$distance,
+        .observed = test$time,
+        .predicted = pred_time,
+        .residual = resid_time
+      )
+    ))
+  }
+
+  model_sprint(
+    df = data.frame(
+      distance = distance,
+      time = time,
+      weight = weights
+    ),
+    CV = CV,
+    na.rm = na.rm,
+    model_func = model_func,
+    ...
+  )
+}
+
+#' @rdname model_functions
+#' @description \code{model_timing_gates_FD_fixed} estimates short sprint parameters using distance-time trace
+#'      (e.g., timing gates/photo cells), with additional flying distance correction parameter \code{FD} which
+#'      is fixed by the user
+#' @param FD Flying distance parameter. Default is 0
+#' @examples
+#'
+#' # Model Timing Gates (with Flying Distance Correction fixed)
+#' df <- create_sprint_trace(MSS = 8, MAC = 6, distance = c(5, 10, 20, 30, 40), FD = 0.5)
+#' m1 <- model_timing_gates_FD_fixed(distance = df$distance, time = df$time)
+#' m1
+#' plot(m1)
+#'
+#' @export
+model_timing_gates_FD_fixed <- function(distance,
+                                  time,
+                                  weights = 1,
+                                  FD = 0,
+                                  CV = NULL,
+                                  na.rm = FALSE,
+                                  ...) {
+
+
+  # Estimation function
+  model_func <- function(train, test, ...) {
+    param_start <- list(MSS = 7, MAC = 7)
+    param_lower <- c(MSS = 0, MAC = 0)
+    param_upper <- c(MSS = Inf, MAC = Inf)
+
+    # Add FD to train and test
+    train$FD <- FD
+    test$FD <- FD
+
+    # Non-linear model
+    model <- minpack.lm::nlsLM(
+      time ~ predict_time_at_distance(distance + FD, MSS, MAC) - predict_time_at_distance(FD, MSS, MAC),
+      data = train,
+      start = param_start,
+      lower = param_lower,
+      upper = param_upper,
+      weights = train$weight,
+      ...
+    )
+
+    # Parameters
+    MSS <- stats::coef(model)[["MSS"]]
+    MAC <- stats::coef(model)[["MAC"]]
+    TAU <- MSS / MAC
+    PMAX <- (MSS * MAC) / 4
+
+    # Model fit
+    pred_time <- stats::predict(model, newdata = data.frame(distance = test$distance))
+    resid_time <- test$time - pred_time
+
+    return(list(
+      data = train,
+      model_info = list(
+        predictor = "distance",
         target = "time",
-        user_FD = user_FD
+        user_FD = FD
       ),
       model = model,
       parameters = list(
