@@ -8,7 +8,7 @@ Authors@R:
            email = "coach.mladen.jovanovic@gmail.com",
            comment = c(ORCID = "0000-0002-4013-6530"))
            )
-Version: 3.1.1.9000
+Version: 3.2.0
 Description: Create short sprint acceleration-velocity (AVP) and force-velocity (FVP) profiles
      and predict kinematic and kinetic variables using the timing-gate split times, laser or 
      radar gun data, tether devices data, as well as the data provided by the GPS and LPS 

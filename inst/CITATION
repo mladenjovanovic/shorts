@@ -8,7 +8,7 @@ bibentry(
            email = "coach.mladen.jovanovic@gmail.com")
      ),
      year = "2024",
-     note = "R package version 3.1.1",
+     note = "R package version 3.2.0",
      url = "https://CRAN.R-project.org/package=shorts",
      key = "shorts-package"
    )
