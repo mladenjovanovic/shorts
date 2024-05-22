@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">shorts</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.1.1.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,7 +45,7 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="shorts-development-version">shorts (development version)<a class="anchor" aria-label="anchor" href="#shorts-development-version"></a></h2>
+<h2 class="pkg-version" data-toc-text="3.2.0" id="shorts-320">shorts 3.2.0<a class="anchor" aria-label="anchor" href="#shorts-320"></a></h2>
 <ul><li>Fixed error in <code><a href="../reference/predict_kinematics.html">predict_work_till_distance()</a></code> function</li>
 <li>Added <code><a href="../reference/model_functions.html">model_timing_gates_FD_fixed()</a></code> and <code><a href="../reference/model_functions.html">model_time_distance_FD_fixed()</a></code> which allow user to set the fixed <code>FD</code> parameter. This was before done using additional parameter in <code><a href="../reference/model_functions.html">model_timing_gates_FD()</a></code> and <code><a href="../reference/model_functions.html">model_time_distance_FD()</a></code> functions, but now these functions only provide estimated <code>FD</code>. This is done to allow confidence intervals estimation, which was impossible to do since fixed <code>FD</code> was also <em>estimated</em>, but it was constrained by the optimization function to user-provided value.</li>
 </ul></div>
