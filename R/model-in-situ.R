@@ -1,12 +1,14 @@
 # Internal prepare data function
 prepare_in_situ_data <- function(df,
+                                 acceleration_threshold,
                                  velocity_threshold,
                                  velocity_step,
                                  n_observations,
+                                 filter_func,
                                  na.rm) {
 
   # Remove acceleration over threshold
-  df <- df[df$acceleration >= 0, ]
+  df <- df[df$acceleration >= acceleration_threshold, ]
 
   # Remove velocity over threshold
   df <- df[df$velocity >= velocity_threshold, ]
@@ -23,6 +25,9 @@ prepare_in_situ_data <- function(df,
   df_list <- split(df, df$group)
 
   purrr::map_dfr(df_list, function(x) {
+    # Filter functions
+    x <- filter_func(x)
+
     best_acc <- x[order(x$acceleration, decreasing = TRUE), ]
     best_acc[seq(1, n_observations), ]
   })
@@ -32,11 +37,14 @@ prepare_in_situ_data <- function(df,
 #' @description \code{model_in_situ} estimates short sprint parameters using velocity-acceleration trace,
 #'     provided by the monitoring systems like GPS or LPS. See references for the information
 #'
+#' @param acceleration_threshold Acceleration cuttof. Default is 0
 #' @param velocity_threshold Velocity cutoff. If \code{NULL} (default), velocity of the observation with
 #'     the fastest acceleration is taken as the cutoff value
 #' @param velocity_step Velocity increment size for finding max acceleration. Default is 0.2 m/s
 #' @param n_observations Number of top acceleration observations to keep in velocity bracket.
 #'      Default is 2
+#' @param filter_func Function to filter outliers within each velocity bracket. This is used to remove
+#'     noise in the data. Default is \code{function(x){x}} which doesn't involve any filtering.
 #'
 #' @references
 #'     Clavel, P., Leduc, C., Morin, J.-B., Buchheit, M., & Lacome, M. (2023).
@@ -65,9 +73,11 @@ prepare_in_situ_data <- function(df,
 model_in_situ <- function(velocity,
                           acceleration,
                           weights = 1,
+                          acceleration_threshold = 0,
                           velocity_threshold = NULL,
                           velocity_step = 0.2,
                           n_observations = 2,
+                          filter_func = function(x) {x},
                           CV = NULL,
                           na.rm = FALSE,
                           ...) {
@@ -84,17 +94,21 @@ model_in_situ <- function(velocity,
     # Filter data
     train <- prepare_in_situ_data(
       train,
+      acceleration_threshold = acceleration_threshold,
       velocity_threshold = velocity_threshold,
       velocity_step = velocity_step,
       n_observations = n_observations,
+      filter_func = filter_func,
       na.rm = na.rm
     )
 
     test <- prepare_in_situ_data(
       test,
+      acceleration_threshold = acceleration_threshold,
       velocity_threshold = velocity_threshold,
       velocity_step = velocity_step,
       n_observations = n_observations,
+      filter_func = filter_func,
       na.rm = na.rm
     )
 
