@@ -27,9 +27,13 @@ model_in_situ(
   velocity,
   acceleration,
   weights = 1,
+  acceleration_threshold = 0,
   velocity_threshold = NULL,
   velocity_step = 0.2,
   n_observations = 2,
+  filter_func = function(x) {
+     x
+ },
   CV = NULL,
   na.rm = FALSE,
   ...
@@ -174,6 +178,8 @@ model_timing_gates_TC_DC(
 \arguments{
 \item{weights}{Numeric vector. Default is 1}
 
+\item{acceleration_threshold}{Acceleration cuttof. Default is 0}
+
 \item{velocity_threshold}{Velocity cutoff. If \code{NULL} (default), velocity of the observation with
 the fastest acceleration is taken as the cutoff value}
 
@@ -181,6 +187,9 @@ the fastest acceleration is taken as the cutoff value}
 
 \item{n_observations}{Number of top acceleration observations to keep in velocity bracket.
 Default is 2}
+
+\item{filter_func}{Function to filter outliers within each velocity bracket. This is used to remove
+noise in the data. Default is \code{function(x){x}} which doesn't involve any filtering.}
 
 \item{CV}{Should cross-validation be used to estimate model fit? Default is \code{NULL}. Otherwise use integer
 indicating number of folds}

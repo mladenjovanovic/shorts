@@ -8,7 +8,7 @@ Authors@R:
            email = "coach.mladen.jovanovic@gmail.com",
            comment = c(ORCID = "0000-0002-4013-6530"))
            )
-Version: 3.2.0
+Version: 3.3.0
 Description: Create short sprint acceleration-velocity (AVP) and force-velocity (FVP) profiles
      and predict kinematic and kinetic variables using the timing-gate split times, laser or 
      radar gun data, tether devices data, as well as the data provided by the GPS and LPS 
@@ -20,8 +20,9 @@ Description: Create short sprint acceleration-velocity (AVP) and force-velocity 
     Samozino P. (2018) <doi: 10.1007/978-3-319-05633-3_11>, 
     Samozino P. and Peyrot N., et al (2022) <doi: 10.1111/sms.14097>, 
     Clavel, P., et al (2023) <doi: 10.1016/j.jbiomech.2023.111602>, 
-    Jovanovic M. (2023) <doi: 10.1080/10255842.2023.2170713>, and
-    Jovanovic M., et al (2024) <doi: 10.3390/s24092894>. 
+    Jovanovic M. (2023) <doi: 10.1080/10255842.2023.2170713>,
+    Jovanovic M., et al (2024) <doi: 10.3390/s24092894>, and
+    Jovanovic M., et al (2024) <doi: 10.3390/s24196192>. 
 URL: https://mladenjovanovic.github.io/shorts/
 BugReports: https://github.com/mladenjovanovic/shorts/issues
 License: MIT + file LICENSE

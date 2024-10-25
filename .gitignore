@@ -11,3 +11,4 @@ cran-comments.md
 .Rbuildignore
 CRAN-SUBMISSION
 docs
+dev

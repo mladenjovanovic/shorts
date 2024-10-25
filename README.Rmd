@@ -677,9 +677,11 @@ Using `predict_` family of functions, one can predict kinematics and kinetics us
 
 2. Jovanović M. (2023). **Bias in estimated short sprint profiles using timing gates due to the flying start: simulation study and proposed solutions.** *Computer Methods in Biomechanics and Biomedical Engineering:1–11*. https://doi.org/10.1080/10255842.2023.2170713
 
-3. Jovanović M., *et al.* (2024). **"Effects of the Flying Start on Estimated Short Sprint Profiles Using Timing Gates"**. https://doi.org/10.3390/s24092894
+3. Jovanović M., *et al.* (2024). **Effects of the Flying Start on Estimated Short Sprint Profiles Using Timing Gates**. *Sensors 2024, 24(9), 2894.* https://doi.org/10.3390/s24092894
 
-4. Vescovi, JD and Jovanović, M. (2021). **Sprint Mechanical Characteristics of Female Soccer Players: A Retrospective Pilot Study to Examine a Novel Approach for Correction of Timing Gate Starts.** *Front Sports Act Living 3: 629694, 2021.* https://doi.org/10.3389/fspor.2021.629694
+4. Jovanović M., *et al.* (2024). **Agreement and Sensitivity of the Acceleration–Velocity Profile Derived via Local Positioning System**. *Sensors 2024, 24(19), 6192.* https://doi.org/10.3390/s24196192
+
+5. Vescovi, JD and Jovanović, M. (2021). **Sprint Mechanical Characteristics of Female Soccer Players: A Retrospective Pilot Study to Examine a Novel Approach for Correction of Timing Gate Starts.** *Front Sports Act Living 3: 629694, 2021.* https://doi.org/10.3389/fspor.2021.629694
 
 
 ## Citation
