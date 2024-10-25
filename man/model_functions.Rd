@@ -189,7 +189,7 @@ the fastest acceleration is taken as the cutoff value}
 Default is 2}
 
 \item{filter_func}{Function to filter outliers within each velocity bracket. This is used to remove
-noise in the data. Default is \code{function(x){x}} which doesn't involve any filtering}
+noise in the data. Default is \code{function(x){x}} which doesn't involve any filtering.}
 
 \item{CV}{Should cross-validation be used to estimate model fit? Default is \code{NULL}. Otherwise use integer
 indicating number of folds}
