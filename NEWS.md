@@ -1,3 +1,9 @@
+# shorts 3.3.0
+ 
+* Added latest reference to the DESCRIPTION and README 
+* Added function `filter_func` as a parameter to the `model_in_situ()` function, which allows user to filter out outliers within each velocity bracket
+
+
 # shorts 3.2.0
 
 * Fixed error in `predict_work_till_distance()` function
