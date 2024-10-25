@@ -29,7 +29,12 @@ prepare_in_situ_data <- function(df,
     x <- filter_func(x)
 
     best_acc <- x[order(x$acceleration, decreasing = TRUE), ]
-    best_acc[seq(1, n_observations), ]
+
+    if (nrow(x) >  n_observations) {
+      best_acc <- best_acc[seq(1, n_observations), ]
+    }
+
+    best_acc
   })
 }
 

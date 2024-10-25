@@ -2,6 +2,7 @@
  
 * Added latest reference to the DESCRIPTION and README 
 * Added function `filter_func` as a parameter to the `model_in_situ()` function, which allows user to filter out outliers within each velocity bracket
+* Fixed the NA result in `model_in_situ()` function when using CV resulting in smaller number of observations in the velocity bracket than `n_observations` parameter
 
 
 # shorts 3.2.0
