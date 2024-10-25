@@ -1,105 +1,37 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/404.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/index.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/LPS_session.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/coef.shorts_model.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/confint.shorts_model.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/convert_FVP.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/create_FVP.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/create_sprint_trace.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/create_timing_gates_splits.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/dynaspeed.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/find_functions.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/find_optimal_distance.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/fitted.shorts_model.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/format_splits.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/get_air_resistance.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/jb_morin.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/laser_gun_data.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/model_functions.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/optimal_functions.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/plot.shorts_model.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/predict.shorts_model.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/predict_kinematics.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/print.shorts_model.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/probe_functions.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/radar_gun_data.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/residuals.shorts_model.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/split_times.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/summary.shorts_model.html</loc>
-  </url>
-  <url>
-    <loc>https://mladenjovanovic.github.io/shorts/reference/vescovi.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://mladenjovanovic.github.io/shorts/404.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/LICENSE-text.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/LICENSE.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/authors.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/index.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/news/index.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/LPS_session.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/coef.shorts_model.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/confint.shorts_model.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/convert_FVP.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/create_FVP.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/create_sprint_trace.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/create_timing_gates_splits.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/dynaspeed.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/find_functions.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/find_optimal_distance.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/fitted.shorts_model.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/format_splits.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/get_air_resistance.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/index.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/jb_morin.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/laser_gun_data.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/model_functions.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/optimal_functions.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/plot.shorts_model.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/predict.shorts_model.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/predict_kinematics.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/print.shorts_model.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/probe_functions.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/radar_gun_data.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/residuals.shorts_model.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/split_times.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/summary.shorts_model.html</loc></url>
+<url><loc>https://mladenjovanovic.github.io/shorts/reference/vescovi.html</loc></url>
 </urlset>
+
