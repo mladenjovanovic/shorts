@@ -3,6 +3,7 @@
 * Added latest reference to the DESCRIPTION and README 
 * Added function `filter_func` as a parameter to the `model_in_situ()` function, which allows user to filter out outliers within each velocity bracket
 * Fixed the NA result in `model_in_situ()` function when using CV resulting in smaller number of observations in the velocity bracket than `n_observations` parameter
+* In the `model_in_situ()` function, when `velocity_threshold` is not provided (i.e., `NULL`), the finding of the peak acceleration and thus velocity threshold is applied *after* `filter_func`. This is to avoid outliers to specify `velocity_threshold`. The same `velocity_threshold` is used to train and test data sets when performing cross-validation.
 
 
 # shorts 3.2.0

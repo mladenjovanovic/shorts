@@ -42,9 +42,9 @@ prepare_in_situ_data <- function(df,
 #' @description \code{model_in_situ} estimates short sprint parameters using velocity-acceleration trace,
 #'     provided by the monitoring systems like GPS or LPS. See references for the information
 #'
-#' @param acceleration_threshold Acceleration cuttof. Default is 0
+#' @param acceleration_threshold Acceleration cutoff. Default is 0
 #' @param velocity_threshold Velocity cutoff. If \code{NULL} (default), velocity of the observation with
-#'     the fastest acceleration is taken as the cutoff value
+#'     the fastest acceleration is taken as the cutoff value (after applying the \code{filter_func})
 #' @param velocity_step Velocity increment size for finding max acceleration. Default is 0.2 m/s
 #' @param n_observations Number of top acceleration observations to keep in velocity bracket.
 #'      Default is 2
@@ -90,17 +90,11 @@ model_in_situ <- function(velocity,
   # Estimation function
   model_func <- function(train, test, ...) {
 
-    # If velocity threshold is null
-    if (is.null(velocity_threshold)) {
-      # find the velocity of the highest acceleration observation
-      velocity_threshold <- train$velocity[which.max(train$acceleration)]
-    }
-
     # Filter data
     train <- prepare_in_situ_data(
       train,
       acceleration_threshold = acceleration_threshold,
-      velocity_threshold = velocity_threshold,
+      velocity_threshold = 0,
       velocity_step = velocity_step,
       n_observations = n_observations,
       filter_func = filter_func,
@@ -110,12 +104,22 @@ model_in_situ <- function(velocity,
     test <- prepare_in_situ_data(
       test,
       acceleration_threshold = acceleration_threshold,
-      velocity_threshold = velocity_threshold,
+      velocity_threshold = 0,
       velocity_step = velocity_step,
       n_observations = n_observations,
       filter_func = filter_func,
       na.rm = na.rm
     )
+
+    # Remove over velocity threshold
+    # If velocity threshold is null
+    if (is.null(velocity_threshold)) {
+      # find the velocity of the highest acceleration observation
+      velocity_threshold <- train$velocity[which.max(train$acceleration)]
+    }
+
+    train <- train[train$velocity >= velocity_threshold, ]
+    test <- test[test$velocity >= velocity_threshold, ]
 
     param_start <- list(MSS = 7, MAC = 7)
     param_lower <- c(MSS = 0, MAC = 0)

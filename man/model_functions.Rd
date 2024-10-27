@@ -178,10 +178,10 @@ model_timing_gates_TC_DC(
 \arguments{
 \item{weights}{Numeric vector. Default is 1}
 
-\item{acceleration_threshold}{Acceleration cuttof. Default is 0}
+\item{acceleration_threshold}{Acceleration cutoff. Default is 0}
 
 \item{velocity_threshold}{Velocity cutoff. If \code{NULL} (default), velocity of the observation with
-the fastest acceleration is taken as the cutoff value}
+the fastest acceleration is taken as the cutoff value (after applying the \code{filter_func})}
 
 \item{velocity_step}{Velocity increment size for finding max acceleration. Default is 0.2 m/s}
 
