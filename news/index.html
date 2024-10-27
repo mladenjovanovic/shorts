@@ -36,6 +36,7 @@
 <ul><li>Added latest reference to the DESCRIPTION and README</li>
 <li>Added function <code>filter_func</code> as a parameter to the <code><a href="../reference/model_functions.html">model_in_situ()</a></code> function, which allows user to filter out outliers within each velocity bracket</li>
 <li>Fixed the NA result in <code><a href="../reference/model_functions.html">model_in_situ()</a></code> function when using CV resulting in smaller number of observations in the velocity bracket than <code>n_observations</code> parameter</li>
+<li>In the <code><a href="../reference/model_functions.html">model_in_situ()</a></code> function, when <code>velocity_threshold</code> is not provided (i.e., <code>NULL</code>), the finding of the peak acceleration and thus velocity threshold is applied <em>after</em> <code>filter_func</code>. This is to avoid outliers to specify <code>velocity_threshold</code>. The same <code>velocity_threshold</code> is used to train and test data sets when performing cross-validation.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="3.2.0" id="shorts-320">shorts 3.2.0<a class="anchor" aria-label="anchor" href="#shorts-320"></a></h2><p class="text-muted">CRAN release: 2024-05-22</p>
